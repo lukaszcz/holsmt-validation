@@ -1,0 +1,6 @@
+(set-logic QF_UF)
+(define-sort UAlias () Bool)
+(declare-const p UAlias)
+(assert p)
+(assert (not p))
+(check-sat)

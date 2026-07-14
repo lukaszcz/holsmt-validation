@@ -1,0 +1,6 @@
+(set-option :produce-proofs true)
+(set-logic QF_NIA)
+(declare-const x Int)
+(assert (not (>= (* x x) 0)))
+(check-sat)
+(get-proof)

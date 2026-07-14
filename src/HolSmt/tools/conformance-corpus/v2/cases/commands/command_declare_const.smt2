@@ -1,0 +1,5 @@
+(set-logic QF_UF)
+(declare-sort U 0)
+(declare-const p Bool)
+(declare-const i U)
+(check-sat)

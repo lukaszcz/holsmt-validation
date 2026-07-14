@@ -1,0 +1,5 @@
+(set-option :produce-proofs true)
+(set-logic QF_LRA)
+(assert (not (= 1.5 1.5)))
+(check-sat)
+(get-proof)

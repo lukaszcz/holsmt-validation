@@ -1,0 +1,7 @@
+(set-logic QF_UF)
+(declare-sort A 0)
+(declare-sort Box 1)
+(push 1)
+(declare-const a (Box A))
+(pop 1)
+(check-sat)
