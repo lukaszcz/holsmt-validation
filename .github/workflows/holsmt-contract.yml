@@ -26,13 +26,13 @@ jobs:
       - name: Run HolSmt Python tool tests
         run: |
           python3 -m unittest \
-            src/HolSmt/tools/tests/test_audit_complete_conformance.py \
-            src/HolSmt/tools/tests/test_audit_coverage_manifest.py \
-            src/HolSmt/tools/tests/test_generate_complete_corpus.py \
-            src/HolSmt/tools/tests/test_generate_smtlib_coverage.py \
-            src/HolSmt/tools/tests/test_import_external_benchmarks.py \
-            src/HolSmt/tools/tests/test_record_z3_proof_corpus.py \
-            src/HolSmt/tools/tests/test_run_conformance_suite.py
+            tools/tests/test_audit_complete_conformance.py \
+            tools/tests/test_audit_coverage_manifest.py \
+            tools/tests/test_generate_complete_corpus.py \
+            tools/tests/test_generate_smtlib_coverage.py \
+            tools/tests/test_import_external_benchmarks.py \
+            tools/tests/test_record_z3_proof_corpus.py \
+            tools/tests/test_run_conformance_suite.py
 
   coverage-contract:
     runs-on: ubuntu-latest
@@ -41,16 +41,16 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Regenerate coverage report in enforcing mode
-        run: python3 src/HolSmt/tools/coverage/generate_smtlib_coverage.py --release
+        run: python3 tools/coverage/generate_smtlib_coverage.py --release
 
       - name: Reject stale generated coverage files
         run: |
           git diff --exit-code -- \
-            src/HolSmt/tools/coverage/smtlib_coverage.json \
-            src/HolSmt/tools/coverage/SMTLIB_COVERAGE.md
+            tools/coverage/smtlib_coverage.json \
+            tools/coverage/SMTLIB_COVERAGE.md
 
       - name: Enforce coverage manifest evidence
-        run: python3 src/HolSmt/tools/coverage/audit_coverage_manifest.py --enforce
+        run: python3 tools/coverage/audit_coverage_manifest.py --enforce
 
   conformance-python-z3:
     runs-on: ubuntu-latest
@@ -66,18 +66,18 @@ jobs:
 
       - name: Run parser conformance corpus
         run: |
-          python3 src/HolSmt/tools/run_conformance_suite.py \
+          python3 tools/run_conformance_suite.py \
             --out .holsmt-ci/conformance/parser \
             --no-default-suite \
-            --corpus-dir src/HolSmt/tools/conformance-corpus/v1 \
+            --corpus-dir tools/conformance-corpus/v1 \
             --mode parser-only
 
       - name: Run Z3 oracle and proof conformance slice
         run: |
-          python3 src/HolSmt/tools/run_conformance_suite.py \
+          python3 tools/run_conformance_suite.py \
             --out .holsmt-ci/conformance/z3 \
             --no-default-suite \
-            --corpus-dir src/HolSmt/tools/conformance-corpus/v1 \
+            --corpus-dir tools/conformance-corpus/v1 \
             --logic QF_UF \
             --logic QF_LIA \
             --mode z3-oracle \
@@ -87,7 +87,7 @@ jobs:
 
       - name: Run widened default-suite oracle and proof conformance
         run: |
-          python3 src/HolSmt/tools/run_conformance_suite.py \
+          python3 tools/run_conformance_suite.py \
             --out .holsmt-ci/conformance/default \
             --no-default-corpus \
             --mode z3-oracle \
@@ -122,16 +122,16 @@ jobs:
           z3 -version
 
       - name: Validate checked-in supported-version proof matrix
-        run: python3 src/HolSmt/tools/record_z3_proof_corpus.py --validate-corpus-manifest
+        run: python3 tools/record_z3_proof_corpus.py --validate-corpus-manifest
 
       - name: Reject live unseen or replay-unknown proof rules
         run: |
-          python3 src/HolSmt/tools/record_z3_proof_corpus.py \
+          python3 tools/record_z3_proof_corpus.py \
             --out /tmp/holsmt-proof-corpus \
-            --expected-rules src/HolSmt/tools/proof-corpus/minimal_expected_rules.json \
+            --expected-rules tools/proof-corpus/minimal_expected_rules.json \
             --fail-on-unseen-rules \
             --fail-on-unknown-rules \
-            src/HolSmt/tools/proof-corpus/minimal_bool_unsat.smt2
+            tools/proof-corpus/minimal_bool_unsat.smt2
 
   sml-no-solver:
     runs-on: ubuntu-latest
@@ -226,10 +226,10 @@ jobs:
           docker run --rm \
             -v "$PWD/.holsmt-ci/conformance/typecheck:/tmp/holsmt-typecheck-conformance" \
             holsmt-drivers:4.13.0 \
-            sh -lc 'python3 src/HolSmt/tools/run_conformance_suite.py \
+            sh -lc 'python3 tools/run_conformance_suite.py \
               --out /tmp/holsmt-typecheck-conformance \
               --no-default-suite \
-              --benchmark-dir src/HolSmt/tools/tests/conformance/typecheck \
+              --benchmark-dir tools/tests/conformance/typecheck \
               --mode typecheck-only \
               --timeout 30'
 
@@ -239,10 +239,10 @@ jobs:
           docker run --rm \
             -v "$PWD/.holsmt-ci/conformance/z3-tac:/tmp/holsmt-z3-tac-conformance" \
             holsmt-drivers:4.13.0 \
-            sh -lc 'python3 src/HolSmt/tools/run_conformance_suite.py \
+            sh -lc 'python3 tools/run_conformance_suite.py \
               --out /tmp/holsmt-z3-tac-conformance \
               --no-default-suite \
-              --benchmark-dir src/HolSmt/tools/tests/conformance/z3_tac \
+              --benchmark-dir tools/tests/conformance/z3_tac \
               --mode z3-tac \
               --timeout 30'
 
@@ -286,7 +286,7 @@ jobs:
           docker run --rm \
             -v "$PWD/.holsmt-ci/complete-conformance:/tmp/holsmt-complete-conformance" \
             holsmt-complete-conformance:4.13.0 \
-            sh -lc 'src/HolSmt/tools/run_complete_smtlib_conformance.sh \
+            sh -lc 'tools/run_complete_smtlib_conformance.sh \
               --out-dir /tmp/holsmt-complete-conformance \
               --timeout 30'
 
@@ -351,7 +351,7 @@ jobs:
 
       - name: Enforce manifest against executed conformance summaries
         run: |
-          python3 src/HolSmt/tools/coverage/audit_coverage_manifest.py \
+          python3 tools/coverage/audit_coverage_manifest.py \
             --enforce \
             --conformance-report .holsmt-ci/artifacts/parser/conformance.json \
             --conformance-report .holsmt-ci/artifacts/z3/conformance.json \
