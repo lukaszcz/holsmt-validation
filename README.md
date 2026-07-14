@@ -7,11 +7,11 @@ The data deliberately lives outside the HOL source repository.  The tools are
 kept under `tools` to preserve stable corpus paths, but they operate
 on a separate HolSmt source checkout selected by `HOLSMT_ROOT`.
 
-With AGM, this checkout is normally at `$PROJ_DIR/deps/validation/repo`:
+With AGM, this checkout is normally at `$PROJ_DIR/deps/holsmt-validation/main`:
 
 ```sh
 export HOLSMT_ROOT=$PROJ_DIR/worktrees/smt
-export HOLSMT_VALIDATION_DIR=$PROJ_DIR/deps/validation/repo
+export HOLSMT_VALIDATION_DIR=$PROJ_DIR/deps/holsmt-validation/main
 python3 "$HOLSMT_VALIDATION_DIR/tools/run_conformance_suite.py" \
   --mode parser-only --out /tmp/holsmt-conformance
 ```
