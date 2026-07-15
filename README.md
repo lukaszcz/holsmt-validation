@@ -18,4 +18,6 @@ python3 "$HOLSMT_VALIDATION_DIR/tools/run_conformance_suite.py" \
 
 `HOLSMT_ROOT` must contain `src/HolSmt`; tools that need checked drivers expect
 them at `$HOLSMT_ROOT/src/HolSmt/holsmt-typecheck` and
-`$HOLSMT_ROOT/src/HolSmt/holsmt-z3-tac`.
+`$HOLSMT_ROOT/src/HolSmt/holsmt-z3-tac`.  Checked cvc5 CPC matrix runs use
+`$HOLSMT_ROOT/src/HolSmt/holsmt-cvc-cpc-tac`; build it with
+`Holmake -C "$HOLSMT_ROOT/src/HolSmt" holsmt-cvc-cpc-tac`.
