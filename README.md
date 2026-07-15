@@ -21,3 +21,12 @@ them at `$HOLSMT_ROOT/src/HolSmt/holsmt-typecheck` and
 `$HOLSMT_ROOT/src/HolSmt/holsmt-z3-tac`.  Checked cvc5 CPC matrix runs use
 `$HOLSMT_ROOT/src/HolSmt/holsmt-cvc-cpc-tac`; build it with
 `Holmake -C "$HOLSMT_ROOT/src/HolSmt" holsmt-cvc-cpc-tac`.
+
+The cvc5 CPC gate has a single entry point that builds that driver, runs every
+query, writes the JSON matrix, and removes the generated launcher on exit:
+
+```sh
+HOLSMT_ROOT=$PROJ_DIR/worktrees/smt \
+HOL4_CVC_EXECUTABLE=$HOME/.local/bin/cvc5 \
+  tools/run_cvc5_cpc_gate.sh <queries>/*.smt2
+```

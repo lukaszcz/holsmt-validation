@@ -23,12 +23,9 @@ asserts `(= red blue)`, and replays to the HOL theorem `~(red = blue)`.
 For a cvc5 upgrade, capture the generated SMT-LIB inputs and run:
 
 ```
-Holmake -C "$HOLSMT_ROOT/src/HolSmt" holsmt-cvc-cpc-tac
 python3 "$HOLSMT_VALIDATION_DIR/tools/record_cvc5_cpc_corpus.py" \
   --cvc5 "$HOL4_CVC_EXECUTABLE" --out /tmp/cvc5-cpc-corpus <queries>/*.smt2
-python3 "$HOLSMT_VALIDATION_DIR/tools/run_cvc5_cpc_matrix.py" \
-  --driver "$HOLSMT_ROOT/src/HolSmt/holsmt-cvc-cpc-tac" \
-  --cvc5 "$HOL4_CVC_EXECUTABLE" \
+"$HOLSMT_VALIDATION_DIR/tools/run_cvc5_cpc_gate.sh" \
   --out /tmp/cvc5-cpc-matrix.json <queries>/*.smt2
 ```
 
