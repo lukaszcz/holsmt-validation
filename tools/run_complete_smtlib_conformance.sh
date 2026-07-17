@@ -3,7 +3,7 @@
 set -u -o pipefail
 
 script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-repo_root=$(cd "$script_dir/../../.." && pwd)
+repo_root=$(cd "${HOLSMT_ROOT:-$script_dir/../../..}" && pwd)
 
 out_dir="tools/complete-conformance-out"
 timeout_seconds=30
@@ -194,7 +194,7 @@ v2_generator="$script_dir/conformance-corpus/v2/generate_complete_corpus.py"
 v2_root="$report_dir/generated-v2-corpus"
 v2_manifest="$v2_root/manifest.json"
 v2_logics_json="$v2_root/logics.json"
-proof_manifest="tools/proof-corpus/complete/manifest.json"
+proof_manifest="$script_dir/proof-corpus/complete/manifest.json"
 
 holmake=Holmake
 if [ -x "bin/Holmake" ]; then

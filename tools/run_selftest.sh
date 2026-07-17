@@ -42,8 +42,13 @@
 set -u
 
 script_dir=$(cd "$(dirname "$0")" && pwd)
-holsmt_dir=$(cd "$script_dir/.." && pwd)          # src/HolSmt
-repo_root=$(cd "$holsmt_dir/../.." && pwd)
+if [ -n "${HOLSMT_ROOT:-}" ]; then
+  repo_root=$(cd "$HOLSMT_ROOT" && pwd)
+  holsmt_dir="$repo_root/src/HolSmt"
+else
+  holsmt_dir=$(cd "$script_dir/.." && pwd)        # src/HolSmt
+  repo_root=$(cd "$holsmt_dir/../.." && pwd)
+fi
 
 shards=${SHARDS:-8}
 jobs=${JOBS:-auto}
@@ -104,7 +109,12 @@ resolve_solver() {
   return 1
 }
 
-z3=$(resolve_solver "${HOL4_Z3_EXECUTABLE:-}" 'z3-4.15*' 'z3-4.1*' 'z3-*' 'z3')
+if [ "${HOL4_Z3_EXECUTABLE+x}" = x ] && [ -z "$HOL4_Z3_EXECUTABLE" ]; then
+  z3=""
+else
+  z3=$(resolve_solver "${HOL4_Z3_EXECUTABLE:-}" \
+    'z3-4.15*' 'z3-4.1*' 'z3-*' 'z3')
+fi
 if [ -n "$z3" ]; then
   export HOL4_Z3_EXECUTABLE="$z3"
   printf 'z3:   %s\n' "$z3"
@@ -112,7 +122,11 @@ else
   printf 'z3:   not found (z3 columns will be skipped)\n'
 fi
 
-cvc=$(resolve_solver "${HOL4_CVC_EXECUTABLE:-}" 'cvc5-*' 'cvc5')
+if [ "${HOL4_CVC_EXECUTABLE+x}" = x ] && [ -z "$HOL4_CVC_EXECUTABLE" ]; then
+  cvc=""
+else
+  cvc=$(resolve_solver "${HOL4_CVC_EXECUTABLE:-}" 'cvc5-*' 'cvc5')
+fi
 if [ -n "$cvc" ]; then
   export HOL4_CVC_EXECUTABLE="$cvc"
   printf 'cvc5: %s\n' "$cvc"

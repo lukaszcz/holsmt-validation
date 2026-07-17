@@ -32,7 +32,8 @@ jobs:
             tools/tests/test_generate_smtlib_coverage.py \
             tools/tests/test_import_external_benchmarks.py \
             tools/tests/test_record_z3_proof_corpus.py \
-            tools/tests/test_run_conformance_suite.py
+            tools/tests/test_run_conformance_suite.py \
+            tools/tests/test_z3_version_contract.py
 
   coverage-contract:
     runs-on: ubuntu-latest

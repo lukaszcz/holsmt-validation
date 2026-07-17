@@ -21,7 +21,7 @@ from typing import Iterable
 SCHEMA = "holsmt-z3-proof-corpus-v1"
 MATRIX_SCHEMA = "holsmt-z3-proof-corpus-matrix-v1"
 RULE_CONTEXT_LIMIT = 3
-ROOT = pathlib.Path(os.environ.get("HOLSMT_ROOT", pathlib.Path.cwd())).resolve()
+VALIDATION_ROOT = pathlib.Path(__file__).resolve().parent.parent
 DEFAULT_SUPPORTED_VERSION_MANIFEST = (
     pathlib.Path(__file__).resolve().parent
     / "proof-corpus"
@@ -987,7 +987,7 @@ def resolve_manifest_path(manifest_path: pathlib.Path, value: str) -> pathlib.Pa
     path = pathlib.Path(value)
     if path.is_absolute():
         return path
-    root_path = ROOT / path
+    root_path = VALIDATION_ROOT / path
     if root_path.exists():
         return root_path
     return manifest_path.parent / path

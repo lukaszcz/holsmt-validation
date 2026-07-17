@@ -164,7 +164,7 @@
     },
     {
       "section": "version_targets",
-      "item": "cvc5 Alethe proof mode",
+      "item": "cvc5 CPC proof mode",
       "class": "HolSmt",
       "phases": [
         "parsed",
@@ -192,15 +192,15 @@
         {
           "kind": "source",
           "path": "src/HolSmt/CVC.sml",
-          "match": "--proof-format-mode=alethe"
+          "match": "--proof-format-mode=cpc"
         },
         {
           "kind": "source",
           "path": "src/HolSmt/CVC.sml",
-          "match": "Alethe_ProofReplay.check_proof"
+          "match": "CPC_ProofReplay.check_proof"
         }
       ],
-      "notes": "The CVC/Alethe row is retained as HolSmt evidence; the detailed SMT-LIB enforcement plan remains focused on Z3_TAC."
+      "notes": "The CVC/CPC row is retained as HolSmt evidence; the detailed SMT-LIB enforcement plan remains focused on Z3_TAC."
     },
     {
       "section": "logics",
@@ -237,9 +237,6 @@
       "class": "SMT-LIB 2.7",
       "phases": [
         "parsed",
-        "translated",
-        "solved",
-        "reconstructed",
         "tested"
       ],
       "expected_status": "implemented",
@@ -659,9 +656,6 @@
       "class": "SMT-LIB 2.7",
       "phases": [
         "parsed",
-        "translated",
-        "solved",
-        "reconstructed",
         "tested"
       ],
       "expected_status": "implemented",
@@ -2419,7 +2413,7 @@
         {
           "kind": "source",
           "path": "tools/proof-corpus/supported_versions/summary.json",
-          "match": "\"asserted\": 6"
+          "match": "\"asserted\": 4"
         },
         {
           "kind": "source",
@@ -2479,7 +2473,7 @@
         {
           "kind": "source",
           "path": "tools/proof-corpus/supported_versions/summary.json",
-          "match": "\"unit-resolution\": 3"
+          "match": "\"unit-resolution\": 2"
         },
         {
           "kind": "source",

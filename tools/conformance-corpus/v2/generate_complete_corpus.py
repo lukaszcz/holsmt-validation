@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import sys
 from dataclasses import dataclass
@@ -15,7 +16,8 @@ from typing import Iterable, Mapping, Sequence
 CORPUS_DIR = Path(__file__).resolve().parent
 TOOLS_DIR = CORPUS_DIR.parents[1]
 DEFAULT_MANIFEST = CORPUS_DIR / "manifest.json"
-DEFAULT_LOGIC_SOURCE = TOOLS_DIR.parent / "SmtLib_Logics.sml"
+HOLSMT_ROOT = Path(os.environ.get("HOLSMT_ROOT", TOOLS_DIR.parents[2])).resolve()
+DEFAULT_LOGIC_SOURCE = HOLSMT_ROOT / "src" / "HolSmt" / "SmtLib_Logics.sml"
 DEFAULT_LOGICS_JSON = CORPUS_DIR / "logics.json"
 MANIFEST_SCHEMA_VERSION = "2"
 

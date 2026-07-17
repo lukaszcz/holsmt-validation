@@ -3,7 +3,7 @@
 set -euo pipefail
 
 script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-repo_root=$(cd "$script_dir/../../.." && pwd)
+repo_root=$(cd "${HOLSMT_ROOT:-$script_dir/../../..}" && pwd)
 
 versions=(4.11.2 4.12.4 4.13.0 4.14.1 4.15.3)
 out_dir=".holsmt-z3-version-matrix"
@@ -256,7 +256,7 @@ run_version() {
   esac
 
   "$z3_path" "${z3_opts[@]}" -smt2 \
-    -file:tools/proof-corpus/minimal_bool_unsat.smt2 \
+    -file:"$script_dir/proof-corpus/minimal_bool_unsat.smt2" \
     > "$result_dir/minimal-proof.stdout" \
     2> "$result_dir/minimal-proof.stderr" || {
       write_result "$result_json" "$version" "fail" "$z3_path" "$z3_output" "minimal-proof" \
@@ -264,13 +264,13 @@ run_version() {
       return 0
     }
 
-  if ! python3 tools/record_z3_proof_corpus.py \
+  if ! python3 "$script_dir/record_z3_proof_corpus.py" \
       --z3 "$z3_path" \
       --out "$result_dir/proof-corpus" \
-      --expected-rules tools/proof-corpus/minimal_expected_rules.json \
+      --expected-rules "$script_dir/proof-corpus/minimal_expected_rules.json" \
       --fail-on-unseen-rules \
       --fail-on-unknown-rules \
-      tools/proof-corpus/minimal_bool_unsat.smt2 \
+      "$script_dir/proof-corpus/minimal_bool_unsat.smt2" \
       > "$result_dir/proof-corpus.stdout" \
       2> "$result_dir/proof-corpus.stderr"; then
     detail=$(tail -n 40 "$result_dir/proof-corpus.stderr" "$result_dir/proof-corpus.stdout" 2>/dev/null)
@@ -313,8 +313,9 @@ EOF
   # a single long-lived run cannot exhaust memory and be OOM-killed (which
   # would masquerade as a skipped verification).  The driver returns nonzero
   # if any shard fails or times out.
-  if ! env HOL4_Z3_EXECUTABLE="$z3_path" SHARD_TIMEOUT="$timeout_seconds" \
-      tools/run_selftest.sh --no-build \
+  if ! env HOL4_Z3_EXECUTABLE="$z3_path" HOL4_CVC_EXECUTABLE= \
+      SHARD_TIMEOUT="$timeout_seconds" \
+      "$script_dir/run_selftest.sh" --no-build \
         --shards "$shards" --jobs "$jobs" --out "$result_dir/shards" \
       > "$result_dir/selftest.stdout" \
       2> "$result_dir/selftest.stderr"; then

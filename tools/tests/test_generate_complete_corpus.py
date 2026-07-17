@@ -3,6 +3,7 @@
 import contextlib
 import io
 import json
+import os
 import pathlib
 import sys
 import tempfile
@@ -11,7 +12,9 @@ import unittest
 
 TOOLS_DIR = pathlib.Path(__file__).resolve().parents[1]
 CORPUS_DIR = TOOLS_DIR / "conformance-corpus" / "v2"
-REPO_ROOT = TOOLS_DIR.parents[2]
+REPO_ROOT = pathlib.Path(
+    os.environ.get("HOLSMT_ROOT", TOOLS_DIR.parents[2])
+).resolve()
 sys.path.insert(0, str(TOOLS_DIR))
 sys.path.insert(0, str(CORPUS_DIR))
 

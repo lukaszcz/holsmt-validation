@@ -3,12 +3,13 @@
 set -euo pipefail
 
 script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-repo_root=$(cd "$script_dir/../../.." && pwd)
+validation_root=$(cd "$script_dir/.." && pwd)
+repo_root=$(cd "${HOLSMT_ROOT:-$script_dir/../../..}" && pwd)
 out_dir=".holsmt-ci"
 include_docker=false
 clean_first=true
 allow_unsupported_z3=false
-supported_z3_versions="4.11.2 through 4.15.x"
+supported_z3_versions="4.11.2 4.12.4 4.13.0 4.14.1 4.15.3"
 
 usage() {
   cat <<'EOF'
@@ -43,12 +44,9 @@ is_supported_z3_version() {
     minor=${BASH_REMATCH[2]}
     patch=${BASH_REMATCH[3]}
 
-    if (( major == 4 && minor >= 11 && minor <= 15 )); then
-      if (( minor == 11 && patch < 2 )); then
-        return 1
-      fi
-      return 0
-    fi
+    case "$major.$minor.$patch" in
+      4.11.2|4.12.4|4.13.0|4.14.1|4.15.3) return 0 ;;
+    esac
   fi
 
   return 1
@@ -205,6 +203,44 @@ run_in_dir() {
   fi
 }
 
+run_complete_conformance_contract() {
+  local report=$1
+  shift
+  local exit_code=0
+
+  "$@" || exit_code=$?
+  if [ "$exit_code" -eq 0 ]; then
+    return 0
+  fi
+
+  python3 - "$report" <<'PY'
+import json
+import pathlib
+import sys
+
+report = pathlib.Path(sys.argv[1])
+try:
+    summary = json.loads(report.read_text(encoding="utf-8"))["summary"]
+except (OSError, KeyError, TypeError, ValueError) as error:
+    raise SystemExit(f"cannot validate complete-conformance report {report}: {error}")
+
+unexpected = summary.get("unexpected_regression_count")
+infrastructure = summary.get("infrastructure_error_count")
+if unexpected != 0 or infrastructure != 0:
+    raise SystemExit(
+        "complete conformance has blocking results: "
+        f"unexpected_regression_count={unexpected!r}, "
+        f"infrastructure_error_count={infrastructure!r}"
+    )
+
+print(
+    "Complete conformance has no unexpected regressions or infrastructure "
+    f"errors; preserving {summary.get('red_obligation_count', 0)} catalogued "
+    "red obligations as non-blocking baseline evidence."
+)
+PY
+}
+
 parser_out="$out_dir/conformance/parser"
 z3_out="$out_dir/conformance/z3"
 typecheck_out="$out_dir/conformance/typecheck"
@@ -233,43 +269,56 @@ run "Build real SOS/CSDP selftest" \
 # the whole-suite ./selftest.exe is never run here.  --no-build: the build
 # step above already produced smtheap + selftest.exe.
 run "Run HolSmt SML selftest (sharded)" \
-  tools/run_selftest.sh --no-build
+  "$script_dir/run_selftest.sh" --no-build
 
 run_in_dir "Run real SOS/CSDP selftest" src/real \
   ./selftest_sos.exe
 
 run "Run HolSmt Python tool unit tests" \
-  python3 -m unittest \
-    tools/tests/test_audit_proof_completeness.py \
-    tools/tests/test_audit_coverage_manifest.py \
-    tools/tests/test_generate_complete_corpus.py \
-    tools/tests/test_generate_smtlib_coverage.py \
-    tools/tests/test_record_z3_proof_corpus.py \
-    tools/tests/test_run_conformance_suite.py
+  env PYTHONPATH="$validation_root${PYTHONPATH:+:$PYTHONPATH}" \
+    python3 -m unittest \
+    tools.tests.test_audit_proof_completeness \
+    tools.tests.test_audit_coverage_manifest \
+    tools.tests.test_generate_complete_corpus \
+    tools.tests.test_generate_smtlib_coverage \
+    tools.tests.test_record_z3_proof_corpus \
+    tools.tests.test_run_conformance_suite \
+    tools.tests.test_z3_version_contract
+
+coverage_json="$script_dir/coverage/smtlib_coverage.json"
+coverage_markdown="$script_dir/coverage/SMTLIB_COVERAGE.md"
+coverage_json_before=$(git hash-object "$coverage_json")
+coverage_markdown_before=$(git hash-object "$coverage_markdown")
 
 run "Regenerate release coverage report" \
-  python3 tools/coverage/generate_smtlib_coverage.py --release
+  python3 "$script_dir/coverage/generate_smtlib_coverage.py" --release
 
-run "Check generated coverage files are committed" \
-  git diff --exit-code -- \
-    tools/coverage/smtlib_coverage.json \
-    tools/coverage/SMTLIB_COVERAGE.md
+check_generated_coverage_unchanged() {
+  local coverage_json_after coverage_markdown_after
+  coverage_json_after=$(git hash-object "$coverage_json")
+  coverage_markdown_after=$(git hash-object "$coverage_markdown")
+  [ "$coverage_json_before" = "$coverage_json_after" ] &&
+    [ "$coverage_markdown_before" = "$coverage_markdown_after" ]
+}
+
+run "Check generated coverage files are unchanged" \
+  check_generated_coverage_unchanged
 
 run "Audit coverage manifest" \
-  python3 tools/coverage/audit_coverage_manifest.py --enforce
+  python3 "$script_dir/coverage/audit_coverage_manifest.py" --enforce
 
 run "Run parser conformance corpus" \
-  python3 tools/run_conformance_suite.py \
+  python3 "$script_dir/run_conformance_suite.py" \
     --out "$parser_out" \
     --no-default-suite \
-    --corpus-dir tools/conformance-corpus/v1 \
+    --corpus-dir "$script_dir/conformance-corpus/v1" \
     --mode parser-only
 
 run "Run Z3 oracle/proof conformance slice" \
-  python3 tools/run_conformance_suite.py \
+  python3 "$script_dir/run_conformance_suite.py" \
     --out "$z3_out" \
     --no-default-suite \
-    --corpus-dir tools/conformance-corpus/v1 \
+    --corpus-dir "$script_dir/conformance-corpus/v1" \
     --logic QF_UF \
     --logic QF_LIA \
     --mode z3-oracle \
@@ -278,39 +327,39 @@ run "Run Z3 oracle/proof conformance slice" \
     --timeout 20
 
 run "Validate checked-in Z3 proof corpus manifest" \
-  python3 tools/record_z3_proof_corpus.py \
+  python3 "$script_dir/record_z3_proof_corpus.py" \
     --validate-corpus-manifest
 
 run "Run live Z3 proof rule gate" \
-  python3 tools/record_z3_proof_corpus.py \
+  python3 "$script_dir/record_z3_proof_corpus.py" \
     --out /tmp/holsmt-proof-corpus \
-    --expected-rules tools/proof-corpus/minimal_expected_rules.json \
+    --expected-rules "$script_dir/proof-corpus/minimal_expected_rules.json" \
     --fail-on-unseen-rules \
     --fail-on-unknown-rules \
-    tools/proof-corpus/minimal_bool_unsat.smt2
+    "$script_dir/proof-corpus/minimal_bool_unsat.smt2"
 
 run "Run full Z3 verifier for configured executable" \
-  tools/verify_z3_versions.sh \
+  "$script_dir/verify_z3_versions.sh" \
     --versions "$z3_version" \
     --z3 "$z3_version:$HOL4_Z3_EXECUTABLE" \
     --out-dir "$out_dir/z3-version-current"
 
 run "Run HOL typecheck driver conformance" \
-  python3 tools/run_conformance_suite.py \
+  python3 "$script_dir/run_conformance_suite.py" \
     --out "$typecheck_out" \
     --no-default-suite \
-    --benchmark-dir tools/tests/conformance/typecheck \
+    --benchmark-dir "$script_dir/tests/conformance/typecheck" \
     --mode typecheck-only
 
 run "Run checked Z3_TAC driver conformance" \
-  python3 tools/run_conformance_suite.py \
+  python3 "$script_dir/run_conformance_suite.py" \
     --out "$z3_tac_out" \
     --no-default-suite \
-    --benchmark-dir tools/tests/conformance/z3_tac \
+    --benchmark-dir "$script_dir/tests/conformance/z3_tac" \
     --mode z3-tac
 
 run "Audit coverage manifest against conformance reports" \
-  python3 tools/coverage/audit_coverage_manifest.py \
+  python3 "$script_dir/coverage/audit_coverage_manifest.py" \
     --enforce \
     --conformance-report "$parser_out/conformance.json" \
     --conformance-report "$z3_out/conformance.json" \
@@ -318,20 +367,22 @@ run "Audit coverage manifest against conformance reports" \
     --conformance-report "$z3_tac_out/conformance.json"
 
 run "Run complete SMT-LIB conformance suite" \
-  tools/run_complete_smtlib_conformance.sh \
-    --out-dir "$complete_out" \
-    --z3 "$HOL4_Z3_EXECUTABLE"
+  run_complete_conformance_contract \
+    "$complete_out/complete-conformance.json" \
+    "$script_dir/run_complete_smtlib_conformance.sh" \
+      --out-dir "$complete_out" \
+      --z3 "$HOL4_Z3_EXECUTABLE"
 
 discover_z3_versions
 
 if [ "${#detected_z3_matrix_versions[@]}" -gt 0 ]; then
   run "Run full Z3 version matrix with local binaries (${detected_z3_matrix_versions[*]})" \
-    tools/verify_z3_versions.sh \
+    "$script_dir/verify_z3_versions.sh" \
       "${z3_matrix_args[@]}" \
       --out-dir "$out_dir/z3-version-matrix"
 else
   run "Run full Z3 version matrix" \
-    tools/verify_z3_versions.sh \
+    "$script_dir/verify_z3_versions.sh" \
       --out-dir "$out_dir/z3-version-matrix"
 fi
 

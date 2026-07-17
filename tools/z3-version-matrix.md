@@ -181,3 +181,27 @@ Broad support claims should cite the generated report and list the exact
 versions that passed.  Expanding the supported range requires adding
 representative versions to the default list and checking in any parser/replay
 fixes needed for the matrix to pass.
+
+## Z3 4.14 Array-Logic Closure (2026-07-16)
+
+Z3 4.14.1 rejects the standard `Array` sort under seven non-QF logic names
+that HolSmt can infer: `ALIRA`, `ANIA`, `ANIRA`, `AUFDTLIA`, `AUFDTLIRA`,
+`AUFDTNIRA`, and `AUFBVDT`.  The same assertions are accepted under `ALL`.
+HolSmt therefore widens array-bearing queries in exactly those logic families
+to the sound `ALL` superset at the Z3 boundary for every discovered 4.14.*
+patch version.  Generic SMT-LIB inference and neighboring Z3 minors are
+unchanged; Z3 4.14.1 is the exact tested anchor for the runtime minor-series
+policy.
+
+The full source-built verifier report is
+`/tmp/holsmt-z3-4.14-support-matrix/report.json`, generated on 2026-07-16.
+Every requested version passed the minimal proof, complete proof-corpus/rule
+gate, checked nonlinear replay, and sharded functional selftest stages:
+
+```text
+4.11.2  pass
+4.12.4  pass
+4.13.0  pass
+4.14.1  pass
+4.15.3  pass
+```
