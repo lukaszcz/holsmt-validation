@@ -1,0 +1,9 @@
+((set-logic ALL)
+(proof
+(let ((?x29 (+ 7 k)))
+(let ((?x26 (lambda ((x Int) )(! (+ x k) :qid k!5))
+))
+(let ((?x28 (select ?x26 7)))
+(let (($x30 (and (distinct ?x28 ?x29) true)))
+(let ((@x40 (trans (monotonicity (rewrite (= ?x28 ?x29)) (= $x30 (and (distinct ?x29 ?x29) true))) (rewrite (= (and (distinct ?x29 ?x29) true) false)) (= $x30 false))))
+(mp (asserted $x30) @x40 false))))))))

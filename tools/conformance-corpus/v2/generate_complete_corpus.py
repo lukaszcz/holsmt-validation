@@ -557,6 +557,127 @@ class ProofRuleObligation:
     behavior: str
 
 
+@dataclass(frozen=True)
+class HOProofCase:
+    case_id: str
+    file_slug: str
+    shape_feature: str
+    lambda_definition_rules: bool
+    script: str
+
+
+HO_PROOF_CASES: tuple[HOProofCase, ...] = (
+    HOProofCase(
+        case_id="proof-rule:ho:lambda-equality",
+        file_slug="ho_lambda_equality",
+        shape_feature="proof-shape:lambda-equality",
+        lambda_definition_rules=True,
+        script=(
+            "(set-option :produce-proofs true)\n"
+            "(set-logic ALL)\n"
+            "(declare-const f (Array Int Int))\n"
+            "(assert (= f (lambda ((x Int)) (+ x 1))))\n"
+            "(assert (distinct (select f 2) 3))\n"
+            "(check-sat)\n"
+            "(get-proof)\n"
+        ),
+    ),
+    HOProofCase(
+        case_id="proof-rule:ho:beta-instance",
+        file_slug="ho_beta_instance",
+        shape_feature="proof-shape:beta",
+        lambda_definition_rules=False,
+        script=(
+            "(set-option :produce-proofs true)\n"
+            "(set-logic ALL)\n"
+            "(declare-const k Int)\n"
+            "(assert (distinct\n"
+            "  (select (lambda ((x Int)) (+ x k)) 7)\n"
+            "  (+ 7 k)))\n"
+            "(check-sat)\n"
+            "(get-proof)\n"
+        ),
+    ),
+    HOProofCase(
+        case_id="proof-rule:ho:lambda-extensionality",
+        file_slug="ho_lambda_extensionality",
+        shape_feature="proof-shape:lambda-extensionality",
+        lambda_definition_rules=True,
+        script=(
+            "(set-option :produce-proofs true)\n"
+            "(set-logic ALL)\n"
+            "(declare-const f (Array Int Bool))\n"
+            "(declare-const g (Array Int Bool))\n"
+            "(assert (forall ((x Int))\n"
+            "  (= (select f x) (select g x))))\n"
+            "(assert (distinct\n"
+            "  (lambda ((x Int)) (not (select f x)))\n"
+            "  (lambda ((x Int)) (not (select g x)))))\n"
+            "(check-sat)\n"
+            "(get-proof)\n"
+        ),
+    ),
+    HOProofCase(
+        case_id="proof-rule:ho:lambda-under-quantifier",
+        file_slug="ho_lambda_under_quantifier",
+        shape_feature="proof-shape:lambda-under-quantifier",
+        lambda_definition_rules=True,
+        script=(
+            "(set-option :produce-proofs true)\n"
+            "(set-logic ALL)\n"
+            "(declare-const u (Array Int (Array Int Int)))\n"
+            "(declare-const r (Array Int (Array Int Int)))\n"
+            "(declare-const a Int)\n"
+            "(assert (forall ((x Int))\n"
+            "  (= (select r x)\n"
+            "     (lambda ((y Int))\n"
+            "       (select (select u x) y)))))\n"
+            "(assert (distinct\n"
+            "  (select r a)\n"
+            "  (lambda ((y Int)) (select (select u a) y))))\n"
+            "(check-sat)\n"
+            "(get-proof)\n"
+        ),
+    ),
+    HOProofCase(
+        case_id="proof-rule:ho:eta-partial-application",
+        file_slug="ho_eta_partial_application",
+        shape_feature="proof-shape:eta-partial-application",
+        lambda_definition_rules=True,
+        script=(
+            "(set-option :produce-proofs true)\n"
+            "(set-logic ALL)\n"
+            "(declare-const h (Array Int (Array Int Int)))\n"
+            "(declare-const a Int)\n"
+            "(assert (distinct\n"
+            "  (select h a)\n"
+            "  (lambda ((y Int)) (select (select h a) y))))\n"
+            "(check-sat)\n"
+            "(get-proof)\n"
+        ),
+    ),
+    HOProofCase(
+        case_id="proof-rule:ho:map-valued-ite",
+        file_slug="ho_map_valued_ite",
+        shape_feature="proof-shape:map-valued-ite",
+        lambda_definition_rules=True,
+        script=(
+            "(set-option :produce-proofs true)\n"
+            "(set-logic ALL)\n"
+            "(declare-const c Bool)\n"
+            "(declare-const f (Array Int Int))\n"
+            "(declare-const g (Array Int Int))\n"
+            "(assert (distinct\n"
+            "  (ite c f g)\n"
+            "  (lambda ((x Int))\n"
+            "    (ite c (select f x) (select g x)))))\n"
+            "(check-sat)\n"
+            "(get-proof)\n"
+        ),
+    ),
+)
+
+
 TH_LEMMA_PROOF_RULE_OBLIGATIONS: tuple[ProofRuleObligation, ...] = (
     ProofRuleObligation(
         rule="th-lemma-datatype",
@@ -805,14 +926,92 @@ def proof_rule_th_lemma_nonlinear_arith_case() -> GeneratedCase:
     return GeneratedCase(entry=entry, script=script)
 
 
+def ho_proof_rule_case(case: HOProofCase) -> GeneratedCase:
+    replay_feature = "higher-order:lambda-proof-replay"
+    entry = manifest_entry(
+        case_id=case.case_id,
+        file=(
+            "cases/proof_rules/"
+            f"proof_rule_{case.file_slug}.smt2"
+        ),
+        logic="ALL",
+        standard="Z3-extension",
+        row_class="proof-rule",
+        features=(
+            "function-sort",
+            "function-valued",
+            "higher-order",
+            "ho-core",
+            "lambda",
+            case.shape_feature,
+            *(
+                (
+                    "proof-rule:intro-def",
+                    "proof-rule:proof-bind",
+                    "real-proof-occurrence:intro-def",
+                    "real-proof-occurrence:proof-bind",
+                )
+                if case.lambda_definition_rules
+                else ()
+            ),
+        ),
+        modes=("proof-parse", "proof-replay", "z3-tac"),
+        versions=SUPPORTED_Z3_VERSIONS,
+        expected={
+            "proof-parse": expected_result("pass"),
+            "proof-replay": expected_result(
+                "red",
+                diagnostic=(
+                    "structured proof-bind and lambda-def replay is not "
+                    "implemented"
+                    if case.lambda_definition_rules
+                    else "lambda proof-term replay is not implemented"
+                ),
+                failure_phase="proof-replay",
+            ),
+            "z3-tac": expected_result(
+                "red",
+                diagnostic=(
+                    "checked higher-order Z3 replay is not implemented"
+                ),
+                failure_phase="proof-replay",
+                theorem_shape="closed theorem without oracle tags",
+            ),
+        },
+        implementation_obligation=implementation_obligation(
+            files=(
+                "src/HolSmt/Z3_Proof.sml",
+                "src/HolSmt/Z3_ProofParser.sml",
+                "src/HolSmt/Z3_ProofReplay.sml",
+                "src/HolSmt/Z3_ProformaThms.sml",
+                "src/HolSmt/Unittest.sml",
+            ),
+            feature=replay_feature,
+            test_ids=[case.case_id],
+            failure_phase="proof-replay",
+            notes=(
+                "C1 raw matrix evidence; keep replay red until TASK_14/15 "
+                "implements the recorded higher-order proof-term shapes."
+            ),
+        ),
+        source=source(
+            "Z3-proof",
+            "Phase 3 C1 Z3 lambda-as-array proof-shape corpus",
+        ),
+    )
+    return GeneratedCase(entry=entry, script=case.script)
+
+
 def proof_rule_cases() -> list[GeneratedCase]:
     return [
         proof_rule_asserted_case(),
         proof_rule_th_lemma_basic_case(),
         proof_rule_th_lemma_nonlinear_arith_case(),
-    ] + [
-        th_lemma_proof_rule_case(obligation)
-        for obligation in TH_LEMMA_PROOF_RULE_OBLIGATIONS
+        *(ho_proof_rule_case(case) for case in HO_PROOF_CASES),
+        *(
+            th_lemma_proof_rule_case(obligation)
+            for obligation in TH_LEMMA_PROOF_RULE_OBLIGATIONS
+        ),
     ]
 
 

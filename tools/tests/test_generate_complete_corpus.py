@@ -58,12 +58,28 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
 
         manifest = json.loads(stdout.getvalue())
         cases = audit.validate_v2_manifest(manifest)
-        self.assertEqual(len(cases), 3 + len(generator.TH_LEMMA_PROOF_RULE_OBLIGATIONS))
+        self.assertEqual(
+            len(cases),
+            3
+            + len(generator.HO_PROOF_CASES)
+            + len(generator.TH_LEMMA_PROOF_RULE_OBLIGATIONS),
+        )
         self.assertEqual({case["class"] for case in cases}, {"proof-rule"})
         case_ids = {case["id"] for case in cases}
         self.assertIn("proof-rule:asserted", case_ids)
         self.assertIn("proof-rule:th-lemma-basic", case_ids)
         self.assertIn("proof-rule:th-lemma-fp", case_ids)
+        self.assertEqual(
+            {
+                case.case_id
+                for case in generator.HO_PROOF_CASES
+            },
+            {
+                case_id
+                for case_id in case_ids
+                if case_id.startswith("proof-rule:ho:")
+            },
+        )
         for case in cases:
             self.assertIn("proof-parse", case["expected"])
             self.assertIn("proof-replay", case["expected"])
@@ -96,6 +112,40 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
                     case["implementation_obligation"]["test_ids"],
                     [case["id"]],
                 )
+
+        ho_cases = [
+            case
+            for case in cases
+            if case["id"].startswith("proof-rule:ho:")
+        ]
+        self.assertEqual(len(ho_cases), len(generator.HO_PROOF_CASES))
+        for case in ho_cases:
+            self.assertEqual(case["logic"], "ALL")
+            self.assertEqual(case["standard"], "Z3-extension")
+            self.assertEqual(
+                case["versions"],
+                list(generator.SUPPORTED_Z3_VERSIONS),
+            )
+            self.assertEqual(case["expected"]["proof-parse"]["status"], "pass")
+            self.assertEqual(case["expected"]["proof-replay"]["status"], "red")
+            self.assertEqual(case["expected"]["z3-tac"]["status"], "red")
+            self.assertIsNotNone(case["implementation_obligation"])
+            for feature in {
+                "function-sort",
+                "function-valued",
+                "higher-order",
+                "ho-core",
+                "lambda",
+            }:
+                self.assertIn(feature, case["features"])
+            if case["id"] == "proof-rule:ho:beta-instance":
+                self.assertNotIn("proof-rule:proof-bind", case["features"])
+                self.assertEqual(
+                    case["expected"]["proof-replay"]["diagnostic"],
+                    "lambda proof-term replay is not implemented",
+                )
+            else:
+                self.assertIn("proof-rule:proof-bind", case["features"])
 
     def test_commands_subcommand_emits_command_groups_and_datatype_corpus_cases(self):
         stdout = io.StringIO()

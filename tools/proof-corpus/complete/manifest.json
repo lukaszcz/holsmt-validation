@@ -166,6 +166,125 @@
       "required_rules": [
         "sk"
       ]
+    },
+    {
+      "id": "proof-rule:ho:lambda-equality",
+      "family": "v2-proof-rule-ho",
+      "path": "tools/conformance-corpus/v2/cases/proof_rules/proof_rule_ho_lambda_equality.smt2",
+      "expected_result": "unsat",
+      "required_rules": [
+        "asserted",
+        "monotonicity",
+        "mp",
+        "rewrite",
+        "trans"
+      ],
+      "expected_shape_families": {
+        "4.11.2": "verbatim-lambda",
+        "4.12.4": "named-lambda-def",
+        "4.13.0": "named-lambda-def",
+        "4.14.1": "named-lambda-def",
+        "4.15.3": "named-lambda-def"
+      }
+    },
+    {
+      "id": "proof-rule:ho:beta-instance",
+      "family": "v2-proof-rule-ho",
+      "path": "tools/conformance-corpus/v2/cases/proof_rules/proof_rule_ho_beta_instance.smt2",
+      "expected_result": "unsat",
+      "required_rules": [
+        "asserted",
+        "monotonicity",
+        "mp",
+        "rewrite",
+        "trans"
+      ],
+      "expected_shape_families": {
+        "4.11.2": "verbatim-lambda",
+        "4.12.4": "verbatim-lambda",
+        "4.13.0": "verbatim-lambda",
+        "4.14.1": "verbatim-lambda",
+        "4.15.3": "verbatim-lambda"
+      }
+    },
+    {
+      "id": "proof-rule:ho:lambda-extensionality",
+      "family": "v2-proof-rule-ho",
+      "path": "tools/conformance-corpus/v2/cases/proof_rules/proof_rule_ho_lambda_extensionality.smt2",
+      "expected_result": "unsat",
+      "required_rules": [
+        "intro-def",
+        "nnf-pos",
+        "proof-bind",
+        "quant-intro",
+        "th-lemma-array"
+      ],
+      "expected_shape_families": {
+        "4.11.2": "named-lambda-def",
+        "4.12.4": "named-lambda-def",
+        "4.13.0": "named-lambda-def",
+        "4.14.1": "named-lambda-def",
+        "4.15.3": "named-lambda-def"
+      }
+    },
+    {
+      "id": "proof-rule:ho:lambda-under-quantifier",
+      "family": "v2-proof-rule-ho",
+      "path": "tools/conformance-corpus/v2/cases/proof_rules/proof_rule_ho_lambda_under_quantifier.smt2",
+      "expected_result": "unsat",
+      "required_rules": [
+        "intro-def",
+        "nnf-pos",
+        "proof-bind",
+        "quant-intro",
+        "th-lemma-array"
+      ],
+      "expected_shape_families": {
+        "4.11.2": "named-lambda-def",
+        "4.12.4": "named-lambda-def",
+        "4.13.0": "named-lambda-def",
+        "4.14.1": "named-lambda-def",
+        "4.15.3": "named-lambda-def"
+      }
+    },
+    {
+      "id": "proof-rule:ho:eta-partial-application",
+      "family": "v2-proof-rule-ho",
+      "path": "tools/conformance-corpus/v2/cases/proof_rules/proof_rule_ho_eta_partial_application.smt2",
+      "expected_result": "unsat",
+      "required_rules": [
+        "intro-def",
+        "nnf-pos",
+        "proof-bind",
+        "th-lemma-array"
+      ],
+      "expected_shape_families": {
+        "4.11.2": "named-lambda-def",
+        "4.12.4": "named-lambda-def",
+        "4.13.0": "named-lambda-def",
+        "4.14.1": "named-lambda-def",
+        "4.15.3": "named-lambda-def"
+      }
+    },
+    {
+      "id": "proof-rule:ho:map-valued-ite",
+      "family": "v2-proof-rule-ho",
+      "path": "tools/conformance-corpus/v2/cases/proof_rules/proof_rule_ho_map_valued_ite.smt2",
+      "expected_result": "unsat",
+      "required_rules": [
+        "intro-def",
+        "nnf-pos",
+        "proof-bind",
+        "quant-intro",
+        "th-lemma-array"
+      ],
+      "expected_shape_families": {
+        "4.11.2": "named-lambda-def",
+        "4.12.4": "named-lambda-def",
+        "4.13.0": "named-lambda-def",
+        "4.14.1": "named-lambda-def",
+        "4.15.3": "named-lambda-def"
+      }
     }
   ],
   "required_rule_occurrences": [
@@ -173,7 +292,10 @@
     "def-axiom",
     "elim-unused",
     "hypothesis",
+    "intro-def",
     "lemma",
+    "proof-bind",
+    "quant-intro",
     "sk",
     "symm",
     "th-lemma-array",

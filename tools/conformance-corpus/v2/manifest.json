@@ -25202,6 +25202,398 @@
       }
     },
     {
+      "id": "proof-rule:ho:beta-instance",
+      "file": "cases/proof_rules/proof_rule_ho_beta_instance.smt2",
+      "logic": "ALL",
+      "standard": "Z3-extension",
+      "class": "proof-rule",
+      "features": [
+        "function-sort",
+        "function-valued",
+        "higher-order",
+        "ho-core",
+        "lambda",
+        "proof-shape:beta"
+      ],
+      "modes": [
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "proof-parse": {
+          "status": "pass"
+        },
+        "proof-replay": {
+          "status": "red",
+          "diagnostic": "lambda proof-term replay is not implemented",
+          "failure_phase": "proof-replay"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "checked higher-order Z3 replay is not implemented",
+          "failure_phase": "proof-replay",
+          "theorem_shape": "closed theorem without oracle tags"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/Unittest.sml",
+          "src/HolSmt/Z3_ProformaThms.sml",
+          "src/HolSmt/Z3_Proof.sml",
+          "src/HolSmt/Z3_ProofParser.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "higher-order:lambda-proof-replay",
+        "test_ids": [
+          "proof-rule:ho:beta-instance"
+        ],
+        "failure_phase": "proof-replay",
+        "notes": "C1 raw matrix evidence; keep replay red until TASK_14/15 implements the recorded higher-order proof-term shapes."
+      },
+      "source": {
+        "kind": "Z3-proof",
+        "reference": "Phase 3 C1 Z3 lambda-as-array proof-shape corpus"
+      }
+    },
+    {
+      "id": "proof-rule:ho:eta-partial-application",
+      "file": "cases/proof_rules/proof_rule_ho_eta_partial_application.smt2",
+      "logic": "ALL",
+      "standard": "Z3-extension",
+      "class": "proof-rule",
+      "features": [
+        "function-sort",
+        "function-valued",
+        "higher-order",
+        "ho-core",
+        "lambda",
+        "proof-rule:intro-def",
+        "proof-rule:proof-bind",
+        "proof-shape:eta-partial-application",
+        "real-proof-occurrence:intro-def",
+        "real-proof-occurrence:proof-bind"
+      ],
+      "modes": [
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "proof-parse": {
+          "status": "pass"
+        },
+        "proof-replay": {
+          "status": "red",
+          "diagnostic": "structured proof-bind and lambda-def replay is not implemented",
+          "failure_phase": "proof-replay"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "checked higher-order Z3 replay is not implemented",
+          "failure_phase": "proof-replay",
+          "theorem_shape": "closed theorem without oracle tags"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/Unittest.sml",
+          "src/HolSmt/Z3_ProformaThms.sml",
+          "src/HolSmt/Z3_Proof.sml",
+          "src/HolSmt/Z3_ProofParser.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "higher-order:lambda-proof-replay",
+        "test_ids": [
+          "proof-rule:ho:eta-partial-application"
+        ],
+        "failure_phase": "proof-replay",
+        "notes": "C1 raw matrix evidence; keep replay red until TASK_14/15 implements the recorded higher-order proof-term shapes."
+      },
+      "source": {
+        "kind": "Z3-proof",
+        "reference": "Phase 3 C1 Z3 lambda-as-array proof-shape corpus"
+      }
+    },
+    {
+      "id": "proof-rule:ho:lambda-equality",
+      "file": "cases/proof_rules/proof_rule_ho_lambda_equality.smt2",
+      "logic": "ALL",
+      "standard": "Z3-extension",
+      "class": "proof-rule",
+      "features": [
+        "function-sort",
+        "function-valued",
+        "higher-order",
+        "ho-core",
+        "lambda",
+        "proof-rule:intro-def",
+        "proof-rule:proof-bind",
+        "proof-shape:lambda-equality",
+        "real-proof-occurrence:intro-def",
+        "real-proof-occurrence:proof-bind"
+      ],
+      "modes": [
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "proof-parse": {
+          "status": "pass"
+        },
+        "proof-replay": {
+          "status": "red",
+          "diagnostic": "structured proof-bind and lambda-def replay is not implemented",
+          "failure_phase": "proof-replay"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "checked higher-order Z3 replay is not implemented",
+          "failure_phase": "proof-replay",
+          "theorem_shape": "closed theorem without oracle tags"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/Unittest.sml",
+          "src/HolSmt/Z3_ProformaThms.sml",
+          "src/HolSmt/Z3_Proof.sml",
+          "src/HolSmt/Z3_ProofParser.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "higher-order:lambda-proof-replay",
+        "test_ids": [
+          "proof-rule:ho:lambda-equality"
+        ],
+        "failure_phase": "proof-replay",
+        "notes": "C1 raw matrix evidence; keep replay red until TASK_14/15 implements the recorded higher-order proof-term shapes."
+      },
+      "source": {
+        "kind": "Z3-proof",
+        "reference": "Phase 3 C1 Z3 lambda-as-array proof-shape corpus"
+      }
+    },
+    {
+      "id": "proof-rule:ho:lambda-extensionality",
+      "file": "cases/proof_rules/proof_rule_ho_lambda_extensionality.smt2",
+      "logic": "ALL",
+      "standard": "Z3-extension",
+      "class": "proof-rule",
+      "features": [
+        "function-sort",
+        "function-valued",
+        "higher-order",
+        "ho-core",
+        "lambda",
+        "proof-rule:intro-def",
+        "proof-rule:proof-bind",
+        "proof-shape:lambda-extensionality",
+        "real-proof-occurrence:intro-def",
+        "real-proof-occurrence:proof-bind"
+      ],
+      "modes": [
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "proof-parse": {
+          "status": "pass"
+        },
+        "proof-replay": {
+          "status": "red",
+          "diagnostic": "structured proof-bind and lambda-def replay is not implemented",
+          "failure_phase": "proof-replay"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "checked higher-order Z3 replay is not implemented",
+          "failure_phase": "proof-replay",
+          "theorem_shape": "closed theorem without oracle tags"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/Unittest.sml",
+          "src/HolSmt/Z3_ProformaThms.sml",
+          "src/HolSmt/Z3_Proof.sml",
+          "src/HolSmt/Z3_ProofParser.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "higher-order:lambda-proof-replay",
+        "test_ids": [
+          "proof-rule:ho:lambda-extensionality"
+        ],
+        "failure_phase": "proof-replay",
+        "notes": "C1 raw matrix evidence; keep replay red until TASK_14/15 implements the recorded higher-order proof-term shapes."
+      },
+      "source": {
+        "kind": "Z3-proof",
+        "reference": "Phase 3 C1 Z3 lambda-as-array proof-shape corpus"
+      }
+    },
+    {
+      "id": "proof-rule:ho:lambda-under-quantifier",
+      "file": "cases/proof_rules/proof_rule_ho_lambda_under_quantifier.smt2",
+      "logic": "ALL",
+      "standard": "Z3-extension",
+      "class": "proof-rule",
+      "features": [
+        "function-sort",
+        "function-valued",
+        "higher-order",
+        "ho-core",
+        "lambda",
+        "proof-rule:intro-def",
+        "proof-rule:proof-bind",
+        "proof-shape:lambda-under-quantifier",
+        "real-proof-occurrence:intro-def",
+        "real-proof-occurrence:proof-bind"
+      ],
+      "modes": [
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "proof-parse": {
+          "status": "pass"
+        },
+        "proof-replay": {
+          "status": "red",
+          "diagnostic": "structured proof-bind and lambda-def replay is not implemented",
+          "failure_phase": "proof-replay"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "checked higher-order Z3 replay is not implemented",
+          "failure_phase": "proof-replay",
+          "theorem_shape": "closed theorem without oracle tags"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/Unittest.sml",
+          "src/HolSmt/Z3_ProformaThms.sml",
+          "src/HolSmt/Z3_Proof.sml",
+          "src/HolSmt/Z3_ProofParser.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "higher-order:lambda-proof-replay",
+        "test_ids": [
+          "proof-rule:ho:lambda-under-quantifier"
+        ],
+        "failure_phase": "proof-replay",
+        "notes": "C1 raw matrix evidence; keep replay red until TASK_14/15 implements the recorded higher-order proof-term shapes."
+      },
+      "source": {
+        "kind": "Z3-proof",
+        "reference": "Phase 3 C1 Z3 lambda-as-array proof-shape corpus"
+      }
+    },
+    {
+      "id": "proof-rule:ho:map-valued-ite",
+      "file": "cases/proof_rules/proof_rule_ho_map_valued_ite.smt2",
+      "logic": "ALL",
+      "standard": "Z3-extension",
+      "class": "proof-rule",
+      "features": [
+        "function-sort",
+        "function-valued",
+        "higher-order",
+        "ho-core",
+        "lambda",
+        "proof-rule:intro-def",
+        "proof-rule:proof-bind",
+        "proof-shape:map-valued-ite",
+        "real-proof-occurrence:intro-def",
+        "real-proof-occurrence:proof-bind"
+      ],
+      "modes": [
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "proof-parse": {
+          "status": "pass"
+        },
+        "proof-replay": {
+          "status": "red",
+          "diagnostic": "structured proof-bind and lambda-def replay is not implemented",
+          "failure_phase": "proof-replay"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "checked higher-order Z3 replay is not implemented",
+          "failure_phase": "proof-replay",
+          "theorem_shape": "closed theorem without oracle tags"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/Unittest.sml",
+          "src/HolSmt/Z3_ProformaThms.sml",
+          "src/HolSmt/Z3_Proof.sml",
+          "src/HolSmt/Z3_ProofParser.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "higher-order:lambda-proof-replay",
+        "test_ids": [
+          "proof-rule:ho:map-valued-ite"
+        ],
+        "failure_phase": "proof-replay",
+        "notes": "C1 raw matrix evidence; keep replay red until TASK_14/15 implements the recorded higher-order proof-term shapes."
+      },
+      "source": {
+        "kind": "Z3-proof",
+        "reference": "Phase 3 C1 Z3 lambda-as-array proof-shape corpus"
+      }
+    },
+    {
       "id": "proof-rule:th-lemma-basic",
       "file": "cases/proof_rules/proof_rule_th_lemma_basic.smt2",
       "logic": "QF_LIA",

@@ -32,7 +32,21 @@ DEFAULT_COMPLETE_CORPUS_MANIFEST = (
     pathlib.Path(__file__).resolve().parent / "proof-corpus" / "complete" / "manifest.json"
 )
 SUPPORTED_Z3_VERSIONS = ("4.12.4", "4.13.0")
-COMPLETE_CORPUS_Z3_VERSIONS = ("4.11.2", "4.12.4", "4.13.0", "4.14.1", "4.15.3")
+COMPLETE_CORPUS_Z3_VERSIONS = (
+    "4.11.2",
+    "4.12.4",
+    "4.13.0",
+    "4.14.1",
+    "4.15.3",
+)
+HO_PROOF_CORPUS_CASE_IDS = (
+    "proof-rule:ho:lambda-equality",
+    "proof-rule:ho:beta-instance",
+    "proof-rule:ho:lambda-extensionality",
+    "proof-rule:ho:lambda-under-quantifier",
+    "proof-rule:ho:eta-partial-application",
+    "proof-rule:ho:map-valued-ite",
+)
 SUCCESS_STATUSES = {"pass", "passed", "success", "succeeded"}
 
 REPLAY_SUPPORTED_RULES = {
@@ -93,9 +107,11 @@ REPLAY_SUPPORTED_RULES = {
 }
 
 PARSE_ONLY_RULES = {
-    # Z3 can wrap local proof terms in proof-bind annotations.  HolSmt's
-    # parser treats the wrapper as transparent, so there is deliberately no
-    # replay step for this rule.
+    # Z3 wraps binder-local proof terms in proof-bind.  The current parser
+    # treats legacy occurrences as transparent, but C1's higher-order corpus
+    # shows that the bound proof structure is semantically relevant.  Keep
+    # this known for recording and explicitly out of REPLAY_SUPPORTED_RULES
+    # until the structured parser/replay work lands.
     "proof-bind",
 }
 
@@ -419,13 +435,91 @@ def parsed_dag_summary(nodes: list[Node]) -> dict[str, object]:
     return summary
 
 
-def malformed_item(text: str, message: str, start: int, end: int) -> dict[str, object]:
+def malformed_item(
+    text: str,
+    message: str,
+    start: int,
+    end: int,
+) -> dict[str, object]:
     loc = line_col(text, start)
     return {
         "message": message,
         "line": loc["line"],
         "column": loc["column"],
         "context": context_for(text, start, end),
+    }
+
+
+def extract_ho_shape_metadata(
+    proof_text: str,
+    nodes: list[Node],
+) -> dict[str, object]:
+    lambda_count = 0
+    lambda_def_count = 0
+    proof_bind_count = 0
+    lambda_contexts: list[dict[str, object]] = []
+    lambda_defs: list[dict[str, object]] = []
+    proof_binds: list[dict[str, object]] = []
+    named_lambdas: set[str] = set()
+    bind_consumers: collections.Counter[str] = collections.Counter()
+
+    def location(node: ListNode, *, exact: bool = False) -> dict[str, object]:
+        loc = line_col(proof_text, node.start)
+        result: dict[str, object] = {
+            "line": loc["line"],
+            "column": loc["column"],
+            "context": context_for(proof_text, node.start, node.end),
+        }
+        if exact:
+            result["shape"] = proof_text[node.start:node.end]
+        return result
+
+    def contains_lambda_def_annotation(node: ListNode) -> bool:
+        atoms: list[str] = []
+
+        def collect(value: Node) -> None:
+            if isinstance(value, Atom):
+                atoms.append(value.text)
+            else:
+                for child in value.items:
+                    collect(child)
+
+        collect(node)
+        return ":qid" in atoms and ":lambda-def" in atoms
+
+    def visit(node: Node, parent_head: str | None) -> None:
+        nonlocal lambda_count, lambda_def_count, proof_bind_count
+        if isinstance(node, Atom):
+            if re.fullmatch(r"z3name![0-9]+", node.text):
+                named_lambdas.add(node.text)
+            return
+        head = normalize_rule_head(node.items[0]) if node.items else None
+        if head == "lambda":
+            lambda_count += 1
+            if len(lambda_contexts) < RULE_CONTEXT_LIMIT:
+                lambda_contexts.append(location(node))
+        if head == "!" and contains_lambda_def_annotation(node):
+            lambda_def_count += 1
+            lambda_defs.append(location(node, exact=True))
+        if head == "proof-bind":
+            proof_bind_count += 1
+            proof_binds.append(location(node, exact=True))
+            bind_consumers[parent_head or "<root>"] += 1
+        for child in node.items:
+            visit(child, head)
+
+    for node in nodes:
+        visit(node, None)
+
+    return {
+        "lambda_term_count": lambda_count,
+        "lambda_contexts": lambda_contexts,
+        "named_lambda_symbols": sorted(named_lambdas),
+        "lambda_def_axiom_count": lambda_def_count,
+        "lambda_def_axioms": lambda_defs,
+        "proof_bind_count": proof_bind_count,
+        "proof_binds": proof_binds,
+        "proof_bind_consumers": dict(sorted(bind_consumers.items())),
     }
 
 
@@ -464,10 +558,21 @@ def extract_rule_report(proof_text: str) -> dict[str, object]:
             "parsed_dag_summary": dag_summary,
             "theory_lemma_histogram": {},
             "theory_lemma_metadata": [],
+            "ho_shape": {
+                "lambda_term_count": 0,
+                "lambda_contexts": [],
+                "named_lambda_symbols": [],
+                "lambda_def_axiom_count": 0,
+                "lambda_def_axioms": [],
+                "proof_bind_count": 0,
+                "proof_binds": [],
+                "proof_bind_consumers": {},
+            },
             "unknown_rules": [],
             "malformed_fragments": malformed,
         }
     dag_summary = parsed_dag_summary(nodes)
+    ho_shape = extract_ho_shape_metadata(proof_text, nodes)
 
     def context_item(node: ListNode) -> dict[str, object]:
         loc = line_col(proof_text, node.start)
@@ -642,6 +747,7 @@ def extract_rule_report(proof_text: str) -> dict[str, object]:
         "parsed_dag_summary": dag_summary,
         "theory_lemma_histogram": dict(sorted(theory_lemma_histogram.items())),
         "theory_lemma_metadata": theory_lemma_metadata,
+        "ho_shape": ho_shape,
         "unknown_rules": unknown_rules,
         "malformed_fragments": malformed,
     }
@@ -814,6 +920,16 @@ def record_one(
         },
         "theory_lemma_histogram": {},
         "theory_lemma_metadata": [],
+        "ho_shape": {
+            "lambda_term_count": 0,
+            "lambda_contexts": [],
+            "named_lambda_symbols": [],
+            "lambda_def_axiom_count": 0,
+            "lambda_def_axioms": [],
+            "proof_bind_count": 0,
+            "proof_binds": [],
+            "proof_bind_consumers": {},
+        },
         "unknown_rules": [],
         "malformed_fragments": [],
     }
@@ -1045,6 +1161,118 @@ def inputs_from_complete_manifest(
     if not selected_paths:
         raise ValueError("complete corpus manifest selection is empty")
     return selected_paths
+
+
+def classify_ho_shape(entry: dict[str, object]) -> str:
+    proof = entry.get("proof", {})
+    shape = proof.get("ho_shape", {}) if isinstance(proof, dict) else {}
+    if not isinstance(shape, dict):
+        return "invalid"
+    lambda_count = shape.get("lambda_term_count", 0)
+    named = shape.get("named_lambda_symbols", [])
+    lambda_defs = shape.get("lambda_def_axiom_count", 0)
+    proof_binds = shape.get("proof_bind_count", 0)
+    if (
+        isinstance(lambda_count, int)
+        and lambda_count > 0
+        and named == []
+        and lambda_defs == 0
+        and proof_binds == 0
+    ):
+        return "verbatim-lambda"
+    if (
+        isinstance(lambda_count, int)
+        and lambda_count > 0
+        and isinstance(named, list)
+        and bool(named)
+        and isinstance(lambda_defs, int)
+        and lambda_defs > 0
+        and isinstance(proof_binds, int)
+        and proof_binds > 0
+    ):
+        return "named-lambda-def"
+    return "mixed-or-missing"
+
+
+def validate_ho_shape_matrix(
+    entries: list[dict[str, object]],
+    manifest_path: pathlib.Path,
+) -> list[str]:
+    errors: list[str] = []
+    selected_cases = {
+        str(item.get("id")): item
+        for item in complete_manifest_cases(manifest_path)
+        if item.get("id") in HO_PROOF_CORPUS_CASE_IDS
+    }
+    if set(selected_cases) != set(HO_PROOF_CORPUS_CASE_IDS):
+        missing = sorted(set(HO_PROOF_CORPUS_CASE_IDS) - set(selected_cases))
+        return ["complete corpus manifest is missing HO cases: " + ", ".join(missing)]
+
+    case_by_path: dict[pathlib.Path, tuple[str, dict[str, object]]] = {}
+    for case_id, item in selected_cases.items():
+        path_value = item.get("path")
+        if not isinstance(path_value, str):
+            errors.append(f"{case_id}: missing path")
+            continue
+        case_by_path[resolve_manifest_path(manifest_path, path_value).resolve()] = (
+            case_id,
+            item,
+        )
+
+    seen: set[str] = set()
+    for entry in entries:
+        input_info = entry.get("input", {})
+        input_path = input_info.get("path") if isinstance(input_info, dict) else None
+        if not isinstance(input_path, str):
+            errors.append("HO corpus entry is missing input.path")
+            continue
+        case_info = case_by_path.get(pathlib.Path(input_path).resolve())
+        if case_info is None:
+            errors.append(f"unexpected HO corpus input: {input_path}")
+            continue
+        case_id, case = case_info
+        seen.add(case_id)
+
+        z3_info = entry.get("z3", {})
+        version = z3_info.get("version") if isinstance(z3_info, dict) else None
+        expectations = case.get("expected_shape_families", {})
+        expected = expectations.get(version) if isinstance(expectations, dict) else None
+        actual = classify_ho_shape(entry)
+        if not isinstance(expected, str):
+            errors.append(f"{case_id} has no shape expectation for Z3 {version}")
+        elif actual != expected:
+            errors.append(
+                f"{case_id} on Z3 {version}: expected {expected}, got {actual}"
+            )
+
+        solver = entry.get("solver", {})
+        proof = entry.get("proof", {})
+        if not isinstance(solver, dict) or solver.get("result") != "unsat":
+            errors.append(f"{case_id} on Z3 {version}: expected unsat")
+        if not isinstance(proof, dict) or not proof.get("available"):
+            errors.append(f"{case_id} on Z3 {version}: proof is unavailable")
+            continue
+        if proof.get("unknown_rules"):
+            errors.append(f"{case_id} on Z3 {version}: unknown proof rules")
+        if proof.get("malformed_fragments"):
+            errors.append(f"{case_id} on Z3 {version}: malformed proof fragments")
+        histogram = proof.get("rule_histogram", {})
+        required = case.get("required_rules", [])
+        if isinstance(histogram, dict) and isinstance(required, list):
+            missing_rules = sorted(set(required) - set(histogram))
+            if missing_rules:
+                errors.append(
+                    f"{case_id} on Z3 {version}: missing required rules "
+                    + ", ".join(missing_rules)
+                )
+
+    missing_cases = sorted(set(HO_PROOF_CORPUS_CASE_IDS) - seen)
+    if missing_cases:
+        errors.append(
+            "HO corpus recording is missing cases: "
+            + ", ".join(missing_cases)
+        )
+    return errors
 
 
 def _rule_list(value: object) -> set[str]:
@@ -1710,6 +1938,14 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         help="case id to select from --complete-corpus-manifest; may be repeated",
     )
     parser.add_argument(
+        "--ho-corpus",
+        action="store_true",
+        help=(
+            "record the Phase 3 C1 higher-order proof-shape cases from the "
+            "complete corpus manifest"
+        ),
+    )
+    parser.add_argument(
         "--require-rule-occurrence",
         action="append",
         default=[],
@@ -1741,6 +1977,8 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     args = parser.parse_args(argv)
     if args.validate_corpus_manifest is not None:
         return args
+    if args.ho_corpus and args.complete_corpus_manifest is None:
+        args.complete_corpus_manifest = DEFAULT_COMPLETE_CORPUS_MANIFEST
     if args.case_id and args.complete_corpus_manifest is None:
         parser.error("--case-id requires --complete-corpus-manifest")
     malformed_subkinds = [item for item in args.require_theory_subkind if ":" not in item]
@@ -1806,14 +2044,29 @@ def main(argv: list[str]) -> int:
                     str(path)
                     for path in inputs_from_complete_manifest(
                         args.complete_corpus_manifest,
-                        args.case_id,
+                        [
+                            *args.case_id,
+                            *(
+                                HO_PROOF_CORPUS_CASE_IDS
+                                if args.ho_corpus
+                                else ()
+                            ),
+                        ],
                     )
                 ]
     except (OSError, json.JSONDecodeError, ValueError) as exc:
         print(f"complete proof corpus manifest error: {exc}", file=sys.stderr)
         return 2
 
-    version = args.z3_version or z3_version(args.z3)
+    detected_version = z3_version(args.z3)
+    if args.z3_version is not None and detected_version != args.z3_version:
+        print(
+            f"selected Z3 version {args.z3_version} does not match executable "
+            f"version {detected_version}",
+            file=sys.stderr,
+        )
+        return 2
+    version = args.z3_version or detected_version
 
     entries = [
         record_one(
@@ -1839,6 +2092,30 @@ def main(argv: list[str]) -> int:
 
     print(f"wrote {len(entries)} corpus entries to {entries_path}")
     print(f"wrote summary to {out_dir / args.summary}")
+
+    ho_entries = [
+        entry
+        for entry in entries
+        if isinstance(entry.get("input"), dict)
+        and pathlib.Path(str(entry["input"].get("path", ""))).stem.startswith(
+            "proof_rule_ho_"
+        )
+    ]
+    should_validate_ho = args.ho_corpus or (
+        args.complete_corpus_manifest is not None
+        and len(ho_entries) == len(HO_PROOF_CORPUS_CASE_IDS)
+    )
+    if should_validate_ho:
+        assert args.complete_corpus_manifest is not None
+        shape_errors = validate_ho_shape_matrix(
+            ho_entries,
+            args.complete_corpus_manifest,
+        )
+        if shape_errors:
+            print("higher-order proof-shape matrix validation failed:")
+            for error in shape_errors:
+                print(f"  {error}")
+            return 1
 
     expected_manifest = None
     if args.expected_rules is not None:

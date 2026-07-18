@@ -1,0 +1,10 @@
+unsat
+((set-logic ALL)
+(proof
+(let ((?x30 (+ 7 k)))
+ (let ((?x27 (lambda ((x Int) )(! (+ x k) :qid k!5))
+ ))
+ (let ((?x29 (select ?x27 7)))
+ (let (($x31 (and (distinct ?x29 ?x30) true)))
+ (let ((@x41 (trans (monotonicity (rewrite (= ?x29 ?x30)) (= $x31 (and (distinct ?x30 ?x30) true))) (rewrite (= (and (distinct ?x30 ?x30) true) false)) (= $x31 false))))
+ (mp (asserted $x31) @x41 false))))))))

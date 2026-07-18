@@ -39,7 +39,8 @@ Options:
   -h, --help            Show this help
 
 The report is written to OUT_DIR/report.json.  Per-version stdout/stderr and
-proof-corpus outputs are kept under OUT_DIR/results/<version>/.
+proof-corpus and higher-order proof-shape outputs are kept under
+OUT_DIR/results/<version>/.
 EOF
 }
 
@@ -275,6 +276,23 @@ run_version() {
       2> "$result_dir/proof-corpus.stderr"; then
     detail=$(tail -n 40 "$result_dir/proof-corpus.stderr" "$result_dir/proof-corpus.stdout" 2>/dev/null)
     write_result "$result_json" "$version" "fail" "$z3_path" "$z3_output" "proof-corpus" "$detail"
+    return 0
+  fi
+
+  if ! python3 "$script_dir/record_z3_proof_corpus.py" \
+      --z3 "$z3_path" \
+      --z3-version "$version" \
+      --out "$result_dir/ho-proof-corpus" \
+      --ho-corpus \
+      --fail-on-unknown-rules \
+      --require-rule-occurrence intro-def \
+      --require-rule-occurrence proof-bind \
+      > "$result_dir/ho-proof-corpus.stdout" \
+      2> "$result_dir/ho-proof-corpus.stderr"; then
+    detail=$(tail -n 40 "$result_dir/ho-proof-corpus.stderr" \
+      "$result_dir/ho-proof-corpus.stdout" 2>/dev/null)
+    write_result "$result_json" "$version" "fail" "$z3_path" \
+      "$z3_output" "ho-proof-corpus" "$detail"
     return 0
   fi
 

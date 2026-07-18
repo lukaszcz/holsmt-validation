@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import json
 import pathlib
 import sys
 import tempfile
@@ -8,16 +9,21 @@ import unittest
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 
 from record_z3_proof_corpus import (
+    DEFAULT_COMPLETE_CORPUS_MANIFEST,
     DEFAULT_SUPPORTED_VERSION_MANIFEST,
+    HO_PROOF_CORPUS_CASE_IDS,
     PARSE_ONLY_RULES,
     REPLAY_SUPPORTED_RULES,
     RULE_PREMISE_KIND,
     build_requirement_report,
     build_rule_gate_report,
     build_summary,
+    classify_ho_shape,
     expected_rules_for_version,
     extract_rule_report,
+    inputs_from_complete_manifest,
     validate_corpus_manifest,
+    validate_ho_shape_matrix,
 )
 
 
@@ -119,6 +125,91 @@ class ProofRuleExtractionTests(unittest.TestCase):
         self.assertTrue(gate["passed"])
         self.assertEqual(gate["replay_unknown_rules"], [])
         self.assertEqual(gate["parse_only_rules"][0]["rule"], "proof-bind")
+
+    def test_ho_shape_metadata_records_lambda_defs_and_bind_consumers(self):
+        proof = """(proof
+(let ((?x1 (lambda ((x Int)) (rewrite (= x x)))))
+  (nnf-pos (proof-bind ?x1)
+    (! (forall ((x Int)) (= (select z3name!0 x) x))
+       :qid :lambda-def))))
+"""
+        report = extract_rule_report(proof)
+        shape = report["ho_shape"]
+
+        self.assertEqual(shape["lambda_term_count"], 1)
+        self.assertEqual(shape["named_lambda_symbols"], ["z3name!0"])
+        self.assertEqual(shape["lambda_def_axiom_count"], 1)
+        self.assertIn(":qid :lambda-def", shape["lambda_def_axioms"][0]["shape"])
+        self.assertEqual(shape["proof_bind_count"], 1)
+        self.assertIn("proof-bind ?x1", shape["proof_binds"][0]["shape"])
+        self.assertEqual(shape["proof_bind_consumers"], {"nnf-pos": 1})
+        self.assertNotIn("proof-bind", REPLAY_SUPPORTED_RULES)
+        self.assertEqual(RULE_PREMISE_KIND["proof-bind"], "one")
+        self.assertEqual(report["unknown_rules"], [])
+
+    def test_complete_manifest_contains_the_ho_corpus(self):
+        paths = inputs_from_complete_manifest(
+            DEFAULT_COMPLETE_CORPUS_MANIFEST,
+            list(HO_PROOF_CORPUS_CASE_IDS),
+        )
+
+        self.assertEqual(len(paths), len(HO_PROOF_CORPUS_CASE_IDS))
+        self.assertTrue(all(path.exists() for path in paths))
+
+        manifest = json.loads(DEFAULT_COMPLETE_CORPUS_MANIFEST.read_text())
+        ho_cases = {
+            case["id"]: case
+            for case in manifest["cases"]
+            if case["id"] in HO_PROOF_CORPUS_CASE_IDS
+        }
+        self.assertEqual(set(ho_cases), set(HO_PROOF_CORPUS_CASE_IDS))
+        for case in ho_cases.values():
+            self.assertEqual(
+                set(case["expected_shape_families"]),
+                {"4.11.2", "4.12.4", "4.13.0", "4.14.1", "4.15.3"},
+            )
+
+    def test_checked_in_ho_recordings_match_pinned_matrix(self):
+        corpus_root = DEFAULT_COMPLETE_CORPUS_MANIFEST.parent
+        for version in ("4.11.2", "4.12.4", "4.13.0", "4.14.1", "4.15.3"):
+            entries_path = corpus_root / f"z3-{version}" / "entries.jsonl"
+            entries = [
+                json.loads(line)
+                for line in entries_path.read_text().splitlines()
+                if "proof_rule_ho_" in line
+            ]
+            self.assertEqual(
+                validate_ho_shape_matrix(
+                    entries,
+                    DEFAULT_COMPLETE_CORPUS_MANIFEST,
+                ),
+                [],
+            )
+
+    def test_classifies_verbatim_and_named_lambda_shapes(self):
+        verbatim = entry(
+            "verbatim.smt2",
+            "4.11.2",
+            {"ho_shape": {
+                "lambda_term_count": 1,
+                "named_lambda_symbols": [],
+                "lambda_def_axiom_count": 0,
+                "proof_bind_count": 0,
+            }},
+        )
+        named = entry(
+            "named.smt2",
+            "4.15.3",
+            {"ho_shape": {
+                "lambda_term_count": 2,
+                "named_lambda_symbols": ["z3name!0"],
+                "lambda_def_axiom_count": 1,
+                "proof_bind_count": 1,
+            }},
+        )
+
+        self.assertEqual(classify_ho_shape(verbatim), "verbatim-lambda")
+        self.assertEqual(classify_ho_shape(named), "named-lambda-def")
 
     def test_parse_only_rule_is_reported_without_expected_manifest(self):
         proof = extract_rule_report("(proof (proof-bind (asserted false)))")

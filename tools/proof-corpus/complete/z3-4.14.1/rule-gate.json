@@ -6,10 +6,10 @@
       "artifacts": {
         "effective_input_sha256": "f812fb93431491f415d49abecf0b93ee37597d106c4366c9debb2a0b4440304e",
         "input_sha256": "f812fb93431491f415d49abecf0b93ee37597d106c4366c9debb2a0b4440304e",
-        "proof_path": "/home/lukasz/dev/HOL/worktrees/smt/tools/proof-corpus/complete/z3-4.14.1/proofs/theory_arraysex_extensionality_unsat_proof-f812fb934314.proof",
+        "proof_path": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/proof-corpus/complete/z3-4.14.1/proofs/theory_arraysex_extensionality_unsat_proof-f812fb934314.proof",
         "proof_sha256": "0f51d0d5cc6c04060afc68c5af6d0ce7a671f78ae9954fdb1a72f802ae339d46",
-        "stderr_path": "/home/lukasz/dev/HOL/worktrees/smt/tools/proof-corpus/complete/z3-4.14.1/raw/theory_arraysex_extensionality_unsat_proof-f812fb934314.stderr",
-        "stdout_path": "/home/lukasz/dev/HOL/worktrees/smt/tools/proof-corpus/complete/z3-4.14.1/raw/theory_arraysex_extensionality_unsat_proof-f812fb934314.stdout"
+        "stderr_path": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/proof-corpus/complete/z3-4.14.1/raw/theory_arraysex_extensionality_unsat_proof-f812fb934314.stderr",
+        "stdout_path": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/proof-corpus/complete/z3-4.14.1/raw/theory_arraysex_extensionality_unsat_proof-f812fb934314.stdout"
       },
       "contexts": [
         {
@@ -24,7 +24,7 @@
         }
       ],
       "count": 2,
-      "input": "/home/lukasz/dev/HOL/worktrees/smt/tools/conformance-corpus/v2/cases/theories/theory_arraysex_extensionality_unsat_proof.smt2",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/theory_arraysex_extensionality_unsat_proof.smt2",
       "rule": "proof-bind",
       "z3_version": "4.14.1"
     },
@@ -32,10 +32,10 @@
       "artifacts": {
         "effective_input_sha256": "016e9f608eae948f4c9b55b813b329a0f997324800902eddd23e195738445ae0",
         "input_sha256": "016e9f608eae948f4c9b55b813b329a0f997324800902eddd23e195738445ae0",
-        "proof_path": "/home/lukasz/dev/HOL/worktrees/smt/tools/proof-corpus/complete/z3-4.14.1/proofs/proof_rule_residual_skolem-016e9f608eae.proof",
+        "proof_path": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/proof-corpus/complete/z3-4.14.1/proofs/proof_rule_residual_skolem-016e9f608eae.proof",
         "proof_sha256": "ebbbad3ad083ad49c6546e57d3f9d836577ca3dad9c89f0a2a77d63d49b51367",
-        "stderr_path": "/home/lukasz/dev/HOL/worktrees/smt/tools/proof-corpus/complete/z3-4.14.1/raw/proof_rule_residual_skolem-016e9f608eae.stderr",
-        "stdout_path": "/home/lukasz/dev/HOL/worktrees/smt/tools/proof-corpus/complete/z3-4.14.1/raw/proof_rule_residual_skolem-016e9f608eae.stdout"
+        "stderr_path": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/proof-corpus/complete/z3-4.14.1/raw/proof_rule_residual_skolem-016e9f608eae.stderr",
+        "stdout_path": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/proof-corpus/complete/z3-4.14.1/raw/proof_rule_residual_skolem-016e9f608eae.stdout"
       },
       "contexts": [
         {
@@ -50,7 +50,142 @@
         }
       ],
       "count": 2,
-      "input": "/home/lukasz/dev/HOL/worktrees/smt/tools/conformance-corpus/v2/cases/proof_rules/proof_rule_residual_skolem.smt2",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/proof_rules/proof_rule_residual_skolem.smt2",
+      "rule": "proof-bind",
+      "z3_version": "4.14.1"
+    },
+    {
+      "artifacts": {
+        "effective_input_sha256": "d25b3d4a03d45347bb5af4f267768573db674f3795ba52eb3ca685dfa728205d",
+        "input_sha256": "d25b3d4a03d45347bb5af4f267768573db674f3795ba52eb3ca685dfa728205d",
+        "proof_path": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/proof-corpus/complete/z3-4.14.1/proofs/proof_rule_ho_lambda_equality-d25b3d4a03d4.proof",
+        "proof_sha256": "7274e7276641a691c6929726ce67e98b98b7e780b981e3cb44b1d43fbd9e5466",
+        "stderr_path": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/proof-corpus/complete/z3-4.14.1/raw/proof_rule_ho_lambda_equality-d25b3d4a03d4.stderr",
+        "stdout_path": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/proof-corpus/complete/z3-4.14.1/raw/proof_rule_ho_lambda_equality-d25b3d4a03d4.stdout"
+      },
+      "contexts": [
+        {
+          "column": 48,
+          "context": "...$x56 (= ?x30 ?x55)))\\n(refl (~ $x56 $x56))))))\\n))\\n(let ((@x84 (mp (mp~ (intro-def $x58) (nnf-pos (proof-bind ?x67) (~ $x58 $x58)) $x58) (quant-intro (proof-bind ?x80) (= $x58 $x79)) $x79)))\\n(let (($x516 (not $x...",
+          "line": 25
+        },
+        {
+          "column": 100,
+          "context": "...t ((@x84 (mp (mp~ (intro-def $x58) (nnf-pos (proof-bind ?x67) (~ $x58 $x58)) $x58) (quant-intro (proof-bind ?x80) (= $x58 $x79)) $x79)))\\n(let (($x516 (not $x79)))\\n(let (($x506 (or $x516 $x503)))\\n(let (($x535 (...",
+          "line": 25
+        }
+      ],
+      "count": 2,
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/proof_rules/proof_rule_ho_lambda_equality.smt2",
+      "rule": "proof-bind",
+      "z3_version": "4.14.1"
+    },
+    {
+      "artifacts": {
+        "effective_input_sha256": "31b14ffe944ab1f81093a4f6eb4ebc713b4c8c22a128c0afa93f9aa44d0d82aa",
+        "input_sha256": "31b14ffe944ab1f81093a4f6eb4ebc713b4c8c22a128c0afa93f9aa44d0d82aa",
+        "proof_path": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/proof-corpus/complete/z3-4.14.1/proofs/proof_rule_ho_lambda_extensionality-31b14ffe944a.proof",
+        "proof_sha256": "0eccb5ca6f2a22ffaa66fb2ec01ca3bae6552dd7d3cefa744ebf09ff2946e85c",
+        "stderr_path": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/proof-corpus/complete/z3-4.14.1/raw/proof_rule_ho_lambda_extensionality-31b14ffe944a.stderr",
+        "stdout_path": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/proof-corpus/complete/z3-4.14.1/raw/proof_rule_ho_lambda_extensionality-31b14ffe944a.stdout"
+      },
+      "contexts": [
+        {
+          "column": 49,
+          "context": "...62 (= $x31 $x61)))\\n(refl (~ $x62 $x62)))))))\\n))\\n(let ((@x122 (mp (mp~ (intro-def $x64) (nnf-pos (proof-bind ?x84) (~ $x64 $x64)) $x64) (quant-intro (proof-bind ?x118) (= $x64 $x117)) $x117)))\\n(let ((@x657 (uni...",
+          "line": 34
+        },
+        {
+          "column": 101,
+          "context": "... ((@x122 (mp (mp~ (intro-def $x64) (nnf-pos (proof-bind ?x84) (~ $x64 $x64)) $x64) (quant-intro (proof-bind ?x118) (= $x64 $x117)) $x117)))\\n(let ((@x657 (unit-resolution ((_ quant-inst ((_ array-ext 0) z3name!0...",
+          "line": 34
+        },
+        {
+          "column": 49,
+          "context": "...70 (= $x33 $x69)))\\n(refl (~ $x70 $x70)))))))\\n))\\n(let ((@x109 (mp (mp~ (intro-def $x72) (nnf-pos (proof-bind ?x91) (~ $x72 $x72)) $x72) (quant-intro (proof-bind ?x105) (= $x72 $x104)) $x104)))\\n(let ((@x678 (uni...",
+          "line": 82
+        }
+      ],
+      "count": 6,
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/proof_rules/proof_rule_ho_lambda_extensionality.smt2",
+      "rule": "proof-bind",
+      "z3_version": "4.14.1"
+    },
+    {
+      "artifacts": {
+        "effective_input_sha256": "35d4421a0aca270b1038dcd34de6041126f1a1a30b9dc682d6191682252cb493",
+        "input_sha256": "35d4421a0aca270b1038dcd34de6041126f1a1a30b9dc682d6191682252cb493",
+        "proof_path": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/proof-corpus/complete/z3-4.14.1/proofs/proof_rule_ho_lambda_under_quantifier-35d4421a0aca.proof",
+        "proof_sha256": "ab6fdd46490e0975123d7566b715dced6b38175bdc30a40fdbdcf4e660f2ac7e",
+        "stderr_path": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/proof-corpus/complete/z3-4.14.1/raw/proof_rule_ho_lambda_under_quantifier-35d4421a0aca.stderr",
+        "stdout_path": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/proof-corpus/complete/z3-4.14.1/raw/proof_rule_ho_lambda_under_quantifier-35d4421a0aca.stdout"
+      },
+      "contexts": [
+        {
+          "column": 133,
+          "context": "...ant-inst ((_ array-ext 0) ?x35 z3name!1)) (or (not $x86) $x549)) (mp~ (intro-def $x86) (nnf-pos (proof-bind ?x98) (~ $x86 $x86)) $x86) $x549)))\\n(let ((?x531 (z3name!0 a)))\\n(let ((?x569 (select ?x531 ?x544)))\\n(...",
+          "line": 24
+        },
+        {
+          "column": 135,
+          "context": "...t-inst a ((_ array-ext 0) ?x35 z3name!1)) (or (not $x62) $x570)) (mp~ (intro-def $x62) (nnf-pos (proof-bind ?x76) (~ $x62 $x62)) $x62) $x570)))\\n(let (($x533 (= ?x35 ?x531)))\\n(let (($x521 (forall ((x Int) )(! (...",
+          "line": 37
+        },
+        {
+          "column": 77,
+          "context": "...$x31 $x66)))))))\\n))\\n(let ((@x81 (mp~ (mp (asserted $x32) (rewrite (= $x32 $x32)) $x32) (nnf-pos (proof-bind ?x70) (~ $x32 $x68)) $x68)))\\n(let ((@x565 (unit-resolution ((_ quant-inst a) (or (not $x521) $x533)) ...",
+          "line": 61
+        }
+      ],
+      "count": 4,
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/proof_rules/proof_rule_ho_lambda_under_quantifier.smt2",
+      "rule": "proof-bind",
+      "z3_version": "4.14.1"
+    },
+    {
+      "artifacts": {
+        "effective_input_sha256": "a48a152ee2e90d352e444736998aa0ea2bed1bb2b2bc870b33d0642594887732",
+        "input_sha256": "a48a152ee2e90d352e444736998aa0ea2bed1bb2b2bc870b33d0642594887732",
+        "proof_path": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/proof-corpus/complete/z3-4.14.1/proofs/proof_rule_ho_eta_partial_application-a48a152ee2e9.proof",
+        "proof_sha256": "e24d0032a7d24ccdc2cfa71f5de748d4e8434ef20a1b5a9f8a4b33f8f929871f",
+        "stderr_path": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/proof-corpus/complete/z3-4.14.1/raw/proof_rule_ho_eta_partial_application-a48a152ee2e9.stderr",
+        "stdout_path": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/proof-corpus/complete/z3-4.14.1/raw/proof_rule_ho_eta_partial_application-a48a152ee2e9.stdout"
+      },
+      "contexts": [
+        {
+          "column": 120,
+          "context": "...ant-inst ((_ array-ext 0) k!00 z3name!1)) (or (not $x59) $x506)) (mp~ (intro-def $x59) (nnf-pos (proof-bind ?x69) (~ $x59 $x59)) $x59) @x510 false))))))))))))))))))))))\\n",
+          "line": 34
+        }
+      ],
+      "count": 1,
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/proof_rules/proof_rule_ho_eta_partial_application.smt2",
+      "rule": "proof-bind",
+      "z3_version": "4.14.1"
+    },
+    {
+      "artifacts": {
+        "effective_input_sha256": "d5cad07416d6c30ea6f74ed86c2892fcae72181e18877584616602fba212de7e",
+        "input_sha256": "d5cad07416d6c30ea6f74ed86c2892fcae72181e18877584616602fba212de7e",
+        "proof_path": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/proof-corpus/complete/z3-4.14.1/proofs/proof_rule_ho_map_valued_ite-d5cad07416d6.proof",
+        "proof_sha256": "e68645adb8182f722c2d60084cef5d115d9c456ec902b0099f725e68f079cc20",
+        "stderr_path": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/proof-corpus/complete/z3-4.14.1/raw/proof_rule_ho_map_valued_ite-d5cad07416d6.stderr",
+        "stdout_path": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/proof-corpus/complete/z3-4.14.1/raw/proof_rule_ho_map_valued_ite-d5cad07416d6.stdout"
+      },
+      "contexts": [
+        {
+          "column": 48,
+          "context": "...49 (= ?x30 ?x48)))\\n(refl (~ $x49 $x49))))))))\\n))\\n(let ((@x79 (mp (mp~ (intro-def $x51) (nnf-pos (proof-bind ?x63) (~ $x51 $x51)) $x51) (quant-intro (proof-bind ?x75) (= $x51 $x74)) $x74)))\\n(let (($x499 (not c)...",
+          "line": 34
+        },
+        {
+          "column": 100,
+          "context": "...t ((@x79 (mp (mp~ (intro-def $x51) (nnf-pos (proof-bind ?x63) (~ $x51 $x51)) $x51) (quant-intro (proof-bind ?x75) (= $x51 $x74)) $x74)))\\n(let (($x499 (not c)))\\n(let (($x526 (= f z3name!0)))\\n(let ((?x523 ((_ ar...",
+          "line": 34
+        }
+      ],
+      "count": 2,
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/proof_rules/proof_rule_ho_map_valued_ite.smt2",
       "rule": "proof-bind",
       "z3_version": "4.14.1"
     }
@@ -66,10 +201,19 @@
     "require_no_oracles": false,
     "require_replay_success": false,
     "required_rule_occurrences": [
+      "def-axiom",
+      "elim-unused",
+      "hypothesis",
+      "intro-def",
+      "lemma",
+      "proof-bind",
+      "sk",
+      "symm",
       "th-lemma-arith",
       "th-lemma-array",
       "th-lemma-datatype",
-      "th-lemma-nonlinear-arith"
+      "th-lemma-nonlinear-arith",
+      "trans*"
     ],
     "required_theory_subkinds": [
       "array:<none>",

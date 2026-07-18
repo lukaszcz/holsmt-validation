@@ -274,6 +274,8 @@ for version in "${selected_versions[@]}"; do
       --require-rule-occurrence th-lemma-arith
       --require-rule-occurrence th-lemma-datatype
       --require-rule-occurrence th-lemma-nonlinear-arith
+      --require-rule-occurrence intro-def
+      --require-rule-occurrence proof-bind
     )
     case "$version" in
       4.11.2)
@@ -296,6 +298,12 @@ for version in "${selected_versions[@]}"; do
           --case-id proof-rule:commutativity-symm-trans-star:real-proof-occurrence
           --case-id proof-rule:elim-unused:real-proof-occurrence
           --case-id proof-rule:sk:real-proof-occurrence
+          --case-id proof-rule:ho:lambda-equality
+          --case-id proof-rule:ho:beta-instance
+          --case-id proof-rule:ho:lambda-extensionality
+          --case-id proof-rule:ho:lambda-under-quantifier
+          --case-id proof-rule:ho:eta-partial-application
+          --case-id proof-rule:ho:map-valued-ite
         )
         ;;
       4.12.4|4.13.0|4.14.1|4.15.3)
@@ -550,7 +558,13 @@ def first_red_category_counts(
     all_items = manifest_items + proof_items
     categories: dict[str, tuple[str, ...]] = {
         "Alethe upstream blockers": ("cvc5-alethe-datatype-export",),
-        "function sorts": ("function-sort", "function-valued"),
+        "function sorts": (
+            "function-sort",
+            "function-valued",
+            "higher-order",
+            "lambda",
+            "ho-core",
+        ),
         "arrays": ("array", "arraysex"),
         "FP": ("floatingpoint", "fp.", "float16", "float32", "float64", "float128", "th-lemma-fp"),
         "strings/regex": ("unicodestrings", "string", "regex", "regexp", "str.", "re."),

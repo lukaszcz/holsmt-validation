@@ -1,0 +1,11 @@
+(set-option :produce-proofs true)
+(set-logic ALL)
+(declare-const f (Array Int Bool))
+(declare-const g (Array Int Bool))
+(assert (forall ((x Int))
+  (= (select f x) (select g x))))
+(assert (distinct
+  (lambda ((x Int)) (not (select f x)))
+  (lambda ((x Int)) (not (select g x)))))
+(check-sat)
+(get-proof)

@@ -1,0 +1,7 @@
+(set-option :produce-proofs true)
+(set-logic ALL)
+(declare-const f (Array Int Int))
+(assert (= f (lambda ((x Int)) (+ x 1))))
+(assert (distinct (select f 2) 3))
+(check-sat)
+(get-proof)

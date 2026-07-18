@@ -79,3 +79,27 @@ The supported-version matrix uses this intentionally small input for stable
 cross-version proof evidence; `supported_versions/manifest.json` records
 justifications for supported replay rules that do not occur in that minimal
 raw corpus.
+
+## Higher-order proof-shape corpus
+
+The complete corpus includes six Phase 3 C1 Z3-dialect cases.  Function sorts
+are nested `Array` sorts, application is `select`, and lambdas use Z3's native
+array-lambda syntax.  The cases cover lambda equality, beta reduction,
+extensionality, lambda under a quantifier, eta-expanded partial application,
+and map-valued `ite`.
+
+Record just this band for one of the five matrix versions with:
+
+```sh
+python3 tools/record_z3_proof_corpus.py \
+  --z3 "$HOME/.local/bin/z3-4.15.3" \
+  --z3-version 4.15.3 \
+  --out /tmp/holsmt-ho-proof-corpus \
+  --ho-corpus \
+  --fail-on-unknown-rules
+```
+
+The raw artifacts retain `proof-bind` and `:lambda-def` shape metadata.
+`proof-bind` is known to the recorder but intentionally absent from
+`REPLAY_SUPPORTED_RULES`: preserving its bound proof structure is a tracked
+parser/replay obligation, not checked replay support.
