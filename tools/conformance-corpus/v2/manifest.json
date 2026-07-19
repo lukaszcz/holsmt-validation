@@ -57742,6 +57742,333 @@
       }
     },
     {
+      "id": "theory:HO_Core:at-apply",
+      "file": "cases/theories/hocore/theory_ho_core_at_apply.smt2",
+      "logic": "HO_QF_UFLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "apply-operator:at",
+        "function-sort",
+        "function-valued",
+        "higher-order",
+        "higher-order-surface:apply-operator",
+        "higher-order/function-sort",
+        "ho-core",
+        "theory-behavior:apply",
+        "theory-behavior:cvc5-at-extension",
+        "theory-case:unsat-proof",
+        "theory-entry:HO_Core:at-apply",
+        "theory:HO_Core"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "SMT-LIB 2.7 higher-order surface (at apply operator) is not implemented",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "SMT-LIB 2.7 higher-order surface (at apply operator) is not implemented",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Logics.sml",
+          "src/HolSmt/SmtLib_Parser.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Unittest.sml",
+          "src/HolSmt/Z3_ProofParser.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "higher-order:standard27:at-apply",
+        "test_ids": [
+          "theory:HO_Core:at-apply"
+        ],
+        "failure_phase": "typecheck",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 HO-Core application with cvc5 @ spelling"
+      }
+    },
+    {
+      "id": "theory:HO_Core:curried-function-sort",
+      "file": "cases/theories/hocore/theory_ho_core_curried_function_sort.smt2",
+      "logic": "HO_UFLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "function-sort",
+        "function-valued",
+        "higher-order",
+        "higher-order-surface:arrow-sort",
+        "higher-order/function-sort",
+        "ho-core",
+        "theory-behavior:curried-function-sort",
+        "theory-case:unsat-proof",
+        "theory-entry:HO_Core:curried-function-sort",
+        "theory:HO_Core"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "SMT-LIB 2.7 higher-order surface (curried arrow declaration) is not implemented",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "SMT-LIB 2.7 higher-order surface (curried arrow declaration) is not implemented",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Logics.sml",
+          "src/HolSmt/SmtLib_Parser.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Unittest.sml",
+          "src/HolSmt/Z3_ProofParser.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "higher-order:standard27:curried-function-sort",
+        "test_ids": [
+          "theory:HO_Core:curried-function-sort"
+        ],
+        "failure_phase": "typecheck",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 HO-Core curried arrow declaration"
+      }
+    },
+    {
+      "id": "theory:HO_Core:fo-apply-operator-fragment",
+      "file": "cases/theories/hocore/theory_ho_core_fo_apply_operator_fragment.smt2",
+      "logic": "QF_AUFLIA",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "apply-operator:underscore",
+        "function-sort",
+        "function-valued",
+        "higher-order",
+        "higher-order-surface:apply-operator",
+        "higher-order/function-sort",
+        "ho-core",
+        "theory-behavior:fragment-negative",
+        "theory-case:type-error",
+        "theory-entry:HO_Core:fo-apply-operator-fragment",
+        "theory:HO_Core"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "higher-order construct (apply operator) is outside logic fragment QF_AUFLIA",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "higher-order construct (apply operator) is outside logic fragment QF_AUFLIA",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/SmtLib_Logics.sml",
+          "src/HolSmt/SmtLib_Parser.sml",
+          "src/HolSmt/Unittest.sml"
+        ],
+        "feature": "higher-order:fragment-gating:apply-operator",
+        "test_ids": [
+          "theory:HO_Core:fo-apply-operator-fragment"
+        ],
+        "failure_phase": "typecheck",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 HO-Core fragment restriction"
+      }
+    },
+    {
+      "id": "theory:HO_Core:fo-arrow-sort-fragment",
+      "file": "cases/theories/hocore/theory_ho_core_fo_arrow_sort_fragment.smt2",
+      "logic": "QF_LIA",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "function-sort",
+        "function-valued",
+        "higher-order",
+        "higher-order-surface:arrow-sort",
+        "higher-order/function-sort",
+        "ho-core",
+        "theory-behavior:fragment-negative",
+        "theory-case:type-error",
+        "theory-entry:HO_Core:fo-arrow-sort-fragment",
+        "theory:HO_Core"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "higher-order construct (arrow sort) is outside logic fragment QF_LIA",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "higher-order construct (arrow sort) is outside logic fragment QF_LIA",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/SmtLib_Logics.sml",
+          "src/HolSmt/SmtLib_Parser.sml",
+          "src/HolSmt/Unittest.sml"
+        ],
+        "feature": "higher-order:fragment-gating:arrow-sort",
+        "test_ids": [
+          "theory:HO_Core:fo-arrow-sort-fragment"
+        ],
+        "failure_phase": "typecheck",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 HO-Core fragment restriction"
+      }
+    },
+    {
+      "id": "theory:HO_Core:fo-lambda-fragment",
+      "file": "cases/theories/hocore/theory_ho_core_fo_lambda_fragment.smt2",
+      "logic": "QF_UF",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "function-sort",
+        "function-valued",
+        "higher-order",
+        "higher-order-surface:lambda",
+        "higher-order/function-sort",
+        "ho-core",
+        "lambda",
+        "theory-behavior:fragment-negative",
+        "theory-case:type-error",
+        "theory-entry:HO_Core:fo-lambda-fragment",
+        "theory:HO_Core"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "higher-order construct (lambda) is outside logic fragment QF_UF",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "higher-order construct (lambda) is outside logic fragment QF_UF",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/SmtLib_Logics.sml",
+          "src/HolSmt/SmtLib_Parser.sml",
+          "src/HolSmt/Unittest.sml"
+        ],
+        "feature": "higher-order:fragment-gating:lambda",
+        "test_ids": [
+          "theory:HO_Core:fo-lambda-fragment"
+        ],
+        "failure_phase": "typecheck",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 HO-Core fragment restriction"
+      }
+    },
+    {
       "id": "theory:HO_Core:function-argument-sort",
       "file": "cases/theories/hocore/theory_ho_core_function_argument_sort.smt2",
       "logic": "QF_AUFLIA",
@@ -57930,6 +58257,211 @@
       }
     },
     {
+      "id": "theory:HO_Core:lambda-beta",
+      "file": "cases/theories/hocore/theory_ho_core_lambda_beta.smt2",
+      "logic": "HO_QF_UFLIA",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "function-sort",
+        "function-valued",
+        "higher-order",
+        "higher-order-surface:lambda",
+        "higher-order-surface:omission-sugar",
+        "higher-order/function-sort",
+        "ho-core",
+        "lambda",
+        "theory-behavior:beta",
+        "theory-case:unsat-proof",
+        "theory-entry:HO_Core:lambda-beta",
+        "theory:HO_Core"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "SMT-LIB 2.7 higher-order surface (lambda beta reduction) is not implemented",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "SMT-LIB 2.7 higher-order surface (lambda beta reduction) is not implemented",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Logics.sml",
+          "src/HolSmt/SmtLib_Parser.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Unittest.sml",
+          "src/HolSmt/Z3_ProofParser.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "higher-order:standard27:lambda-beta",
+        "test_ids": [
+          "theory:HO_Core:lambda-beta"
+        ],
+        "failure_phase": "typecheck",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 HO-Core lambda beta reduction"
+      }
+    },
+    {
+      "id": "theory:HO_Core:lambda-extensionality",
+      "file": "cases/theories/hocore/theory_ho_core_lambda_extensionality.smt2",
+      "logic": "HO_UF",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "function-sort",
+        "function-valued",
+        "higher-order",
+        "higher-order-surface:lambda",
+        "higher-order/function-sort",
+        "ho-core",
+        "lambda",
+        "theory-behavior:function-extensionality",
+        "theory-case:unsat-proof",
+        "theory-entry:HO_Core:lambda-extensionality",
+        "theory:HO_Core"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "SMT-LIB 2.7 higher-order surface (lambda extensionality) is not implemented",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "SMT-LIB 2.7 higher-order surface (lambda extensionality) is not implemented",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Logics.sml",
+          "src/HolSmt/SmtLib_Parser.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Unittest.sml",
+          "src/HolSmt/Z3_ProofParser.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "higher-order:standard27:lambda-extensionality",
+        "test_ids": [
+          "theory:HO_Core:lambda-extensionality"
+        ],
+        "failure_phase": "typecheck",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 HO-Core lambda extensionality"
+      }
+    },
+    {
+      "id": "theory:HO_Core:lambda-identity",
+      "file": "cases/theories/hocore/theory_ho_core_lambda_identity.smt2",
+      "logic": "HO_QF_UF",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "function-sort",
+        "function-valued",
+        "higher-order",
+        "higher-order-surface:lambda",
+        "higher-order/function-sort",
+        "ho-core",
+        "lambda",
+        "theory-behavior:lambda-identity",
+        "theory-case:unsat-proof",
+        "theory-entry:HO_Core:lambda-identity",
+        "theory:HO_Core"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "SMT-LIB 2.7 higher-order surface (lambda identity) is not implemented",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "SMT-LIB 2.7 higher-order surface (lambda identity) is not implemented",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Logics.sml",
+          "src/HolSmt/SmtLib_Parser.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Unittest.sml",
+          "src/HolSmt/Z3_ProofParser.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "higher-order:standard27:lambda-identity",
+        "test_ids": [
+          "theory:HO_Core:lambda-identity"
+        ],
+        "failure_phase": "typecheck",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 HO-Core lambda identity"
+      }
+    },
+    {
       "id": "theory:HO_Core:lambda-like-universal-encoding",
       "file": "cases/theories/hocore/theory_ho_core_lambda_like_universal_encoding.smt2",
       "logic": "AUFLIA",
@@ -57972,22 +58504,229 @@
       }
     },
     {
+      "id": "theory:HO_Core:lambda-under-quantifier",
+      "file": "cases/theories/hocore/theory_ho_core_lambda_under_quantifier.smt2",
+      "logic": "HO_AUFLIRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "function-sort",
+        "function-valued",
+        "higher-order",
+        "higher-order-surface:lambda",
+        "higher-order/function-sort",
+        "ho-core",
+        "lambda",
+        "theory-behavior:lambda-under-quantifier",
+        "theory-case:unsat-proof",
+        "theory-entry:HO_Core:lambda-under-quantifier",
+        "theory:HO_Core"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "SMT-LIB 2.7 higher-order surface (lambda under quantifier) is not implemented",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "SMT-LIB 2.7 higher-order surface (lambda under quantifier) is not implemented",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Logics.sml",
+          "src/HolSmt/SmtLib_Parser.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Unittest.sml",
+          "src/HolSmt/Z3_ProofParser.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "higher-order:standard27:lambda-under-quantifier",
+        "test_ids": [
+          "theory:HO_Core:lambda-under-quantifier"
+        ],
+        "failure_phase": "typecheck",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 HO-Core lambda under quantifier"
+      }
+    },
+    {
+      "id": "theory:HO_Core:map-const-partial-application",
+      "file": "cases/theories/hocore/theory_ho_core_map_const_partial_application.smt2",
+      "logic": "HO_QF_AUFLIA",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "function-sort",
+        "function-valued",
+        "higher-order",
+        "higher-order-surface:partial-application",
+        "higher-order/function-sort",
+        "ho-core",
+        "theory-behavior:residual-map-sort",
+        "theory-case:unsat-proof",
+        "theory-entry:HO_Core:map-const-partial-application",
+        "theory:HO_Core"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "SMT-LIB 2.7 higher-order surface (map-sorted constant partial application) is not implemented",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "SMT-LIB 2.7 higher-order surface (map-sorted constant partial application) is not implemented",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Logics.sml",
+          "src/HolSmt/SmtLib_Parser.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Unittest.sml",
+          "src/HolSmt/Z3_ProofParser.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "higher-order:standard27:map-const-partial-application",
+        "test_ids": [
+          "theory:HO_Core:map-const-partial-application"
+        ],
+        "failure_phase": "typecheck",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 HO-Core map-sorted constant partial application"
+      }
+    },
+    {
+      "id": "theory:HO_Core:map-valued-function-result",
+      "file": "cases/theories/hocore/theory_ho_core_map_valued_function_result.smt2",
+      "logic": "HO_ALL",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "function-sort",
+        "function-valued",
+        "higher-order",
+        "higher-order-surface:arrow-sort",
+        "higher-order/function-sort",
+        "ho-core",
+        "theory-behavior:map-valued-result",
+        "theory-case:unsat-proof",
+        "theory-entry:HO_Core:map-valued-function-result",
+        "theory:HO_Core"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "SMT-LIB 2.7 higher-order surface (map-valued function result) is not implemented",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "SMT-LIB 2.7 higher-order surface (map-valued function result) is not implemented",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Logics.sml",
+          "src/HolSmt/SmtLib_Parser.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Unittest.sml",
+          "src/HolSmt/Z3_ProofParser.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "higher-order:standard27:map-valued-function-result",
+        "test_ids": [
+          "theory:HO_Core:map-valued-function-result"
+        ],
+        "failure_phase": "typecheck",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 HO-Core map-valued function result"
+      }
+    },
+    {
       "id": "theory:HO_Core:native-function-sort",
       "file": "cases/theories/hocore/theory_ho_core_native_function_sort.smt2",
       "logic": "ALL",
-      "standard": "SMT-LIB-3",
+      "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "function-sort",
+        "function-valued",
+        "higher-order",
         "higher-order/function-sort",
+        "ho-core",
         "theory-behavior:function-sort",
         "theory-behavior:hocore-native-function-sort",
-        "theory-case:type-error",
+        "theory-case:sat",
         "theory-entry:HO_Core:native-function-sort",
         "theory:HO_Core"
       ],
       "modes": [
         "parser-only",
-        "typecheck-only"
+        "typecheck-only",
+        "z3-tac"
       ],
       "versions": [
         "4.11.2",
@@ -58002,12 +58741,281 @@
         },
         "typecheck-only": {
           "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
         }
       },
       "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
-        "reference": "SMT-LIB 3 HO-Core native function sort"
+        "reference": "SMT-LIB 2.7 HO-Core native function sort"
+      }
+    },
+    {
+      "id": "theory:HO_Core:omission-sugar",
+      "file": "cases/theories/hocore/theory_ho_core_omission_sugar.smt2",
+      "logic": "HO_AUFLIA",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "function-sort",
+        "function-valued",
+        "higher-order",
+        "higher-order-surface:omission-sugar",
+        "higher-order/function-sort",
+        "ho-core",
+        "theory-behavior:omission-sugar",
+        "theory-case:unsat-proof",
+        "theory-entry:HO_Core:omission-sugar",
+        "theory:HO_Core"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "SMT-LIB 2.7 higher-order surface (application omission sugar) is not implemented",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "SMT-LIB 2.7 higher-order surface (application omission sugar) is not implemented",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Logics.sml",
+          "src/HolSmt/SmtLib_Parser.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Unittest.sml",
+          "src/HolSmt/Z3_ProofParser.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "higher-order:standard27:omission-sugar",
+        "test_ids": [
+          "theory:HO_Core:omission-sugar"
+        ],
+        "failure_phase": "typecheck",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 HO-Core application omission sugar"
+      }
+    },
+    {
+      "id": "theory:HO_Core:ranked-symbol-partial-application",
+      "file": "cases/theories/hocore/theory_ho_core_ranked_symbol_partial_application.smt2",
+      "logic": "ALL",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "function-sort",
+        "function-valued",
+        "higher-order",
+        "higher-order-surface:partial-application",
+        "higher-order/function-sort",
+        "ho-core",
+        "theory-behavior:remark-9",
+        "theory-case:type-error",
+        "theory-entry:HO_Core:ranked-symbol-partial-application",
+        "theory:HO_Core"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "function symbol 'g' of rank 2 cannot be partially applied; wrap it in a lambda (SMT-LIB 2.7 \u00a73.9)",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "function symbol 'g' of rank 2 cannot be partially applied; wrap it in a lambda (SMT-LIB 2.7 \u00a73.9)",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/SmtLib_Parser.sml",
+          "src/HolSmt/Unittest.sml"
+        ],
+        "feature": "higher-order:ranked-symbol-partial-application",
+        "test_ids": [
+          "theory:HO_Core:ranked-symbol-partial-application"
+        ],
+        "failure_phase": "typecheck",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 section 3.9 Remark 9"
+      }
+    },
+    {
+      "id": "theory:HO_Core:underscore-ambiguity",
+      "file": "cases/theories/hocore/theory_ho_core_underscore_ambiguity.smt2",
+      "logic": "HO_ALL",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "apply-operator:underscore",
+        "function-sort",
+        "function-valued",
+        "higher-order",
+        "higher-order-surface:apply-operator",
+        "higher-order/function-sort",
+        "ho-core",
+        "indexed-identifier:BitVec",
+        "theory-behavior:underscore-disambiguation",
+        "theory-case:unsat-proof",
+        "theory-entry:HO_Core:underscore-ambiguity",
+        "theory:HO_Core"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "SMT-LIB 2.7 higher-order surface (underscore indexed-identifier disambiguation) is not implemented",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "SMT-LIB 2.7 higher-order surface (underscore indexed-identifier disambiguation) is not implemented",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Logics.sml",
+          "src/HolSmt/SmtLib_Parser.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Unittest.sml",
+          "src/HolSmt/Z3_ProofParser.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "higher-order:underscore-disambiguation",
+        "test_ids": [
+          "theory:HO_Core:underscore-ambiguity"
+        ],
+        "failure_phase": "typecheck",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 indexed identifiers and HO-Core application"
+      }
+    },
+    {
+      "id": "theory:HO_Core:underscore-apply",
+      "file": "cases/theories/hocore/theory_ho_core_underscore_apply.smt2",
+      "logic": "HO_UFLIA",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "apply-operator:underscore",
+        "function-sort",
+        "function-valued",
+        "higher-order",
+        "higher-order-surface:apply-operator",
+        "higher-order/function-sort",
+        "ho-core",
+        "theory-behavior:apply",
+        "theory-case:unsat-proof",
+        "theory-entry:HO_Core:underscore-apply",
+        "theory:HO_Core"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "SMT-LIB 2.7 higher-order surface (underscore apply operator) is not implemented",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "SMT-LIB 2.7 higher-order surface (underscore apply operator) is not implemented",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Logics.sml",
+          "src/HolSmt/SmtLib_Parser.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Unittest.sml",
+          "src/HolSmt/Z3_ProofParser.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "higher-order:standard27:underscore-apply",
+        "test_ids": [
+          "theory:HO_Core:underscore-apply"
+        ],
+        "failure_phase": "typecheck",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 HO-Core underscore apply operator"
       }
     },
     {

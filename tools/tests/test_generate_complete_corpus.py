@@ -603,16 +603,226 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
                 {"th-lemma-datatype": 1},
             )
             self.assertIsNone(case["implementation_obligation"], case)
+        hocore_by_id = {case["id"]: case for case in hocore_cases}
+        new_case_ids = {
+            "theory:HO_Core:at-apply",
+            "theory:HO_Core:curried-function-sort",
+            "theory:HO_Core:fo-apply-operator-fragment",
+            "theory:HO_Core:fo-arrow-sort-fragment",
+            "theory:HO_Core:fo-lambda-fragment",
+            "theory:HO_Core:lambda-beta",
+            "theory:HO_Core:lambda-extensionality",
+            "theory:HO_Core:lambda-identity",
+            "theory:HO_Core:lambda-under-quantifier",
+            "theory:HO_Core:map-const-partial-application",
+            "theory:HO_Core:map-valued-function-result",
+            "theory:HO_Core:omission-sugar",
+            "theory:HO_Core:ranked-symbol-partial-application",
+            "theory:HO_Core:underscore-ambiguity",
+            "theory:HO_Core:underscore-apply",
+        }
+        self.assertEqual(
+            new_case_ids,
+            {
+                case_id
+                for case_id, case in hocore_by_id.items()
+                if case["implementation_obligation"] is not None
+            },
+        )
+
+        scripts_by_id = {
+            f"theory:HO_Core:{case.slug}": case.script
+            for case in generator.HOCORE_THEORY_CASES
+        }
+        script_needles = {
+            "theory:HO_Core:lambda-identity": (
+                "(lambda ((x Bool)) x)",
+            ),
+            "theory:HO_Core:lambda-beta": (
+                "(let ((f (lambda ((x Int)) (+ x 1)))) (f 2))",
+            ),
+            "theory:HO_Core:lambda-extensionality": (
+                "(forall ((x Bool)) (= (f x) (g x)))",
+                "(lambda ((x Bool)) (f x))",
+            ),
+            "theory:HO_Core:underscore-apply": ("(_ f 0)",),
+            "theory:HO_Core:at-apply": ("(@ f 0.0)",),
+            "theory:HO_Core:omission-sugar": ("(f 0)",),
+            "theory:HO_Core:map-const-partial-application": (
+                "(declare-const f (-> Int (-> Bool Bool)))",
+                "(distinct (f 0) (f 0))",
+            ),
+            "theory:HO_Core:curried-function-sort": (
+                "(declare-const f (-> Real (-> Bool Bool)))",
+            ),
+            "theory:HO_Core:lambda-under-quantifier": (
+                "(assert (exists ((a Int))",
+                "(lambda ((x Real)) (= x (to_real a)))",
+            ),
+            "theory:HO_Core:map-valued-function-result": (
+                "(declare-fun make (Int) (-> Bool Bool))",
+                "(distinct (make 0) (make 0))",
+            ),
+            "theory:HO_Core:ranked-symbol-partial-application": (
+                "(declare-fun g (Bool Bool) Bool)",
+                "(g true)",
+            ),
+            "theory:HO_Core:fo-lambda-fragment": (
+                "(set-logic QF_UF)",
+                "(lambda ((x Bool)) x)",
+            ),
+            "theory:HO_Core:fo-arrow-sort-fragment": (
+                "(set-logic QF_LIA)",
+                "(-> Int Int)",
+            ),
+            "theory:HO_Core:fo-apply-operator-fragment": (
+                "(set-logic QF_AUFLIA)",
+                "(_ f 0)",
+            ),
+            "theory:HO_Core:underscore-ambiguity": (
+                "(_ BitVec 8)",
+                "(_ f bv)",
+            ),
+        }
+        self.assertEqual(set(script_needles), new_case_ids)
+        for case_id, needles in script_needles.items():
+            for needle in needles:
+                self.assertIn(needle, scripts_by_id[case_id], case_id)
+
+        curated_logic_cases = {
+            "theory:HO_Core:lambda-identity": "HO_QF_UF",
+            "theory:HO_Core:lambda-beta": "HO_QF_UFLIA",
+            "theory:HO_Core:lambda-extensionality": "HO_UF",
+            "theory:HO_Core:underscore-apply": "HO_UFLIA",
+            "theory:HO_Core:at-apply": "HO_QF_UFLRA",
+            "theory:HO_Core:omission-sugar": "HO_AUFLIA",
+            "theory:HO_Core:map-const-partial-application": (
+                "HO_QF_AUFLIA"
+            ),
+            "theory:HO_Core:curried-function-sort": "HO_UFLRA",
+            "theory:HO_Core:lambda-under-quantifier": "HO_AUFLIRA",
+            "theory:HO_Core:map-valued-function-result": "HO_ALL",
+        }
+        expected_ho_logics = {
+            "HO_ALL",
+            "HO_UF",
+            "HO_QF_UF",
+            "HO_UFLIA",
+            "HO_QF_UFLIA",
+            "HO_UFLRA",
+            "HO_QF_UFLRA",
+            "HO_AUFLIA",
+            "HO_AUFLIRA",
+            "HO_QF_AUFLIA",
+        }
+        self.assertEqual(set(curated_logic_cases.values()), expected_ho_logics)
+        for case_id, logic in curated_logic_cases.items():
+            self.assertEqual(hocore_by_id[case_id]["logic"], logic)
+
+        lambda_case_ids = {
+            "theory:HO_Core:fo-lambda-fragment",
+            "theory:HO_Core:lambda-beta",
+            "theory:HO_Core:lambda-extensionality",
+            "theory:HO_Core:lambda-identity",
+            "theory:HO_Core:lambda-under-quantifier",
+        }
+        for case_id in new_case_ids:
+            case = hocore_by_id[case_id]
+            for feature in {
+                "function-sort",
+                "function-valued",
+                "higher-order",
+                "higher-order/function-sort",
+                "ho-core",
+            }:
+                self.assertIn(feature, case["features"], case_id)
+            self.assertEqual("lambda" in case["features"], case_id in lambda_case_ids)
+            self.assertEqual(
+                case["modes"],
+                ["parser-only", "typecheck-only", "z3-tac"],
+            )
+            self.assertEqual(case["expected"]["parser-only"]["status"], "pass")
+            for mode in ("typecheck-only", "z3-tac"):
+                self.assertEqual(case["expected"][mode]["status"], "red")
+                self.assertEqual(
+                    case["expected"][mode]["failure_phase"],
+                    "typecheck",
+                )
+            obligation = case["implementation_obligation"]
+            self.assertIsNotNone(obligation, case_id)
+            self.assertEqual(obligation["test_ids"], [case_id])
+            self.assertEqual(obligation["failure_phase"], "typecheck")
+
+        negative_diagnostics = {
+            "theory:HO_Core:ranked-symbol-partial-application": (
+                "function symbol 'g' of rank 2 cannot be partially applied; "
+                "wrap it in a lambda (SMT-LIB 2.7 §3.9)"
+            ),
+            "theory:HO_Core:fo-lambda-fragment": (
+                "higher-order construct (lambda) is outside logic fragment "
+                "QF_UF"
+            ),
+            "theory:HO_Core:fo-arrow-sort-fragment": (
+                "higher-order construct (arrow sort) is outside logic "
+                "fragment QF_LIA"
+            ),
+            "theory:HO_Core:fo-apply-operator-fragment": (
+                "higher-order construct (apply operator) is outside logic "
+                "fragment QF_AUFLIA"
+            ),
+        }
+        for case_id, diagnostic in negative_diagnostics.items():
+            case = hocore_by_id[case_id]
+            self.assertIn("theory-case:type-error", case["features"])
+            for mode in ("typecheck-only", "z3-tac"):
+                self.assertEqual(
+                    case["expected"][mode]["diagnostic"],
+                    diagnostic,
+                )
+
+        native_case = hocore_by_id["theory:HO_Core:native-function-sort"]
+        self.assertEqual(native_case["standard"], "SMT-LIB-2.7")
+        self.assertEqual(
+            native_case["modes"],
+            ["parser-only", "typecheck-only", "z3-tac"],
+        )
+        self.assertIn("theory-case:sat", native_case["features"])
+        self.assertIsNone(native_case["implementation_obligation"])
+        for mode in native_case["modes"]:
+            self.assertEqual(native_case["expected"][mode]["status"], "pass")
+
+        legacy_green_ids = {
+            "theory:HO_Core:function-argument-sort",
+            "theory:HO_Core:function-result-sort",
+            "theory:HO_Core:function-valued-array-declaration",
+            "theory:HO_Core:higher-order-equality",
+            "theory:HO_Core:native-function-sort",
+        }
         function_sort_cases = [
             case for case in hocore_cases
             if "higher-order/function-sort" in case["features"]
         ]
-        self.assertEqual(len(function_sort_cases), 5)
-        for case in function_sort_cases:
+        self.assertEqual(len(function_sort_cases), 20)
+        for case_id in legacy_green_ids:
+            case = hocore_by_id[case_id]
             self.assertIsNone(case["implementation_obligation"], case)
-            self.assertNotIn("theory-behavior:translate-type-rejection", case["features"])
             for mode in case["modes"]:
-                self.assertEqual(case["expected"][mode]["status"], "pass", case)
+                self.assertEqual(case["expected"][mode]["status"], "pass")
+
+        runner = (TOOLS_DIR / "run_complete_smtlib_conformance.sh").read_text(
+            encoding="utf-8"
+        )
+        function_sort_bucket = runner.split(
+            '"function sorts": (', 1
+        )[1].split("),", 1)[0]
+        for needle in {
+            '"function-sort"',
+            '"function-valued"',
+            '"higher-order"',
+            '"lambda"',
+            '"ho-core"',
+        }:
+            self.assertIn(needle, function_sort_bucket)
 
     def test_manifest_entry_preserves_red_obligation_contract(self):
         case_id = generator.deterministic_case_id("command", "command:future")

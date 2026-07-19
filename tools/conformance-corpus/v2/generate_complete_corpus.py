@@ -4385,6 +4385,70 @@ DATATYPE_THEORY_CASES: tuple[ScriptedCase, ...] = (
 )
 
 
+HOCORE_IMPLEMENTATION_FILES = (
+    "src/HolSmt/SmtLib_Parser.sml",
+    "src/HolSmt/SmtLib_Theories.sml",
+    "src/HolSmt/SmtLib_Logics.sml",
+    "src/HolSmt/SmtLib.sml",
+    "src/HolSmt/Z3_ProofParser.sml",
+    "src/HolSmt/Z3_ProofReplay.sml",
+    "src/HolSmt/Unittest.sml",
+)
+
+
+def hocore_red_case(
+    *,
+    slug_name: str,
+    script: str,
+    logic: str,
+    surface: str,
+    behavior_features: tuple[str, ...],
+    diagnostic: str | None = None,
+    implementation_feature: str | None = None,
+    implementation_files: tuple[str, ...] = HOCORE_IMPLEMENTATION_FILES,
+    source_reference: str,
+) -> ScriptedCase:
+    diagnostic = diagnostic or (
+        f"SMT-LIB 2.7 higher-order surface ({surface}) is not implemented"
+    )
+    return ScriptedCase(
+        slug=slug_name,
+        script=script,
+        modes=("parser-only", "typecheck-only", "z3-tac"),
+        expected={
+            "parser-only": expected_result("pass"),
+            "typecheck-only": expected_result(
+                "red",
+                diagnostic=diagnostic,
+                failure_phase="typecheck",
+            ),
+            "z3-tac": expected_result(
+                "red",
+                diagnostic=diagnostic,
+                failure_phase="typecheck",
+            ),
+        },
+        features=(
+            "theory:HO_Core",
+            f"theory-entry:HO_Core:{slug_name}",
+            *behavior_features,
+            "function-sort",
+            "function-valued",
+            "higher-order",
+            "higher-order/function-sort",
+            "ho-core",
+        ),
+        implementation_feature=(
+            implementation_feature
+            or f"higher-order:standard27:{slug_name}"
+        ),
+        implementation_files=implementation_files,
+        implementation_phase="typecheck",
+        logic=logic,
+        source_reference=source_reference,
+    )
+
+
 HOCORE_THEORY_CASES: tuple[ScriptedCase, ...] = (
     ScriptedCase(
         slug="function-valued-array-declaration",
@@ -4525,22 +4589,354 @@ HOCORE_THEORY_CASES: tuple[ScriptedCase, ...] = (
             "(assert (= f f))\n"
             "(check-sat)\n"
         ),
-        modes=("parser-only", "typecheck-only"),
+        modes=("parser-only", "typecheck-only", "z3-tac"),
         expected={
             "parser-only": expected_result("pass"),
             "typecheck-only": expected_result("pass"),
+            "z3-tac": expected_result("pass"),
         },
         features=(
             "theory:HO_Core",
             "theory-entry:HO_Core:native-function-sort",
-            "theory-case:type-error",
+            "theory-case:sat",
             "theory-behavior:hocore-native-function-sort",
             "theory-behavior:function-sort",
+            "function-sort",
+            "function-valued",
+            "higher-order",
             "higher-order/function-sort",
+            "ho-core",
         ),
         logic="ALL",
-        standard="SMT-LIB-3",
-        source_reference="SMT-LIB 3 HO-Core native function sort",
+        standard="SMT-LIB-2.7",
+        source_reference="SMT-LIB 2.7 HO-Core native function sort",
+    ),
+    hocore_red_case(
+        slug_name="lambda-identity",
+        script=(
+            "(set-logic HO_QF_UF)\n"
+            "(assert (distinct\n"
+            "  (lambda ((x Bool)) x)\n"
+            "  (lambda ((y Bool)) y)))\n"
+            "(check-sat)\n"
+        ),
+        logic="HO_QF_UF",
+        surface="lambda identity",
+        behavior_features=(
+            "theory-case:unsat-proof",
+            "theory-behavior:lambda-identity",
+            "higher-order-surface:lambda",
+            "lambda",
+        ),
+        source_reference="SMT-LIB 2.7 HO-Core lambda identity",
+    ),
+    hocore_red_case(
+        slug_name="lambda-beta",
+        script=(
+            "(set-logic HO_QF_UFLIA)\n"
+            "(assert (distinct\n"
+            "  (let ((f (lambda ((x Int)) (+ x 1)))) (f 2))\n"
+            "  3))\n"
+            "(check-sat)\n"
+        ),
+        logic="HO_QF_UFLIA",
+        surface="lambda beta reduction",
+        behavior_features=(
+            "theory-case:unsat-proof",
+            "theory-behavior:beta",
+            "higher-order-surface:lambda",
+            "higher-order-surface:omission-sugar",
+            "lambda",
+        ),
+        source_reference="SMT-LIB 2.7 HO-Core lambda beta reduction",
+    ),
+    hocore_red_case(
+        slug_name="lambda-extensionality",
+        script=(
+            "(set-logic HO_UF)\n"
+            "(declare-const f (-> Bool Bool))\n"
+            "(declare-const g (-> Bool Bool))\n"
+            "(assert (forall ((x Bool)) (= (f x) (g x))))\n"
+            "(assert (distinct\n"
+            "  (lambda ((x Bool)) (f x))\n"
+            "  (lambda ((x Bool)) (g x))))\n"
+            "(check-sat)\n"
+        ),
+        logic="HO_UF",
+        surface="lambda extensionality",
+        behavior_features=(
+            "theory-case:unsat-proof",
+            "theory-behavior:function-extensionality",
+            "higher-order-surface:lambda",
+            "lambda",
+        ),
+        source_reference="SMT-LIB 2.7 HO-Core lambda extensionality",
+    ),
+    hocore_red_case(
+        slug_name="underscore-apply",
+        script=(
+            "(set-logic HO_UFLIA)\n"
+            "(declare-const f (-> Int Int))\n"
+            "(assert (distinct (_ f 0) (_ f 0)))\n"
+            "(check-sat)\n"
+        ),
+        logic="HO_UFLIA",
+        surface="underscore apply operator",
+        behavior_features=(
+            "theory-case:unsat-proof",
+            "theory-behavior:apply",
+            "higher-order-surface:apply-operator",
+            "apply-operator:underscore",
+        ),
+        source_reference="SMT-LIB 2.7 HO-Core underscore apply operator",
+    ),
+    hocore_red_case(
+        slug_name="at-apply",
+        script=(
+            "(set-logic HO_QF_UFLRA)\n"
+            "(declare-const f (-> Real Real))\n"
+            "(assert (distinct (@ f 0.0) (@ f 0.0)))\n"
+            "(check-sat)\n"
+        ),
+        logic="HO_QF_UFLRA",
+        surface="at apply operator",
+        behavior_features=(
+            "theory-case:unsat-proof",
+            "theory-behavior:apply",
+            "theory-behavior:cvc5-at-extension",
+            "higher-order-surface:apply-operator",
+            "apply-operator:at",
+        ),
+        source_reference=(
+            "SMT-LIB 2.7 HO-Core application with cvc5 @ spelling"
+        ),
+    ),
+    hocore_red_case(
+        slug_name="omission-sugar",
+        script=(
+            "(set-logic HO_AUFLIA)\n"
+            "(declare-const f (-> Int Bool))\n"
+            "(assert (distinct (f 0) (f 0)))\n"
+            "(check-sat)\n"
+        ),
+        logic="HO_AUFLIA",
+        surface="application omission sugar",
+        behavior_features=(
+            "theory-case:unsat-proof",
+            "theory-behavior:omission-sugar",
+            "higher-order-surface:omission-sugar",
+        ),
+        source_reference="SMT-LIB 2.7 HO-Core application omission sugar",
+    ),
+    hocore_red_case(
+        slug_name="map-const-partial-application",
+        script=(
+            "(set-logic HO_QF_AUFLIA)\n"
+            "(declare-const f (-> Int (-> Bool Bool)))\n"
+            "(assert (distinct (f 0) (f 0)))\n"
+            "(check-sat)\n"
+        ),
+        logic="HO_QF_AUFLIA",
+        surface="map-sorted constant partial application",
+        behavior_features=(
+            "theory-case:unsat-proof",
+            "theory-behavior:residual-map-sort",
+            "higher-order-surface:partial-application",
+        ),
+        source_reference=(
+            "SMT-LIB 2.7 HO-Core map-sorted constant partial application"
+        ),
+    ),
+    hocore_red_case(
+        slug_name="curried-function-sort",
+        script=(
+            "(set-logic HO_UFLRA)\n"
+            "(declare-const f (-> Real (-> Bool Bool)))\n"
+            "(assert (distinct f f))\n"
+            "(check-sat)\n"
+        ),
+        logic="HO_UFLRA",
+        surface="curried arrow declaration",
+        behavior_features=(
+            "theory-case:unsat-proof",
+            "theory-behavior:curried-function-sort",
+            "higher-order-surface:arrow-sort",
+        ),
+        source_reference="SMT-LIB 2.7 HO-Core curried arrow declaration",
+    ),
+    hocore_red_case(
+        slug_name="lambda-under-quantifier",
+        script=(
+            "(set-logic HO_AUFLIRA)\n"
+            "(assert (exists ((a Int))\n"
+            "  (distinct\n"
+            "    (lambda ((x Real)) (= x (to_real a)))\n"
+            "    (lambda ((y Real)) (= y (to_real a))))))\n"
+            "(check-sat)\n"
+        ),
+        logic="HO_AUFLIRA",
+        surface="lambda under quantifier",
+        behavior_features=(
+            "theory-case:unsat-proof",
+            "theory-behavior:lambda-under-quantifier",
+            "higher-order-surface:lambda",
+            "lambda",
+        ),
+        source_reference="SMT-LIB 2.7 HO-Core lambda under quantifier",
+    ),
+    hocore_red_case(
+        slug_name="map-valued-function-result",
+        script=(
+            "(set-logic HO_ALL)\n"
+            "(declare-fun make (Int) (-> Bool Bool))\n"
+            "(assert (distinct (make 0) (make 0)))\n"
+            "(check-sat)\n"
+        ),
+        logic="HO_ALL",
+        surface="map-valued function result",
+        behavior_features=(
+            "theory-case:unsat-proof",
+            "theory-behavior:map-valued-result",
+            "higher-order-surface:arrow-sort",
+        ),
+        source_reference="SMT-LIB 2.7 HO-Core map-valued function result",
+    ),
+    hocore_red_case(
+        slug_name="ranked-symbol-partial-application",
+        script=(
+            "(set-logic ALL)\n"
+            "(declare-fun g (Bool Bool) Bool)\n"
+            "(declare-fun consume ((-> Bool Bool)) Bool)\n"
+            "(assert (consume (g true)))\n"
+            "(check-sat)\n"
+        ),
+        logic="ALL",
+        surface="ranked-symbol partial application",
+        behavior_features=(
+            "theory-case:type-error",
+            "theory-behavior:remark-9",
+            "higher-order-surface:partial-application",
+        ),
+        diagnostic=(
+            "function symbol 'g' of rank 2 cannot be partially applied; "
+            "wrap it in a lambda (SMT-LIB 2.7 §3.9)"
+        ),
+        implementation_feature=(
+            "higher-order:ranked-symbol-partial-application"
+        ),
+        implementation_files=(
+            "src/HolSmt/SmtLib_Parser.sml",
+            "src/HolSmt/Unittest.sml",
+        ),
+        source_reference="SMT-LIB 2.7 section 3.9 Remark 9",
+    ),
+    hocore_red_case(
+        slug_name="fo-lambda-fragment",
+        script=(
+            "(set-logic QF_UF)\n"
+            "(assert (=\n"
+            "  (lambda ((x Bool)) x)\n"
+            "  (lambda ((y Bool)) y)))\n"
+            "(check-sat)\n"
+        ),
+        logic="QF_UF",
+        surface="lambda in a first-order logic",
+        behavior_features=(
+            "theory-case:type-error",
+            "theory-behavior:fragment-negative",
+            "higher-order-surface:lambda",
+            "lambda",
+        ),
+        diagnostic=(
+            "higher-order construct (lambda) is outside logic fragment QF_UF"
+        ),
+        implementation_feature="higher-order:fragment-gating:lambda",
+        implementation_files=(
+            "src/HolSmt/SmtLib_Logics.sml",
+            "src/HolSmt/SmtLib_Parser.sml",
+            "src/HolSmt/Unittest.sml",
+        ),
+        source_reference="SMT-LIB 2.7 HO-Core fragment restriction",
+    ),
+    hocore_red_case(
+        slug_name="fo-arrow-sort-fragment",
+        script=(
+            "(set-logic QF_LIA)\n"
+            "(declare-const f (-> Int Int))\n"
+            "(assert (= f f))\n"
+            "(check-sat)\n"
+        ),
+        logic="QF_LIA",
+        surface="arrow sort in a first-order logic",
+        behavior_features=(
+            "theory-case:type-error",
+            "theory-behavior:fragment-negative",
+            "higher-order-surface:arrow-sort",
+        ),
+        diagnostic=(
+            "higher-order construct (arrow sort) is outside logic fragment "
+            "QF_LIA"
+        ),
+        implementation_feature="higher-order:fragment-gating:arrow-sort",
+        implementation_files=(
+            "src/HolSmt/SmtLib_Logics.sml",
+            "src/HolSmt/SmtLib_Parser.sml",
+            "src/HolSmt/Unittest.sml",
+        ),
+        source_reference="SMT-LIB 2.7 HO-Core fragment restriction",
+    ),
+    hocore_red_case(
+        slug_name="fo-apply-operator-fragment",
+        script=(
+            "(set-logic QF_AUFLIA)\n"
+            "(declare-const f (-> Int Bool))\n"
+            "(assert (_ f 0))\n"
+            "(check-sat)\n"
+        ),
+        logic="QF_AUFLIA",
+        surface="apply operator in a first-order logic",
+        behavior_features=(
+            "theory-case:type-error",
+            "theory-behavior:fragment-negative",
+            "higher-order-surface:apply-operator",
+            "apply-operator:underscore",
+        ),
+        diagnostic=(
+            "higher-order construct (apply operator) is outside logic fragment "
+            "QF_AUFLIA"
+        ),
+        implementation_feature=(
+            "higher-order:fragment-gating:apply-operator"
+        ),
+        implementation_files=(
+            "src/HolSmt/SmtLib_Logics.sml",
+            "src/HolSmt/SmtLib_Parser.sml",
+            "src/HolSmt/Unittest.sml",
+        ),
+        source_reference="SMT-LIB 2.7 HO-Core fragment restriction",
+    ),
+    hocore_red_case(
+        slug_name="underscore-ambiguity",
+        script=(
+            "(set-logic HO_ALL)\n"
+            "(declare-const bv (_ BitVec 8))\n"
+            "(declare-const f (-> (_ BitVec 8) Bool))\n"
+            "(assert (distinct (_ f bv) (_ f bv)))\n"
+            "(check-sat)\n"
+        ),
+        logic="HO_ALL",
+        surface="underscore indexed-identifier disambiguation",
+        behavior_features=(
+            "theory-case:unsat-proof",
+            "theory-behavior:underscore-disambiguation",
+            "higher-order-surface:apply-operator",
+            "apply-operator:underscore",
+            "indexed-identifier:BitVec",
+        ),
+        implementation_feature="higher-order:underscore-disambiguation",
+        source_reference=(
+            "SMT-LIB 2.7 indexed identifiers and HO-Core application"
+        ),
     ),
 )
 

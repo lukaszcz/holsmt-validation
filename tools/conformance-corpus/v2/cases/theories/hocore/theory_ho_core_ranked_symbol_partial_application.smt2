@@ -1,0 +1,5 @@
+(set-logic ALL)
+(declare-fun g (Bool Bool) Bool)
+(declare-fun consume ((-> Bool Bool)) Bool)
+(assert (consume (g true)))
+(check-sat)

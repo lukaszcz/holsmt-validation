@@ -1,0 +1,5 @@
+(set-logic HO_ALL)
+(declare-const bv (_ BitVec 8))
+(declare-const f (-> (_ BitVec 8) Bool))
+(assert (distinct (_ f bv) (_ f bv)))
+(check-sat)
