@@ -31,7 +31,11 @@ DEFAULT_COMPLETE_PROOF_REPORT = (
 SCHEMA = "holsmt-coverage-manifest-v1"
 STATUS_COLUMNS = ("parsed", "translated", "solved", "reconstructed", "tested")
 IGNORED_COVERAGE_KEYS = {"metadata", "status_legend", "source_classes"}
-COMPLETE_REQUIRED_CLASSES = {"SMT-LIB 2.7", "Z3 extension"}
+COMPLETE_REQUIRED_CLASSES = {
+    "SMT-LIB 2.7",
+    "SMT-LIB 2.7 extension logic",
+    "Z3 extension",
+}
 COMPLETE_REQUIRED_STATUSES = {"reconstructed", "red", "not_applicable"}
 COMPLETE_WEAK_CURRENT_STATUSES = {
     "parse_only",
@@ -51,8 +55,22 @@ OBLIGATION_STATUSES = {
 }
 THEORY_FEATURE_ALIASES = {
     "FixedSizeBitVectors": ["theory:Fixed_Size_BitVectors"],
+    "HO-Core": ["theory:HO_Core"],
     "Strings and regular expressions": ["theory:UnicodeStrings"],
     "Sequences, sets, bags": ["theory:Z3_Extensions"],
+}
+SELFTEST_FEATURE_ALIASES = {
+    "Let binders and lambda abstractions": [
+        "higher-order-surface:lambda",
+    ],
+    "Higher-order logic": [
+        "theory:HO_Core",
+    ],
+    "Apply operators and application sugar": [
+        "higher-order-surface:apply-operator",
+        "higher-order-surface:omission-sugar",
+        "higher-order-surface:partial-application",
+    ],
 }
 PROOF_RULE_FEATURE_ALIASES = {
     "def-axiom, elim-unused, hypothesis, intro-def, sk, true-axiom": [
@@ -349,6 +367,9 @@ def row_feature_tokens(section: str, row: dict[str, object]) -> set[str]:
         for rule in split_item_names(item):
             tokens.add(f"proof-rule:{rule}")
         tokens.update(alias.lower() for alias in aliases)
+    elif section == "selftest_categories":
+        aliases = SELFTEST_FEATURE_ALIASES.get(item, [])
+        tokens.update(alias.lower() for alias in aliases)
     elif section == "soundness_audit":
         tokens.update(alias.lower() for alias in SOUNDNESS_FEATURE_ALIASES.get(item, []))
     return {token.lower() for token in tokens}
@@ -375,7 +396,14 @@ def complete_case_matches_row(section: str, row: dict[str, object], case: dict[s
     if section == "commands":
         return case.get("class") == "command" and bool(row_tokens & case_tokens)
     if section == "logics":
-        return case.get("class") == "logic" and bool(row_tokens & case_tokens)
+        if case.get("class") == "logic":
+            return bool(row_tokens & case_tokens)
+        return (
+            row.get("class") == "SMT-LIB 2.7 extension logic"
+            and case.get("class") == "theory"
+            and case.get("logic") == row.get("item")
+            and "theory:ho_core" in case_tokens
+        )
     if section == "z3_proof_rules":
         return case.get("class") == "proof-rule" and bool(row_tokens & case_tokens)
     return bool(row_tokens & case_tokens)

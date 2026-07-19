@@ -413,6 +413,65 @@ class CoverageManifestAuditTests(unittest.TestCase):
         )
         self.assertEqual(datatype_row["red_obligation_ids"], [])
 
+    def test_higher_order_rows_match_theory_surface_cases(self):
+        rows = {
+            "theories": [row("HO-Core", "implemented")],
+            "logics": [
+                {
+                    **row("HO_QF_UF", "implemented"),
+                    "class": "SMT-LIB 2.7 extension logic",
+                }
+            ],
+            "selftest_categories": [
+                row("Let binders and lambda abstractions", "implemented"),
+                row("Apply operators and application sugar", "implemented"),
+            ],
+        }
+        cases = [
+            {
+                "id": "theory:HO_Core:lambda-identity",
+                "class": "theory",
+                "logic": "HO_QF_UF",
+                "features": [
+                    "higher-order-surface:lambda",
+                    "theory:HO_Core",
+                ],
+                "expected": {"z3-tac": {"status": "red"}},
+            },
+            {
+                "id": "theory:HO_Core:underscore-apply",
+                "class": "theory",
+                "logic": "HO_UFLIA",
+                "features": [
+                    "higher-order-surface:apply-operator",
+                    "theory:HO_Core",
+                ],
+                "expected": {"z3-tac": {"status": "red"}},
+            },
+        ]
+
+        enriched = audit.enrich_complete_metadata(rows, cases)
+
+        self.assertEqual(
+            enriched["theories"][0]["red_obligation_ids"],
+            [
+                "theory:HO_Core:lambda-identity",
+                "theory:HO_Core:underscore-apply",
+            ],
+        )
+        self.assertEqual(
+            enriched["logics"][0]["red_obligation_ids"],
+            ["theory:HO_Core:lambda-identity"],
+        )
+        self.assertEqual(
+            enriched["selftest_categories"][0]["red_obligation_ids"],
+            ["theory:HO_Core:lambda-identity"],
+        )
+        self.assertEqual(
+            enriched["selftest_categories"][1]["red_obligation_ids"],
+            ["theory:HO_Core:underscore-apply"],
+        )
+
     def test_complete_audit_requires_outside_scope_reason(self):
         coverage = {
             **minimal_coverage([]),

@@ -19,7 +19,8 @@
     "SMT-LIB 2.7": "Official SMT-LIB 2.x surface tracked against the project target.",
     "SMT-LIB 3": "SMT-LIB 3 surface; tracked separately from the 2.7 target.",
     "Z3 extension": "Z3-specific syntax, command-line behavior, or proof format.",
-    "HolSmt": "HOL/HolSmt behavior that is not directly an SMT-LIB standard item."
+    "HolSmt": "HOL/HolSmt behavior that is not directly an SMT-LIB standard item.",
+    "SMT-LIB 2.7 extension logic": "Non-official logic names selecting SMT-LIB 2.7 theory packets; tracked separately from the official-logic count."
   },
   "version_targets": [
     {
@@ -766,6 +767,57 @@
         "theory:Core:or:type-error",
         "theory:Core:true:type-error",
         "theory:Core:xor:type-error"
+      ],
+      "complete_required_status": "red"
+    },
+    {
+      "item": "HO-Core",
+      "class": "SMT-LIB 2.7",
+      "parsed": "implemented",
+      "translated": "parse_only",
+      "solved": "parse_only",
+      "reconstructed": "unsupported_diagnostic",
+      "tested": "implemented",
+      "evidence": "SMT-LIB 2.7 defines HO-Core maps, function sorts, lambda terms, and application. The complete HO_Core corpus currently passes syntactic parsing and records red typecheck and checked-replay obligations.",
+      "notes": "Official SMT-LIB 2.7 higher-order theory. COMPLETE requires checked reconstruction through the planned Z3 lambda-as-array lowering; the current parser/typechecker and replay gaps remain red.",
+      "test_ids": [
+        "source:tools/conformance-corpus/v2/manifest.json#theory:HO_Core:lambda-identity"
+      ],
+      "last_verified_by": "coverage_manifest.json",
+      "diagnostic_test_ids": [
+        "source:tools/conformance-corpus/v2/manifest.json#SMT-LIB 2.7 higher-order surface (lambda identity) is not implemented"
+      ],
+      "current_status": "unsupported_diagnostic",
+      "complete_test_ids": [
+        "theory:HO_Core:function-argument-sort",
+        "theory:HO_Core:function-result-sort",
+        "theory:HO_Core:function-valued-array-declaration",
+        "theory:HO_Core:higher-order-equality",
+        "theory:HO_Core:lambda-like-universal-encoding",
+        "theory:HO_Core:native-function-sort"
+      ],
+      "red_obligation_ids": [
+        "proof-rule:ho:beta-instance",
+        "proof-rule:ho:eta-partial-application",
+        "proof-rule:ho:lambda-equality",
+        "proof-rule:ho:lambda-extensionality",
+        "proof-rule:ho:lambda-under-quantifier",
+        "proof-rule:ho:map-valued-ite",
+        "theory:HO_Core:at-apply",
+        "theory:HO_Core:curried-function-sort",
+        "theory:HO_Core:fo-apply-operator-fragment",
+        "theory:HO_Core:fo-arrow-sort-fragment",
+        "theory:HO_Core:fo-lambda-fragment",
+        "theory:HO_Core:lambda-beta",
+        "theory:HO_Core:lambda-extensionality",
+        "theory:HO_Core:lambda-identity",
+        "theory:HO_Core:lambda-under-quantifier",
+        "theory:HO_Core:map-const-partial-application",
+        "theory:HO_Core:map-valued-function-result",
+        "theory:HO_Core:omission-sugar",
+        "theory:HO_Core:ranked-symbol-partial-application",
+        "theory:HO_Core:underscore-ambiguity",
+        "theory:HO_Core:underscore-apply"
       ],
       "complete_required_status": "red"
     },
@@ -2364,14 +2416,14 @@
     },
     {
       "item": "ALL",
-      "class": "SMT-LIB 2.7",
+      "class": "SMT-LIB 2.7 extension logic",
       "parsed": "implemented",
       "translated": "parse_only",
       "solved": "parse_only",
       "reconstructed": "unsupported_diagnostic",
       "tested": "implemented",
       "evidence": "SmtLib_Logics.ALL provides a broad parser dictionary combining current official theory dictionaries with explicitly marked Z3 extension metadata; conformance cases all_simple_datatype_typecheck and all_z3_seq_set_bag_typecheck use it for datatype and sequence/set/bag parse coverage and advanced th-lemma unsupported diagnostics.",
-      "notes": "ALL is a permissive coverage dictionary for parsing/typechecking selected surfaces, not a soundness or replay completeness claim. Advanced th-lemma replay is explicitly gated.",
+      "notes": "ALL is HolSmt's non-official aggregate extension logic, kept outside the official-logic count. It is a permissive coverage dictionary rather than a soundness or replay completeness claim; advanced replay remains diagnostic-gated.",
       "test_ids": [
         "source:tools/conformance-corpus/v1/manifest.json#all_simple_datatype_typecheck",
         "source:tools/conformance-corpus/v1/manifest.json#all_z3_seq_set_bag_typecheck"
@@ -2381,8 +2433,253 @@
         "source:src/HolSmt/Unittest.sml#z3_th_lemma_advanced_unsupported_diagnostic"
       ],
       "current_status": "unsupported_diagnostic",
+      "complete_test_ids": [
+        "theory:HO_Core:native-function-sort"
+      ],
+      "red_obligation_ids": [
+        "theory:HO_Core:ranked-symbol-partial-application"
+      ],
+      "complete_required_status": "red"
+    },
+    {
+      "item": "HO_ALL",
+      "class": "SMT-LIB 2.7 extension logic",
+      "parsed": "implemented",
+      "translated": "parse_only",
+      "solved": "parse_only",
+      "reconstructed": "unsupported_diagnostic",
+      "tested": "implemented",
+      "evidence": "theory:HO_Core:map-valued-function-result records parser acceptance and the current red typecheck/z3-tac obligations for this higher-order logic packet.",
+      "notes": "Non-official cvc5-convention extension logic selecting SMT-LIB 2.7 HO-Core plus the corresponding base packet; excluded from the official-logic count.",
+      "test_ids": [
+        "source:tools/conformance-corpus/v2/manifest.json#theory:HO_Core:map-valued-function-result"
+      ],
+      "last_verified_by": "coverage_manifest.json",
+      "diagnostic_test_ids": [
+        "source:tools/conformance-corpus/v2/manifest.json#theory:HO_Core:map-valued-function-result"
+      ],
+      "current_status": "unsupported_diagnostic",
       "complete_test_ids": [],
-      "red_obligation_ids": [],
+      "red_obligation_ids": [
+        "theory:HO_Core:map-valued-function-result",
+        "theory:HO_Core:underscore-ambiguity"
+      ],
+      "complete_required_status": "red"
+    },
+    {
+      "item": "HO_UF",
+      "class": "SMT-LIB 2.7 extension logic",
+      "parsed": "implemented",
+      "translated": "parse_only",
+      "solved": "parse_only",
+      "reconstructed": "unsupported_diagnostic",
+      "tested": "implemented",
+      "evidence": "theory:HO_Core:lambda-extensionality records parser acceptance and the current red typecheck/z3-tac obligations for this higher-order logic packet.",
+      "notes": "Non-official cvc5-convention extension logic selecting SMT-LIB 2.7 HO-Core plus the corresponding base packet; excluded from the official-logic count.",
+      "test_ids": [
+        "source:tools/conformance-corpus/v2/manifest.json#theory:HO_Core:lambda-extensionality"
+      ],
+      "last_verified_by": "coverage_manifest.json",
+      "diagnostic_test_ids": [
+        "source:tools/conformance-corpus/v2/manifest.json#theory:HO_Core:lambda-extensionality"
+      ],
+      "current_status": "unsupported_diagnostic",
+      "complete_test_ids": [],
+      "red_obligation_ids": [
+        "theory:HO_Core:lambda-extensionality"
+      ],
+      "complete_required_status": "red"
+    },
+    {
+      "item": "HO_QF_UF",
+      "class": "SMT-LIB 2.7 extension logic",
+      "parsed": "implemented",
+      "translated": "parse_only",
+      "solved": "parse_only",
+      "reconstructed": "unsupported_diagnostic",
+      "tested": "implemented",
+      "evidence": "theory:HO_Core:lambda-identity records parser acceptance and the current red typecheck/z3-tac obligations for this higher-order logic packet.",
+      "notes": "Non-official cvc5-convention extension logic selecting SMT-LIB 2.7 HO-Core plus the corresponding base packet; excluded from the official-logic count.",
+      "test_ids": [
+        "source:tools/conformance-corpus/v2/manifest.json#theory:HO_Core:lambda-identity"
+      ],
+      "last_verified_by": "coverage_manifest.json",
+      "diagnostic_test_ids": [
+        "source:tools/conformance-corpus/v2/manifest.json#theory:HO_Core:lambda-identity"
+      ],
+      "current_status": "unsupported_diagnostic",
+      "complete_test_ids": [],
+      "red_obligation_ids": [
+        "theory:HO_Core:lambda-identity"
+      ],
+      "complete_required_status": "red"
+    },
+    {
+      "item": "HO_UFLIA",
+      "class": "SMT-LIB 2.7 extension logic",
+      "parsed": "implemented",
+      "translated": "parse_only",
+      "solved": "parse_only",
+      "reconstructed": "unsupported_diagnostic",
+      "tested": "implemented",
+      "evidence": "theory:HO_Core:underscore-apply records parser acceptance and the current red typecheck/z3-tac obligations for this higher-order logic packet.",
+      "notes": "Non-official cvc5-convention extension logic selecting SMT-LIB 2.7 HO-Core plus the corresponding base packet; excluded from the official-logic count.",
+      "test_ids": [
+        "source:tools/conformance-corpus/v2/manifest.json#theory:HO_Core:underscore-apply"
+      ],
+      "last_verified_by": "coverage_manifest.json",
+      "diagnostic_test_ids": [
+        "source:tools/conformance-corpus/v2/manifest.json#theory:HO_Core:underscore-apply"
+      ],
+      "current_status": "unsupported_diagnostic",
+      "complete_test_ids": [],
+      "red_obligation_ids": [
+        "theory:HO_Core:underscore-apply"
+      ],
+      "complete_required_status": "red"
+    },
+    {
+      "item": "HO_QF_UFLIA",
+      "class": "SMT-LIB 2.7 extension logic",
+      "parsed": "implemented",
+      "translated": "parse_only",
+      "solved": "parse_only",
+      "reconstructed": "unsupported_diagnostic",
+      "tested": "implemented",
+      "evidence": "theory:HO_Core:lambda-beta records parser acceptance and the current red typecheck/z3-tac obligations for this higher-order logic packet.",
+      "notes": "Non-official cvc5-convention extension logic selecting SMT-LIB 2.7 HO-Core plus the corresponding base packet; excluded from the official-logic count.",
+      "test_ids": [
+        "source:tools/conformance-corpus/v2/manifest.json#theory:HO_Core:lambda-beta"
+      ],
+      "last_verified_by": "coverage_manifest.json",
+      "diagnostic_test_ids": [
+        "source:tools/conformance-corpus/v2/manifest.json#theory:HO_Core:lambda-beta"
+      ],
+      "current_status": "unsupported_diagnostic",
+      "complete_test_ids": [],
+      "red_obligation_ids": [
+        "theory:HO_Core:lambda-beta"
+      ],
+      "complete_required_status": "red"
+    },
+    {
+      "item": "HO_UFLRA",
+      "class": "SMT-LIB 2.7 extension logic",
+      "parsed": "implemented",
+      "translated": "parse_only",
+      "solved": "parse_only",
+      "reconstructed": "unsupported_diagnostic",
+      "tested": "implemented",
+      "evidence": "theory:HO_Core:curried-function-sort records parser acceptance and the current red typecheck/z3-tac obligations for this higher-order logic packet.",
+      "notes": "Non-official cvc5-convention extension logic selecting SMT-LIB 2.7 HO-Core plus the corresponding base packet; excluded from the official-logic count.",
+      "test_ids": [
+        "source:tools/conformance-corpus/v2/manifest.json#theory:HO_Core:curried-function-sort"
+      ],
+      "last_verified_by": "coverage_manifest.json",
+      "diagnostic_test_ids": [
+        "source:tools/conformance-corpus/v2/manifest.json#theory:HO_Core:curried-function-sort"
+      ],
+      "current_status": "unsupported_diagnostic",
+      "complete_test_ids": [],
+      "red_obligation_ids": [
+        "theory:HO_Core:curried-function-sort"
+      ],
+      "complete_required_status": "red"
+    },
+    {
+      "item": "HO_QF_UFLRA",
+      "class": "SMT-LIB 2.7 extension logic",
+      "parsed": "implemented",
+      "translated": "parse_only",
+      "solved": "parse_only",
+      "reconstructed": "unsupported_diagnostic",
+      "tested": "implemented",
+      "evidence": "theory:HO_Core:at-apply records parser acceptance and the current red typecheck/z3-tac obligations for this higher-order logic packet.",
+      "notes": "Non-official cvc5-convention extension logic selecting SMT-LIB 2.7 HO-Core plus the corresponding base packet; excluded from the official-logic count.",
+      "test_ids": [
+        "source:tools/conformance-corpus/v2/manifest.json#theory:HO_Core:at-apply"
+      ],
+      "last_verified_by": "coverage_manifest.json",
+      "diagnostic_test_ids": [
+        "source:tools/conformance-corpus/v2/manifest.json#theory:HO_Core:at-apply"
+      ],
+      "current_status": "unsupported_diagnostic",
+      "complete_test_ids": [],
+      "red_obligation_ids": [
+        "theory:HO_Core:at-apply"
+      ],
+      "complete_required_status": "red"
+    },
+    {
+      "item": "HO_AUFLIA",
+      "class": "SMT-LIB 2.7 extension logic",
+      "parsed": "implemented",
+      "translated": "parse_only",
+      "solved": "parse_only",
+      "reconstructed": "unsupported_diagnostic",
+      "tested": "implemented",
+      "evidence": "theory:HO_Core:omission-sugar records parser acceptance and the current red typecheck/z3-tac obligations for this higher-order logic packet.",
+      "notes": "Non-official cvc5-convention extension logic selecting SMT-LIB 2.7 HO-Core plus the corresponding base packet; excluded from the official-logic count.",
+      "test_ids": [
+        "source:tools/conformance-corpus/v2/manifest.json#theory:HO_Core:omission-sugar"
+      ],
+      "last_verified_by": "coverage_manifest.json",
+      "diagnostic_test_ids": [
+        "source:tools/conformance-corpus/v2/manifest.json#theory:HO_Core:omission-sugar"
+      ],
+      "current_status": "unsupported_diagnostic",
+      "complete_test_ids": [],
+      "red_obligation_ids": [
+        "theory:HO_Core:omission-sugar"
+      ],
+      "complete_required_status": "red"
+    },
+    {
+      "item": "HO_AUFLIRA",
+      "class": "SMT-LIB 2.7 extension logic",
+      "parsed": "implemented",
+      "translated": "parse_only",
+      "solved": "parse_only",
+      "reconstructed": "unsupported_diagnostic",
+      "tested": "implemented",
+      "evidence": "theory:HO_Core:lambda-under-quantifier records parser acceptance and the current red typecheck/z3-tac obligations for this higher-order logic packet.",
+      "notes": "Non-official cvc5-convention extension logic selecting SMT-LIB 2.7 HO-Core plus the corresponding base packet; excluded from the official-logic count.",
+      "test_ids": [
+        "source:tools/conformance-corpus/v2/manifest.json#theory:HO_Core:lambda-under-quantifier"
+      ],
+      "last_verified_by": "coverage_manifest.json",
+      "diagnostic_test_ids": [
+        "source:tools/conformance-corpus/v2/manifest.json#theory:HO_Core:lambda-under-quantifier"
+      ],
+      "current_status": "unsupported_diagnostic",
+      "complete_test_ids": [],
+      "red_obligation_ids": [
+        "theory:HO_Core:lambda-under-quantifier"
+      ],
+      "complete_required_status": "red"
+    },
+    {
+      "item": "HO_QF_AUFLIA",
+      "class": "SMT-LIB 2.7 extension logic",
+      "parsed": "implemented",
+      "translated": "parse_only",
+      "solved": "parse_only",
+      "reconstructed": "unsupported_diagnostic",
+      "tested": "implemented",
+      "evidence": "theory:HO_Core:map-const-partial-application records parser acceptance and the current red typecheck/z3-tac obligations for this higher-order logic packet.",
+      "notes": "Non-official cvc5-convention extension logic selecting SMT-LIB 2.7 HO-Core plus the corresponding base packet; excluded from the official-logic count.",
+      "test_ids": [
+        "source:tools/conformance-corpus/v2/manifest.json#theory:HO_Core:map-const-partial-application"
+      ],
+      "last_verified_by": "coverage_manifest.json",
+      "diagnostic_test_ids": [
+        "source:tools/conformance-corpus/v2/manifest.json#theory:HO_Core:map-const-partial-application"
+      ],
+      "current_status": "unsupported_diagnostic",
+      "complete_test_ids": [],
+      "red_obligation_ids": [
+        "theory:HO_Core:map-const-partial-application"
+      ],
       "complete_required_status": "red"
     },
     {
@@ -2394,7 +2691,7 @@
       "reconstructed": "not_applicable",
       "tested": "not_applicable",
       "evidence": "No SMT-LIB 3 logic registry found.",
-      "notes": "Tracked separately from the SMT-LIB 2.7 baseline.",
+      "notes": "Covers only genuinely post-2.7 logic material. SMT-LIB 2.7 HO-Core and the non-official HO_ extension logic family are tracked separately.",
       "test_ids": [],
       "last_verified_by": "coverage_manifest.json",
       "diagnostic_test_ids": [],
@@ -2491,7 +2788,13 @@
       "diagnostic_test_ids": [],
       "current_status": "implemented",
       "complete_test_ids": [],
-      "red_obligation_ids": [],
+      "red_obligation_ids": [
+        "proof-rule:ho:eta-partial-application",
+        "proof-rule:ho:lambda-equality",
+        "proof-rule:ho:lambda-extensionality",
+        "proof-rule:ho:lambda-under-quantifier",
+        "proof-rule:ho:map-valued-ite"
+      ],
       "complete_required_status": "red"
     },
     {
@@ -2833,7 +3136,13 @@
       "diagnostic_test_ids": [],
       "current_status": "parse_only",
       "complete_test_ids": [],
-      "red_obligation_ids": [],
+      "red_obligation_ids": [
+        "proof-rule:ho:eta-partial-application",
+        "proof-rule:ho:lambda-equality",
+        "proof-rule:ho:lambda-extensionality",
+        "proof-rule:ho:lambda-under-quantifier",
+        "proof-rule:ho:map-valued-ite"
+      ],
       "complete_required_status": "red"
     },
     {
@@ -3003,48 +3312,107 @@
     },
     {
       "item": "Let binders and lambda abstractions",
-      "class": "HolSmt",
+      "class": "SMT-LIB 2.7",
       "parsed": "implemented",
-      "translated": "implemented",
-      "solved": "implemented",
-      "reconstructed": "implemented",
+      "translated": "parse_only",
+      "solved": "parse_only",
+      "reconstructed": "unsupported_diagnostic",
       "tested": "implemented",
-      "evidence": "src/HolSmt/selftest.sml let binders and lambda abstractions blocks.",
-      "notes": "Lambda support is HOL/Z3-proof related and not claimed as SMT-LIB 2.7 command support.",
+      "evidence": "Existing HOL selftests cover let and beta-preprocessed lambda shapes; the complete HO_Core corpus separately tracks native SMT-LIB 2.7 lambda syntax red-first.",
+      "notes": "Let and lambda are SMT-LIB 2.7 term constructs. Native lambda typechecking and checked reconstruction remain tracked obligations rather than an out-of-scope extension.",
       "test_ids": [
-        "source:src/HolSmt/selftest.sml#(* let binders *)",
-        "source:src/HolSmt/Unittest.sml#let-binder",
-        "source:src/HolSmt/Unittest.sml#let/lambda/beta validation"
+        "source:tools/conformance-corpus/v2/manifest.json#theory:HO_Core:lambda-identity"
       ],
       "last_verified_by": "coverage_manifest.json",
-      "diagnostic_test_ids": [],
-      "current_status": "implemented",
+      "diagnostic_test_ids": [
+        "source:tools/conformance-corpus/v2/manifest.json#SMT-LIB 2.7 higher-order surface (lambda identity) is not implemented"
+      ],
+      "current_status": "unsupported_diagnostic",
       "complete_test_ids": [],
-      "red_obligation_ids": [],
-      "complete_required_status": "not_applicable",
-      "outside_complete_scope_reason": "non-SMT-LIB extension"
+      "red_obligation_ids": [
+        "theory:HO_Core:fo-lambda-fragment",
+        "theory:HO_Core:lambda-beta",
+        "theory:HO_Core:lambda-extensionality",
+        "theory:HO_Core:lambda-identity",
+        "theory:HO_Core:lambda-under-quantifier"
+      ],
+      "complete_required_status": "red"
+    },
+    {
+      "item": "Apply operators and application sugar",
+      "class": "SMT-LIB 2.7",
+      "parsed": "implemented",
+      "translated": "parse_only",
+      "solved": "parse_only",
+      "reconstructed": "unsupported_diagnostic",
+      "tested": "implemented",
+      "evidence": "The complete HO_Core corpus covers the standard underscore apply operator, omission sugar, and map partial application, plus the cvc5 at-sign compatibility spelling.",
+      "notes": "SMT-LIB 2.7 specifies underscore application, omission sugar, and map-term partial application. The at-sign spelling is explicitly compatibility syntax for cvc5; ranked-symbol partial application remains a required diagnostic under SMT-LIB 2.7 section 3.9.",
+      "test_ids": [
+        "source:tools/conformance-corpus/v2/manifest.json#theory:HO_Core:underscore-apply"
+      ],
+      "last_verified_by": "coverage_manifest.json",
+      "diagnostic_test_ids": [
+        "source:tools/conformance-corpus/v2/manifest.json#SMT-LIB 2.7 higher-order surface (underscore apply operator) is not implemented"
+      ],
+      "current_status": "unsupported_diagnostic",
+      "complete_test_ids": [],
+      "red_obligation_ids": [
+        "theory:HO_Core:at-apply",
+        "theory:HO_Core:fo-apply-operator-fragment",
+        "theory:HO_Core:lambda-beta",
+        "theory:HO_Core:map-const-partial-application",
+        "theory:HO_Core:omission-sugar",
+        "theory:HO_Core:ranked-symbol-partial-application",
+        "theory:HO_Core:underscore-ambiguity",
+        "theory:HO_Core:underscore-apply"
+      ],
+      "complete_required_status": "red"
     },
     {
       "item": "Higher-order logic",
-      "class": "HolSmt",
-      "parsed": "not_applicable",
-      "translated": "implemented",
-      "solved": "implemented",
-      "reconstructed": "implemented",
+      "class": "SMT-LIB 2.7",
+      "parsed": "implemented",
+      "translated": "parse_only",
+      "solved": "parse_only",
+      "reconstructed": "unsupported_diagnostic",
       "tested": "implemented",
-      "evidence": "src/HolSmt/selftest.sml higher-order logic block.",
-      "notes": "SMT-LIB is first-order; HolSmt preprocesses/encodes only selected HOL shapes.",
+      "evidence": "The complete HO_Core corpus tracks function sorts, lambda, application, and partial application across parser, typechecker, and checked-replay modes.",
+      "notes": "SMT-LIB 2.7 remains first-order in syntax while HO-Core provides map sorts, lambda, and application. The full native surface is in COMPLETE scope and currently red beyond syntactic parsing.",
       "test_ids": [
-        "source:src/HolSmt/selftest.sml#(* lambda abstractions *)",
-        "source:src/HolSmt/Unittest.sml#smtlib_higher_order_translation_abstraction_success"
+        "source:tools/conformance-corpus/v2/manifest.json#theory:HO_Core:lambda-identity"
       ],
       "last_verified_by": "coverage_manifest.json",
-      "diagnostic_test_ids": [],
-      "current_status": "implemented",
-      "complete_test_ids": [],
-      "red_obligation_ids": [],
-      "complete_required_status": "not_applicable",
-      "outside_complete_scope_reason": "non-SMT-LIB extension"
+      "diagnostic_test_ids": [
+        "source:tools/conformance-corpus/v2/manifest.json#SMT-LIB 2.7 higher-order surface (lambda identity) is not implemented"
+      ],
+      "current_status": "unsupported_diagnostic",
+      "complete_test_ids": [
+        "theory:HO_Core:function-argument-sort",
+        "theory:HO_Core:function-result-sort",
+        "theory:HO_Core:function-valued-array-declaration",
+        "theory:HO_Core:higher-order-equality",
+        "theory:HO_Core:lambda-like-universal-encoding",
+        "theory:HO_Core:native-function-sort"
+      ],
+      "red_obligation_ids": [
+        "theory:HO_Core:at-apply",
+        "theory:HO_Core:curried-function-sort",
+        "theory:HO_Core:fo-apply-operator-fragment",
+        "theory:HO_Core:fo-arrow-sort-fragment",
+        "theory:HO_Core:fo-lambda-fragment",
+        "theory:HO_Core:lambda-beta",
+        "theory:HO_Core:lambda-extensionality",
+        "theory:HO_Core:lambda-identity",
+        "theory:HO_Core:lambda-under-quantifier",
+        "theory:HO_Core:map-const-partial-application",
+        "theory:HO_Core:map-valued-function-result",
+        "theory:HO_Core:omission-sugar",
+        "theory:HO_Core:ranked-symbol-partial-application",
+        "theory:HO_Core:underscore-ambiguity",
+        "theory:HO_Core:underscore-apply"
+      ],
+      "complete_required_status": "red"
     },
     {
       "item": "Tuples, FST, SND",

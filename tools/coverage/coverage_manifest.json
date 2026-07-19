@@ -229,7 +229,7 @@
           "match": "No SMT-LIB 3 logic registry found."
         }
       ],
-      "notes": "SMT-LIB 3 logic support is not part of the documented SMT-LIB 2.7 contract."
+      "notes": "Only genuinely post-2.7 logic support is outside the SMT-LIB 2.7 contract; HO-Core and HO_ extension logics are tracked separately."
     },
     {
       "section": "commands",
@@ -4497,7 +4497,7 @@
     {
       "section": "logics",
       "item": "ALL",
-      "class": "SMT-LIB 2.7",
+      "class": "SMT-LIB 2.7 extension logic",
       "phases": [
         "parsed",
         "tested"
@@ -4535,7 +4535,7 @@
     {
       "section": "logics",
       "item": "ALL",
-      "class": "SMT-LIB 2.7",
+      "class": "SMT-LIB 2.7 extension logic",
       "phases": [
         "translated",
         "solved"
@@ -4555,7 +4555,7 @@
     {
       "section": "logics",
       "item": "ALL",
-      "class": "SMT-LIB 2.7",
+      "class": "SMT-LIB 2.7 extension logic",
       "phases": [
         "reconstructed"
       ],
@@ -4966,86 +4966,6 @@
     },
     {
       "section": "selftest_categories",
-      "item": "Let binders and lambda abstractions",
-      "class": "HolSmt",
-      "phases": [
-        "parsed",
-        "translated",
-        "solved",
-        "reconstructed",
-        "tested"
-      ],
-      "expected_status": "implemented",
-      "positive_tests": [
-        {
-          "kind": "source",
-          "path": "src/HolSmt/selftest.sml",
-          "match": "(* let binders *)"
-        },
-        {
-          "kind": "source",
-          "path": "src/HolSmt/Unittest.sml",
-          "match": "let-binder"
-        },
-        {
-          "kind": "source",
-          "path": "src/HolSmt/Unittest.sml",
-          "match": "let/lambda/beta validation"
-        }
-      ],
-      "negative_tests": [],
-      "z3_versions": [],
-      "artifacts": [
-        {
-          "kind": "source",
-          "path": "src/HolSmt/SmtLib.sml",
-          "match": "pairSyntax.dest_anylet tm"
-        }
-      ],
-      "notes": "Asserts direct SMT let output and preprocessing validation for lambda/beta simplification."
-    },
-    {
-      "section": "selftest_categories",
-      "item": "Higher-order logic",
-      "class": "HolSmt",
-      "phases": [
-        "translated",
-        "solved",
-        "reconstructed",
-        "tested"
-      ],
-      "expected_status": "implemented",
-      "positive_tests": [
-        {
-          "kind": "source",
-          "path": "src/HolSmt/selftest.sml",
-          "match": "(* lambda abstractions *)"
-        },
-        {
-          "kind": "source",
-          "path": "src/HolSmt/Unittest.sml",
-          "match": "smtlib_higher_order_translation_abstraction_success"
-        }
-      ],
-      "negative_tests": [
-        {
-          "kind": "source",
-          "path": "src/HolSmt/Unittest.sml",
-          "match": "higher-order abstraction expected QF_AX"
-        }
-      ],
-      "z3_versions": [],
-      "artifacts": [
-        {
-          "kind": "source",
-          "path": "src/HolSmt/SmtLib.sml",
-          "match": "unsupported higher-order rator expression"
-        }
-      ],
-      "notes": "Higher-order terms are either preprocessed away by selftest simplification, abstracted to uninterpreted/array encodings, or rejected with an exact diagnostic when an unsupported higher-order rator expression reaches the translator."
-    },
-    {
-      "section": "selftest_categories",
       "item": "Tuples, FST, SND",
       "class": "HolSmt",
       "phases": [
@@ -5403,25 +5323,6 @@
     },
     {
       "section": "selftest_categories",
-      "item": "Higher-order logic",
-      "class": "HolSmt",
-      "phases": [
-        "parsed"
-      ],
-      "expected_status": "not_applicable",
-      "positive_tests": [],
-      "negative_tests": [],
-      "z3_versions": [],
-      "artifacts": [
-        {
-          "kind": "manual",
-          "description": "Higher-order HOL goals are produced by the HOL frontend, not parsed from SMT-LIB text in this selftest category."
-        }
-      ],
-      "notes": "HOL frontend category."
-    },
-    {
-      "section": "selftest_categories",
       "item": "Tuples, FST, SND",
       "class": "HolSmt",
       "phases": [
@@ -5765,6 +5666,1042 @@
         }
       ],
       "notes": "Only UNSAT proof-producing solver results enter checked reconstruction."
+    },
+    {
+      "section": "theories",
+      "item": "HO-Core",
+      "class": "SMT-LIB 2.7",
+      "phases": [
+        "parsed",
+        "tested"
+      ],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-identity"
+        }
+      ],
+      "negative_tests": [],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/generate_complete_corpus.py",
+          "match": "def hocore_red_case"
+        }
+      ],
+      "notes": "TASK_03 corpus pins parser acceptance and red-first HO obligations."
+    },
+    {
+      "section": "theories",
+      "item": "HO-Core",
+      "class": "SMT-LIB 2.7",
+      "phases": [
+        "translated",
+        "solved"
+      ],
+      "expected_status": "parse_only",
+      "positive_tests": [],
+      "negative_tests": [],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-identity"
+        }
+      ],
+      "notes": "Only syntactic parsing is currently established for the native HO surface."
+    },
+    {
+      "section": "theories",
+      "item": "HO-Core",
+      "class": "SMT-LIB 2.7",
+      "phases": [
+        "reconstructed"
+      ],
+      "expected_status": "unsupported_diagnostic",
+      "positive_tests": [],
+      "negative_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "SMT-LIB 2.7 higher-order surface (lambda identity) is not implemented"
+        }
+      ],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "SMT-LIB 2.7 higher-order surface (lambda identity) is not implemented"
+        }
+      ],
+      "notes": "TASK_03 records the exact red diagnostic and implementation obligation."
+    },
+    {
+      "section": "logics",
+      "item": "HO_ALL",
+      "class": "SMT-LIB 2.7 extension logic",
+      "phases": [
+        "parsed",
+        "tested"
+      ],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:map-valued-function-result"
+        }
+      ],
+      "negative_tests": [],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/generate_complete_corpus.py",
+          "match": "def hocore_red_case"
+        }
+      ],
+      "notes": "TASK_03 corpus pins parser acceptance and red-first HO obligations."
+    },
+    {
+      "section": "logics",
+      "item": "HO_ALL",
+      "class": "SMT-LIB 2.7 extension logic",
+      "phases": [
+        "translated",
+        "solved"
+      ],
+      "expected_status": "parse_only",
+      "positive_tests": [],
+      "negative_tests": [],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:map-valued-function-result"
+        }
+      ],
+      "notes": "Only syntactic parsing is currently established for the native HO surface."
+    },
+    {
+      "section": "logics",
+      "item": "HO_ALL",
+      "class": "SMT-LIB 2.7 extension logic",
+      "phases": [
+        "reconstructed"
+      ],
+      "expected_status": "unsupported_diagnostic",
+      "positive_tests": [],
+      "negative_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:map-valued-function-result"
+        }
+      ],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:map-valued-function-result"
+        }
+      ],
+      "notes": "TASK_03 records the exact red diagnostic and implementation obligation."
+    },
+    {
+      "section": "logics",
+      "item": "HO_UF",
+      "class": "SMT-LIB 2.7 extension logic",
+      "phases": [
+        "parsed",
+        "tested"
+      ],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-extensionality"
+        }
+      ],
+      "negative_tests": [],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/generate_complete_corpus.py",
+          "match": "def hocore_red_case"
+        }
+      ],
+      "notes": "TASK_03 corpus pins parser acceptance and red-first HO obligations."
+    },
+    {
+      "section": "logics",
+      "item": "HO_UF",
+      "class": "SMT-LIB 2.7 extension logic",
+      "phases": [
+        "translated",
+        "solved"
+      ],
+      "expected_status": "parse_only",
+      "positive_tests": [],
+      "negative_tests": [],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-extensionality"
+        }
+      ],
+      "notes": "Only syntactic parsing is currently established for the native HO surface."
+    },
+    {
+      "section": "logics",
+      "item": "HO_UF",
+      "class": "SMT-LIB 2.7 extension logic",
+      "phases": [
+        "reconstructed"
+      ],
+      "expected_status": "unsupported_diagnostic",
+      "positive_tests": [],
+      "negative_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-extensionality"
+        }
+      ],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-extensionality"
+        }
+      ],
+      "notes": "TASK_03 records the exact red diagnostic and implementation obligation."
+    },
+    {
+      "section": "logics",
+      "item": "HO_QF_UF",
+      "class": "SMT-LIB 2.7 extension logic",
+      "phases": [
+        "parsed",
+        "tested"
+      ],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-identity"
+        }
+      ],
+      "negative_tests": [],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/generate_complete_corpus.py",
+          "match": "def hocore_red_case"
+        }
+      ],
+      "notes": "TASK_03 corpus pins parser acceptance and red-first HO obligations."
+    },
+    {
+      "section": "logics",
+      "item": "HO_QF_UF",
+      "class": "SMT-LIB 2.7 extension logic",
+      "phases": [
+        "translated",
+        "solved"
+      ],
+      "expected_status": "parse_only",
+      "positive_tests": [],
+      "negative_tests": [],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-identity"
+        }
+      ],
+      "notes": "Only syntactic parsing is currently established for the native HO surface."
+    },
+    {
+      "section": "logics",
+      "item": "HO_QF_UF",
+      "class": "SMT-LIB 2.7 extension logic",
+      "phases": [
+        "reconstructed"
+      ],
+      "expected_status": "unsupported_diagnostic",
+      "positive_tests": [],
+      "negative_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-identity"
+        }
+      ],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-identity"
+        }
+      ],
+      "notes": "TASK_03 records the exact red diagnostic and implementation obligation."
+    },
+    {
+      "section": "logics",
+      "item": "HO_UFLIA",
+      "class": "SMT-LIB 2.7 extension logic",
+      "phases": [
+        "parsed",
+        "tested"
+      ],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:underscore-apply"
+        }
+      ],
+      "negative_tests": [],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/generate_complete_corpus.py",
+          "match": "def hocore_red_case"
+        }
+      ],
+      "notes": "TASK_03 corpus pins parser acceptance and red-first HO obligations."
+    },
+    {
+      "section": "logics",
+      "item": "HO_UFLIA",
+      "class": "SMT-LIB 2.7 extension logic",
+      "phases": [
+        "translated",
+        "solved"
+      ],
+      "expected_status": "parse_only",
+      "positive_tests": [],
+      "negative_tests": [],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:underscore-apply"
+        }
+      ],
+      "notes": "Only syntactic parsing is currently established for the native HO surface."
+    },
+    {
+      "section": "logics",
+      "item": "HO_UFLIA",
+      "class": "SMT-LIB 2.7 extension logic",
+      "phases": [
+        "reconstructed"
+      ],
+      "expected_status": "unsupported_diagnostic",
+      "positive_tests": [],
+      "negative_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:underscore-apply"
+        }
+      ],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:underscore-apply"
+        }
+      ],
+      "notes": "TASK_03 records the exact red diagnostic and implementation obligation."
+    },
+    {
+      "section": "logics",
+      "item": "HO_QF_UFLIA",
+      "class": "SMT-LIB 2.7 extension logic",
+      "phases": [
+        "parsed",
+        "tested"
+      ],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-beta"
+        }
+      ],
+      "negative_tests": [],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/generate_complete_corpus.py",
+          "match": "def hocore_red_case"
+        }
+      ],
+      "notes": "TASK_03 corpus pins parser acceptance and red-first HO obligations."
+    },
+    {
+      "section": "logics",
+      "item": "HO_QF_UFLIA",
+      "class": "SMT-LIB 2.7 extension logic",
+      "phases": [
+        "translated",
+        "solved"
+      ],
+      "expected_status": "parse_only",
+      "positive_tests": [],
+      "negative_tests": [],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-beta"
+        }
+      ],
+      "notes": "Only syntactic parsing is currently established for the native HO surface."
+    },
+    {
+      "section": "logics",
+      "item": "HO_QF_UFLIA",
+      "class": "SMT-LIB 2.7 extension logic",
+      "phases": [
+        "reconstructed"
+      ],
+      "expected_status": "unsupported_diagnostic",
+      "positive_tests": [],
+      "negative_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-beta"
+        }
+      ],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-beta"
+        }
+      ],
+      "notes": "TASK_03 records the exact red diagnostic and implementation obligation."
+    },
+    {
+      "section": "logics",
+      "item": "HO_UFLRA",
+      "class": "SMT-LIB 2.7 extension logic",
+      "phases": [
+        "parsed",
+        "tested"
+      ],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:curried-function-sort"
+        }
+      ],
+      "negative_tests": [],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/generate_complete_corpus.py",
+          "match": "def hocore_red_case"
+        }
+      ],
+      "notes": "TASK_03 corpus pins parser acceptance and red-first HO obligations."
+    },
+    {
+      "section": "logics",
+      "item": "HO_UFLRA",
+      "class": "SMT-LIB 2.7 extension logic",
+      "phases": [
+        "translated",
+        "solved"
+      ],
+      "expected_status": "parse_only",
+      "positive_tests": [],
+      "negative_tests": [],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:curried-function-sort"
+        }
+      ],
+      "notes": "Only syntactic parsing is currently established for the native HO surface."
+    },
+    {
+      "section": "logics",
+      "item": "HO_UFLRA",
+      "class": "SMT-LIB 2.7 extension logic",
+      "phases": [
+        "reconstructed"
+      ],
+      "expected_status": "unsupported_diagnostic",
+      "positive_tests": [],
+      "negative_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:curried-function-sort"
+        }
+      ],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:curried-function-sort"
+        }
+      ],
+      "notes": "TASK_03 records the exact red diagnostic and implementation obligation."
+    },
+    {
+      "section": "logics",
+      "item": "HO_QF_UFLRA",
+      "class": "SMT-LIB 2.7 extension logic",
+      "phases": [
+        "parsed",
+        "tested"
+      ],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:at-apply"
+        }
+      ],
+      "negative_tests": [],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/generate_complete_corpus.py",
+          "match": "def hocore_red_case"
+        }
+      ],
+      "notes": "TASK_03 corpus pins parser acceptance and red-first HO obligations."
+    },
+    {
+      "section": "logics",
+      "item": "HO_QF_UFLRA",
+      "class": "SMT-LIB 2.7 extension logic",
+      "phases": [
+        "translated",
+        "solved"
+      ],
+      "expected_status": "parse_only",
+      "positive_tests": [],
+      "negative_tests": [],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:at-apply"
+        }
+      ],
+      "notes": "Only syntactic parsing is currently established for the native HO surface."
+    },
+    {
+      "section": "logics",
+      "item": "HO_QF_UFLRA",
+      "class": "SMT-LIB 2.7 extension logic",
+      "phases": [
+        "reconstructed"
+      ],
+      "expected_status": "unsupported_diagnostic",
+      "positive_tests": [],
+      "negative_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:at-apply"
+        }
+      ],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:at-apply"
+        }
+      ],
+      "notes": "TASK_03 records the exact red diagnostic and implementation obligation."
+    },
+    {
+      "section": "logics",
+      "item": "HO_AUFLIA",
+      "class": "SMT-LIB 2.7 extension logic",
+      "phases": [
+        "parsed",
+        "tested"
+      ],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:omission-sugar"
+        }
+      ],
+      "negative_tests": [],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/generate_complete_corpus.py",
+          "match": "def hocore_red_case"
+        }
+      ],
+      "notes": "TASK_03 corpus pins parser acceptance and red-first HO obligations."
+    },
+    {
+      "section": "logics",
+      "item": "HO_AUFLIA",
+      "class": "SMT-LIB 2.7 extension logic",
+      "phases": [
+        "translated",
+        "solved"
+      ],
+      "expected_status": "parse_only",
+      "positive_tests": [],
+      "negative_tests": [],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:omission-sugar"
+        }
+      ],
+      "notes": "Only syntactic parsing is currently established for the native HO surface."
+    },
+    {
+      "section": "logics",
+      "item": "HO_AUFLIA",
+      "class": "SMT-LIB 2.7 extension logic",
+      "phases": [
+        "reconstructed"
+      ],
+      "expected_status": "unsupported_diagnostic",
+      "positive_tests": [],
+      "negative_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:omission-sugar"
+        }
+      ],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:omission-sugar"
+        }
+      ],
+      "notes": "TASK_03 records the exact red diagnostic and implementation obligation."
+    },
+    {
+      "section": "logics",
+      "item": "HO_AUFLIRA",
+      "class": "SMT-LIB 2.7 extension logic",
+      "phases": [
+        "parsed",
+        "tested"
+      ],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-under-quantifier"
+        }
+      ],
+      "negative_tests": [],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/generate_complete_corpus.py",
+          "match": "def hocore_red_case"
+        }
+      ],
+      "notes": "TASK_03 corpus pins parser acceptance and red-first HO obligations."
+    },
+    {
+      "section": "logics",
+      "item": "HO_AUFLIRA",
+      "class": "SMT-LIB 2.7 extension logic",
+      "phases": [
+        "translated",
+        "solved"
+      ],
+      "expected_status": "parse_only",
+      "positive_tests": [],
+      "negative_tests": [],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-under-quantifier"
+        }
+      ],
+      "notes": "Only syntactic parsing is currently established for the native HO surface."
+    },
+    {
+      "section": "logics",
+      "item": "HO_AUFLIRA",
+      "class": "SMT-LIB 2.7 extension logic",
+      "phases": [
+        "reconstructed"
+      ],
+      "expected_status": "unsupported_diagnostic",
+      "positive_tests": [],
+      "negative_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-under-quantifier"
+        }
+      ],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-under-quantifier"
+        }
+      ],
+      "notes": "TASK_03 records the exact red diagnostic and implementation obligation."
+    },
+    {
+      "section": "logics",
+      "item": "HO_QF_AUFLIA",
+      "class": "SMT-LIB 2.7 extension logic",
+      "phases": [
+        "parsed",
+        "tested"
+      ],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:map-const-partial-application"
+        }
+      ],
+      "negative_tests": [],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/generate_complete_corpus.py",
+          "match": "def hocore_red_case"
+        }
+      ],
+      "notes": "TASK_03 corpus pins parser acceptance and red-first HO obligations."
+    },
+    {
+      "section": "logics",
+      "item": "HO_QF_AUFLIA",
+      "class": "SMT-LIB 2.7 extension logic",
+      "phases": [
+        "translated",
+        "solved"
+      ],
+      "expected_status": "parse_only",
+      "positive_tests": [],
+      "negative_tests": [],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:map-const-partial-application"
+        }
+      ],
+      "notes": "Only syntactic parsing is currently established for the native HO surface."
+    },
+    {
+      "section": "logics",
+      "item": "HO_QF_AUFLIA",
+      "class": "SMT-LIB 2.7 extension logic",
+      "phases": [
+        "reconstructed"
+      ],
+      "expected_status": "unsupported_diagnostic",
+      "positive_tests": [],
+      "negative_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:map-const-partial-application"
+        }
+      ],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:map-const-partial-application"
+        }
+      ],
+      "notes": "TASK_03 records the exact red diagnostic and implementation obligation."
+    },
+    {
+      "section": "selftest_categories",
+      "item": "Let binders and lambda abstractions",
+      "class": "SMT-LIB 2.7",
+      "phases": [
+        "parsed",
+        "tested"
+      ],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-identity"
+        }
+      ],
+      "negative_tests": [],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/generate_complete_corpus.py",
+          "match": "def hocore_red_case"
+        }
+      ],
+      "notes": "TASK_03 corpus pins parser acceptance and red-first HO obligations."
+    },
+    {
+      "section": "selftest_categories",
+      "item": "Let binders and lambda abstractions",
+      "class": "SMT-LIB 2.7",
+      "phases": [
+        "translated",
+        "solved"
+      ],
+      "expected_status": "parse_only",
+      "positive_tests": [],
+      "negative_tests": [],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-identity"
+        }
+      ],
+      "notes": "Only syntactic parsing is currently established for the native HO surface."
+    },
+    {
+      "section": "selftest_categories",
+      "item": "Let binders and lambda abstractions",
+      "class": "SMT-LIB 2.7",
+      "phases": [
+        "reconstructed"
+      ],
+      "expected_status": "unsupported_diagnostic",
+      "positive_tests": [],
+      "negative_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "SMT-LIB 2.7 higher-order surface (lambda identity) is not implemented"
+        }
+      ],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "SMT-LIB 2.7 higher-order surface (lambda identity) is not implemented"
+        }
+      ],
+      "notes": "TASK_03 records the exact red diagnostic and implementation obligation."
+    },
+    {
+      "section": "selftest_categories",
+      "item": "Higher-order logic",
+      "class": "SMT-LIB 2.7",
+      "phases": [
+        "parsed",
+        "tested"
+      ],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-identity"
+        }
+      ],
+      "negative_tests": [],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/generate_complete_corpus.py",
+          "match": "def hocore_red_case"
+        }
+      ],
+      "notes": "TASK_03 corpus pins parser acceptance and red-first HO obligations."
+    },
+    {
+      "section": "selftest_categories",
+      "item": "Higher-order logic",
+      "class": "SMT-LIB 2.7",
+      "phases": [
+        "translated",
+        "solved"
+      ],
+      "expected_status": "parse_only",
+      "positive_tests": [],
+      "negative_tests": [],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-identity"
+        }
+      ],
+      "notes": "Only syntactic parsing is currently established for the native HO surface."
+    },
+    {
+      "section": "selftest_categories",
+      "item": "Higher-order logic",
+      "class": "SMT-LIB 2.7",
+      "phases": [
+        "reconstructed"
+      ],
+      "expected_status": "unsupported_diagnostic",
+      "positive_tests": [],
+      "negative_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "SMT-LIB 2.7 higher-order surface (lambda identity) is not implemented"
+        }
+      ],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "SMT-LIB 2.7 higher-order surface (lambda identity) is not implemented"
+        }
+      ],
+      "notes": "TASK_03 records the exact red diagnostic and implementation obligation."
+    },
+    {
+      "section": "selftest_categories",
+      "item": "Apply operators and application sugar",
+      "class": "SMT-LIB 2.7",
+      "phases": [
+        "parsed",
+        "tested"
+      ],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:underscore-apply"
+        }
+      ],
+      "negative_tests": [],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/generate_complete_corpus.py",
+          "match": "def hocore_red_case"
+        }
+      ],
+      "notes": "TASK_03 corpus pins parser acceptance and red-first HO obligations."
+    },
+    {
+      "section": "selftest_categories",
+      "item": "Apply operators and application sugar",
+      "class": "SMT-LIB 2.7",
+      "phases": [
+        "translated",
+        "solved"
+      ],
+      "expected_status": "parse_only",
+      "positive_tests": [],
+      "negative_tests": [],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:underscore-apply"
+        }
+      ],
+      "notes": "Only syntactic parsing is currently established for the native HO surface."
+    },
+    {
+      "section": "selftest_categories",
+      "item": "Apply operators and application sugar",
+      "class": "SMT-LIB 2.7",
+      "phases": [
+        "reconstructed"
+      ],
+      "expected_status": "unsupported_diagnostic",
+      "positive_tests": [],
+      "negative_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "SMT-LIB 2.7 higher-order surface (underscore apply operator) is not implemented"
+        }
+      ],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "SMT-LIB 2.7 higher-order surface (underscore apply operator) is not implemented"
+        }
+      ],
+      "notes": "TASK_03 records the exact red diagnostic and implementation obligation."
     }
   ]
 }
