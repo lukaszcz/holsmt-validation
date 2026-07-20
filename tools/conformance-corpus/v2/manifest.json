@@ -57913,29 +57913,17 @@
           "status": "pass"
         },
         "typecheck-only": {
-          "status": "red",
+          "status": "fail",
           "diagnostic": "higher-order construct (apply operator) is outside logic fragment QF_AUFLIA",
           "failure_phase": "typecheck"
         },
         "z3-tac": {
-          "status": "red",
+          "status": "fail",
           "diagnostic": "higher-order construct (apply operator) is outside logic fragment QF_AUFLIA",
           "failure_phase": "typecheck"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib_Logics.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/Unittest.sml"
-        ],
-        "feature": "higher-order:fragment-gating:apply-operator",
-        "test_ids": [
-          "theory:HO_Core:fo-apply-operator-fragment"
-        ],
-        "failure_phase": "typecheck",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 HO-Core fragment restriction"
@@ -57976,29 +57964,17 @@
           "status": "pass"
         },
         "typecheck-only": {
-          "status": "red",
+          "status": "fail",
           "diagnostic": "higher-order construct (arrow sort) is outside logic fragment QF_LIA",
           "failure_phase": "typecheck"
         },
         "z3-tac": {
-          "status": "red",
+          "status": "fail",
           "diagnostic": "higher-order construct (arrow sort) is outside logic fragment QF_LIA",
           "failure_phase": "typecheck"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib_Logics.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/Unittest.sml"
-        ],
-        "feature": "higher-order:fragment-gating:arrow-sort",
-        "test_ids": [
-          "theory:HO_Core:fo-arrow-sort-fragment"
-        ],
-        "failure_phase": "typecheck",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 HO-Core fragment restriction"
@@ -58040,29 +58016,17 @@
           "status": "pass"
         },
         "typecheck-only": {
-          "status": "red",
+          "status": "fail",
           "diagnostic": "higher-order construct (lambda) is outside logic fragment QF_UF",
           "failure_phase": "typecheck"
         },
         "z3-tac": {
-          "status": "red",
+          "status": "fail",
           "diagnostic": "higher-order construct (lambda) is outside logic fragment QF_UF",
           "failure_phase": "typecheck"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib_Logics.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/Unittest.sml"
-        ],
-        "feature": "higher-order:fragment-gating:lambda",
-        "test_ids": [
-          "theory:HO_Core:fo-lambda-fragment"
-        ],
-        "failure_phase": "typecheck",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 HO-Core fragment restriction"
@@ -58854,28 +58818,17 @@
           "status": "pass"
         },
         "typecheck-only": {
-          "status": "red",
+          "status": "fail",
           "diagnostic": "function symbol 'g' of rank 2 cannot be partially applied; wrap it in a lambda (SMT-LIB 2.7 \u00a73.9)",
           "failure_phase": "typecheck"
         },
         "z3-tac": {
-          "status": "red",
+          "status": "fail",
           "diagnostic": "function symbol 'g' of rank 2 cannot be partially applied; wrap it in a lambda (SMT-LIB 2.7 \u00a73.9)",
           "failure_phase": "typecheck"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/Unittest.sml"
-        ],
-        "feature": "higher-order:ranked-symbol-partial-application",
-        "test_ids": [
-          "theory:HO_Core:ranked-symbol-partial-application"
-        ],
-        "failure_phase": "typecheck",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 section 3.9 Remark 9"

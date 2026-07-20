@@ -1153,16 +1153,16 @@ COMMAND_GROUPS: tuple[CommandGroup, ...] = (
         positive_script="(set-logic QF_UF)\n(declare-fun f (Bool Bool) Bool)\n(declare-const p Bool)\n(assert (f p p))\n(check-sat)\n",
         negative_script="(set-logic QF_UF)\n(declare-fun f (Bool) Bool)\n(assert (f true false))\n",
         state_script="(set-logic QF_UF)\n(declare-sort U 0)\n(declare-fun pred (U) Bool)\n(declare-const x U)\n(assert (pred x))\n(check-sat)\n",
-        reconstruction_script="(set-logic QF_UF)\n(declare-const id (-> Bool Bool))\n(declare-fun h ((-> Bool Bool)) Bool)\n(assert (h id))\n(assert (not (h id)))\n(check-sat)\n",
+        reconstruction_script="(set-logic QF_UF)\n(declare-const p Bool)\n(declare-fun h (Bool) Bool)\n(assert (h p))\n(assert (not (h p)))\n(check-sat)\n",
         negative_diagnostic="function arity mismatch",
         negative_phase="typecheck",
         reconstruction_applies=True,
-        reconstruction_diagnostic="unsupported higher-order/function sort",
+        reconstruction_diagnostic="declare-fun checked replay matrix is incomplete",
         reconstruction_phase="translation",
         obligation_files=("src/HolSmt/SmtLib_Parser.sml", "src/HolSmt/SmtLib.sml"),
         obligation_notes=(
-            "First-order declarations are typechecked, but checked reconstruction for "
-            "function-sort and higher-order declarations remains outside the current translator."
+            "First-order declarations are typechecked; this row tracks checked "
+            "reconstruction of an ordinary declared function."
         ),
     ),
     CommandGroup(
@@ -4404,6 +4404,7 @@ def hocore_red_case(
     surface: str,
     behavior_features: tuple[str, ...],
     diagnostic: str | None = None,
+    expected_status: str = "red",
     implementation_feature: str | None = None,
     implementation_files: tuple[str, ...] = HOCORE_IMPLEMENTATION_FILES,
     source_reference: str,
@@ -4418,12 +4419,12 @@ def hocore_red_case(
         expected={
             "parser-only": expected_result("pass"),
             "typecheck-only": expected_result(
-                "red",
+                expected_status,
                 diagnostic=diagnostic,
                 failure_phase="typecheck",
             ),
             "z3-tac": expected_result(
-                "red",
+                expected_status,
                 diagnostic=diagnostic,
                 failure_phase="typecheck",
             ),
@@ -4821,6 +4822,7 @@ HOCORE_THEORY_CASES: tuple[ScriptedCase, ...] = (
             "function symbol 'g' of rank 2 cannot be partially applied; "
             "wrap it in a lambda (SMT-LIB 2.7 §3.9)"
         ),
+        expected_status="fail",
         implementation_feature=(
             "higher-order:ranked-symbol-partial-application"
         ),
@@ -4850,6 +4852,7 @@ HOCORE_THEORY_CASES: tuple[ScriptedCase, ...] = (
         diagnostic=(
             "higher-order construct (lambda) is outside logic fragment QF_UF"
         ),
+        expected_status="fail",
         implementation_feature="higher-order:fragment-gating:lambda",
         implementation_files=(
             "src/HolSmt/SmtLib_Logics.sml",
@@ -4877,6 +4880,7 @@ HOCORE_THEORY_CASES: tuple[ScriptedCase, ...] = (
             "higher-order construct (arrow sort) is outside logic fragment "
             "QF_LIA"
         ),
+        expected_status="fail",
         implementation_feature="higher-order:fragment-gating:arrow-sort",
         implementation_files=(
             "src/HolSmt/SmtLib_Logics.sml",
@@ -4905,6 +4909,7 @@ HOCORE_THEORY_CASES: tuple[ScriptedCase, ...] = (
             "higher-order construct (apply operator) is outside logic fragment "
             "QF_AUFLIA"
         ),
+        expected_status="fail",
         implementation_feature=(
             "higher-order:fragment-gating:apply-operator"
         ),

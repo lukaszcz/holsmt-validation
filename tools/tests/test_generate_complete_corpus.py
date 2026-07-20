@@ -209,6 +209,16 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
                 self.assertIn("diagnostic", result)
                 self.assertIn("failure_phase", result)
 
+        declare_fun = next(
+            group for group in generator.COMMAND_GROUPS
+            if group.slug == "declare-fun"
+        )
+        self.assertNotIn("(->", declare_fun.reconstruction_script)
+        self.assertIn(
+            "(declare-fun h (Bool) Bool)",
+            declare_fun.reconstruction_script,
+        )
+
         datatype_cases = [
             case for case in cases
             if "command-case:datatype-corpus" in case["features"]
@@ -621,8 +631,14 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
             "theory:HO_Core:underscore-ambiguity",
             "theory:HO_Core:underscore-apply",
         }
+        negative_case_ids = {
+            "theory:HO_Core:ranked-symbol-partial-application",
+            "theory:HO_Core:fo-lambda-fragment",
+            "theory:HO_Core:fo-arrow-sort-fragment",
+            "theory:HO_Core:fo-apply-operator-fragment",
+        }
         self.assertEqual(
-            new_case_ids,
+            new_case_ids - negative_case_ids,
             {
                 case_id
                 for case_id, case in hocore_by_id.items()
@@ -742,16 +758,24 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
                 ["parser-only", "typecheck-only", "z3-tac"],
             )
             self.assertEqual(case["expected"]["parser-only"]["status"], "pass")
+            expected_status = (
+                "fail" if case_id in negative_case_ids else "red"
+            )
             for mode in ("typecheck-only", "z3-tac"):
-                self.assertEqual(case["expected"][mode]["status"], "red")
+                self.assertEqual(
+                    case["expected"][mode]["status"], expected_status
+                )
                 self.assertEqual(
                     case["expected"][mode]["failure_phase"],
                     "typecheck",
                 )
             obligation = case["implementation_obligation"]
-            self.assertIsNotNone(obligation, case_id)
-            self.assertEqual(obligation["test_ids"], [case_id])
-            self.assertEqual(obligation["failure_phase"], "typecheck")
+            if case_id in negative_case_ids:
+                self.assertIsNone(obligation, case_id)
+            else:
+                self.assertIsNotNone(obligation, case_id)
+                self.assertEqual(obligation["test_ids"], [case_id])
+                self.assertEqual(obligation["failure_phase"], "typecheck")
 
         negative_diagnostics = {
             "theory:HO_Core:ranked-symbol-partial-application": (
@@ -771,6 +795,7 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
                 "fragment QF_AUFLIA"
             ),
         }
+        self.assertEqual(set(negative_diagnostics), negative_case_ids)
         for case_id, diagnostic in negative_diagnostics.items():
             case = hocore_by_id[case_id]
             self.assertIn("theory-case:type-error", case["features"])

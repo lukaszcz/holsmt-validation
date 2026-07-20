@@ -789,12 +789,16 @@
       ],
       "current_status": "unsupported_diagnostic",
       "complete_test_ids": [
+        "theory:HO_Core:fo-apply-operator-fragment",
+        "theory:HO_Core:fo-arrow-sort-fragment",
+        "theory:HO_Core:fo-lambda-fragment",
         "theory:HO_Core:function-argument-sort",
         "theory:HO_Core:function-result-sort",
         "theory:HO_Core:function-valued-array-declaration",
         "theory:HO_Core:higher-order-equality",
         "theory:HO_Core:lambda-like-universal-encoding",
-        "theory:HO_Core:native-function-sort"
+        "theory:HO_Core:native-function-sort",
+        "theory:HO_Core:ranked-symbol-partial-application"
       ],
       "red_obligation_ids": [
         "proof-rule:ho:beta-instance",
@@ -805,9 +809,6 @@
         "proof-rule:ho:map-valued-ite",
         "theory:HO_Core:at-apply",
         "theory:HO_Core:curried-function-sort",
-        "theory:HO_Core:fo-apply-operator-fragment",
-        "theory:HO_Core:fo-arrow-sort-fragment",
-        "theory:HO_Core:fo-lambda-fragment",
         "theory:HO_Core:lambda-beta",
         "theory:HO_Core:lambda-extensionality",
         "theory:HO_Core:lambda-identity",
@@ -815,7 +816,6 @@
         "theory:HO_Core:map-const-partial-application",
         "theory:HO_Core:map-valued-function-result",
         "theory:HO_Core:omission-sugar",
-        "theory:HO_Core:ranked-symbol-partial-application",
         "theory:HO_Core:underscore-ambiguity",
         "theory:HO_Core:underscore-apply"
       ],
@@ -2434,12 +2434,11 @@
       ],
       "current_status": "unsupported_diagnostic",
       "complete_test_ids": [
-        "theory:HO_Core:native-function-sort"
-      ],
-      "red_obligation_ids": [
+        "theory:HO_Core:native-function-sort",
         "theory:HO_Core:ranked-symbol-partial-application"
       ],
-      "complete_required_status": "red"
+      "red_obligation_ids": [],
+      "complete_required_status": "reconstructed"
     },
     {
       "item": "HO_ALL",
@@ -3328,9 +3327,10 @@
         "source:tools/conformance-corpus/v2/manifest.json#SMT-LIB 2.7 higher-order surface (lambda identity) is not implemented"
       ],
       "current_status": "unsupported_diagnostic",
-      "complete_test_ids": [],
+      "complete_test_ids": [
+        "theory:HO_Core:fo-lambda-fragment"
+      ],
       "red_obligation_ids": [
-        "theory:HO_Core:fo-lambda-fragment",
         "theory:HO_Core:lambda-beta",
         "theory:HO_Core:lambda-extensionality",
         "theory:HO_Core:lambda-identity",
@@ -3356,14 +3356,15 @@
         "source:tools/conformance-corpus/v2/manifest.json#SMT-LIB 2.7 higher-order surface (underscore apply operator) is not implemented"
       ],
       "current_status": "unsupported_diagnostic",
-      "complete_test_ids": [],
+      "complete_test_ids": [
+        "theory:HO_Core:fo-apply-operator-fragment",
+        "theory:HO_Core:ranked-symbol-partial-application"
+      ],
       "red_obligation_ids": [
         "theory:HO_Core:at-apply",
-        "theory:HO_Core:fo-apply-operator-fragment",
         "theory:HO_Core:lambda-beta",
         "theory:HO_Core:map-const-partial-application",
         "theory:HO_Core:omission-sugar",
-        "theory:HO_Core:ranked-symbol-partial-application",
         "theory:HO_Core:underscore-ambiguity",
         "theory:HO_Core:underscore-apply"
       ],
@@ -3388,19 +3389,20 @@
       ],
       "current_status": "unsupported_diagnostic",
       "complete_test_ids": [
+        "theory:HO_Core:fo-apply-operator-fragment",
+        "theory:HO_Core:fo-arrow-sort-fragment",
+        "theory:HO_Core:fo-lambda-fragment",
         "theory:HO_Core:function-argument-sort",
         "theory:HO_Core:function-result-sort",
         "theory:HO_Core:function-valued-array-declaration",
         "theory:HO_Core:higher-order-equality",
         "theory:HO_Core:lambda-like-universal-encoding",
-        "theory:HO_Core:native-function-sort"
+        "theory:HO_Core:native-function-sort",
+        "theory:HO_Core:ranked-symbol-partial-application"
       ],
       "red_obligation_ids": [
         "theory:HO_Core:at-apply",
         "theory:HO_Core:curried-function-sort",
-        "theory:HO_Core:fo-apply-operator-fragment",
-        "theory:HO_Core:fo-arrow-sort-fragment",
-        "theory:HO_Core:fo-lambda-fragment",
         "theory:HO_Core:lambda-beta",
         "theory:HO_Core:lambda-extensionality",
         "theory:HO_Core:lambda-identity",
@@ -3408,7 +3410,6 @@
         "theory:HO_Core:map-const-partial-application",
         "theory:HO_Core:map-valued-function-result",
         "theory:HO_Core:omission-sugar",
-        "theory:HO_Core:ranked-symbol-partial-application",
         "theory:HO_Core:underscore-ambiguity",
         "theory:HO_Core:underscore-apply"
       ],
