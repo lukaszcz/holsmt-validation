@@ -57778,14 +57778,12 @@
           "status": "pass"
         },
         "typecheck-only": {
-          "status": "red",
-          "diagnostic": "SMT-LIB 2.7 higher-order surface (at apply operator) is not implemented",
-          "failure_phase": "typecheck"
+          "status": "pass"
         },
         "z3-tac": {
           "status": "red",
           "diagnostic": "SMT-LIB 2.7 higher-order surface (at apply operator) is not implemented",
-          "failure_phase": "typecheck"
+          "failure_phase": "translation"
         }
       },
       "implementation_obligation": {
@@ -57802,7 +57800,7 @@
         "test_ids": [
           "theory:HO_Core:at-apply"
         ],
-        "failure_phase": "typecheck",
+        "failure_phase": "translation",
         "notes": "Generated red seed row; keep red until executable evidence is added."
       },
       "source": {
@@ -57845,14 +57843,12 @@
           "status": "pass"
         },
         "typecheck-only": {
-          "status": "red",
-          "diagnostic": "SMT-LIB 2.7 higher-order surface (curried arrow declaration) is not implemented",
-          "failure_phase": "typecheck"
+          "status": "pass"
         },
         "z3-tac": {
           "status": "red",
           "diagnostic": "SMT-LIB 2.7 higher-order surface (curried arrow declaration) is not implemented",
-          "failure_phase": "typecheck"
+          "failure_phase": "translation"
         }
       },
       "implementation_obligation": {
@@ -57869,7 +57865,7 @@
         "test_ids": [
           "theory:HO_Core:curried-function-sort"
         ],
-        "failure_phase": "typecheck",
+        "failure_phase": "translation",
         "notes": "Generated red seed row; keep red until executable evidence is added."
       },
       "source": {
@@ -58257,14 +58253,12 @@
           "status": "pass"
         },
         "typecheck-only": {
-          "status": "red",
-          "diagnostic": "SMT-LIB 2.7 higher-order surface (lambda beta reduction) is not implemented",
-          "failure_phase": "typecheck"
+          "status": "pass"
         },
         "z3-tac": {
           "status": "red",
           "diagnostic": "SMT-LIB 2.7 higher-order surface (lambda beta reduction) is not implemented",
-          "failure_phase": "typecheck"
+          "failure_phase": "translation"
         }
       },
       "implementation_obligation": {
@@ -58281,7 +58275,7 @@
         "test_ids": [
           "theory:HO_Core:lambda-beta"
         ],
-        "failure_phase": "typecheck",
+        "failure_phase": "translation",
         "notes": "Generated red seed row; keep red until executable evidence is added."
       },
       "source": {
@@ -58325,14 +58319,12 @@
           "status": "pass"
         },
         "typecheck-only": {
-          "status": "red",
-          "diagnostic": "SMT-LIB 2.7 higher-order surface (lambda extensionality) is not implemented",
-          "failure_phase": "typecheck"
+          "status": "pass"
         },
         "z3-tac": {
           "status": "red",
           "diagnostic": "SMT-LIB 2.7 higher-order surface (lambda extensionality) is not implemented",
-          "failure_phase": "typecheck"
+          "failure_phase": "translation"
         }
       },
       "implementation_obligation": {
@@ -58349,7 +58341,7 @@
         "test_ids": [
           "theory:HO_Core:lambda-extensionality"
         ],
-        "failure_phase": "typecheck",
+        "failure_phase": "translation",
         "notes": "Generated red seed row; keep red until executable evidence is added."
       },
       "source": {
@@ -58393,14 +58385,12 @@
           "status": "pass"
         },
         "typecheck-only": {
-          "status": "red",
-          "diagnostic": "SMT-LIB 2.7 higher-order surface (lambda identity) is not implemented",
-          "failure_phase": "typecheck"
+          "status": "pass"
         },
         "z3-tac": {
           "status": "red",
           "diagnostic": "SMT-LIB 2.7 higher-order surface (lambda identity) is not implemented",
-          "failure_phase": "typecheck"
+          "failure_phase": "translation"
         }
       },
       "implementation_obligation": {
@@ -58417,7 +58407,7 @@
         "test_ids": [
           "theory:HO_Core:lambda-identity"
         ],
-        "failure_phase": "typecheck",
+        "failure_phase": "translation",
         "notes": "Generated red seed row; keep red until executable evidence is added."
       },
       "source": {
@@ -58503,14 +58493,12 @@
           "status": "pass"
         },
         "typecheck-only": {
-          "status": "red",
-          "diagnostic": "SMT-LIB 2.7 higher-order surface (lambda under quantifier) is not implemented",
-          "failure_phase": "typecheck"
+          "status": "pass"
         },
         "z3-tac": {
           "status": "red",
           "diagnostic": "SMT-LIB 2.7 higher-order surface (lambda under quantifier) is not implemented",
-          "failure_phase": "typecheck"
+          "failure_phase": "translation"
         }
       },
       "implementation_obligation": {
@@ -58527,7 +58515,7 @@
         "test_ids": [
           "theory:HO_Core:lambda-under-quantifier"
         ],
-        "failure_phase": "typecheck",
+        "failure_phase": "translation",
         "notes": "Generated red seed row; keep red until executable evidence is added."
       },
       "source": {
@@ -58570,14 +58558,12 @@
           "status": "pass"
         },
         "typecheck-only": {
-          "status": "red",
-          "diagnostic": "SMT-LIB 2.7 higher-order surface (map-sorted constant partial application) is not implemented",
-          "failure_phase": "typecheck"
+          "status": "pass"
         },
         "z3-tac": {
           "status": "red",
           "diagnostic": "SMT-LIB 2.7 higher-order surface (map-sorted constant partial application) is not implemented",
-          "failure_phase": "typecheck"
+          "failure_phase": "translation"
         }
       },
       "implementation_obligation": {
@@ -58594,7 +58580,7 @@
         "test_ids": [
           "theory:HO_Core:map-const-partial-application"
         ],
-        "failure_phase": "typecheck",
+        "failure_phase": "translation",
         "notes": "Generated red seed row; keep red until executable evidence is added."
       },
       "source": {
@@ -58637,14 +58623,12 @@
           "status": "pass"
         },
         "typecheck-only": {
-          "status": "red",
-          "diagnostic": "SMT-LIB 2.7 higher-order surface (map-valued function result) is not implemented",
-          "failure_phase": "typecheck"
+          "status": "pass"
         },
         "z3-tac": {
           "status": "red",
           "diagnostic": "SMT-LIB 2.7 higher-order surface (map-valued function result) is not implemented",
-          "failure_phase": "typecheck"
+          "failure_phase": "translation"
         }
       },
       "implementation_obligation": {
@@ -58661,7 +58645,7 @@
         "test_ids": [
           "theory:HO_Core:map-valued-function-result"
         ],
-        "failure_phase": "typecheck",
+        "failure_phase": "translation",
         "notes": "Generated red seed row; keep red until executable evidence is added."
       },
       "source": {
@@ -58751,14 +58735,12 @@
           "status": "pass"
         },
         "typecheck-only": {
-          "status": "red",
-          "diagnostic": "SMT-LIB 2.7 higher-order surface (application omission sugar) is not implemented",
-          "failure_phase": "typecheck"
+          "status": "pass"
         },
         "z3-tac": {
           "status": "red",
           "diagnostic": "SMT-LIB 2.7 higher-order surface (application omission sugar) is not implemented",
-          "failure_phase": "typecheck"
+          "failure_phase": "translation"
         }
       },
       "implementation_obligation": {
@@ -58775,7 +58757,7 @@
         "test_ids": [
           "theory:HO_Core:omission-sugar"
         ],
-        "failure_phase": "typecheck",
+        "failure_phase": "translation",
         "notes": "Generated red seed row; keep red until executable evidence is added."
       },
       "source": {
@@ -58871,14 +58853,12 @@
           "status": "pass"
         },
         "typecheck-only": {
-          "status": "red",
-          "diagnostic": "SMT-LIB 2.7 higher-order surface (underscore indexed-identifier disambiguation) is not implemented",
-          "failure_phase": "typecheck"
+          "status": "pass"
         },
         "z3-tac": {
           "status": "red",
           "diagnostic": "SMT-LIB 2.7 higher-order surface (underscore indexed-identifier disambiguation) is not implemented",
-          "failure_phase": "typecheck"
+          "failure_phase": "translation"
         }
       },
       "implementation_obligation": {
@@ -58895,7 +58875,7 @@
         "test_ids": [
           "theory:HO_Core:underscore-ambiguity"
         ],
-        "failure_phase": "typecheck",
+        "failure_phase": "translation",
         "notes": "Generated red seed row; keep red until executable evidence is added."
       },
       "source": {
@@ -58939,14 +58919,12 @@
           "status": "pass"
         },
         "typecheck-only": {
-          "status": "red",
-          "diagnostic": "SMT-LIB 2.7 higher-order surface (underscore apply operator) is not implemented",
-          "failure_phase": "typecheck"
+          "status": "pass"
         },
         "z3-tac": {
           "status": "red",
           "diagnostic": "SMT-LIB 2.7 higher-order surface (underscore apply operator) is not implemented",
-          "failure_phase": "typecheck"
+          "failure_phase": "translation"
         }
       },
       "implementation_obligation": {
@@ -58963,7 +58941,7 @@
         "test_ids": [
           "theory:HO_Core:underscore-apply"
         ],
-        "failure_phase": "typecheck",
+        "failure_phase": "translation",
         "notes": "Generated red seed row; keep red until executable evidence is added."
       },
       "source": {

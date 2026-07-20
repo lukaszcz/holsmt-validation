@@ -428,13 +428,14 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
             ][0]
             self.assertEqual(sat["expected"]["z3-tac"]["status"], "pass")
 
-    def test_logics_manifest_documents_internal_all_exclusion(self):
+    def test_logics_manifest_documents_extension_exclusions(self):
         inventory = generator.logics_manifest()
         required = set(inventory["accepted_logics"])
         excluded = {item["logic"] for item in inventory["excluded_logics"]}
+        expected_excluded = {"ALL", *generator.HO_EXTENSION_LOGICS}
 
-        self.assertIn("ALL", excluded)
-        self.assertNotIn("ALL", required)
+        self.assertEqual(excluded, expected_excluded)
+        self.assertTrue(expected_excluded.isdisjoint(required))
         self.assertEqual(
             required | excluded,
             set(generator.parse_accepted_logics(generator.DEFAULT_LOGIC_SOURCE)),
@@ -758,24 +759,30 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
                 ["parser-only", "typecheck-only", "z3-tac"],
             )
             self.assertEqual(case["expected"]["parser-only"]["status"], "pass")
-            expected_status = (
-                "fail" if case_id in negative_case_ids else "red"
-            )
-            for mode in ("typecheck-only", "z3-tac"):
-                self.assertEqual(
-                    case["expected"][mode]["status"], expected_status
-                )
-                self.assertEqual(
-                    case["expected"][mode]["failure_phase"],
-                    "typecheck",
-                )
             obligation = case["implementation_obligation"]
             if case_id in negative_case_ids:
+                for mode in ("typecheck-only", "z3-tac"):
+                    self.assertEqual(case["expected"][mode]["status"], "fail")
+                    self.assertEqual(
+                        case["expected"][mode]["failure_phase"],
+                        "typecheck",
+                    )
                 self.assertIsNone(obligation, case_id)
             else:
+                self.assertEqual(
+                    case["expected"]["typecheck-only"]["status"], "pass"
+                )
+                self.assertNotIn(
+                    "failure_phase", case["expected"]["typecheck-only"]
+                )
+                self.assertEqual(case["expected"]["z3-tac"]["status"], "red")
+                self.assertEqual(
+                    case["expected"]["z3-tac"]["failure_phase"],
+                    "translation",
+                )
                 self.assertIsNotNone(obligation, case_id)
                 self.assertEqual(obligation["test_ids"], [case_id])
-                self.assertEqual(obligation["failure_phase"], "typecheck")
+                self.assertEqual(obligation["failure_phase"], "translation")
 
         negative_diagnostics = {
             "theory:HO_Core:ranked-symbol-partial-application": (

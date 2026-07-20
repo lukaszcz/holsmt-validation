@@ -81,6 +81,56 @@
       "logic": "ALL",
       "category": "HolSmt-internal",
       "reason": "Aggregate parse dictionary accepted by HolSmt, not an SMT-LIB logic packet target."
+    },
+    {
+      "logic": "HO_ALL",
+      "category": "cvc5-extension",
+      "reason": "Non-official cvc5-convention HO-Core extension logic; the conformance extension band is tracked separately."
+    },
+    {
+      "logic": "HO_AUFLIA",
+      "category": "cvc5-extension",
+      "reason": "Non-official cvc5-convention HO-Core extension logic; the conformance extension band is tracked separately."
+    },
+    {
+      "logic": "HO_AUFLIRA",
+      "category": "cvc5-extension",
+      "reason": "Non-official cvc5-convention HO-Core extension logic; the conformance extension band is tracked separately."
+    },
+    {
+      "logic": "HO_QF_AUFLIA",
+      "category": "cvc5-extension",
+      "reason": "Non-official cvc5-convention HO-Core extension logic; the conformance extension band is tracked separately."
+    },
+    {
+      "logic": "HO_QF_UF",
+      "category": "cvc5-extension",
+      "reason": "Non-official cvc5-convention HO-Core extension logic; the conformance extension band is tracked separately."
+    },
+    {
+      "logic": "HO_QF_UFLIA",
+      "category": "cvc5-extension",
+      "reason": "Non-official cvc5-convention HO-Core extension logic; the conformance extension band is tracked separately."
+    },
+    {
+      "logic": "HO_QF_UFLRA",
+      "category": "cvc5-extension",
+      "reason": "Non-official cvc5-convention HO-Core extension logic; the conformance extension band is tracked separately."
+    },
+    {
+      "logic": "HO_UF",
+      "category": "cvc5-extension",
+      "reason": "Non-official cvc5-convention HO-Core extension logic; the conformance extension band is tracked separately."
+    },
+    {
+      "logic": "HO_UFLIA",
+      "category": "cvc5-extension",
+      "reason": "Non-official cvc5-convention HO-Core extension logic; the conformance extension band is tracked separately."
+    },
+    {
+      "logic": "HO_UFLRA",
+      "category": "cvc5-extension",
+      "reason": "Non-official cvc5-convention HO-Core extension logic; the conformance extension band is tracked separately."
     }
   ]
 }

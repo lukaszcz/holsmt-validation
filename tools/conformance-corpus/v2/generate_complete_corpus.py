@@ -89,10 +89,33 @@ DOMAIN_CLASSES = {
     "external": "external-benchmark",
 }
 
+HO_EXTENSION_LOGICS = (
+    "HO_ALL",
+    "HO_UF",
+    "HO_QF_UF",
+    "HO_UFLIA",
+    "HO_QF_UFLIA",
+    "HO_UFLRA",
+    "HO_QF_UFLRA",
+    "HO_AUFLIA",
+    "HO_AUFLIRA",
+    "HO_QF_AUFLIA",
+)
+
 EXCLUDED_ACCEPTED_LOGICS = {
     "ALL": {
         "category": "HolSmt-internal",
         "reason": "Aggregate parse dictionary accepted by HolSmt, not an SMT-LIB logic packet target.",
+    },
+    **{
+        logic: {
+            "category": "cvc5-extension",
+            "reason": (
+                "Non-official cvc5-convention HO-Core extension logic; "
+                "the conformance extension band is tracked separately."
+            ),
+        }
+        for logic in HO_EXTENSION_LOGICS
     },
 }
 
@@ -4412,6 +4435,9 @@ def hocore_red_case(
     diagnostic = diagnostic or (
         f"SMT-LIB 2.7 higher-order surface ({surface}) is not implemented"
     )
+    packet_surface = logic.startswith("HO_") and expected_status == "red"
+    typecheck_status = "pass" if packet_surface else expected_status
+    implementation_phase = "translation" if packet_surface else "typecheck"
     return ScriptedCase(
         slug=slug_name,
         script=script,
@@ -4419,14 +4445,14 @@ def hocore_red_case(
         expected={
             "parser-only": expected_result("pass"),
             "typecheck-only": expected_result(
-                expected_status,
-                diagnostic=diagnostic,
-                failure_phase="typecheck",
+                typecheck_status,
+                diagnostic=None if packet_surface else diagnostic,
+                failure_phase=None if packet_surface else "typecheck",
             ),
             "z3-tac": expected_result(
                 expected_status,
                 diagnostic=diagnostic,
-                failure_phase="typecheck",
+                failure_phase=implementation_phase,
             ),
         },
         features=(
@@ -4444,7 +4470,7 @@ def hocore_red_case(
             or f"higher-order:standard27:{slug_name}"
         ),
         implementation_files=implementation_files,
-        implementation_phase="typecheck",
+        implementation_phase=implementation_phase,
         logic=logic,
         source_reference=source_reference,
     )
