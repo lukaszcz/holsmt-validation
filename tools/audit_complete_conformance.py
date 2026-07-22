@@ -30,6 +30,7 @@ V2_MODES = {
     "typecheck-only",
     "typecheck-placeholder",
     "z3-oracle",
+    "cvc5-oracle",
     "proof-parse",
     "proof-replay",
     "z3-tac",

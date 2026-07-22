@@ -16,6 +16,17 @@ python3 "$HOLSMT_VALIDATION_DIR/tools/run_conformance_suite.py" \
   --mode parser-only --out /tmp/holsmt-conformance
 ```
 
+The cvc5 oracle runs the original benchmark text and checks its `sat` or
+`unsat` result.  It is currently enabled for the higher-order extension band:
+
+```sh
+python3 "$HOLSMT_VALIDATION_DIR/tools/run_conformance_suite.py" \
+  --mode cvc5-oracle --cvc5 cvc5 --out /tmp/holsmt-cvc5-oracle
+```
+
+If cvc5 is unavailable, rows are reported explicitly as `unsupported` with a
+`tool-unavailable` classification; they are never counted as solver passes.
+
 `HOLSMT_ROOT` must contain `src/HolSmt`; tools that need checked drivers expect
 them at `$HOLSMT_ROOT/src/HolSmt/holsmt-typecheck` and
 `$HOLSMT_ROOT/src/HolSmt/holsmt-z3-tac`.  Checked cvc5 CPC matrix runs use

@@ -8,6 +8,7 @@ repo_root=$(cd "${HOLSMT_ROOT:-$script_dir/../../..}" && pwd)
 out_dir="tools/complete-conformance-out"
 timeout_seconds=30
 z3_executable="${HOL4_Z3_EXECUTABLE:-z3}"
+cvc5_executable="${HOL4_CVC5_EXECUTABLE:-cvc5}"
 declare -a selected_modes=()
 declare -a selected_logics=()
 declare -a selected_versions=()
@@ -17,6 +18,7 @@ all_modes=(
   typecheck-only
   typecheck-placeholder
   z3-oracle
+  cvc5-oracle
   proof-parse
   proof-replay
   z3-tac
@@ -34,6 +36,7 @@ Options:
   --out-dir DIR         Report directory. Default: tools/complete-conformance-out
   --timeout SECONDS     Per-case solver/driver timeout. Default: 30
   --z3 PATH             Z3 executable for non-versioned conformance modes.
+  --cvc5 PATH           cvc5 executable for cvc5-oracle mode.
   --mode MODE           Limit conformance to one mode. Repeatable.
   --logic LOGIC         Limit conformance to one HolSmt logic. Repeatable.
   --z3-version VERSION  Limit per-version proof corpus checks. Repeatable.
@@ -65,6 +68,11 @@ while [ "$#" -gt 0 ]; do
     --z3)
       [ "$#" -ge 2 ] || die "--z3 requires an argument"
       z3_executable=$2
+      shift 2
+      ;;
+    --cvc5)
+      [ "$#" -ge 2 ] || die "--cvc5 requires an argument"
+      cvc5_executable=$2
       shift 2
       ;;
     --mode)
@@ -226,6 +234,7 @@ for mode in "${selected_modes[@]}"; do
     --mode "$mode" \
     --timeout "$timeout_seconds" \
     --z3 "$z3_executable" \
+    --cvc5 "$cvc5_executable" \
     "${logic_args[@]}" \
     --json-report "conformance-$mode.json" \
     --markdown-report "CONFORMANCE-$mode.md"
@@ -247,6 +256,7 @@ for mode in "${selected_modes[@]}"; do
     --mode "$mode" \
     --timeout "$timeout_seconds" \
     --z3 "$z3_executable" \
+    --cvc5 "$cvc5_executable" \
     "${logic_args[@]}" \
     --json-report "external-$mode.json" \
     --markdown-report "EXTERNAL-$mode.md"

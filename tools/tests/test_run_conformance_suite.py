@@ -60,13 +60,193 @@ if "(get-value" in text:
     return path
 
 
+def make_fake_cvc5(directory):
+    path = pathlib.Path(directory) / "fake-cvc5"
+    script = """#!/usr/bin/env python3
+import pathlib
+import sys
+
+if "--version" in sys.argv:
+    print("cvc5 1.3.4")
+    raise SystemExit(0)
+
+text = pathlib.Path(sys.argv[-1]).read_text(encoding="utf-8")
+print("unsat" if "(assert false)" in text else "sat")
+"""
+    path.write_text(script, encoding="utf-8")
+    path.chmod(path.stat().st_mode | stat.S_IXUSR)
+    return path
+
+
+def make_fake_ho_rejecting_z3(directory):
+    path = pathlib.Path(directory) / "fake-ho-rejecting-z3"
+    script = """#!/usr/bin/env python3
+import sys
+
+if "-version" in sys.argv:
+    print("Z3 version 4.13.0")
+    raise SystemExit(0)
+
+print("unsupported")
+print("; ignoring unsupported logic HO_QF_UF", file=sys.stderr)
+print("sat")
+"""
+    path.write_text(script, encoding="utf-8")
+    path.chmod(path.stat().st_mode | stat.S_IXUSR)
+    return path
+
+
 class ConformanceSuiteTests(unittest.TestCase):
     def test_default_suite_represents_every_official_logic(self):
         cases = conformance.default_cases(None)
         represented = {case.logic for case in cases}
         self.assertFalse(set(conformance.OFFICIAL_LOGICS) - represented)
+        self.assertEqual(len(conformance.OFFICIAL_LOGICS), 73)
+        self.assertEqual(
+            set(conformance.HO_EXTENSION_LOGICS),
+            {
+                "HO_ALL",
+                "HO_UF",
+                "HO_QF_UF",
+                "HO_UFLIA",
+                "HO_QF_UFLIA",
+                "HO_UFLRA",
+                "HO_QF_UFLRA",
+                "HO_AUFLIA",
+                "HO_AUFLIRA",
+                "HO_QF_AUFLIA",
+            },
+        )
+        self.assertFalse(
+            set(conformance.HO_EXTENSION_LOGICS)
+            & set(conformance.OFFICIAL_LOGICS)
+        )
+        self.assertFalse(set(conformance.HO_EXTENSION_LOGICS) - represented)
         self.assertIn("ALL", represented)
         self.assertTrue(any("metamorphic" in case.tags for case in cases))
+
+    def test_ho_extension_smokes_pin_oracle_dialects(self):
+        cases = {
+            (case.logic, "proof" in case.tags): case
+            for case in conformance.default_cases(set(conformance.HO_EXTENSION_LOGICS))
+        }
+        for logic in conformance.HO_EXTENSION_LOGICS:
+            unsat = cases[(logic, True)]
+            sat = cases[(logic, False)]
+            self.assertEqual(unsat.modes, conformance.HO_UNSAT_SMOKE_MODES)
+            self.assertEqual(sat.modes, conformance.HO_SAT_SMOKE_MODES)
+            for case, solver_result in ((unsat, "unsat"), (sat, "sat")):
+                self.assertIn(f"solver-result:{solver_result}", case.tags)
+                self.assertEqual(
+                    case.expected[conformance.MODE_CVC5_ORACLE].status,
+                    conformance.PASS,
+                )
+                self.assertEqual(
+                    case.expected[conformance.MODE_Z3_ORACLE].status,
+                    conformance.FAIL,
+                )
+
+    def test_cvc5_oracle_checks_expected_solver_result(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            bench = root / "bench"
+            bench.mkdir()
+            (bench / "wrong.smt2").write_text(
+                textwrap.dedent(
+                    """\
+                    ; holsmt-expected: {"cvc5-oracle": {"status": "pass"}}
+                    (set-info :status unsat)
+                    (set-logic QF_UF)
+                    (assert true)
+                    (check-sat)
+                    """
+                ),
+                encoding="utf-8",
+            )
+            out_dir = root / "out"
+            code = conformance.main(
+                [
+                    "--out",
+                    str(out_dir),
+                    "--no-default-suite",
+                    "--benchmark-dir",
+                    str(bench),
+                    "--mode",
+                    conformance.MODE_CVC5_ORACLE,
+                    "--cvc5",
+                    str(make_fake_cvc5(root)),
+                ]
+            )
+
+            self.assertEqual(code, 1)
+            report = json.loads(
+                (out_dir / "conformance.json").read_text(encoding="utf-8")
+            )
+            item = report["results"][0]
+            self.assertEqual(item["actual_status"], conformance.FAIL)
+            self.assertEqual(item["artifact"]["solver_result"], "sat")
+            self.assertEqual(item["artifact"]["expected_solver_result"], "unsat")
+
+    def test_missing_cvc5_is_an_explicit_tool_unavailable_skip(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out_dir = pathlib.Path(tmp) / "out"
+            code = conformance.main(
+                [
+                    "--out",
+                    str(out_dir),
+                    "--no-default-corpus",
+                    "--logic",
+                    "HO_QF_UF",
+                    "--mode",
+                    conformance.MODE_CVC5_ORACLE,
+                    "--cvc5",
+                    str(pathlib.Path(tmp) / "missing-cvc5"),
+                ]
+            )
+
+            self.assertEqual(code, 0)
+            report = json.loads(
+                (out_dir / "conformance.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(report["status_counts"][conformance.UNSUPPORTED], 2)
+            self.assertEqual(report["conformance_status_counts"][conformance.FAIL], 0)
+            self.assertEqual(
+                report["classification_counts"][
+                    conformance.CLASSIFICATION_TOOL_UNAVAILABLE
+                ],
+                2,
+            )
+
+    def test_z3_oracle_ho_dialect_rejection_is_expected_failure(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            out_dir = root / "out"
+            code = conformance.main(
+                [
+                    "--out",
+                    str(out_dir),
+                    "--no-default-corpus",
+                    "--logic",
+                    "HO_QF_UF",
+                    "--mode",
+                    conformance.MODE_Z3_ORACLE,
+                    "--z3",
+                    str(make_fake_ho_rejecting_z3(root)),
+                ]
+            )
+
+            self.assertEqual(code, 0)
+            report = json.loads(
+                (out_dir / "conformance.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(report["status_counts"][conformance.FAIL], 2)
+            self.assertEqual(report["conformance_status_counts"][conformance.FAIL], 0)
+            self.assertTrue(
+                all(
+                    item["classification"] == conformance.CLASSIFICATION_MATCHED
+                    for item in report["results"]
+                )
+            )
 
     def test_default_suite_widens_modes_for_supported_logics(self):
         smoke_cases: dict[tuple[str, str], conformance.Case] = {}

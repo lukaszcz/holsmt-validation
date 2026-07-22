@@ -22,7 +22,7 @@ Each case entry has these required fields:
 - `features`: exact command, operator, theory, logic, proof-rule, or audit
   feature IDs covered by the case.
 - `modes`: required execution modes, such as `parser-only`, `typecheck-only`,
-  `z3-oracle`, `proof-parse`, `proof-replay`, and `z3-tac`.
+  `z3-oracle`, `cvc5-oracle`, `proof-parse`, `proof-replay`, and `z3-tac`.
 - `versions`: required Z3 versions for the case.
 - `expected`: per-mode expected results.  Each result status is exactly
   `pass`, `fail`, or `red`; negative and red rows may also carry diagnostic

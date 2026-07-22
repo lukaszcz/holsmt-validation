@@ -754,10 +754,16 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
             }:
                 self.assertIn(feature, case["features"], case_id)
             self.assertEqual("lambda" in case["features"], case_id in lambda_case_ids)
-            self.assertEqual(
-                case["modes"],
-                ["parser-only", "typecheck-only", "z3-tac"],
-            )
+            expected_modes = ["parser-only", "typecheck-only", "z3-tac"]
+            if case_id not in negative_case_ids:
+                expected_modes = [
+                    "parser-only",
+                    "typecheck-only",
+                    "z3-oracle",
+                    "cvc5-oracle",
+                    "z3-tac",
+                ]
+            self.assertEqual(case["modes"], expected_modes)
             self.assertEqual(case["expected"]["parser-only"]["status"], "pass")
             obligation = case["implementation_obligation"]
             if case_id in negative_case_ids:
@@ -783,6 +789,23 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
                 self.assertIsNotNone(obligation, case_id)
                 self.assertEqual(obligation["test_ids"], [case_id])
                 self.assertEqual(obligation["failure_phase"], "translation")
+                self.assertEqual(case["expected"]["z3-oracle"]["status"], "fail")
+                self.assertIn(
+                    "unsupported logic",
+                    case["expected"]["z3-oracle"]["diagnostic"],
+                )
+                cvc5_status = (
+                    "fail"
+                    if case_id in {
+                        "theory:HO_Core:underscore-ambiguity",
+                        "theory:HO_Core:underscore-apply",
+                    }
+                    else "pass"
+                )
+                self.assertEqual(
+                    case["expected"]["cvc5-oracle"]["status"],
+                    cvc5_status,
+                )
 
         negative_diagnostics = {
             "theory:HO_Core:ranked-symbol-partial-application": (

@@ -57764,6 +57764,8 @@
       "modes": [
         "parser-only",
         "typecheck-only",
+        "z3-oracle",
+        "cvc5-oracle",
         "z3-tac"
       ],
       "versions": [
@@ -57778,6 +57780,15 @@
           "status": "pass"
         },
         "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "fail",
+          "diagnostic": "unsupported logic",
+          "failure_phase": "solver",
+          "notes": "Expected Z3 dialect rejection: standard SMT-LIB 2.7 higher-order text requires the checked Z3 lowering."
+        },
+        "cvc5-oracle": {
           "status": "pass"
         },
         "z3-tac": {
@@ -57829,6 +57840,8 @@
       "modes": [
         "parser-only",
         "typecheck-only",
+        "z3-oracle",
+        "cvc5-oracle",
         "z3-tac"
       ],
       "versions": [
@@ -57843,6 +57856,15 @@
           "status": "pass"
         },
         "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "fail",
+          "diagnostic": "unsupported logic",
+          "failure_phase": "solver",
+          "notes": "Expected Z3 dialect rejection: standard SMT-LIB 2.7 higher-order text requires the checked Z3 lowering."
+        },
+        "cvc5-oracle": {
           "status": "pass"
         },
         "z3-tac": {
@@ -58239,6 +58261,8 @@
       "modes": [
         "parser-only",
         "typecheck-only",
+        "z3-oracle",
+        "cvc5-oracle",
         "z3-tac"
       ],
       "versions": [
@@ -58253,6 +58277,15 @@
           "status": "pass"
         },
         "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "fail",
+          "diagnostic": "unsupported logic",
+          "failure_phase": "solver",
+          "notes": "Expected Z3 dialect rejection: standard SMT-LIB 2.7 higher-order text requires the checked Z3 lowering."
+        },
+        "cvc5-oracle": {
           "status": "pass"
         },
         "z3-tac": {
@@ -58305,6 +58338,8 @@
       "modes": [
         "parser-only",
         "typecheck-only",
+        "z3-oracle",
+        "cvc5-oracle",
         "z3-tac"
       ],
       "versions": [
@@ -58319,6 +58354,15 @@
           "status": "pass"
         },
         "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "fail",
+          "diagnostic": "unsupported logic",
+          "failure_phase": "solver",
+          "notes": "Expected Z3 dialect rejection: standard SMT-LIB 2.7 higher-order text requires the checked Z3 lowering."
+        },
+        "cvc5-oracle": {
           "status": "pass"
         },
         "z3-tac": {
@@ -58371,6 +58415,8 @@
       "modes": [
         "parser-only",
         "typecheck-only",
+        "z3-oracle",
+        "cvc5-oracle",
         "z3-tac"
       ],
       "versions": [
@@ -58385,6 +58431,15 @@
           "status": "pass"
         },
         "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "fail",
+          "diagnostic": "unsupported logic",
+          "failure_phase": "solver",
+          "notes": "Expected Z3 dialect rejection: standard SMT-LIB 2.7 higher-order text requires the checked Z3 lowering."
+        },
+        "cvc5-oracle": {
           "status": "pass"
         },
         "z3-tac": {
@@ -58479,6 +58534,8 @@
       "modes": [
         "parser-only",
         "typecheck-only",
+        "z3-oracle",
+        "cvc5-oracle",
         "z3-tac"
       ],
       "versions": [
@@ -58493,6 +58550,15 @@
           "status": "pass"
         },
         "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "fail",
+          "diagnostic": "unsupported logic",
+          "failure_phase": "solver",
+          "notes": "Expected Z3 dialect rejection: standard SMT-LIB 2.7 higher-order text requires the checked Z3 lowering."
+        },
+        "cvc5-oracle": {
           "status": "pass"
         },
         "z3-tac": {
@@ -58544,6 +58610,8 @@
       "modes": [
         "parser-only",
         "typecheck-only",
+        "z3-oracle",
+        "cvc5-oracle",
         "z3-tac"
       ],
       "versions": [
@@ -58558,6 +58626,15 @@
           "status": "pass"
         },
         "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "fail",
+          "diagnostic": "unsupported logic",
+          "failure_phase": "solver",
+          "notes": "Expected Z3 dialect rejection: standard SMT-LIB 2.7 higher-order text requires the checked Z3 lowering."
+        },
+        "cvc5-oracle": {
           "status": "pass"
         },
         "z3-tac": {
@@ -58609,6 +58686,8 @@
       "modes": [
         "parser-only",
         "typecheck-only",
+        "z3-oracle",
+        "cvc5-oracle",
         "z3-tac"
       ],
       "versions": [
@@ -58623,6 +58702,15 @@
           "status": "pass"
         },
         "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "fail",
+          "diagnostic": "unsupported logic",
+          "failure_phase": "solver",
+          "notes": "Expected Z3 dialect rejection: standard SMT-LIB 2.7 higher-order text requires the checked Z3 lowering."
+        },
+        "cvc5-oracle": {
           "status": "pass"
         },
         "z3-tac": {
@@ -58721,6 +58809,8 @@
       "modes": [
         "parser-only",
         "typecheck-only",
+        "z3-oracle",
+        "cvc5-oracle",
         "z3-tac"
       ],
       "versions": [
@@ -58735,6 +58825,15 @@
           "status": "pass"
         },
         "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "fail",
+          "diagnostic": "unsupported logic",
+          "failure_phase": "solver",
+          "notes": "Expected Z3 dialect rejection: standard SMT-LIB 2.7 higher-order text requires the checked Z3 lowering."
+        },
+        "cvc5-oracle": {
           "status": "pass"
         },
         "z3-tac": {
@@ -58839,6 +58938,8 @@
       "modes": [
         "parser-only",
         "typecheck-only",
+        "z3-oracle",
+        "cvc5-oracle",
         "z3-tac"
       ],
       "versions": [
@@ -58854,6 +58955,18 @@
         },
         "typecheck-only": {
           "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "fail",
+          "diagnostic": "unsupported logic",
+          "failure_phase": "solver",
+          "notes": "Expected Z3 dialect rejection: standard SMT-LIB 2.7 higher-order text requires the checked Z3 lowering."
+        },
+        "cvc5-oracle": {
+          "status": "fail",
+          "diagnostic": "Unknown indexed literal",
+          "failure_phase": "solver",
+          "notes": "Expected cvc5 dialect rejection of the SMT-LIB 2.7 underscore apply spelling; cvc5 1.3.4 uses @."
         },
         "z3-tac": {
           "status": "red",
@@ -58905,6 +59018,8 @@
       "modes": [
         "parser-only",
         "typecheck-only",
+        "z3-oracle",
+        "cvc5-oracle",
         "z3-tac"
       ],
       "versions": [
@@ -58920,6 +59035,18 @@
         },
         "typecheck-only": {
           "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "fail",
+          "diagnostic": "unsupported logic",
+          "failure_phase": "solver",
+          "notes": "Expected Z3 dialect rejection: standard SMT-LIB 2.7 higher-order text requires the checked Z3 lowering."
+        },
+        "cvc5-oracle": {
+          "status": "fail",
+          "diagnostic": "Unknown indexed literal",
+          "failure_phase": "solver",
+          "notes": "Expected cvc5 dialect rejection of the SMT-LIB 2.7 underscore apply spelling; cvc5 1.3.4 uses @."
         },
         "z3-tac": {
           "status": "red",

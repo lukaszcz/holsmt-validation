@@ -39,6 +39,7 @@ MODE_PARSER = "parser-only"
 MODE_TYPECHECK = "typecheck-only"
 MODE_TYPECHECK_PLACEHOLDER = "typecheck-placeholder"
 MODE_Z3_ORACLE = "z3-oracle"
+MODE_CVC5_ORACLE = "cvc5-oracle"
 MODE_PROOF_PARSE = "proof-parse"
 MODE_PROOF_REPLAY = "proof-replay"
 MODE_Z3_TAC = "z3-tac"
@@ -48,6 +49,7 @@ ALL_MODES = [
     MODE_TYPECHECK,
     MODE_TYPECHECK_PLACEHOLDER,
     MODE_Z3_ORACLE,
+    MODE_CVC5_ORACLE,
     MODE_PROOF_PARSE,
     MODE_PROOF_REPLAY,
     MODE_Z3_TAC,
@@ -74,6 +76,7 @@ CLASSIFICATION_UNEXPECTED_FAILURE = "unexpected-failure"
 CLASSIFICATION_UNEXPECTED_STATUS = "unexpected-status"
 CLASSIFICATION_DIAGNOSTIC_MISMATCH = "diagnostic-mismatch"
 CLASSIFICATION_EXPECTED_IMPLEMENTATION_GAP = "expected-implementation-gap"
+CLASSIFICATION_TOOL_UNAVAILABLE = "tool-unavailable"
 
 # This mirrors SmtLib_Logics.sml.  ALL is HolSmt's aggregate pseudo-logic, not
 # an official SMT-LIB logic, so it is tracked separately in reports.
@@ -153,7 +156,23 @@ OFFICIAL_LOGICS = [
     "UFNRA",
 ]
 
-HOLSMT_LOGICS = ["ALL", *OFFICIAL_LOGICS]
+# cvc5-convention HO-Core logics are an extension band.  Keep them separate
+# from the official SMT-LIB logic inventory so official coverage counts remain
+# stable.
+HO_EXTENSION_LOGICS = [
+    "HO_ALL",
+    "HO_UF",
+    "HO_QF_UF",
+    "HO_UFLIA",
+    "HO_QF_UFLIA",
+    "HO_UFLRA",
+    "HO_QF_UFLRA",
+    "HO_AUFLIA",
+    "HO_AUFLIRA",
+    "HO_QF_AUFLIA",
+]
+
+HOLSMT_LOGICS = ["ALL", *OFFICIAL_LOGICS, *HO_EXTENSION_LOGICS]
 
 # Official logics whose theories HolSmt does not yet translate to HOL or replay
 # in the checked Z3_TAC path: the FloatingPoint (QF_FP) family and the
@@ -176,6 +195,21 @@ SYNTACTIC_MODES = (MODE_PARSER, MODE_TYPECHECK)
 # replay and checked Z3_TAC rejects a satisfiable goal, so only parse, typecheck
 # and the Z3 oracle apply (mirrors the *_sat cases in conformance-corpus/v1).
 SAT_SMOKE_MODES = (MODE_PARSER, MODE_TYPECHECK, MODE_Z3_ORACLE)
+
+HO_UNSAT_SMOKE_MODES = (
+    MODE_PARSER,
+    MODE_TYPECHECK,
+    MODE_Z3_ORACLE,
+    MODE_CVC5_ORACLE,
+    MODE_Z3_TAC,
+)
+
+HO_SAT_SMOKE_MODES = (
+    MODE_PARSER,
+    MODE_TYPECHECK,
+    MODE_Z3_ORACLE,
+    MODE_CVC5_ORACLE,
+)
 
 SOLVER_RESULTS = {"sat", "unsat", "unknown"}
 HOLSMT_ROOT = pathlib.Path(os.environ.get("HOLSMT_ROOT", pathlib.Path.cwd())).resolve()
@@ -389,7 +423,16 @@ def logic_smoke_case(logic: str, unsat: bool) -> Case:
     proof = "\n(get-proof)" if unsat else ""
     name = f"{logic.lower()}-{'proof' if unsat else 'smoke'}"
     tags = ["logic-smoke", "generated", "proof" if unsat else "oracle"]
-    if logic in THEORY_PENDING_LOGICS:
+    expected: dict[str, ExpectedOutcome] = {}
+    if logic in HO_EXTENSION_LOGICS:
+        modes = HO_UNSAT_SMOKE_MODES if unsat else HO_SAT_SMOKE_MODES
+        tags.extend(("extension-logic", f"solver-result:{'unsat' if unsat else 'sat'}"))
+        expected[MODE_Z3_ORACLE] = ExpectedOutcome(
+            status=FAIL,
+            diagnostic_substring="unsupported logic",
+        )
+        expected[MODE_CVC5_ORACLE] = ExpectedOutcome(status=PASS)
+    elif logic in THEORY_PENDING_LOGICS:
         # Solver/proof/checked-tactic modes are deferred for FloatingPoint and
         # string logics; run only the syntactic modes they already support.
         modes = SYNTACTIC_MODES
@@ -407,6 +450,7 @@ def logic_smoke_case(logic: str, unsat: bool) -> Case:
         origin="generated-default",
         tags=tuple(tags),
         modes=modes,
+        expected=expected,
     )
 
 
@@ -538,6 +582,8 @@ def external_cases(
         tags = ["external", source_kind]
         if family:
             tags.append(f"family:{family}")
+        expected = parse_expected_outcomes(text, context=str(path))
+        modes = tuple(dict.fromkeys((*DEFAULT_MODES, *expected)))
         cases.append(
             Case(
                 name=names[path],
@@ -545,8 +591,9 @@ def external_cases(
                 text=text,
                 origin=f"external:{source_kind}",
                 tags=tuple(tags),
+                modes=modes,
                 source_path=path,
-                expected=parse_expected_outcomes(text, context=str(path)),
+                expected=expected,
             )
         )
     return cases
@@ -708,6 +755,21 @@ def apply_expectation(case: Case, item: dict[str, object]) -> dict[str, object]:
     item["actual_status"] = actual_status
     item["actual_diagnostic"] = actual_diagnostic
 
+    artifact = item.get("artifact")
+    if (
+        actual_status == UNSUPPORTED
+        and isinstance(artifact, dict)
+        and artifact.get("tool_unavailable") is True
+    ):
+        item["expected_status"] = expected.status if expected else None
+        item["expected_diagnostic"] = (
+            expected.diagnostic_substring if expected else None
+        )
+        item["diagnostic_match"] = None
+        item["conformance_status"] = PASS
+        item["classification"] = CLASSIFICATION_TOOL_UNAVAILABLE
+        return item
+
     if expected is None:
         item["expected_status"] = None
         item["expected_diagnostic"] = None
@@ -816,7 +878,7 @@ def failure_class(item: dict[str, object]) -> str | None:
         return "expected implementation gap"
     if expected_status == UNSUPPORTED and status == UNSUPPORTED:
         return "expected unsupported diagnostic"
-    if status == UNSUPPORTED and mode == MODE_Z3_ORACLE:
+    if status == UNSUPPORTED and mode in {MODE_Z3_ORACLE, MODE_CVC5_ORACLE}:
         return "solver unsupported behavior"
     if status != FAIL and conformance_status != FAIL:
         return None
@@ -824,7 +886,7 @@ def failure_class(item: dict[str, object]) -> str | None:
         return "parser"
     if mode == MODE_TYPECHECK:
         return "typecheck"
-    if mode == MODE_Z3_ORACLE:
+    if mode in {MODE_Z3_ORACLE, MODE_CVC5_ORACLE}:
         return "solver unsupported behavior" if status == UNSUPPORTED else "solver"
     if mode == MODE_PROOF_PARSE:
         return "proof parse"
@@ -951,6 +1013,48 @@ def executable_available(executable: str) -> bool:
     return shutil.which(executable) is not None
 
 
+def cvc5_version(cvc5: str) -> str:
+    if not executable_available(cvc5):
+        return "unavailable"
+    try:
+        completed = subprocess.run(
+            [cvc5, "--version"],
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=10,
+        )
+    except (OSError, subprocess.TimeoutExpired):
+        return "unavailable"
+    first_line = completed.stdout.splitlines()
+    return first_line[0].strip() if first_line else "unknown"
+
+
+def expected_solver_result(case: Case) -> str | None:
+    tagged = {
+        tag.removeprefix("solver-result:")
+        for tag in case.tags
+        if tag.startswith("solver-result:")
+    }
+    if "theory-case:sat" in case.tags:
+        tagged.add("sat")
+    if "theory-case:unsat-proof" in case.tags:
+        tagged.add("unsat")
+
+    status_match = re.search(
+        r"\(\s*set-info\s+:status\s+(sat|unsat)\s*\)",
+        case.text,
+        flags=re.IGNORECASE,
+    )
+    if status_match:
+        tagged.add(status_match.group(1).lower())
+    if not tagged:
+        return None
+    if len(tagged) != 1 or not tagged <= {"sat", "unsat"}:
+        return None
+    return next(iter(tagged))
+
+
 def run_shell_command(command: str, timeout: int) -> subprocess.CompletedProcess[str]:
     process = subprocess.Popen(
         command,
@@ -980,7 +1084,7 @@ def run_z3_oracle(case: Case, input_path: pathlib.Path, z3: str, timeout: int, v
             MODE_Z3_ORACLE,
             UNSUPPORTED,
             f"Z3 executable not found: {z3}",
-            artifact={"command_line": command},
+            artifact={"command_line": command, "tool_unavailable": True},
             version=version,
         )
     try:
@@ -1011,6 +1115,17 @@ def run_z3_oracle(case: Case, input_path: pathlib.Path, z3: str, timeout: int, v
         "stdout": completed.stdout,
         "stderr": completed.stderr,
     }
+    if case.logic in HO_EXTENSION_LOGICS and "unsupported logic" in (
+        completed.stdout + completed.stderr
+    ).lower():
+        return result(
+            case,
+            MODE_Z3_ORACLE,
+            FAIL,
+            "Z3 rejected the standard SMT-LIB 2.7 higher-order dialect",
+            artifact=artifact,
+            version=version,
+        )
     if solver_result not in SOLVER_RESULTS:
         stderr_lower = completed.stderr.lower()
         if "unsupported" in stderr_lower or "unknown logic" in stderr_lower:
@@ -1029,6 +1144,100 @@ def run_z3_oracle(case: Case, input_path: pathlib.Path, z3: str, timeout: int, v
     if completed.returncode != 0:
         detail += " before a nonzero exit"
     return result(case, MODE_Z3_ORACLE, PASS, detail, artifact=artifact, version=version)
+
+
+def run_cvc5_oracle(
+    case: Case,
+    input_path: pathlib.Path,
+    cvc5: str,
+    timeout: int,
+    version: str,
+) -> dict[str, object]:
+    command = [cvc5, str(input_path)]
+    if not executable_available(cvc5):
+        return result(
+            case,
+            MODE_CVC5_ORACLE,
+            UNSUPPORTED,
+            f"cvc5 executable not found: {cvc5}",
+            artifact={"command_line": command, "tool_unavailable": True},
+            version=version,
+        )
+    try:
+        completed = subprocess.run(
+            command,
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=timeout,
+        )
+    except subprocess.TimeoutExpired as exc:
+        return result(
+            case,
+            MODE_CVC5_ORACLE,
+            FAIL,
+            f"cvc5 timed out after {timeout}s",
+            artifact={
+                "command_line": command,
+                "stdout": exc.stdout or "",
+                "stderr": exc.stderr or "",
+            },
+            version=version,
+        )
+    except OSError as exc:
+        return result(
+            case,
+            MODE_CVC5_ORACLE,
+            UNSUPPORTED,
+            str(exc),
+            artifact={"command_line": command, "tool_unavailable": True},
+            version=version,
+        )
+
+    solver_result, _ = detect_solver_result(completed.stdout)
+    expected_result = expected_solver_result(case)
+    artifact = {
+        "command_line": command,
+        "exit_code": completed.returncode,
+        "solver_result": solver_result,
+        "expected_solver_result": expected_result,
+        "stdout": completed.stdout,
+        "stderr": completed.stderr,
+    }
+    if expected_result is None:
+        return result(
+            case,
+            MODE_CVC5_ORACLE,
+            FAIL,
+            "case has no sat/unsat solver expectation",
+            artifact=artifact,
+            version=version,
+        )
+    if solver_result != expected_result:
+        detail = (
+            f"cvc5 returned {solver_result}; expected {expected_result}"
+            if solver_result in SOLVER_RESULTS
+            else "cvc5 did not print a solver result"
+        )
+        return result(
+            case,
+            MODE_CVC5_ORACLE,
+            FAIL,
+            detail,
+            artifact=artifact,
+            version=version,
+        )
+    detail = f"cvc5 returned expected result {solver_result}"
+    if completed.returncode != 0:
+        detail += " before a nonzero exit"
+    return result(
+        case,
+        MODE_CVC5_ORACLE,
+        PASS,
+        detail,
+        artifact=artifact,
+        version=version,
+    )
 
 
 def proof_checks(
@@ -1702,6 +1911,8 @@ def build_report(
     proof_entries: list[dict[str, object]],
     z3: str,
     z3_ver: str,
+    cvc5: str,
+    cvc5_ver: str,
     external_source_manifest: Mapping[str, object],
 ) -> dict[str, object]:
     counts = collections.Counter(str(item["status"]) for item in results)
@@ -1709,6 +1920,9 @@ def build_report(
     conformance_counts = logic_summary["conformance_status_counts"]  # type: ignore[index]
     proof_summary = build_proof_corpus_summary(proof_entries) if proof_entries else None
     official_missing = sorted(set(OFFICIAL_LOGICS) - {case.logic for case in cases})
+    extension_missing = sorted(
+        set(HO_EXTENSION_LOGICS) - {case.logic for case in cases}
+    )
     metamorphic_summary = build_metamorphic_groups(cases, results)
     benchmark_summary = summarize_external_benchmarks(cases, results, external_source_manifest)
     return {
@@ -1718,6 +1932,10 @@ def build_report(
         "z3": {
             "executable": z3,
             "version": z3_ver,
+        },
+        "cvc5": {
+            "executable": cvc5,
+            "version": cvc5_ver,
         },
         "modes": ALL_MODES,
         "case_count": len(cases),
@@ -1733,6 +1951,11 @@ def build_report(
             "represented_count": len(OFFICIAL_LOGICS) - len(official_missing),
             "total_count": len(OFFICIAL_LOGICS),
             "missing": official_missing,
+        },
+        "extension_logic_coverage": {
+            "represented_count": len(HO_EXTENSION_LOGICS) - len(extension_missing),
+            "total_count": len(HO_EXTENSION_LOGICS),
+            "missing": extension_missing,
         },
         "summary": logic_summary,
         "proof_corpus_summary": proof_summary,
@@ -1756,19 +1979,23 @@ def build_report(
 
 def markdown_report(report: dict[str, object]) -> str:
     z3 = report["z3"]  # type: ignore[index]
+    cvc5 = report["cvc5"]  # type: ignore[index]
     status_counts = report["status_counts"]  # type: ignore[index]
     conformance_counts = report["conformance_status_counts"]  # type: ignore[index]
     coverage = report["official_logic_coverage"]  # type: ignore[index]
+    extension_coverage = report["extension_logic_coverage"]  # type: ignore[index]
     lines = [
         "# HolSmt SMT-LIB Conformance Report",
         "",
         f"- Schema: `{report['schema']}`",
         f"- SMT-LIB target: `{report['smtlib_version']}`",
         f"- Z3: `{z3['executable']}` version `{z3['version']}`",  # type: ignore[index]
+        f"- cvc5: `{cvc5['executable']}` version `{cvc5['version']}`",  # type: ignore[index]
         f"- Cases: {report['case_count']}",
         f"- Actual results: pass {status_counts[PASS]}, fail {status_counts[FAIL]}, unsupported {status_counts[UNSUPPORTED]}",  # type: ignore[index]
         f"- Conformance: pass {conformance_counts[PASS]}, fail {conformance_counts[FAIL]}",  # type: ignore[index]
         f"- Official logic coverage: {coverage['represented_count']}/{coverage['total_count']}",  # type: ignore[index]
+        f"- HO extension logic coverage: {extension_coverage['represented_count']}/{extension_coverage['total_count']}",  # type: ignore[index]
         "",
         "## Counts By Logic And Mode",
         "",
@@ -1864,6 +2091,10 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run HolSmt SMT-LIB conformance modes and write JSON/Markdown reports.")
     parser.add_argument("--out", type=pathlib.Path, default=pathlib.Path("tools/conformance-out"))
     parser.add_argument("--z3", default=os.environ.get("HOL4_Z3_EXECUTABLE") or "z3")
+    parser.add_argument(
+        "--cvc5",
+        default=os.environ.get("HOL4_CVC5_EXECUTABLE") or "cvc5",
+    )
     parser.add_argument("--timeout", type=int, default=30)
     parser.add_argument("--logic", action="append", choices=HOLSMT_LOGICS)
     parser.add_argument("--mode", action="append", choices=ALL_MODES)
@@ -1977,6 +2208,7 @@ def main(argv: list[str]) -> int:
 
     case_inputs = write_case_inputs(cases, out_dir)
     z3_ver = z3_version(args.z3) if executable_available(args.z3) else "unavailable"
+    cvc5_ver = cvc5_version(args.cvc5)
     results: list[dict[str, object]] = []
     proof_entries: list[dict[str, object]] = []
 
@@ -1989,6 +2221,14 @@ def main(argv: list[str]) -> int:
                 item = parser_check(case)
             elif mode == MODE_Z3_ORACLE:
                 item = run_z3_oracle(case, input_path, args.z3, args.timeout, z3_ver)
+            elif mode == MODE_CVC5_ORACLE:
+                item = run_cvc5_oracle(
+                    case,
+                    input_path,
+                    args.cvc5,
+                    args.timeout,
+                    cvc5_ver,
+                )
             elif mode in {MODE_PROOF_PARSE, MODE_PROOF_REPLAY}:
                 if proof_result_cache is None:
                     proof_result_cache = proof_checks(case, input_path, out_dir, args.z3, args.timeout, z3_ver)
@@ -2015,7 +2255,16 @@ def main(argv: list[str]) -> int:
             if item["status"] == FAIL or item["conformance_status"] == FAIL:
                 preserve_repro(out_dir, case, input_path, item)
 
-    report = build_report(cases, results, proof_entries, args.z3, z3_ver, external_source_manifest)
+    report = build_report(
+        cases,
+        results,
+        proof_entries,
+        args.z3,
+        z3_ver,
+        args.cvc5,
+        cvc5_ver,
+        external_source_manifest,
+    )
     json_path = out_dir / args.json_report
     markdown_path = out_dir / args.markdown_report
     json_dump(json_path, report)

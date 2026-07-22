@@ -43,6 +43,7 @@ MODES = (
     "typecheck-only",
     "typecheck-placeholder",
     "z3-oracle",
+    "cvc5-oracle",
     "proof-parse",
     "proof-replay",
     "z3-tac",
@@ -4430,6 +4431,7 @@ def hocore_red_case(
     expected_status: str = "red",
     implementation_feature: str | None = None,
     implementation_files: tuple[str, ...] = HOCORE_IMPLEMENTATION_FILES,
+    cvc5_diagnostic: str | None = None,
     source_reference: str,
 ) -> ScriptedCase:
     diagnostic = diagnostic or (
@@ -4438,23 +4440,48 @@ def hocore_red_case(
     packet_surface = logic.startswith("HO_") and expected_status == "red"
     typecheck_status = "pass" if packet_surface else expected_status
     implementation_phase = "translation" if packet_surface else "typecheck"
+    modes = ["parser-only", "typecheck-only"]
+    expected = {
+        "parser-only": expected_result("pass"),
+        "typecheck-only": expected_result(
+            typecheck_status,
+            diagnostic=None if packet_surface else diagnostic,
+            failure_phase=None if packet_surface else "typecheck",
+        ),
+    }
+    if packet_surface:
+        modes.extend(("z3-oracle", "cvc5-oracle"))
+        expected["z3-oracle"] = expected_result(
+            "fail",
+            diagnostic="unsupported logic",
+            failure_phase="solver",
+            notes=(
+                "Expected Z3 dialect rejection: standard SMT-LIB 2.7 "
+                "higher-order text requires the checked Z3 lowering."
+            ),
+        )
+        expected["cvc5-oracle"] = expected_result(
+            "fail" if cvc5_diagnostic else "pass",
+            diagnostic=cvc5_diagnostic,
+            failure_phase="solver" if cvc5_diagnostic else None,
+            notes=(
+                "Expected cvc5 dialect rejection of the SMT-LIB 2.7 "
+                "underscore apply spelling; cvc5 1.3.4 uses @."
+                if cvc5_diagnostic
+                else None
+            ),
+        )
+    modes.append("z3-tac")
+    expected["z3-tac"] = expected_result(
+        expected_status,
+        diagnostic=diagnostic,
+        failure_phase=implementation_phase,
+    )
     return ScriptedCase(
         slug=slug_name,
         script=script,
-        modes=("parser-only", "typecheck-only", "z3-tac"),
-        expected={
-            "parser-only": expected_result("pass"),
-            "typecheck-only": expected_result(
-                typecheck_status,
-                diagnostic=None if packet_surface else diagnostic,
-                failure_phase=None if packet_surface else "typecheck",
-            ),
-            "z3-tac": expected_result(
-                expected_status,
-                diagnostic=diagnostic,
-                failure_phase=implementation_phase,
-            ),
-        },
+        modes=tuple(modes),
+        expected=expected,
         features=(
             "theory:HO_Core",
             f"theory-entry:HO_Core:{slug_name}",
@@ -4715,6 +4742,7 @@ HOCORE_THEORY_CASES: tuple[ScriptedCase, ...] = (
             "higher-order-surface:apply-operator",
             "apply-operator:underscore",
         ),
+        cvc5_diagnostic="Unknown indexed literal",
         source_reference="SMT-LIB 2.7 HO-Core underscore apply operator",
     ),
     hocore_red_case(
@@ -4965,6 +4993,7 @@ HOCORE_THEORY_CASES: tuple[ScriptedCase, ...] = (
             "indexed-identifier:BitVec",
         ),
         implementation_feature="higher-order:underscore-disambiguation",
+        cvc5_diagnostic="Unknown indexed literal",
         source_reference=(
             "SMT-LIB 2.7 indexed identifiers and HO-Core application"
         ),
