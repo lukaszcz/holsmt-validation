@@ -5,7 +5,7 @@ set -euo pipefail
 script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 validation_root=$(cd "$script_dir/.." && pwd)
 repo_root=$(cd "${HOLSMT_ROOT:-$script_dir/../../..}" && pwd)
-out_dir=".holsmt-ci"
+out_dir="$validation_root/.holsmt-ci"
 include_docker=false
 clean_first=true
 allow_unsupported_z3=false
@@ -18,7 +18,8 @@ Usage: tools/run_holsmt_tests.sh [options]
 Runs the local HolSmt test contract from the repository root.
 
 Options:
-  --out-dir DIR       Write conformance outputs under DIR (default: .holsmt-ci)
+  --out-dir DIR       Write conformance outputs under DIR
+                      (default: validation checkout/.holsmt-ci)
   --no-clean          Do not run Holmake cleanAll before building test targets
   --allow-unsupported-z3
                       Run even when z3 is outside the supported version matrix

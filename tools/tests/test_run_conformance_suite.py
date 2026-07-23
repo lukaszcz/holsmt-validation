@@ -110,6 +110,11 @@ class ConformanceSuiteTests(unittest.TestCase):
 
         self.assertEqual(args.cvc5, "/configured/cvc5")
 
+    def test_default_output_is_in_validation_checkout(self):
+        args = conformance.parse_args([])
+        expected = pathlib.Path(conformance.__file__).resolve().parent / "conformance-out"
+        self.assertEqual(args.out, expected)
+
     def test_default_suite_represents_every_official_logic(self):
         cases = conformance.default_cases(None)
         represented = {case.logic for case in cases}

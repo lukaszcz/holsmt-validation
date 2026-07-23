@@ -27,7 +27,8 @@
 #                                         RAM/cores if unset
 #   --maxheap  8000       (MAXHEAP)       hard per-shard heap cap, MB
 #   --timeout  1800       (SHARD_TIMEOUT) per-shard wall-clock kill, seconds
-#   --out      selftest-shards (OUT_DIR)  per-shard stdout/status directory
+#   --out      validation tools/selftest-shards
+#                         (OUT_DIR)  per-shard stdout/status directory
 #   --keep-going          (HOL4_SELFTEST_KEEP_GOING=1)  run every test and
 #                                         report all failures, instead of
 #                                         stopping each shard at its first
@@ -54,7 +55,7 @@ shards=${SHARDS:-8}
 jobs=${JOBS:-auto}
 maxheap=${MAXHEAP:-8000}
 timeout_seconds=${SHARD_TIMEOUT:-1800}
-out_dir=${OUT_DIR:-"$holsmt_dir/selftest-shards"}
+out_dir=${OUT_DIR:-"$script_dir/selftest-shards"}
 keep_going=${HOL4_SELFTEST_KEEP_GOING:-0}
 do_build=${RUN_SELFTEST_BUILD:-1}
 

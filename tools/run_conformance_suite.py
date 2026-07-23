@@ -213,6 +213,9 @@ HO_SAT_SMOKE_MODES = (
 
 SOLVER_RESULTS = {"sat", "unsat", "unknown"}
 HOLSMT_ROOT = pathlib.Path(os.environ.get("HOLSMT_ROOT", pathlib.Path.cwd())).resolve()
+DEFAULT_OUTPUT_DIR = (
+    pathlib.Path(__file__).resolve().parent / "conformance-out"
+)
 DEFAULT_TYPECHECK_DRIVER = HOLSMT_ROOT / "src" / "HolSmt" / "holsmt-typecheck"
 DEFAULT_TYPECHECK_COMMAND = f"{shlex.quote(str(DEFAULT_TYPECHECK_DRIVER))} {{input}} {{logic}}"
 DEFAULT_TYPECHECK_PLACEHOLDER_COMMAND = (
@@ -2089,7 +2092,7 @@ def markdown_report(report: dict[str, object]) -> str:
 
 def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run HolSmt SMT-LIB conformance modes and write JSON/Markdown reports.")
-    parser.add_argument("--out", type=pathlib.Path, default=pathlib.Path("tools/conformance-out"))
+    parser.add_argument("--out", type=pathlib.Path, default=DEFAULT_OUTPUT_DIR)
     parser.add_argument("--z3", default=os.environ.get("HOL4_Z3_EXECUTABLE") or "z3")
     parser.add_argument(
         "--cvc5",

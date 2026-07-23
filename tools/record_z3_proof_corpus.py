@@ -22,6 +22,7 @@ SCHEMA = "holsmt-z3-proof-corpus-v1"
 MATRIX_SCHEMA = "holsmt-z3-proof-corpus-matrix-v1"
 RULE_CONTEXT_LIMIT = 3
 VALIDATION_ROOT = pathlib.Path(__file__).resolve().parent.parent
+DEFAULT_OUTPUT_DIR = VALIDATION_ROOT / "tools" / "proof-corpus" / "out"
 DEFAULT_SUPPORTED_VERSION_MANIFEST = (
     pathlib.Path(__file__).resolve().parent
     / "proof-corpus"
@@ -1858,7 +1859,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument(
         "--out",
         type=pathlib.Path,
-        default=pathlib.Path("tools/proof-corpus/out"),
+        default=DEFAULT_OUTPUT_DIR,
         help="output directory for JSON and raw solver artifacts",
     )
     parser.add_argument(

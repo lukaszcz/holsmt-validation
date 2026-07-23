@@ -1,5 +1,12 @@
 __pycache__/
 *.py[cod]
 .holsmt-ci/
+.holsmt-z3-version-matrix*/
 complete-conformance-out/
+complete-conformance-out-*/
 conformance-out/
+conformance-out-*/
+selftest-shards/
+proof-corpus/out/
+cvc5-cpc-matrix.json
+cpc-corpus-out/

@@ -5,7 +5,7 @@ set -u -o pipefail
 script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 repo_root=$(cd "${HOLSMT_ROOT:-$script_dir/../../..}" && pwd)
 
-out_dir="tools/complete-conformance-out"
+out_dir="$script_dir/complete-conformance-out"
 timeout_seconds=30
 z3_executable="${HOL4_Z3_EXECUTABLE:-z3}"
 cvc5_executable="${HOL4_CVC5_EXECUTABLE:-${HOL4_CVC_EXECUTABLE:-cvc5}}"
@@ -33,7 +33,8 @@ complete conformance/proof/external benchmark checks, and write one report
 directory.
 
 Options:
-  --out-dir DIR         Report directory. Default: tools/complete-conformance-out
+  --out-dir DIR         Report directory. Default:
+                        validation tools/complete-conformance-out
   --timeout SECONDS     Per-case solver/driver timeout. Default: 30
   --z3 PATH             Z3 executable for non-versioned conformance modes.
   --cvc5 PATH           cvc5 executable for cvc5-oracle mode.

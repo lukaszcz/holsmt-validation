@@ -14,6 +14,7 @@ from typing import Any
 
 
 SCHEMA = "holsmt-cvc5-cpc-replay-matrix-v1"
+TOOLS_DIR = pathlib.Path(__file__).resolve().parent
 PASS = "CVC_CPC_TAC_PASS"
 
 
@@ -76,7 +77,7 @@ def main(argv: list[str]) -> int:
     parser.add_argument("--cvc5", default=os.environ.get(
                         "HOL4_CVC_EXECUTABLE", "cvc5"))
     parser.add_argument("--out", type=pathlib.Path,
-                        default=pathlib.Path("tools/cvc5-cpc-matrix.json"))
+                        default=TOOLS_DIR / "cvc5-cpc-matrix.json")
     parser.add_argument("--timeout", type=int, default=60)
     args = parser.parse_args(argv)
     inputs = list(args.inputs)

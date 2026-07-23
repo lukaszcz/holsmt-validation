@@ -22,6 +22,7 @@ from typing import Any
 
 
 SCHEMA = "holsmt-cvc5-cpc-corpus-v1"
+TOOLS_DIR = pathlib.Path(__file__).resolve().parent
 GRANULARITIES = (
     "macro", "rewrite", "theory-rewrite", "dsl-rewrite",
     "dsl-rewrite-strict",
@@ -177,7 +178,7 @@ def main(argv: list[str]) -> int:
     parser.add_argument("inputs", nargs="+", type=pathlib.Path)
     parser.add_argument("--cvc5", default=os.environ.get("HOL4_CVC_EXECUTABLE", "cvc5"))
     parser.add_argument("--out", type=pathlib.Path,
-                        default=pathlib.Path("tools/cpc-corpus-out"))
+                        default=TOOLS_DIR / "cpc-corpus-out")
     parser.add_argument("--timeout", type=int, default=30)
     parser.add_argument("--granularity", action="append", choices=GRANULARITIES)
     args = parser.parse_args(argv)

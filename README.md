@@ -16,6 +16,11 @@ python3 "$HOLSMT_VALIDATION_DIR/tools/run_conformance_suite.py" \
   --mode parser-only --out /tmp/holsmt-conformance
 ```
 
+When an output option is omitted, validation tools write generated reports
+under this validation checkout, independently of the caller's working
+directory.  Explicit `--out` and `--out-dir` options still select any desired
+location.
+
 The cvc5 oracle runs the original benchmark text and checks its `sat` or
 `unsat` result.  It is currently enabled for the higher-order extension band:
 

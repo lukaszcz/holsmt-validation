@@ -3,10 +3,11 @@
 set -euo pipefail
 
 script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+validation_root=$(cd "$script_dir/.." && pwd)
 repo_root=$(cd "${HOLSMT_ROOT:-$script_dir/../../..}" && pwd)
 
 versions=(4.11.2 4.12.4 4.13.0 4.14.1 4.15.3)
-out_dir=".holsmt-z3-version-matrix"
+out_dir="$validation_root/.holsmt-z3-version-matrix"
 download_dir=""
 # Per-shard selftest timeout.  The functional selftest is run sharded (see
 # tools/run_selftest.sh), so this bounds a single shard, not the whole
@@ -31,7 +32,8 @@ Options:
   --z3 VERSION:PATH     Use an existing local Z3 executable for VERSION.
                         Repeatable; useful when GitHub has no binary for the
                         local architecture.
-  --out-dir DIR         Output directory (default: .holsmt-z3-version-matrix)
+  --out-dir DIR         Output directory
+                        (default: validation checkout/.holsmt-z3-version-matrix)
   --download-dir DIR    Download/cache directory (default: OUT_DIR/downloads)
   --timeout SECONDS     Per-shard selftest timeout (default: 1800)
   --shards N            Selftest shards per version (default: 8; env SHARDS)
