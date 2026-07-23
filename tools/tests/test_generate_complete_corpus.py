@@ -127,9 +127,23 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
                 list(generator.SUPPORTED_Z3_VERSIONS),
             )
             self.assertEqual(case["expected"]["proof-parse"]["status"], "pass")
-            self.assertEqual(case["expected"]["proof-replay"]["status"], "red")
-            self.assertEqual(case["expected"]["z3-tac"]["status"], "red")
-            self.assertIsNotNone(case["implementation_obligation"])
+            self.assertEqual(case["expected"]["proof-replay"]["status"], "pass")
+            residual = generator.HO_PROOF_Z3_TAC_RESIDUALS.get(case["id"])
+            if residual is None:
+                self.assertEqual(case["expected"]["z3-tac"]["status"], "pass")
+                self.assertIsNone(case["implementation_obligation"])
+                self.assertNotIn("proof-rule:rewrite", case["features"])
+            else:
+                self.assertEqual(case["expected"]["z3-tac"]["status"], "red")
+                self.assertEqual(
+                    case["expected"]["z3-tac"]["diagnostic"],
+                    residual,
+                )
+                self.assertIn("proof-rule:rewrite", case["features"])
+                obligation = case["implementation_obligation"]
+                self.assertIsNotNone(obligation)
+                self.assertEqual(obligation["feature"], "proof-rule:rewrite")
+                self.assertEqual(obligation["test_ids"], [case["id"]])
             for feature in {
                 "function-sort",
                 "function-valued",
@@ -140,10 +154,6 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
                 self.assertIn(feature, case["features"])
             if case["id"] == "proof-rule:ho:beta-instance":
                 self.assertNotIn("proof-rule:proof-bind", case["features"])
-                self.assertEqual(
-                    case["expected"]["proof-replay"]["diagnostic"],
-                    "lambda proof-term replay is not implemented",
-                )
             else:
                 self.assertIn("proof-rule:proof-bind", case["features"])
 
@@ -638,14 +648,11 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
             "theory:HO_Core:fo-arrow-sort-fragment",
             "theory:HO_Core:fo-apply-operator-fragment",
         }
-        self.assertEqual(
-            new_case_ids - negative_case_ids,
-            {
-                case_id
-                for case_id, case in hocore_by_id.items()
-                if case["implementation_obligation"] is not None
-            },
-        )
+        self.assertFalse({
+            case_id
+            for case_id, case in hocore_by_id.items()
+            if case["implementation_obligation"] is not None
+        })
 
         scripts_by_id = {
             f"theory:HO_Core:{case.slug}": case.script
@@ -781,14 +788,11 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
                 self.assertNotIn(
                     "failure_phase", case["expected"]["typecheck-only"]
                 )
-                self.assertEqual(case["expected"]["z3-tac"]["status"], "red")
-                self.assertEqual(
-                    case["expected"]["z3-tac"]["failure_phase"],
-                    "translation",
+                self.assertEqual(case["expected"]["z3-tac"]["status"], "pass")
+                self.assertNotIn(
+                    "failure_phase", case["expected"]["z3-tac"]
                 )
-                self.assertIsNotNone(obligation, case_id)
-                self.assertEqual(obligation["test_ids"], [case_id])
-                self.assertEqual(obligation["failure_phase"], "translation")
+                self.assertIsNone(obligation, case_id)
                 self.assertEqual(case["expected"]["z3-oracle"]["status"], "fail")
                 self.assertIn(
                     "unsupported logic",

@@ -702,6 +702,12 @@ HO_PROOF_CASES: tuple[HOProofCase, ...] = (
 )
 
 
+HO_PROOF_Z3_TAC_RESIDUALS: dict[str, str] = {
+    "proof-rule:ho:lambda-equality": "proof rule: rewrite",
+    "proof-rule:ho:lambda-under-quantifier": "failed to parse 'pull-quant'",
+}
+
+
 TH_LEMMA_PROOF_RULE_OBLIGATIONS: tuple[ProofRuleObligation, ...] = (
     ProofRuleObligation(
         rule="th-lemma-datatype",
@@ -951,7 +957,7 @@ def proof_rule_th_lemma_nonlinear_arith_case() -> GeneratedCase:
 
 
 def ho_proof_rule_case(case: HOProofCase) -> GeneratedCase:
-    replay_feature = "higher-order:lambda-proof-replay"
+    residual = HO_PROOF_Z3_TAC_RESIDUALS.get(case.case_id)
     entry = manifest_entry(
         case_id=case.case_id,
         file=(
@@ -978,45 +984,41 @@ def ho_proof_rule_case(case: HOProofCase) -> GeneratedCase:
                 if case.lambda_definition_rules
                 else ()
             ),
+            *(("proof-rule:rewrite",) if residual is not None else ()),
         ),
         modes=("proof-parse", "proof-replay", "z3-tac"),
         versions=SUPPORTED_Z3_VERSIONS,
         expected={
             "proof-parse": expected_result("pass"),
             "proof-replay": expected_result(
-                "red",
-                diagnostic=(
-                    "structured proof-bind and lambda-def replay is not "
-                    "implemented"
-                    if case.lambda_definition_rules
-                    else "lambda proof-term replay is not implemented"
-                ),
-                failure_phase="proof-replay",
+                "pass",
             ),
             "z3-tac": expected_result(
-                "red",
-                diagnostic=(
-                    "checked higher-order Z3 replay is not implemented"
+                "red" if residual is not None else "pass",
+                diagnostic=residual,
+                failure_phase=(
+                    "proof-replay" if residual is not None else None
                 ),
-                failure_phase="proof-replay",
                 theorem_shape="closed theorem without oracle tags",
             ),
         },
-        implementation_obligation=implementation_obligation(
-            files=(
-                "src/HolSmt/Z3_Proof.sml",
-                "src/HolSmt/Z3_ProofParser.sml",
-                "src/HolSmt/Z3_ProofReplay.sml",
-                "src/HolSmt/Z3_ProformaThms.sml",
-                "src/HolSmt/Unittest.sml",
-            ),
-            feature=replay_feature,
-            test_ids=[case.case_id],
-            failure_phase="proof-replay",
-            notes=(
-                "C1 raw matrix evidence; keep replay red until TASK_14/15 "
-                "implements the recorded higher-order proof-term shapes."
-            ),
+        implementation_obligation=(
+            implementation_obligation(
+                files=(
+                    "src/HolSmt/Z3_ProofParser.sml",
+                    "src/HolSmt/Z3_ProofReplay.sml",
+                    "src/HolSmt/Unittest.sml",
+                ),
+                feature="proof-rule:rewrite",
+                test_ids=[case.case_id],
+                failure_phase="proof-replay",
+                notes=(
+                    "TASK_16 checked replay burn-down residual, reproduced "
+                    "on Z3 4.11.2 and 4.15.3."
+                ),
+            )
+            if residual is not None
+            else None
         ),
         source=source(
             "Z3-proof",
@@ -4472,10 +4474,15 @@ def hocore_red_case(
             ),
         )
     modes.append("z3-tac")
+    z3_tac_status = "pass" if packet_surface else expected_status
     expected["z3-tac"] = expected_result(
-        expected_status,
-        diagnostic=diagnostic,
-        failure_phase=implementation_phase,
+        z3_tac_status,
+        diagnostic=(
+            diagnostic if z3_tac_status in {"fail", "red"} else None
+        ),
+        failure_phase=(
+            implementation_phase if z3_tac_status in {"fail", "red"} else None
+        ),
     )
     return ScriptedCase(
         slug=slug_name,

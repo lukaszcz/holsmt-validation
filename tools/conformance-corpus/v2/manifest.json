@@ -25232,32 +25232,14 @@
           "status": "pass"
         },
         "proof-replay": {
-          "status": "red",
-          "diagnostic": "lambda proof-term replay is not implemented",
-          "failure_phase": "proof-replay"
+          "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked higher-order Z3 replay is not implemented",
-          "failure_phase": "proof-replay",
+          "status": "pass",
           "theorem_shape": "closed theorem without oracle tags"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/Unittest.sml",
-          "src/HolSmt/Z3_ProformaThms.sml",
-          "src/HolSmt/Z3_Proof.sml",
-          "src/HolSmt/Z3_ProofParser.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "higher-order:lambda-proof-replay",
-        "test_ids": [
-          "proof-rule:ho:beta-instance"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "C1 raw matrix evidence; keep replay red until TASK_14/15 implements the recorded higher-order proof-term shapes."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "Z3-proof",
         "reference": "Phase 3 C1 Z3 lambda-as-array proof-shape corpus"
@@ -25298,32 +25280,14 @@
           "status": "pass"
         },
         "proof-replay": {
-          "status": "red",
-          "diagnostic": "structured proof-bind and lambda-def replay is not implemented",
-          "failure_phase": "proof-replay"
+          "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked higher-order Z3 replay is not implemented",
-          "failure_phase": "proof-replay",
+          "status": "pass",
           "theorem_shape": "closed theorem without oracle tags"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/Unittest.sml",
-          "src/HolSmt/Z3_ProformaThms.sml",
-          "src/HolSmt/Z3_Proof.sml",
-          "src/HolSmt/Z3_ProofParser.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "higher-order:lambda-proof-replay",
-        "test_ids": [
-          "proof-rule:ho:eta-partial-application"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "C1 raw matrix evidence; keep replay red until TASK_14/15 implements the recorded higher-order proof-term shapes."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "Z3-proof",
         "reference": "Phase 3 C1 Z3 lambda-as-array proof-shape corpus"
@@ -25343,6 +25307,7 @@
         "lambda",
         "proof-rule:intro-def",
         "proof-rule:proof-bind",
+        "proof-rule:rewrite",
         "proof-shape:lambda-equality",
         "real-proof-occurrence:intro-def",
         "real-proof-occurrence:proof-bind"
@@ -25364,13 +25329,11 @@
           "status": "pass"
         },
         "proof-replay": {
-          "status": "red",
-          "diagnostic": "structured proof-bind and lambda-def replay is not implemented",
-          "failure_phase": "proof-replay"
+          "status": "pass"
         },
         "z3-tac": {
           "status": "red",
-          "diagnostic": "checked higher-order Z3 replay is not implemented",
+          "diagnostic": "proof rule: rewrite",
           "failure_phase": "proof-replay",
           "theorem_shape": "closed theorem without oracle tags"
         }
@@ -25378,17 +25341,15 @@
       "implementation_obligation": {
         "files": [
           "src/HolSmt/Unittest.sml",
-          "src/HolSmt/Z3_ProformaThms.sml",
-          "src/HolSmt/Z3_Proof.sml",
           "src/HolSmt/Z3_ProofParser.sml",
           "src/HolSmt/Z3_ProofReplay.sml"
         ],
-        "feature": "higher-order:lambda-proof-replay",
+        "feature": "proof-rule:rewrite",
         "test_ids": [
           "proof-rule:ho:lambda-equality"
         ],
         "failure_phase": "proof-replay",
-        "notes": "C1 raw matrix evidence; keep replay red until TASK_14/15 implements the recorded higher-order proof-term shapes."
+        "notes": "TASK_16 checked replay burn-down residual, reproduced on Z3 4.11.2 and 4.15.3."
       },
       "source": {
         "kind": "Z3-proof",
@@ -25430,32 +25391,14 @@
           "status": "pass"
         },
         "proof-replay": {
-          "status": "red",
-          "diagnostic": "structured proof-bind and lambda-def replay is not implemented",
-          "failure_phase": "proof-replay"
+          "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked higher-order Z3 replay is not implemented",
-          "failure_phase": "proof-replay",
+          "status": "pass",
           "theorem_shape": "closed theorem without oracle tags"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/Unittest.sml",
-          "src/HolSmt/Z3_ProformaThms.sml",
-          "src/HolSmt/Z3_Proof.sml",
-          "src/HolSmt/Z3_ProofParser.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "higher-order:lambda-proof-replay",
-        "test_ids": [
-          "proof-rule:ho:lambda-extensionality"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "C1 raw matrix evidence; keep replay red until TASK_14/15 implements the recorded higher-order proof-term shapes."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "Z3-proof",
         "reference": "Phase 3 C1 Z3 lambda-as-array proof-shape corpus"
@@ -25475,6 +25418,7 @@
         "lambda",
         "proof-rule:intro-def",
         "proof-rule:proof-bind",
+        "proof-rule:rewrite",
         "proof-shape:lambda-under-quantifier",
         "real-proof-occurrence:intro-def",
         "real-proof-occurrence:proof-bind"
@@ -25496,13 +25440,11 @@
           "status": "pass"
         },
         "proof-replay": {
-          "status": "red",
-          "diagnostic": "structured proof-bind and lambda-def replay is not implemented",
-          "failure_phase": "proof-replay"
+          "status": "pass"
         },
         "z3-tac": {
           "status": "red",
-          "diagnostic": "checked higher-order Z3 replay is not implemented",
+          "diagnostic": "failed to parse 'pull-quant'",
           "failure_phase": "proof-replay",
           "theorem_shape": "closed theorem without oracle tags"
         }
@@ -25510,17 +25452,15 @@
       "implementation_obligation": {
         "files": [
           "src/HolSmt/Unittest.sml",
-          "src/HolSmt/Z3_ProformaThms.sml",
-          "src/HolSmt/Z3_Proof.sml",
           "src/HolSmt/Z3_ProofParser.sml",
           "src/HolSmt/Z3_ProofReplay.sml"
         ],
-        "feature": "higher-order:lambda-proof-replay",
+        "feature": "proof-rule:rewrite",
         "test_ids": [
           "proof-rule:ho:lambda-under-quantifier"
         ],
         "failure_phase": "proof-replay",
-        "notes": "C1 raw matrix evidence; keep replay red until TASK_14/15 implements the recorded higher-order proof-term shapes."
+        "notes": "TASK_16 checked replay burn-down residual, reproduced on Z3 4.11.2 and 4.15.3."
       },
       "source": {
         "kind": "Z3-proof",
@@ -25562,32 +25502,14 @@
           "status": "pass"
         },
         "proof-replay": {
-          "status": "red",
-          "diagnostic": "structured proof-bind and lambda-def replay is not implemented",
-          "failure_phase": "proof-replay"
+          "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked higher-order Z3 replay is not implemented",
-          "failure_phase": "proof-replay",
+          "status": "pass",
           "theorem_shape": "closed theorem without oracle tags"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/Unittest.sml",
-          "src/HolSmt/Z3_ProformaThms.sml",
-          "src/HolSmt/Z3_Proof.sml",
-          "src/HolSmt/Z3_ProofParser.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "higher-order:lambda-proof-replay",
-        "test_ids": [
-          "proof-rule:ho:map-valued-ite"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "C1 raw matrix evidence; keep replay red until TASK_14/15 implements the recorded higher-order proof-term shapes."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "Z3-proof",
         "reference": "Phase 3 C1 Z3 lambda-as-array proof-shape corpus"
@@ -57792,28 +57714,10 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "SMT-LIB 2.7 higher-order surface (at apply operator) is not implemented",
-          "failure_phase": "translation"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Logics.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Unittest.sml",
-          "src/HolSmt/Z3_ProofParser.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "higher-order:standard27:at-apply",
-        "test_ids": [
-          "theory:HO_Core:at-apply"
-        ],
-        "failure_phase": "translation",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 HO-Core application with cvc5 @ spelling"
@@ -57868,28 +57772,10 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "SMT-LIB 2.7 higher-order surface (curried arrow declaration) is not implemented",
-          "failure_phase": "translation"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Logics.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Unittest.sml",
-          "src/HolSmt/Z3_ProofParser.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "higher-order:standard27:curried-function-sort",
-        "test_ids": [
-          "theory:HO_Core:curried-function-sort"
-        ],
-        "failure_phase": "translation",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 HO-Core curried arrow declaration"
@@ -58289,28 +58175,10 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "SMT-LIB 2.7 higher-order surface (lambda beta reduction) is not implemented",
-          "failure_phase": "translation"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Logics.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Unittest.sml",
-          "src/HolSmt/Z3_ProofParser.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "higher-order:standard27:lambda-beta",
-        "test_ids": [
-          "theory:HO_Core:lambda-beta"
-        ],
-        "failure_phase": "translation",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 HO-Core lambda beta reduction"
@@ -58366,28 +58234,10 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "SMT-LIB 2.7 higher-order surface (lambda extensionality) is not implemented",
-          "failure_phase": "translation"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Logics.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Unittest.sml",
-          "src/HolSmt/Z3_ProofParser.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "higher-order:standard27:lambda-extensionality",
-        "test_ids": [
-          "theory:HO_Core:lambda-extensionality"
-        ],
-        "failure_phase": "translation",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 HO-Core lambda extensionality"
@@ -58443,28 +58293,10 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "SMT-LIB 2.7 higher-order surface (lambda identity) is not implemented",
-          "failure_phase": "translation"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Logics.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Unittest.sml",
-          "src/HolSmt/Z3_ProofParser.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "higher-order:standard27:lambda-identity",
-        "test_ids": [
-          "theory:HO_Core:lambda-identity"
-        ],
-        "failure_phase": "translation",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 HO-Core lambda identity"
@@ -58562,28 +58394,10 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "SMT-LIB 2.7 higher-order surface (lambda under quantifier) is not implemented",
-          "failure_phase": "translation"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Logics.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Unittest.sml",
-          "src/HolSmt/Z3_ProofParser.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "higher-order:standard27:lambda-under-quantifier",
-        "test_ids": [
-          "theory:HO_Core:lambda-under-quantifier"
-        ],
-        "failure_phase": "translation",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 HO-Core lambda under quantifier"
@@ -58638,28 +58452,10 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "SMT-LIB 2.7 higher-order surface (map-sorted constant partial application) is not implemented",
-          "failure_phase": "translation"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Logics.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Unittest.sml",
-          "src/HolSmt/Z3_ProofParser.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "higher-order:standard27:map-const-partial-application",
-        "test_ids": [
-          "theory:HO_Core:map-const-partial-application"
-        ],
-        "failure_phase": "translation",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 HO-Core map-sorted constant partial application"
@@ -58714,28 +58510,10 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "SMT-LIB 2.7 higher-order surface (map-valued function result) is not implemented",
-          "failure_phase": "translation"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Logics.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Unittest.sml",
-          "src/HolSmt/Z3_ProofParser.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "higher-order:standard27:map-valued-function-result",
-        "test_ids": [
-          "theory:HO_Core:map-valued-function-result"
-        ],
-        "failure_phase": "translation",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 HO-Core map-valued function result"
@@ -58837,28 +58615,10 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "SMT-LIB 2.7 higher-order surface (application omission sugar) is not implemented",
-          "failure_phase": "translation"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Logics.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Unittest.sml",
-          "src/HolSmt/Z3_ProofParser.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "higher-order:standard27:omission-sugar",
-        "test_ids": [
-          "theory:HO_Core:omission-sugar"
-        ],
-        "failure_phase": "translation",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 HO-Core application omission sugar"
@@ -58969,28 +58729,10 @@
           "notes": "Expected cvc5 dialect rejection of the SMT-LIB 2.7 underscore apply spelling; cvc5 1.3.4 uses @."
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "SMT-LIB 2.7 higher-order surface (underscore indexed-identifier disambiguation) is not implemented",
-          "failure_phase": "translation"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Logics.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Unittest.sml",
-          "src/HolSmt/Z3_ProofParser.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "higher-order:underscore-disambiguation",
-        "test_ids": [
-          "theory:HO_Core:underscore-ambiguity"
-        ],
-        "failure_phase": "translation",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 indexed identifiers and HO-Core application"
@@ -59049,28 +58791,10 @@
           "notes": "Expected cvc5 dialect rejection of the SMT-LIB 2.7 underscore apply spelling; cvc5 1.3.4 uses @."
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "SMT-LIB 2.7 higher-order surface (underscore apply operator) is not implemented",
-          "failure_phase": "translation"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Logics.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Unittest.sml",
-          "src/HolSmt/Z3_ProofParser.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "higher-order:standard27:underscore-apply",
-        "test_ids": [
-          "theory:HO_Core:underscore-apply"
-        ],
-        "failure_phase": "translation",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 HO-Core underscore apply operator"
