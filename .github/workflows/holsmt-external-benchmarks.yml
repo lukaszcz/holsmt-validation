@@ -3,20 +3,24 @@ name: holsmt-external-benchmarks
 on:
   pull_request:
     branches:
-      - "develop"
+      - "main"
     paths:
       - "tools/**"
       - ".github/workflows/holsmt-external-benchmarks.yml"
   push:
     branches:
-      - "master"
-      - "develop"
+      - "main"
     paths:
       - "tools/**"
       - ".github/workflows/holsmt-external-benchmarks.yml"
   schedule:
     - cron: "17 3 * * 0"
   workflow_dispatch:
+
+env:
+  HOLSMT_SOURCE_REF: 62b66d6e522792777742871d916d4d61df2817f1
+  HOLSMT_ROOT: ${{ github.workspace }}/hol-source
+  HOLSMT_VALIDATION_DIR: ${{ github.workspace }}
 
 jobs:
   curated-small:
@@ -25,11 +29,29 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
-      - name: Provision cvc5 for the HO oracle slice
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y cvc5
-          cvc5 --version
+      - name: Checkout pinned HolSmt source
+        uses: actions/checkout@v5
+        with:
+          repository: lukaszcz/HOL
+          ref: ${{ env.HOLSMT_SOURCE_REF }}
+          path: hol-source
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Build HOL with Z3 and cvc5
+        uses: docker/build-push-action@v7
+        with:
+          context: hol-source
+          file: hol-source/developers/docker-ci/Dockerfile
+          push: false
+          load: true
+          tags: holsmt-external:ci
+          build-args: |
+            SML=poly
+            Z3_VERSION=4.13.0
+            CVC_VERSION=5
+            BUILDOPTS=--no-cache --expk -j4
 
       - name: Validate pinned external benchmark importer
         run: python3 tools/import_external_benchmarks.py --check >/tmp/holsmt-pinned-external-manifest.json
@@ -44,24 +66,34 @@ jobs:
 
       - name: Run curated higher-order cvc5 oracle slice
         run: |
-          python3 tools/run_conformance_suite.py \
-            --no-default-suite \
-            --benchmark-dir tools/external-benchmarks/ho \
-            --mode parser-only \
-            --mode cvc5-oracle \
-            --out /tmp/holsmt-curated-ho-cvc5
+          docker run --rm \
+            -e HOLSMT_ROOT=/ML/HOL \
+            -e HOLSMT_VALIDATION_DIR=/validation \
+            -v "$PWD:/validation:ro" \
+            holsmt-external:ci \
+            sh -lc 'python3 /validation/tools/run_conformance_suite.py \
+              --no-default-suite \
+              --benchmark-dir /validation/tools/external-benchmarks/ho \
+              --mode parser-only \
+              --mode cvc5-oracle \
+              --out /tmp/holsmt-curated-ho-cvc5'
 
       - name: Run lowerable higher-order Z3_TAC spot checks
         run: |
-          python3 tools/run_conformance_suite.py \
-            --no-default-suite \
-            --benchmark-dir \
-              tools/external-benchmarks/ho/tptp_function_extensionality.smt2 \
-            --benchmark-dir \
-              tools/external-benchmarks/ho/tptp_lambda_beta.smt2 \
-            --mode parser-only \
-            --mode z3-tac \
-            --out /tmp/holsmt-curated-ho-z3-tac
+          docker run --rm \
+            -e HOLSMT_ROOT=/ML/HOL \
+            -e HOLSMT_VALIDATION_DIR=/validation \
+            -v "$PWD:/validation:ro" \
+            holsmt-external:ci \
+            sh -lc 'python3 /validation/tools/run_conformance_suite.py \
+              --no-default-suite \
+              --benchmark-dir \
+                /validation/tools/external-benchmarks/ho/tptp_function_extensionality.smt2 \
+              --benchmark-dir \
+                /validation/tools/external-benchmarks/ho/tptp_lambda_beta.smt2 \
+              --mode parser-only \
+              --mode z3-tac \
+              --out /tmp/holsmt-curated-ho-z3-tac'
 
       - name: Run HolSmt tool tests
         run: python3 -m unittest tools/tests/test_run_conformance_suite.py

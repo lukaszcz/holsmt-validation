@@ -10,6 +10,7 @@ import tempfile
 import textwrap
 import time
 import unittest
+from unittest import mock
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 
@@ -97,6 +98,18 @@ print("sat")
 
 
 class ConformanceSuiteTests(unittest.TestCase):
+    def test_cvc5_default_accepts_hol_solver_environment_name(self):
+        with mock.patch.dict(
+            os.environ,
+            {
+                "HOL4_CVC_EXECUTABLE": "/configured/cvc5",
+                "HOL4_CVC5_EXECUTABLE": "",
+            },
+        ):
+            args = conformance.parse_args([])
+
+        self.assertEqual(args.cvc5, "/configured/cvc5")
+
     def test_default_suite_represents_every_official_logic(self):
         cases = conformance.default_cases(None)
         represented = {case.logic for case in cases}

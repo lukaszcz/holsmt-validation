@@ -2093,7 +2093,11 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--z3", default=os.environ.get("HOL4_Z3_EXECUTABLE") or "z3")
     parser.add_argument(
         "--cvc5",
-        default=os.environ.get("HOL4_CVC5_EXECUTABLE") or "cvc5",
+        default=(
+            os.environ.get("HOL4_CVC5_EXECUTABLE")
+            or os.environ.get("HOL4_CVC_EXECUTABLE")
+            or "cvc5"
+        ),
     )
     parser.add_argument("--timeout", type=int, default=30)
     parser.add_argument("--logic", action="append", choices=HOLSMT_LOGICS)

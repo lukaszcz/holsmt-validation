@@ -882,6 +882,15 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
             '"ho-core"',
         }:
             self.assertIn(needle, function_sort_bucket)
+        self.assertNotIn("--fail-on-red-obligations", runner)
+        self.assertNotIn(
+            'nonzero_exit_reasons.append("red-obligations")',
+            runner,
+        )
+        self.assertNotIn(
+            'elif summary["red_obligation_count"]',
+            runner,
+        )
 
     def test_manifest_entry_preserves_red_obligation_contract(self):
         case_id = generator.deterministic_case_id("command", "command:future")

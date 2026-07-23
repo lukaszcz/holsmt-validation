@@ -404,8 +404,14 @@ def complete_case_matches_row(section: str, row: dict[str, object], case: dict[s
             and case.get("logic") == row.get("item")
             and "theory:ho_core" in case_tokens
         )
+    if section == "theories":
+        return case.get("class") == "theory" and bool(
+            row_tokens & case_tokens
+        )
     if section == "z3_proof_rules":
         return case.get("class") == "proof-rule" and bool(row_tokens & case_tokens)
+    if section == "selftest_categories" and case.get("class") == "proof-rule":
+        return False
     return bool(row_tokens & case_tokens)
 
 

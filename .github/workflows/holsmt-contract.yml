@@ -3,18 +3,22 @@ name: holsmt-contract
 on:
   pull_request:
     branches:
-      - "develop"
+      - "main"
     paths:
-      - "src/HolSmt/**"
+      - "tools/**"
       - ".github/workflows/holsmt-contract.yml"
   push:
     branches:
-      - "master"
-      - "develop"
+      - "main"
     paths:
-      - "src/HolSmt/**"
+      - "tools/**"
       - ".github/workflows/holsmt-contract.yml"
   workflow_dispatch:
+
+env:
+  HOLSMT_SOURCE_REF: 62b66d6e522792777742871d916d4d61df2817f1
+  HOLSMT_ROOT: ${{ github.workspace }}/hol-source
+  HOLSMT_VALIDATION_DIR: ${{ github.workspace }}
 
 jobs:
   python-tools:
@@ -22,6 +26,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+
+      - name: Checkout pinned HolSmt source
+        uses: actions/checkout@v5
+        with:
+          repository: lukaszcz/HOL
+          ref: ${{ env.HOLSMT_SOURCE_REF }}
+          path: hol-source
 
       - name: Run HolSmt Python tool tests
         run: |
@@ -41,6 +52,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
+      - name: Checkout pinned HolSmt source
+        uses: actions/checkout@v5
+        with:
+          repository: lukaszcz/HOL
+          ref: ${{ env.HOLSMT_SOURCE_REF }}
+          path: hol-source
+
       - name: Regenerate coverage report in enforcing mode
         run: python3 tools/coverage/generate_smtlib_coverage.py --release
 
@@ -59,11 +77,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
+      - name: Checkout pinned HolSmt source
+        uses: actions/checkout@v5
+        with:
+          repository: lukaszcz/HOL
+          ref: ${{ env.HOLSMT_SOURCE_REF }}
+          path: hol-source
+
       - name: Install Z3 and CSDP
         run: |
           sudo apt-get update
-          sudo apt-get install -y z3 coinor-csdp
+          sudo apt-get install -y z3 cvc5 coinor-csdp
           z3 -version
+          cvc5 --version
 
       - name: Run parser conformance corpus
         run: |
@@ -92,6 +118,7 @@ jobs:
             --out .holsmt-ci/conformance/default \
             --no-default-corpus \
             --mode z3-oracle \
+            --mode cvc5-oracle \
             --mode proof-parse \
             --mode proof-replay \
             --timeout 20
@@ -140,14 +167,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
+      - name: Checkout pinned HolSmt source
+        uses: actions/checkout@v5
+        with:
+          repository: lukaszcz/HOL
+          ref: ${{ env.HOLSMT_SOURCE_REF }}
+          path: hol-source
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
 
       - name: Build HOL without configured solvers
         uses: docker/build-push-action@v7
         with:
-          context: .
-          file: developers/docker-ci/Dockerfile
+          context: hol-source
+          file: hol-source/developers/docker-ci/Dockerfile
           push: false
           load: true
           tags: holsmt-nosolver:ci
@@ -170,7 +204,6 @@ jobs:
       fail-fast: false
       matrix:
         z3-version:
-          - 2.19.1
           - 4.12.4
           - 4.13.0
     name: holsmt-z3-selftest-${{ matrix.z3-version }}
@@ -178,14 +211,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
+      - name: Checkout pinned HolSmt source
+        uses: actions/checkout@v5
+        with:
+          repository: lukaszcz/HOL
+          ref: ${{ env.HOLSMT_SOURCE_REF }}
+          path: hol-source
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
 
       - name: Build HOL with configured Z3
         uses: docker/build-push-action@v7
         with:
-          context: .
-          file: developers/docker-ci/Dockerfile
+          context: hol-source
+          file: hol-source/developers/docker-ci/Dockerfile
           push: false
           load: true
           tags: holsmt-z3:${{ matrix.z3-version }}
@@ -205,14 +245,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
+      - name: Checkout pinned HolSmt source
+        uses: actions/checkout@v5
+        with:
+          repository: lukaszcz/HOL
+          ref: ${{ env.HOLSMT_SOURCE_REF }}
+          path: hol-source
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
 
       - name: Build HOL with current Z3
         uses: docker/build-push-action@v7
         with:
-          context: .
-          file: developers/docker-ci/Dockerfile
+          context: hol-source
+          file: hol-source/developers/docker-ci/Dockerfile
           push: false
           load: true
           tags: holsmt-drivers:4.13.0
@@ -225,12 +272,15 @@ jobs:
         run: |
           mkdir -p "$PWD/.holsmt-ci/conformance/typecheck"
           docker run --rm \
+            -e HOLSMT_ROOT=/ML/HOL \
+            -e HOLSMT_VALIDATION_DIR=/validation \
+            -v "$PWD:/validation:ro" \
             -v "$PWD/.holsmt-ci/conformance/typecheck:/tmp/holsmt-typecheck-conformance" \
             holsmt-drivers:4.13.0 \
-            sh -lc 'python3 tools/run_conformance_suite.py \
+            sh -lc 'python3 /validation/tools/run_conformance_suite.py \
               --out /tmp/holsmt-typecheck-conformance \
               --no-default-suite \
-              --benchmark-dir tools/tests/conformance/typecheck \
+              --benchmark-dir /validation/tools/tests/conformance/typecheck \
               --mode typecheck-only \
               --timeout 30'
 
@@ -238,12 +288,15 @@ jobs:
         run: |
           mkdir -p "$PWD/.holsmt-ci/conformance/z3-tac"
           docker run --rm \
+            -e HOLSMT_ROOT=/ML/HOL \
+            -e HOLSMT_VALIDATION_DIR=/validation \
+            -v "$PWD:/validation:ro" \
             -v "$PWD/.holsmt-ci/conformance/z3-tac:/tmp/holsmt-z3-tac-conformance" \
             holsmt-drivers:4.13.0 \
-            sh -lc 'python3 tools/run_conformance_suite.py \
+            sh -lc 'python3 /validation/tools/run_conformance_suite.py \
               --out /tmp/holsmt-z3-tac-conformance \
               --no-default-suite \
-              --benchmark-dir tools/tests/conformance/z3_tac \
+              --benchmark-dir /validation/tools/tests/conformance/z3_tac \
               --mode z3-tac \
               --timeout 30'
 
@@ -265,29 +318,40 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
+      - name: Checkout pinned HolSmt source
+        uses: actions/checkout@v5
+        with:
+          repository: lukaszcz/HOL
+          ref: ${{ env.HOLSMT_SOURCE_REF }}
+          path: hol-source
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
 
       - name: Build HOL with current Z3
         uses: docker/build-push-action@v7
         with:
-          context: .
-          file: developers/docker-ci/Dockerfile
+          context: hol-source
+          file: hol-source/developers/docker-ci/Dockerfile
           push: false
           load: true
           tags: holsmt-complete-conformance:4.13.0
           build-args: |
             SML=poly
             Z3_VERSION=4.13.0
+            CVC_VERSION=5
             BUILDOPTS=--no-cache --expk -j4
 
       - name: Run complete SMT-LIB conformance
         run: |
           mkdir -p "$PWD/.holsmt-ci/complete-conformance"
           docker run --rm \
+            -e HOLSMT_ROOT=/ML/HOL \
+            -e HOLSMT_VALIDATION_DIR=/validation \
+            -v "$PWD:/validation" \
             -v "$PWD/.holsmt-ci/complete-conformance:/tmp/holsmt-complete-conformance" \
             holsmt-complete-conformance:4.13.0 \
-            sh -lc 'tools/run_complete_smtlib_conformance.sh \
+            sh -lc '/validation/tools/run_complete_smtlib_conformance.sh \
               --out-dir /tmp/holsmt-complete-conformance \
               --timeout 30'
 
@@ -342,6 +406,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+
+      - name: Checkout pinned HolSmt source
+        uses: actions/checkout@v5
+        with:
+          repository: lukaszcz/HOL
+          ref: ${{ env.HOLSMT_SOURCE_REF }}
+          path: hol-source
 
       - name: Download conformance report artifacts
         uses: actions/download-artifact@v4

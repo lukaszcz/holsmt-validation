@@ -472,6 +472,50 @@ class CoverageManifestAuditTests(unittest.TestCase):
             ["theory:HO_Core:underscore-apply"],
         )
 
+    def test_higher_order_proof_residue_stays_per_rule(self):
+        rows = {
+            "theories": [row("HO-Core", "implemented")],
+            "selftest_categories": [
+                row("Higher-order logic", "implemented"),
+            ],
+            "z3_proof_rules": [
+                row("proof-rule:ho:lambda-equality", "implemented"),
+            ],
+        }
+        cases = [
+            {
+                "id": "theory:HO_Core:lambda-identity",
+                "class": "theory",
+                "features": ["higher-order", "theory:HO_Core"],
+                "expected": {"z3-tac": {"status": "pass"}},
+            },
+            {
+                "id": "proof-rule:ho:lambda-equality",
+                "class": "proof-rule",
+                "features": [
+                    "higher-order",
+                    "ho-core",
+                    "proof-rule:ho:lambda-equality",
+                ],
+                "expected": {"z3-tac": {"status": "red"}},
+            },
+        ]
+
+        enriched = audit.enrich_complete_metadata(rows, cases)
+
+        self.assertEqual(
+            enriched["theories"][0]["complete_required_status"],
+            "reconstructed",
+        )
+        self.assertEqual(
+            enriched["selftest_categories"][0]["red_obligation_ids"],
+            [],
+        )
+        self.assertEqual(
+            enriched["z3_proof_rules"][0]["red_obligation_ids"],
+            ["proof-rule:ho:lambda-equality"],
+        )
+
     def test_complete_audit_requires_outside_scope_reason(self):
         coverage = {
             **minimal_coverage([]),

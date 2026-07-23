@@ -5688,11 +5688,11 @@
       "artifacts": [
         {
           "kind": "source",
-          "path": "tools/conformance-corpus/v2/generate_complete_corpus.py",
-          "match": "def hocore_red_case"
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-identity"
         }
       ],
-      "notes": "TASK_03 corpus pins parser acceptance and red-first HO obligations."
+      "notes": "Phase 3 closure: HO-Core is green through checked replay; precise Z3 proof-rule residues remain isolated to proof-rule rows."
     },
     {
       "section": "theories",
@@ -5702,8 +5702,14 @@
         "translated",
         "solved"
       ],
-      "expected_status": "parse_only",
-      "positive_tests": [],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-identity"
+        }
+      ],
       "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
@@ -5713,7 +5719,7 @@
           "match": "theory:HO_Core:lambda-identity"
         }
       ],
-      "notes": "Only syntactic parsing is currently established for the native HO surface."
+      "notes": "Phase 3 closure: HO-Core is green through checked replay; precise Z3 proof-rule residues remain isolated to proof-rule rows."
     },
     {
       "section": "theories",
@@ -5722,24 +5728,24 @@
       "phases": [
         "reconstructed"
       ],
-      "expected_status": "unsupported_diagnostic",
-      "positive_tests": [],
-      "negative_tests": [
+      "expected_status": "implemented",
+      "positive_tests": [
         {
           "kind": "source",
           "path": "tools/conformance-corpus/v2/manifest.json",
-          "match": "SMT-LIB 2.7 higher-order surface (lambda identity) is not implemented"
+          "match": "theory:HO_Core:lambda-identity"
         }
       ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
           "kind": "source",
           "path": "tools/conformance-corpus/v2/manifest.json",
-          "match": "SMT-LIB 2.7 higher-order surface (lambda identity) is not implemented"
+          "match": "theory:HO_Core:lambda-identity"
         }
       ],
-      "notes": "TASK_03 records the exact red diagnostic and implementation obligation."
+      "notes": "Phase 3 closure: HO-Core is green through checked replay; precise Z3 proof-rule residues remain isolated to proof-rule rows."
     },
     {
       "section": "logics",
@@ -5762,11 +5768,11 @@
       "artifacts": [
         {
           "kind": "source",
-          "path": "tools/conformance-corpus/v2/generate_complete_corpus.py",
-          "match": "def hocore_red_case"
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:map-valued-function-result"
         }
       ],
-      "notes": "TASK_03 corpus pins parser acceptance and red-first HO obligations."
+      "notes": "Phase 3 closure: this cvc5-convention extension logic is green in its declared parser, typechecker, Z3_TAC, and cvc5-oracle modes."
     },
     {
       "section": "logics",
@@ -5776,8 +5782,14 @@
         "translated",
         "solved"
       ],
-      "expected_status": "parse_only",
-      "positive_tests": [],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:map-valued-function-result"
+        }
+      ],
       "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
@@ -5787,7 +5799,7 @@
           "match": "theory:HO_Core:map-valued-function-result"
         }
       ],
-      "notes": "Only syntactic parsing is currently established for the native HO surface."
+      "notes": "Phase 3 closure: this cvc5-convention extension logic is green in its declared parser, typechecker, Z3_TAC, and cvc5-oracle modes."
     },
     {
       "section": "logics",
@@ -5796,15 +5808,15 @@
       "phases": [
         "reconstructed"
       ],
-      "expected_status": "unsupported_diagnostic",
-      "positive_tests": [],
-      "negative_tests": [
+      "expected_status": "implemented",
+      "positive_tests": [
         {
           "kind": "source",
           "path": "tools/conformance-corpus/v2/manifest.json",
           "match": "theory:HO_Core:map-valued-function-result"
         }
       ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
@@ -5813,7 +5825,7 @@
           "match": "theory:HO_Core:map-valued-function-result"
         }
       ],
-      "notes": "TASK_03 records the exact red diagnostic and implementation obligation."
+      "notes": "Phase 3 closure: this cvc5-convention extension logic is green in its declared parser, typechecker, Z3_TAC, and cvc5-oracle modes."
     },
     {
       "section": "logics",
@@ -5836,11 +5848,11 @@
       "artifacts": [
         {
           "kind": "source",
-          "path": "tools/conformance-corpus/v2/generate_complete_corpus.py",
-          "match": "def hocore_red_case"
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-extensionality"
         }
       ],
-      "notes": "TASK_03 corpus pins parser acceptance and red-first HO obligations."
+      "notes": "Phase 3 closure: this cvc5-convention extension logic is green in its declared parser, typechecker, Z3_TAC, and cvc5-oracle modes."
     },
     {
       "section": "logics",
@@ -5850,8 +5862,14 @@
         "translated",
         "solved"
       ],
-      "expected_status": "parse_only",
-      "positive_tests": [],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-extensionality"
+        }
+      ],
       "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
@@ -5861,7 +5879,7 @@
           "match": "theory:HO_Core:lambda-extensionality"
         }
       ],
-      "notes": "Only syntactic parsing is currently established for the native HO surface."
+      "notes": "Phase 3 closure: this cvc5-convention extension logic is green in its declared parser, typechecker, Z3_TAC, and cvc5-oracle modes."
     },
     {
       "section": "logics",
@@ -5870,15 +5888,15 @@
       "phases": [
         "reconstructed"
       ],
-      "expected_status": "unsupported_diagnostic",
-      "positive_tests": [],
-      "negative_tests": [
+      "expected_status": "implemented",
+      "positive_tests": [
         {
           "kind": "source",
           "path": "tools/conformance-corpus/v2/manifest.json",
           "match": "theory:HO_Core:lambda-extensionality"
         }
       ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
@@ -5887,7 +5905,7 @@
           "match": "theory:HO_Core:lambda-extensionality"
         }
       ],
-      "notes": "TASK_03 records the exact red diagnostic and implementation obligation."
+      "notes": "Phase 3 closure: this cvc5-convention extension logic is green in its declared parser, typechecker, Z3_TAC, and cvc5-oracle modes."
     },
     {
       "section": "logics",
@@ -5910,11 +5928,11 @@
       "artifacts": [
         {
           "kind": "source",
-          "path": "tools/conformance-corpus/v2/generate_complete_corpus.py",
-          "match": "def hocore_red_case"
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-identity"
         }
       ],
-      "notes": "TASK_03 corpus pins parser acceptance and red-first HO obligations."
+      "notes": "Phase 3 closure: this cvc5-convention extension logic is green in its declared parser, typechecker, Z3_TAC, and cvc5-oracle modes."
     },
     {
       "section": "logics",
@@ -5924,8 +5942,14 @@
         "translated",
         "solved"
       ],
-      "expected_status": "parse_only",
-      "positive_tests": [],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-identity"
+        }
+      ],
       "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
@@ -5935,7 +5959,7 @@
           "match": "theory:HO_Core:lambda-identity"
         }
       ],
-      "notes": "Only syntactic parsing is currently established for the native HO surface."
+      "notes": "Phase 3 closure: this cvc5-convention extension logic is green in its declared parser, typechecker, Z3_TAC, and cvc5-oracle modes."
     },
     {
       "section": "logics",
@@ -5944,15 +5968,15 @@
       "phases": [
         "reconstructed"
       ],
-      "expected_status": "unsupported_diagnostic",
-      "positive_tests": [],
-      "negative_tests": [
+      "expected_status": "implemented",
+      "positive_tests": [
         {
           "kind": "source",
           "path": "tools/conformance-corpus/v2/manifest.json",
           "match": "theory:HO_Core:lambda-identity"
         }
       ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
@@ -5961,7 +5985,7 @@
           "match": "theory:HO_Core:lambda-identity"
         }
       ],
-      "notes": "TASK_03 records the exact red diagnostic and implementation obligation."
+      "notes": "Phase 3 closure: this cvc5-convention extension logic is green in its declared parser, typechecker, Z3_TAC, and cvc5-oracle modes."
     },
     {
       "section": "logics",
@@ -5984,11 +6008,11 @@
       "artifacts": [
         {
           "kind": "source",
-          "path": "tools/conformance-corpus/v2/generate_complete_corpus.py",
-          "match": "def hocore_red_case"
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:underscore-apply"
         }
       ],
-      "notes": "TASK_03 corpus pins parser acceptance and red-first HO obligations."
+      "notes": "Phase 3 closure: this cvc5-convention extension logic is green in its declared parser, typechecker, Z3_TAC, and cvc5-oracle modes."
     },
     {
       "section": "logics",
@@ -5998,8 +6022,14 @@
         "translated",
         "solved"
       ],
-      "expected_status": "parse_only",
-      "positive_tests": [],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:underscore-apply"
+        }
+      ],
       "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
@@ -6009,7 +6039,7 @@
           "match": "theory:HO_Core:underscore-apply"
         }
       ],
-      "notes": "Only syntactic parsing is currently established for the native HO surface."
+      "notes": "Phase 3 closure: this cvc5-convention extension logic is green in its declared parser, typechecker, Z3_TAC, and cvc5-oracle modes."
     },
     {
       "section": "logics",
@@ -6018,15 +6048,15 @@
       "phases": [
         "reconstructed"
       ],
-      "expected_status": "unsupported_diagnostic",
-      "positive_tests": [],
-      "negative_tests": [
+      "expected_status": "implemented",
+      "positive_tests": [
         {
           "kind": "source",
           "path": "tools/conformance-corpus/v2/manifest.json",
           "match": "theory:HO_Core:underscore-apply"
         }
       ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
@@ -6035,7 +6065,7 @@
           "match": "theory:HO_Core:underscore-apply"
         }
       ],
-      "notes": "TASK_03 records the exact red diagnostic and implementation obligation."
+      "notes": "Phase 3 closure: this cvc5-convention extension logic is green in its declared parser, typechecker, Z3_TAC, and cvc5-oracle modes."
     },
     {
       "section": "logics",
@@ -6058,11 +6088,11 @@
       "artifacts": [
         {
           "kind": "source",
-          "path": "tools/conformance-corpus/v2/generate_complete_corpus.py",
-          "match": "def hocore_red_case"
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-beta"
         }
       ],
-      "notes": "TASK_03 corpus pins parser acceptance and red-first HO obligations."
+      "notes": "Phase 3 closure: this cvc5-convention extension logic is green in its declared parser, typechecker, Z3_TAC, and cvc5-oracle modes."
     },
     {
       "section": "logics",
@@ -6072,8 +6102,14 @@
         "translated",
         "solved"
       ],
-      "expected_status": "parse_only",
-      "positive_tests": [],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-beta"
+        }
+      ],
       "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
@@ -6083,7 +6119,7 @@
           "match": "theory:HO_Core:lambda-beta"
         }
       ],
-      "notes": "Only syntactic parsing is currently established for the native HO surface."
+      "notes": "Phase 3 closure: this cvc5-convention extension logic is green in its declared parser, typechecker, Z3_TAC, and cvc5-oracle modes."
     },
     {
       "section": "logics",
@@ -6092,15 +6128,15 @@
       "phases": [
         "reconstructed"
       ],
-      "expected_status": "unsupported_diagnostic",
-      "positive_tests": [],
-      "negative_tests": [
+      "expected_status": "implemented",
+      "positive_tests": [
         {
           "kind": "source",
           "path": "tools/conformance-corpus/v2/manifest.json",
           "match": "theory:HO_Core:lambda-beta"
         }
       ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
@@ -6109,7 +6145,7 @@
           "match": "theory:HO_Core:lambda-beta"
         }
       ],
-      "notes": "TASK_03 records the exact red diagnostic and implementation obligation."
+      "notes": "Phase 3 closure: this cvc5-convention extension logic is green in its declared parser, typechecker, Z3_TAC, and cvc5-oracle modes."
     },
     {
       "section": "logics",
@@ -6132,11 +6168,11 @@
       "artifacts": [
         {
           "kind": "source",
-          "path": "tools/conformance-corpus/v2/generate_complete_corpus.py",
-          "match": "def hocore_red_case"
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:curried-function-sort"
         }
       ],
-      "notes": "TASK_03 corpus pins parser acceptance and red-first HO obligations."
+      "notes": "Phase 3 closure: this cvc5-convention extension logic is green in its declared parser, typechecker, Z3_TAC, and cvc5-oracle modes."
     },
     {
       "section": "logics",
@@ -6146,8 +6182,14 @@
         "translated",
         "solved"
       ],
-      "expected_status": "parse_only",
-      "positive_tests": [],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:curried-function-sort"
+        }
+      ],
       "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
@@ -6157,7 +6199,7 @@
           "match": "theory:HO_Core:curried-function-sort"
         }
       ],
-      "notes": "Only syntactic parsing is currently established for the native HO surface."
+      "notes": "Phase 3 closure: this cvc5-convention extension logic is green in its declared parser, typechecker, Z3_TAC, and cvc5-oracle modes."
     },
     {
       "section": "logics",
@@ -6166,15 +6208,15 @@
       "phases": [
         "reconstructed"
       ],
-      "expected_status": "unsupported_diagnostic",
-      "positive_tests": [],
-      "negative_tests": [
+      "expected_status": "implemented",
+      "positive_tests": [
         {
           "kind": "source",
           "path": "tools/conformance-corpus/v2/manifest.json",
           "match": "theory:HO_Core:curried-function-sort"
         }
       ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
@@ -6183,7 +6225,7 @@
           "match": "theory:HO_Core:curried-function-sort"
         }
       ],
-      "notes": "TASK_03 records the exact red diagnostic and implementation obligation."
+      "notes": "Phase 3 closure: this cvc5-convention extension logic is green in its declared parser, typechecker, Z3_TAC, and cvc5-oracle modes."
     },
     {
       "section": "logics",
@@ -6206,11 +6248,11 @@
       "artifacts": [
         {
           "kind": "source",
-          "path": "tools/conformance-corpus/v2/generate_complete_corpus.py",
-          "match": "def hocore_red_case"
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:at-apply"
         }
       ],
-      "notes": "TASK_03 corpus pins parser acceptance and red-first HO obligations."
+      "notes": "Phase 3 closure: this cvc5-convention extension logic is green in its declared parser, typechecker, Z3_TAC, and cvc5-oracle modes."
     },
     {
       "section": "logics",
@@ -6220,8 +6262,14 @@
         "translated",
         "solved"
       ],
-      "expected_status": "parse_only",
-      "positive_tests": [],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:at-apply"
+        }
+      ],
       "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
@@ -6231,7 +6279,7 @@
           "match": "theory:HO_Core:at-apply"
         }
       ],
-      "notes": "Only syntactic parsing is currently established for the native HO surface."
+      "notes": "Phase 3 closure: this cvc5-convention extension logic is green in its declared parser, typechecker, Z3_TAC, and cvc5-oracle modes."
     },
     {
       "section": "logics",
@@ -6240,15 +6288,15 @@
       "phases": [
         "reconstructed"
       ],
-      "expected_status": "unsupported_diagnostic",
-      "positive_tests": [],
-      "negative_tests": [
+      "expected_status": "implemented",
+      "positive_tests": [
         {
           "kind": "source",
           "path": "tools/conformance-corpus/v2/manifest.json",
           "match": "theory:HO_Core:at-apply"
         }
       ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
@@ -6257,7 +6305,7 @@
           "match": "theory:HO_Core:at-apply"
         }
       ],
-      "notes": "TASK_03 records the exact red diagnostic and implementation obligation."
+      "notes": "Phase 3 closure: this cvc5-convention extension logic is green in its declared parser, typechecker, Z3_TAC, and cvc5-oracle modes."
     },
     {
       "section": "logics",
@@ -6280,11 +6328,11 @@
       "artifacts": [
         {
           "kind": "source",
-          "path": "tools/conformance-corpus/v2/generate_complete_corpus.py",
-          "match": "def hocore_red_case"
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:omission-sugar"
         }
       ],
-      "notes": "TASK_03 corpus pins parser acceptance and red-first HO obligations."
+      "notes": "Phase 3 closure: this cvc5-convention extension logic is green in its declared parser, typechecker, Z3_TAC, and cvc5-oracle modes."
     },
     {
       "section": "logics",
@@ -6294,8 +6342,14 @@
         "translated",
         "solved"
       ],
-      "expected_status": "parse_only",
-      "positive_tests": [],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:omission-sugar"
+        }
+      ],
       "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
@@ -6305,7 +6359,7 @@
           "match": "theory:HO_Core:omission-sugar"
         }
       ],
-      "notes": "Only syntactic parsing is currently established for the native HO surface."
+      "notes": "Phase 3 closure: this cvc5-convention extension logic is green in its declared parser, typechecker, Z3_TAC, and cvc5-oracle modes."
     },
     {
       "section": "logics",
@@ -6314,15 +6368,15 @@
       "phases": [
         "reconstructed"
       ],
-      "expected_status": "unsupported_diagnostic",
-      "positive_tests": [],
-      "negative_tests": [
+      "expected_status": "implemented",
+      "positive_tests": [
         {
           "kind": "source",
           "path": "tools/conformance-corpus/v2/manifest.json",
           "match": "theory:HO_Core:omission-sugar"
         }
       ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
@@ -6331,7 +6385,7 @@
           "match": "theory:HO_Core:omission-sugar"
         }
       ],
-      "notes": "TASK_03 records the exact red diagnostic and implementation obligation."
+      "notes": "Phase 3 closure: this cvc5-convention extension logic is green in its declared parser, typechecker, Z3_TAC, and cvc5-oracle modes."
     },
     {
       "section": "logics",
@@ -6354,11 +6408,11 @@
       "artifacts": [
         {
           "kind": "source",
-          "path": "tools/conformance-corpus/v2/generate_complete_corpus.py",
-          "match": "def hocore_red_case"
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-under-quantifier"
         }
       ],
-      "notes": "TASK_03 corpus pins parser acceptance and red-first HO obligations."
+      "notes": "Phase 3 closure: this cvc5-convention extension logic is green in its declared parser, typechecker, Z3_TAC, and cvc5-oracle modes."
     },
     {
       "section": "logics",
@@ -6368,8 +6422,14 @@
         "translated",
         "solved"
       ],
-      "expected_status": "parse_only",
-      "positive_tests": [],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-under-quantifier"
+        }
+      ],
       "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
@@ -6379,7 +6439,7 @@
           "match": "theory:HO_Core:lambda-under-quantifier"
         }
       ],
-      "notes": "Only syntactic parsing is currently established for the native HO surface."
+      "notes": "Phase 3 closure: this cvc5-convention extension logic is green in its declared parser, typechecker, Z3_TAC, and cvc5-oracle modes."
     },
     {
       "section": "logics",
@@ -6388,15 +6448,15 @@
       "phases": [
         "reconstructed"
       ],
-      "expected_status": "unsupported_diagnostic",
-      "positive_tests": [],
-      "negative_tests": [
+      "expected_status": "implemented",
+      "positive_tests": [
         {
           "kind": "source",
           "path": "tools/conformance-corpus/v2/manifest.json",
           "match": "theory:HO_Core:lambda-under-quantifier"
         }
       ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
@@ -6405,7 +6465,7 @@
           "match": "theory:HO_Core:lambda-under-quantifier"
         }
       ],
-      "notes": "TASK_03 records the exact red diagnostic and implementation obligation."
+      "notes": "Phase 3 closure: this cvc5-convention extension logic is green in its declared parser, typechecker, Z3_TAC, and cvc5-oracle modes."
     },
     {
       "section": "logics",
@@ -6428,11 +6488,11 @@
       "artifacts": [
         {
           "kind": "source",
-          "path": "tools/conformance-corpus/v2/generate_complete_corpus.py",
-          "match": "def hocore_red_case"
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:map-const-partial-application"
         }
       ],
-      "notes": "TASK_03 corpus pins parser acceptance and red-first HO obligations."
+      "notes": "Phase 3 closure: this cvc5-convention extension logic is green in its declared parser, typechecker, Z3_TAC, and cvc5-oracle modes."
     },
     {
       "section": "logics",
@@ -6442,8 +6502,14 @@
         "translated",
         "solved"
       ],
-      "expected_status": "parse_only",
-      "positive_tests": [],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:map-const-partial-application"
+        }
+      ],
       "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
@@ -6453,7 +6519,7 @@
           "match": "theory:HO_Core:map-const-partial-application"
         }
       ],
-      "notes": "Only syntactic parsing is currently established for the native HO surface."
+      "notes": "Phase 3 closure: this cvc5-convention extension logic is green in its declared parser, typechecker, Z3_TAC, and cvc5-oracle modes."
     },
     {
       "section": "logics",
@@ -6462,15 +6528,15 @@
       "phases": [
         "reconstructed"
       ],
-      "expected_status": "unsupported_diagnostic",
-      "positive_tests": [],
-      "negative_tests": [
+      "expected_status": "implemented",
+      "positive_tests": [
         {
           "kind": "source",
           "path": "tools/conformance-corpus/v2/manifest.json",
           "match": "theory:HO_Core:map-const-partial-application"
         }
       ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
@@ -6479,7 +6545,7 @@
           "match": "theory:HO_Core:map-const-partial-application"
         }
       ],
-      "notes": "TASK_03 records the exact red diagnostic and implementation obligation."
+      "notes": "Phase 3 closure: this cvc5-convention extension logic is green in its declared parser, typechecker, Z3_TAC, and cvc5-oracle modes."
     },
     {
       "section": "selftest_categories",
@@ -6502,11 +6568,11 @@
       "artifacts": [
         {
           "kind": "source",
-          "path": "tools/conformance-corpus/v2/generate_complete_corpus.py",
-          "match": "def hocore_red_case"
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-identity"
         }
       ],
-      "notes": "TASK_03 corpus pins parser acceptance and red-first HO obligations."
+      "notes": "Phase 3 closure: the higher-order surface is green through translation, solving, and checked replay."
     },
     {
       "section": "selftest_categories",
@@ -6516,8 +6582,14 @@
         "translated",
         "solved"
       ],
-      "expected_status": "parse_only",
-      "positive_tests": [],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-identity"
+        }
+      ],
       "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
@@ -6527,7 +6599,7 @@
           "match": "theory:HO_Core:lambda-identity"
         }
       ],
-      "notes": "Only syntactic parsing is currently established for the native HO surface."
+      "notes": "Phase 3 closure: the higher-order surface is green through translation, solving, and checked replay."
     },
     {
       "section": "selftest_categories",
@@ -6536,24 +6608,24 @@
       "phases": [
         "reconstructed"
       ],
-      "expected_status": "unsupported_diagnostic",
-      "positive_tests": [],
-      "negative_tests": [
+      "expected_status": "implemented",
+      "positive_tests": [
         {
           "kind": "source",
           "path": "tools/conformance-corpus/v2/manifest.json",
-          "match": "SMT-LIB 2.7 higher-order surface (lambda identity) is not implemented"
+          "match": "theory:HO_Core:lambda-identity"
         }
       ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
           "kind": "source",
           "path": "tools/conformance-corpus/v2/manifest.json",
-          "match": "SMT-LIB 2.7 higher-order surface (lambda identity) is not implemented"
+          "match": "theory:HO_Core:lambda-identity"
         }
       ],
-      "notes": "TASK_03 records the exact red diagnostic and implementation obligation."
+      "notes": "Phase 3 closure: the higher-order surface is green through translation, solving, and checked replay."
     },
     {
       "section": "selftest_categories",
@@ -6576,11 +6648,11 @@
       "artifacts": [
         {
           "kind": "source",
-          "path": "tools/conformance-corpus/v2/generate_complete_corpus.py",
-          "match": "def hocore_red_case"
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-identity"
         }
       ],
-      "notes": "TASK_03 corpus pins parser acceptance and red-first HO obligations."
+      "notes": "Phase 3 closure: the higher-order surface is green through translation, solving, and checked replay."
     },
     {
       "section": "selftest_categories",
@@ -6590,8 +6662,14 @@
         "translated",
         "solved"
       ],
-      "expected_status": "parse_only",
-      "positive_tests": [],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:lambda-identity"
+        }
+      ],
       "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
@@ -6601,7 +6679,7 @@
           "match": "theory:HO_Core:lambda-identity"
         }
       ],
-      "notes": "Only syntactic parsing is currently established for the native HO surface."
+      "notes": "Phase 3 closure: the higher-order surface is green through translation, solving, and checked replay."
     },
     {
       "section": "selftest_categories",
@@ -6610,24 +6688,24 @@
       "phases": [
         "reconstructed"
       ],
-      "expected_status": "unsupported_diagnostic",
-      "positive_tests": [],
-      "negative_tests": [
+      "expected_status": "implemented",
+      "positive_tests": [
         {
           "kind": "source",
           "path": "tools/conformance-corpus/v2/manifest.json",
-          "match": "SMT-LIB 2.7 higher-order surface (lambda identity) is not implemented"
+          "match": "theory:HO_Core:lambda-identity"
         }
       ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
           "kind": "source",
           "path": "tools/conformance-corpus/v2/manifest.json",
-          "match": "SMT-LIB 2.7 higher-order surface (lambda identity) is not implemented"
+          "match": "theory:HO_Core:lambda-identity"
         }
       ],
-      "notes": "TASK_03 records the exact red diagnostic and implementation obligation."
+      "notes": "Phase 3 closure: the higher-order surface is green through translation, solving, and checked replay."
     },
     {
       "section": "selftest_categories",
@@ -6650,11 +6728,11 @@
       "artifacts": [
         {
           "kind": "source",
-          "path": "tools/conformance-corpus/v2/generate_complete_corpus.py",
-          "match": "def hocore_red_case"
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:underscore-apply"
         }
       ],
-      "notes": "TASK_03 corpus pins parser acceptance and red-first HO obligations."
+      "notes": "Phase 3 closure: the higher-order surface is green through translation, solving, and checked replay."
     },
     {
       "section": "selftest_categories",
@@ -6664,8 +6742,14 @@
         "translated",
         "solved"
       ],
-      "expected_status": "parse_only",
-      "positive_tests": [],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:HO_Core:underscore-apply"
+        }
+      ],
       "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
@@ -6675,7 +6759,7 @@
           "match": "theory:HO_Core:underscore-apply"
         }
       ],
-      "notes": "Only syntactic parsing is currently established for the native HO surface."
+      "notes": "Phase 3 closure: the higher-order surface is green through translation, solving, and checked replay."
     },
     {
       "section": "selftest_categories",
@@ -6684,24 +6768,24 @@
       "phases": [
         "reconstructed"
       ],
-      "expected_status": "unsupported_diagnostic",
-      "positive_tests": [],
-      "negative_tests": [
+      "expected_status": "implemented",
+      "positive_tests": [
         {
           "kind": "source",
           "path": "tools/conformance-corpus/v2/manifest.json",
-          "match": "SMT-LIB 2.7 higher-order surface (underscore apply operator) is not implemented"
+          "match": "theory:HO_Core:underscore-apply"
         }
       ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
           "kind": "source",
           "path": "tools/conformance-corpus/v2/manifest.json",
-          "match": "SMT-LIB 2.7 higher-order surface (underscore apply operator) is not implemented"
+          "match": "theory:HO_Core:underscore-apply"
         }
       ],
-      "notes": "TASK_03 records the exact red diagnostic and implementation obligation."
+      "notes": "Phase 3 closure: the higher-order surface is green through translation, solving, and checked replay."
     }
   ]
 }
