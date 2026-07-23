@@ -1,0 +1,10 @@
+# Native cvc5 HO queries used for the CPC 1.3.4 rule-shape baseline.
+tools/conformance-corpus/v2/cases/theories/hocore/theory_ho_core_at_apply.smt2
+tools/conformance-corpus/v2/cases/theories/hocore/theory_ho_core_curried_function_sort.smt2
+tools/conformance-corpus/v2/cases/theories/hocore/theory_ho_core_lambda_beta.smt2
+tools/conformance-corpus/v2/cases/theories/hocore/theory_ho_core_lambda_extensionality.smt2
+tools/conformance-corpus/v2/cases/theories/hocore/theory_ho_core_lambda_identity.smt2
+tools/conformance-corpus/v2/cases/theories/hocore/theory_ho_core_lambda_under_quantifier.smt2
+tools/conformance-corpus/v2/cases/theories/hocore/theory_ho_core_map_const_partial_application.smt2
+tools/conformance-corpus/v2/cases/theories/hocore/theory_ho_core_map_valued_function_result.smt2
+tools/conformance-corpus/v2/cases/theories/hocore/theory_ho_core_omission_sugar.smt2

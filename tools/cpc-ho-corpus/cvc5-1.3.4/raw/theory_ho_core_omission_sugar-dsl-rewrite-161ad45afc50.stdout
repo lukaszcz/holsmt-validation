@@ -1,0 +1,9 @@
+unsat
+(
+(declare-const f (-> Int Bool))
+(define @t1 () (f 0))
+(define @t2 () (distinct @t1 @t1))
+(assume @p1 @t2)
+(step @p2 :rule distinct-false :args ((= @t2 false)))
+(step @p3 false :rule eq_resolve :premises (@p1 @p2))
+)

@@ -1,0 +1,601 @@
+{
+  "cvc5": {
+    "executable": "/home/lukasz/.local/bin/cvc5",
+    "version": "1.3.4"
+  },
+  "entries": [
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--lang",
+        "smt2",
+        "tools/conformance-corpus/v2/cases/theories/hocore/theory_ho_core_at_apply.smt2"
+      ],
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "tools/conformance-corpus/v2/cases/theories/hocore/theory_ho_core_at_apply.smt2",
+      "inventory": {
+        "arg_shapes": {},
+        "declarations": {
+          "declare-const": 1
+        },
+        "define_markers": [
+          "@t1",
+          "@t2"
+        ],
+        "optional_conclusions": 1,
+        "rules": {
+          "distinct-false": 1,
+          "eq_resolve": 1
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2"
+        ],
+        "step_count": 2,
+        "trust_steps": 0
+      },
+      "proof_copies": 1,
+      "raw_stem": "theory_ho_core_at_apply-dsl-rewrite-0c4fb7d16ca6",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--lang",
+        "smt2",
+        "tools/conformance-corpus/v2/cases/theories/hocore/theory_ho_core_curried_function_sort.smt2"
+      ],
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "tools/conformance-corpus/v2/cases/theories/hocore/theory_ho_core_curried_function_sort.smt2",
+      "inventory": {
+        "arg_shapes": {},
+        "declarations": {
+          "declare-const": 1
+        },
+        "define_markers": [
+          "@t1"
+        ],
+        "optional_conclusions": 1,
+        "rules": {
+          "distinct-false": 1,
+          "eq_resolve": 1
+        },
+        "skolem_markers": [
+          "@t1"
+        ],
+        "step_count": 2,
+        "trust_steps": 0
+      },
+      "proof_copies": 1,
+      "raw_stem": "theory_ho_core_curried_function_sort-dsl-rewrite-725311ac1f8a",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--lang",
+        "smt2",
+        "tools/conformance-corpus/v2/cases/theories/hocore/theory_ho_core_lambda_beta.smt2"
+      ],
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "tools/conformance-corpus/v2/cases/theories/hocore/theory_ho_core_lambda_beta.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 4
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6"
+        ],
+        "optional_conclusions": 12,
+        "rules": {
+          "beta-reduce": 1,
+          "cong": 2,
+          "distinct-elim": 1,
+          "eq_resolve": 1,
+          "evaluate": 3,
+          "refl": 1,
+          "trans": 4
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6"
+        ],
+        "step_count": 13,
+        "trust_steps": 0
+      },
+      "proof_copies": 1,
+      "raw_stem": "theory_ho_core_lambda_beta-dsl-rewrite-7fbcc8983d9a",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--lang",
+        "smt2",
+        "tools/conformance-corpus/v2/cases/theories/hocore/theory_ho_core_lambda_extensionality.smt2"
+      ],
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "tools/conformance-corpus/v2/cases/theories/hocore/theory_ho_core_lambda_extensionality.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 15
+        },
+        "declarations": {
+          "declare-const": 2
+        },
+        "define_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t13",
+          "@t14",
+          "@t15",
+          "@t16",
+          "@t17",
+          "@t18",
+          "@t19",
+          "@t2",
+          "@t20",
+          "@t21",
+          "@t22",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "optional_conclusions": 30,
+        "rules": {
+          "chain_m_resolution": 2,
+          "cong": 8,
+          "distinct-elim": 1,
+          "eq-refl": 1,
+          "eq-symm": 1,
+          "eq_resolve": 3,
+          "implies_elim": 1,
+          "instantiate": 1,
+          "lambda-elim": 2,
+          "nary_cong": 1,
+          "process_scope": 1,
+          "refl": 3,
+          "skolem_intro": 1,
+          "trans": 3,
+          "true_elim": 1,
+          "trust": 1
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t13",
+          "@t14",
+          "@t15",
+          "@t16",
+          "@t17",
+          "@t18",
+          "@t19",
+          "@t2",
+          "@t20",
+          "@t21",
+          "@t22",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "step_count": 31,
+        "trust_steps": 1
+      },
+      "proof_copies": 1,
+      "raw_stem": "theory_ho_core_lambda_extensionality-dsl-rewrite-b4fe40ca8e07",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--lang",
+        "smt2",
+        "tools/conformance-corpus/v2/cases/theories/hocore/theory_ho_core_lambda_identity.smt2"
+      ],
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "tools/conformance-corpus/v2/cases/theories/hocore/theory_ho_core_lambda_identity.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 12
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t13",
+          "@t14",
+          "@t15",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "optional_conclusions": 33,
+        "rules": {
+          "alpha_equiv": 2,
+          "bool-not-eq-elim1": 1,
+          "cong": 4,
+          "distinct-elim": 1,
+          "eq-ite-lift": 1,
+          "eq-refl": 1,
+          "eq-symm": 3,
+          "eq_resolve": 1,
+          "evaluate": 2,
+          "ite-neg-branch": 1,
+          "refl": 2,
+          "symm": 1,
+          "trans": 12,
+          "true_elim": 1,
+          "true_intro": 1
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t13",
+          "@t14",
+          "@t15",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "step_count": 34,
+        "trust_steps": 0
+      },
+      "proof_copies": 1,
+      "raw_stem": "theory_ho_core_lambda_identity-dsl-rewrite-569634881d5e",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--lang",
+        "smt2",
+        "tools/conformance-corpus/v2/cases/theories/hocore/theory_ho_core_lambda_under_quantifier.smt2"
+      ],
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "tools/conformance-corpus/v2/cases/theories/hocore/theory_ho_core_lambda_under_quantifier.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 28
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t13",
+          "@t14",
+          "@t15",
+          "@t16",
+          "@t17",
+          "@t18",
+          "@t19",
+          "@t2",
+          "@t20",
+          "@t21",
+          "@t22",
+          "@t23",
+          "@t24",
+          "@t25",
+          "@t26",
+          "@t27",
+          "@t28",
+          "@t29",
+          "@t3",
+          "@t30",
+          "@t31",
+          "@t32",
+          "@t33",
+          "@t34",
+          "@t35",
+          "@t36",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "optional_conclusions": 66,
+        "rules": {
+          "aci_norm": 1,
+          "beta-reduce": 2,
+          "bool-double-not-elim": 2,
+          "chain_m_resolution": 2,
+          "cong": 14,
+          "distinct-elim": 1,
+          "eq-refl": 3,
+          "eq-symm": 2,
+          "eq_resolve": 4,
+          "evaluate": 1,
+          "exists-elim": 1,
+          "ho_cong": 2,
+          "implies_elim": 1,
+          "nary_cong": 2,
+          "process_scope": 1,
+          "refl": 7,
+          "skolem_intro": 2,
+          "skolemize": 1,
+          "trans": 13,
+          "true_elim": 4,
+          "trust": 1
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t13",
+          "@t14",
+          "@t15",
+          "@t16",
+          "@t17",
+          "@t18",
+          "@t19",
+          "@t2",
+          "@t20",
+          "@t21",
+          "@t22",
+          "@t23",
+          "@t24",
+          "@t25",
+          "@t26",
+          "@t27",
+          "@t28",
+          "@t29",
+          "@t3",
+          "@t30",
+          "@t31",
+          "@t32",
+          "@t33",
+          "@t34",
+          "@t35",
+          "@t36",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "step_count": 67,
+        "trust_steps": 1
+      },
+      "proof_copies": 1,
+      "raw_stem": "theory_ho_core_lambda_under_quantifier-dsl-rewrite-87bb1ad699dc",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--lang",
+        "smt2",
+        "tools/conformance-corpus/v2/cases/theories/hocore/theory_ho_core_map_const_partial_application.smt2"
+      ],
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "tools/conformance-corpus/v2/cases/theories/hocore/theory_ho_core_map_const_partial_application.smt2",
+      "inventory": {
+        "arg_shapes": {},
+        "declarations": {
+          "declare-const": 1
+        },
+        "define_markers": [
+          "@t1",
+          "@t2"
+        ],
+        "optional_conclusions": 1,
+        "rules": {
+          "distinct-false": 1,
+          "eq_resolve": 1
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2"
+        ],
+        "step_count": 2,
+        "trust_steps": 0
+      },
+      "proof_copies": 1,
+      "raw_stem": "theory_ho_core_map_const_partial_application-dsl-rewrite-52c0b9e347f0",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--lang",
+        "smt2",
+        "tools/conformance-corpus/v2/cases/theories/hocore/theory_ho_core_map_valued_function_result.smt2"
+      ],
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "tools/conformance-corpus/v2/cases/theories/hocore/theory_ho_core_map_valued_function_result.smt2",
+      "inventory": {
+        "arg_shapes": {},
+        "declarations": {
+          "declare-const": 1
+        },
+        "define_markers": [
+          "@t1",
+          "@t2"
+        ],
+        "optional_conclusions": 1,
+        "rules": {
+          "distinct-false": 1,
+          "eq_resolve": 1
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2"
+        ],
+        "step_count": 2,
+        "trust_steps": 0
+      },
+      "proof_copies": 1,
+      "raw_stem": "theory_ho_core_map_valued_function_result-dsl-rewrite-aa65eea52afb",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--lang",
+        "smt2",
+        "tools/conformance-corpus/v2/cases/theories/hocore/theory_ho_core_omission_sugar.smt2"
+      ],
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "tools/conformance-corpus/v2/cases/theories/hocore/theory_ho_core_omission_sugar.smt2",
+      "inventory": {
+        "arg_shapes": {},
+        "declarations": {
+          "declare-const": 1
+        },
+        "define_markers": [
+          "@t1",
+          "@t2"
+        ],
+        "optional_conclusions": 1,
+        "rules": {
+          "distinct-false": 1,
+          "eq_resolve": 1
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2"
+        ],
+        "step_count": 2,
+        "trust_steps": 0
+      },
+      "proof_copies": 1,
+      "raw_stem": "theory_ho_core_omission_sugar-dsl-rewrite-161ad45afc50",
+      "solver_result": "unsat",
+      "timed_out": false
+    }
+  ],
+  "granularities": {
+    "dsl-rewrite": {
+      "entries": 9,
+      "proof_steps": 155,
+      "rules": {
+        "aci_norm": 1,
+        "alpha_equiv": 2,
+        "beta-reduce": 3,
+        "bool-double-not-elim": 2,
+        "bool-not-eq-elim1": 1,
+        "chain_m_resolution": 4,
+        "cong": 28,
+        "distinct-elim": 4,
+        "distinct-false": 5,
+        "eq-ite-lift": 1,
+        "eq-refl": 5,
+        "eq-symm": 6,
+        "eq_resolve": 14,
+        "evaluate": 6,
+        "exists-elim": 1,
+        "ho_cong": 2,
+        "implies_elim": 2,
+        "instantiate": 1,
+        "ite-neg-branch": 1,
+        "lambda-elim": 2,
+        "nary_cong": 3,
+        "process_scope": 2,
+        "refl": 13,
+        "skolem_intro": 3,
+        "skolemize": 1,
+        "symm": 1,
+        "trans": 32,
+        "true_elim": 6,
+        "true_intro": 1,
+        "trust": 2
+      },
+      "trust_steps": 2
+    }
+  },
+  "schema": "holsmt-cvc5-cpc-corpus-v1"
+}

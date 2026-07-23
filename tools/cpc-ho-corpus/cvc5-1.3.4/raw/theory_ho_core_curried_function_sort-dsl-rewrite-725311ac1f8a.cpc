@@ -1,0 +1,7 @@
+(
+(declare-const f (-> Real Bool Bool))
+(define @t1 () (distinct f f))
+(assume @p1 @t1)
+(step @p2 :rule distinct-false :args ((= @t1 false)))
+(step @p3 false :rule eq_resolve :premises (@p1 @p2))
+)

@@ -117,10 +117,10 @@ def run_one(executable: str, granularity: str, path: pathlib.Path,
     except subprocess.TimeoutExpired as error:
         result = error
         timed_out = True
-    # Corpus files frequently share a basename across theory directories; use
-    # a short content-independent identity so raw evidence never overwrites a
-    # different query.
-    digest = hashlib.sha256(str(path.resolve()).encode("utf-8")).hexdigest()[:12]
+    # Corpus files frequently share a basename across theory directories.
+    # Include a stable content identity so captures have the same name in
+    # every checkout while distinct queries never overwrite one another.
+    digest = hashlib.sha256(path.read_bytes()).hexdigest()[:12]
     stem = f"{path.stem}-{granularity}-{digest}"
     raw_dir.mkdir(parents=True, exist_ok=True)
     stdout = result.stdout if not timed_out else (result.stdout or "")
@@ -184,7 +184,7 @@ def main(argv: list[str]) -> int:
     granularities = args.granularity or list(GRANULARITIES)
     out = args.out.resolve()
     raw = out / "raw"
-    entries = [run_one(args.cvc5, granularity, path.resolve(), args.timeout, raw)
+    entries = [run_one(args.cvc5, granularity, path, args.timeout, raw)
                for granularity in granularities for path in args.inputs]
     by_granularity: dict[str, dict[str, Any]] = {}
     for granularity in granularities:
