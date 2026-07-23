@@ -19,6 +19,13 @@ curated or scheduled benchmark runs.  Refreshing a large suite should update the
 pin first, then preserve any failing input as a minimized `.smt2` under a local
 regression directory.
 
+The `ho/` slice is a four-case, checked-in selection of small TPTP-derived
+SMT-LIB 2.7 higher-order benchmarks. Its entries are pinned in
+`pinned/manifest.json` to the SMT-LIB benchmark-submission commit; the
+importer hash-checks the local payloads before copying them into the v2 corpus.
+The UNSAT cases carry checked `cvc5-oracle` expectations, and two lowerable
+cases also carry `z3-tac` spot-check expectations.
+
 `pinned/manifest.json` is the reduced mandatory checked-in slice.  Refresh it
 with:
 

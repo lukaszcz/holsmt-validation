@@ -1,6 +1,10 @@
 {
   "default_pending_reason": "No curated checked-in external benchmark is present for this logic yet; use --benchmark-dir with a pinned SMT-LIB benchmark checkout and preserve minimized regressions for failures.",
   "logic_status": {
+    "HO_ALL": {
+      "reason": "covered by the pinned ho/ TPTP-derived higher-order slice",
+      "source": "smt-lib-benchmark-submission"
+    },
     "QF_AUFLIA": {
       "reason": "covered by curated-small/arrays/qf_auflia_select_store.smt2",
       "source": "curated-small"

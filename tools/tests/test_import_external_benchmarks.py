@@ -64,12 +64,14 @@ def pinned_manifest(content, sha256=None):
                     "parser-only",
                     "typecheck-only",
                     "z3-oracle",
+                    "cvc5-oracle",
                     "z3-tac",
                 ],
                 "expected_status": {
                     "parser-only": {"status": "pass"},
                     "typecheck-only": {"status": "pass"},
                     "z3-oracle": {"status": "pass"},
+                    "cvc5-oracle": {"status": "pass"},
                     "z3-tac": {
                         "status": "fail",
                         "diagnostic": "SAT benchmark has no HOL theorem to reconstruct",
@@ -116,6 +118,19 @@ def pinned_manifest(content, sha256=None):
 
 
 class ExternalBenchmarkImporterTests(unittest.TestCase):
+    def test_ho_source_reads_checked_in_payload(self):
+        entry = importer.PinnedEntry(
+            {
+                "id": "external-benchmark:ho-fixture",
+                "source_id": importer.HO_CURATED_SOURCE_ID,
+                "source_path": "tptp_lambda_beta.smt2",
+                "source_url": "https://example.invalid/ho.smt2",
+                "sha256": "0" * 64,
+            }
+        )
+        path = importer.HO_CURATED_ROOT / "tptp_lambda_beta.smt2"
+        self.assertEqual(importer.read_pinned_content(entry), path.read_bytes())
+
     def test_import_verifies_hash_and_links_case_into_v2_manifest(self):
         content = "(set-logic QF_UF)\n(check-sat)\n"
         with tempfile.TemporaryDirectory() as tmp:

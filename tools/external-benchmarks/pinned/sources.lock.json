@@ -9,6 +9,13 @@
       "pin_type": "git-commit"
     },
     {
+      "id": "smt-lib-ho-curated",
+      "kind": "official-smtlib-ho-curated-selection",
+      "url": "https://github.com/SMT-LIB/benchmark-submission",
+      "pin": "1772eef151db13b52d7be37cc689f574f43b4361",
+      "pin_type": "git-commit"
+    },
+    {
       "id": "z3-upstream",
       "kind": "z3-upstream-proof-regression-source",
       "url": "https://github.com/Z3Prover/z3",

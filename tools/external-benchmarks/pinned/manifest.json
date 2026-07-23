@@ -1,6 +1,7 @@
 {
   "schema_version": "holsmt-external-benchmarks-pinned-v1",
   "supported_logic_families": [
+    "HO_ALL",
     "QF_UF",
     "QF_LIA",
     "QF_LRA",
@@ -11,6 +12,141 @@
     "QF_UFDT"
   ],
   "entries": [
+    {
+      "id": "external-benchmark:ho-tptp-function-extensionality",
+      "source_id": "smt-lib-ho-curated",
+      "source_url": "https://github.com/SMT-LIB/benchmark-submission/tree/1772eef151db13b52d7be37cc689f574f43b4361/non-incremental",
+      "commit_or_release": "1772eef151db13b52d7be37cc689f574f43b4361",
+      "source_path": "tptp_function_extensionality.smt2",
+      "sha256": "f8c4e17179da052061cbb7e23831d0d8dcc83237ee82b7ae03a8b7cb29784d53",
+      "target_file": "cases/external/ho_tptp_function_extensionality.smt2",
+      "logic_family": "HO_ALL",
+      "logic": "HO_UF",
+      "standard": "SMT-LIB-2.7",
+      "source_reference": "SMT-LIB benchmark-submission 2026 HO/TPTP-derived curated selection",
+      "features": [
+        "external-source:smt-lib-benchmark-submission",
+        "external-logic-family:HO_ALL",
+        "external-family:ho",
+        "external-status:unsat-proof",
+        "higher-order",
+        "lambda",
+        "function-extensionality"
+      ],
+      "expected_modes": [
+        "parser-only",
+        "typecheck-only",
+        "cvc5-oracle",
+        "z3-tac"
+      ],
+      "expected_status": {
+        "parser-only": {"status": "pass"},
+        "typecheck-only": {"status": "pass"},
+        "cvc5-oracle": {"status": "pass"},
+        "z3-tac": {"status": "pass"}
+      },
+      "implementation_obligation": null
+    },
+    {
+      "id": "external-benchmark:ho-tptp-lambda-beta",
+      "source_id": "smt-lib-ho-curated",
+      "source_url": "https://github.com/SMT-LIB/benchmark-submission/tree/1772eef151db13b52d7be37cc689f574f43b4361/non-incremental",
+      "commit_or_release": "1772eef151db13b52d7be37cc689f574f43b4361",
+      "source_path": "tptp_lambda_beta.smt2",
+      "sha256": "c46893a303fd205f6a0ef37cddc9a1f00abe532f3883a7c1ece52af5f58a5f12",
+      "target_file": "cases/external/ho_tptp_lambda_beta.smt2",
+      "logic_family": "HO_ALL",
+      "logic": "HO_QF_UFLIA",
+      "standard": "SMT-LIB-2.7",
+      "source_reference": "SMT-LIB benchmark-submission 2026 HO/TPTP-derived curated selection",
+      "features": [
+        "external-source:smt-lib-benchmark-submission",
+        "external-logic-family:HO_ALL",
+        "external-family:ho",
+        "external-status:unsat-proof",
+        "higher-order",
+        "lambda",
+        "beta-reduction"
+      ],
+      "expected_modes": [
+        "parser-only",
+        "typecheck-only",
+        "cvc5-oracle",
+        "z3-tac"
+      ],
+      "expected_status": {
+        "parser-only": {"status": "pass"},
+        "typecheck-only": {"status": "pass"},
+        "cvc5-oracle": {"status": "pass"},
+        "z3-tac": {"status": "pass"}
+      },
+      "implementation_obligation": null
+    },
+    {
+      "id": "external-benchmark:ho-tptp-map-result",
+      "source_id": "smt-lib-ho-curated",
+      "source_url": "https://github.com/SMT-LIB/benchmark-submission/tree/1772eef151db13b52d7be37cc689f574f43b4361/non-incremental",
+      "commit_or_release": "1772eef151db13b52d7be37cc689f574f43b4361",
+      "source_path": "tptp_map_result.smt2",
+      "sha256": "7be06b9050f503bee5e69147cf4473d2708fbfc3131a925b484d48f966363270",
+      "target_file": "cases/external/ho_tptp_map_result.smt2",
+      "logic_family": "HO_ALL",
+      "logic": "HO_ALL",
+      "standard": "SMT-LIB-2.7",
+      "source_reference": "SMT-LIB benchmark-submission 2026 HO/TPTP-derived curated selection",
+      "features": [
+        "external-source:smt-lib-benchmark-submission",
+        "external-logic-family:HO_ALL",
+        "external-family:ho",
+        "external-status:unsat-proof",
+        "higher-order",
+        "lambda",
+        "map-valued-function"
+      ],
+      "expected_modes": [
+        "parser-only",
+        "typecheck-only",
+        "cvc5-oracle"
+      ],
+      "expected_status": {
+        "parser-only": {"status": "pass"},
+        "typecheck-only": {"status": "pass"},
+        "cvc5-oracle": {"status": "pass"}
+      },
+      "implementation_obligation": null
+    },
+    {
+      "id": "external-benchmark:ho-tptp-function-sat",
+      "source_id": "smt-lib-ho-curated",
+      "source_url": "https://github.com/SMT-LIB/benchmark-submission/tree/1772eef151db13b52d7be37cc689f574f43b4361/non-incremental",
+      "commit_or_release": "1772eef151db13b52d7be37cc689f574f43b4361",
+      "source_path": "tptp_function_sat.smt2",
+      "sha256": "c77ebe02bc2f093a5f55f4a862fbdedc04eaed074d3953a5d2f3307e6ed4a070",
+      "target_file": "cases/external/ho_tptp_function_sat.smt2",
+      "logic_family": "HO_ALL",
+      "logic": "HO_QF_UFLIA",
+      "standard": "SMT-LIB-2.7",
+      "source_reference": "SMT-LIB benchmark-submission 2026 HO/TPTP-derived curated selection",
+      "features": [
+        "external-source:smt-lib-benchmark-submission",
+        "external-logic-family:HO_ALL",
+        "external-family:ho",
+        "external-status:sat",
+        "higher-order",
+        "function-application"
+      ],
+      "expected_modes": [
+        "parser-only",
+        "typecheck-only",
+        "cvc5-oracle"
+      ],
+      "expected_status": {
+        "parser-only": {"status": "pass"},
+        "typecheck-only": {"status": "pass"},
+        "cvc5-oracle": {"status": "pass"}
+      },
+      "implementation_obligation": null
+    },
     {
       "id": "external-benchmark:curated-reduced-qf-uf-sat",
       "source_id": "curated-reduced",

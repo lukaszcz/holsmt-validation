@@ -25,6 +25,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
+      - name: Provision cvc5 for the HO oracle slice
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cvc5
+          cvc5 --version
+
       - name: Validate pinned external benchmark importer
         run: python3 tools/import_external_benchmarks.py --check >/tmp/holsmt-pinned-external-manifest.json
 
@@ -35,6 +41,27 @@ jobs:
             --benchmark-dir tools/external-benchmarks/curated-small \
             --mode parser-only \
             --out /tmp/holsmt-curated-external
+
+      - name: Run curated higher-order cvc5 oracle slice
+        run: |
+          python3 tools/run_conformance_suite.py \
+            --no-default-suite \
+            --benchmark-dir tools/external-benchmarks/ho \
+            --mode parser-only \
+            --mode cvc5-oracle \
+            --out /tmp/holsmt-curated-ho-cvc5
+
+      - name: Run lowerable higher-order Z3_TAC spot checks
+        run: |
+          python3 tools/run_conformance_suite.py \
+            --no-default-suite \
+            --benchmark-dir \
+              tools/external-benchmarks/ho/tptp_function_extensionality.smt2 \
+            --benchmark-dir \
+              tools/external-benchmarks/ho/tptp_lambda_beta.smt2 \
+            --mode parser-only \
+            --mode z3-tac \
+            --out /tmp/holsmt-curated-ho-z3-tac
 
       - name: Run HolSmt tool tests
         run: python3 -m unittest tools/tests/test_run_conformance_suite.py

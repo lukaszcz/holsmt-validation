@@ -248,11 +248,25 @@ for mode in "${selected_modes[@]}"; do
   fi
   external_out="$report_dir/external/$mode"
   mkdir -p "$external_out"
+  benchmark_args=(
+    --benchmark-dir "$script_dir/external-benchmarks/curated-small"
+    --regression-dir "$script_dir/external-benchmarks/local-regressions"
+  )
+  case "$mode" in
+    parser-only|typecheck-only|cvc5-oracle)
+      benchmark_args+=(--benchmark-dir "$script_dir/external-benchmarks/ho")
+      ;;
+    z3-tac)
+      benchmark_args+=(
+        --benchmark-dir "$script_dir/external-benchmarks/ho/tptp_function_extensionality.smt2"
+        --benchmark-dir "$script_dir/external-benchmarks/ho/tptp_lambda_beta.smt2"
+      )
+      ;;
+  esac
   run_step "external-$mode" external-conformance python3 "$script_dir/run_conformance_suite.py" \
     --out "$external_out" \
     --no-default-suite \
-    --benchmark-dir "$script_dir/external-benchmarks/curated-small" \
-    --regression-dir "$script_dir/external-benchmarks/local-regressions" \
+    "${benchmark_args[@]}" \
     --mode "$mode" \
     --timeout "$timeout_seconds" \
     --z3 "$z3_executable" \
