@@ -1,5 +1,5 @@
 (set-option :produce-proofs true)
 (set-logic QF_SLIA)
-(assert (and (str.is_digit "7") (not (str.is_digit "7"))))
+(assert (not (str.is_digit "7")))
 (check-sat)
 (get-proof)

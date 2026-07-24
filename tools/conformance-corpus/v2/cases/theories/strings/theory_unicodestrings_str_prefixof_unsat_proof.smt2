@@ -1,5 +1,5 @@
 (set-option :produce-proofs true)
 (set-logic QF_SLIA)
-(assert (and (str.prefixof "a" "abc") (not (str.prefixof "a" "abc"))))
+(assert (not (str.prefixof "ab" "abc")))
 (check-sat)
 (get-proof)

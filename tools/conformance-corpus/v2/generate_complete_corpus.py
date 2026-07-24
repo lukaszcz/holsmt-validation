@@ -1466,6 +1466,8 @@ UNSAT_PROOF_MODE_BLOCKED_THEORY_CASES = {
 NATIVE_Z3_PROOF_UNSUPPORTED_THEORY_CASES = {
     "theory:Ints:divisible:unsat-proof",
     "theory:Ints:pow:unsat-proof",
+    "theory:UnicodeStrings:str.replace-re:unsat-proof",
+    "theory:UnicodeStrings:str.replace-re-all:unsat-proof",
 }
 
 RECONSTRUCTED_THEORY_Z3_TAC_UNSAT_PROOFS = {
@@ -3622,7 +3624,78 @@ def string_self_assertion(term: str, result_sort: str) -> str:
     return f"(= {term} {term})"
 
 
-def string_unsat_assertion(term: str, result_sort: str) -> str:
+STRING_SEMANTIC_UNSAT_ASSERTIONS = {
+    "string": '(not (= (str.len "abc") 3))',
+    "reglan": '(not (str.in_re "a" (str.to_re "a")))',
+    "string-literal": '(distinct (str.len "abc") 3)',
+    "str-concat": '(not (= (str.++ "a" "b") "ab"))',
+    "str.len": '(not (= (str.len "abc") 3))',
+    "str-lt": '(not (str.< "a" "b"))',
+    "str-le": '(not (str.<= "a" "a"))',
+    "str.at": '(not (= (str.at "abc" 1) "b"))',
+    "str.substr": '(not (= (str.substr "abc" 1 2) "bc"))',
+    "str.prefixof": '(not (str.prefixof "ab" "abc"))',
+    "str.suffixof": '(not (str.suffixof "bc" "abc"))',
+    "str.contains": '(not (str.contains "abc" "b"))',
+    "str.indexof": '(not (= (str.indexof "abcabc" "bc" 0) 1))',
+    "str.replace": '(not (= (str.replace "aba" "a" "x") "xba"))',
+    "str.replace-all": (
+        '(not (= (str.replace_all "aba" "a" "x") "xbx"))'
+    ),
+    "str.is-digit": '(not (str.is_digit "7"))',
+    "str.to-code": '(not (= (str.to_code "A") 65))',
+    "str.from-code": '(not (= (str.from_code 65) "A"))',
+    "str.to-int": '(not (= (str.to_int "123") 123))',
+    "str.from-int": '(not (= (str.from_int 123) "123"))',
+    "str.to-re": '(not (str.in_re "a" (str.to_re "a")))',
+    "str.in-re": '(not (str.in_re "a" (str.to_re "a")))',
+    "str.replace-re": (
+        '(not (= (str.replace_re "abc" (str.to_re "b") "X") "aXc"))'
+    ),
+    "str.replace-re-all": (
+        '(not (= (str.replace_re_all "aba" (str.to_re "a") "X") "XbX"))'
+    ),
+    "re.none": '(str.in_re "a" re.none)',
+    "re.all": '(not (str.in_re "abc" re.all))',
+    "re.allchar": '(not (str.in_re "a" re.allchar))',
+    "re-concat": (
+        '(not (str.in_re "ab" '
+        '(re.++ (str.to_re "a") (str.to_re "b"))))'
+    ),
+    "re.union": (
+        '(not (str.in_re "a" '
+        '(re.union (str.to_re "a") (str.to_re "b"))))'
+    ),
+    "re.inter": (
+        '(not (str.in_re "a" '
+        '(re.inter re.allchar (str.to_re "a"))))'
+    ),
+    "re.diff": (
+        '(not (str.in_re "b" '
+        '(re.diff re.allchar (str.to_re "a"))))'
+    ),
+    "re.comp": '(not (str.in_re "b" (re.comp (str.to_re "a"))))',
+    "re-star": '(not (str.in_re "aaa" (re.* (str.to_re "a"))))',
+    "re-plus": '(not (str.in_re "aaa" (re.+ (str.to_re "a"))))',
+    "re.opt": '(not (str.in_re "" (re.opt (str.to_re "a"))))',
+    "re.range": '(not (str.in_re "m" (re.range "a" "z")))',
+    "re-power": (
+        '(not (str.in_re "aa" ((_ re.^ 2) (str.to_re "a"))))'
+    ),
+    "re.loop": (
+        '(not (str.in_re "aa" '
+        '((_ re.loop 1 3) (str.to_re "a"))))'
+    ),
+    "char": '(not (= (_ char #x41) "A"))',
+}
+
+
+def string_unsat_assertion(
+    slug_name: str, term: str, result_sort: str
+) -> str:
+    semantic_assertion = STRING_SEMANTIC_UNSAT_ASSERTIONS.get(slug_name)
+    if semantic_assertion is not None:
+        return semantic_assertion
     if result_sort == "Bool":
         return f"(and {term} (not {term}))"
     return f"(not (= {term} {term}))"
@@ -3677,7 +3750,7 @@ def string_symbol(
         ),
         proof_script(
             "QF_SLIA",
-            string_body(string_unsat_assertion(term, result_sort), sat_declarations),
+            string_body(string_unsat_assertion(slug_name, term, result_sort), sat_declarations),
         ),
         check_sat_script(
             "QF_SLIA",
@@ -5308,6 +5381,11 @@ ALL_THEORY_SYMBOLS = (
 
 
 def theory_features(symbol: TheorySymbol, kind: str) -> list[str]:
+    unsupported = (
+        kind == "unsat-proof"
+        and symbol.theory == "UnicodeStrings"
+        and symbol.slug in {"str.replace-re", "str.replace-re-all"}
+    )
     return [
         f"theory:{symbol.theory}",
         f"theory-kind:{symbol.kind}",
@@ -5316,6 +5394,7 @@ def theory_features(symbol: TheorySymbol, kind: str) -> list[str]:
         f"theory-case:{kind}",
         *(f"theory-declaration:{symbol.theory}:{declaration}" for declaration in symbol.declarations),
         *symbol.behavior_features,
+        *(("theory-behavior:z3-unsupported",) if unsupported else ()),
     ]
 
 
@@ -5400,7 +5479,13 @@ def scripted_theory_case(theory: str, case: ScriptedCase) -> GeneratedCase:
 
 def theory_case(symbol: TheorySymbol, kind: str, script: str) -> GeneratedCase:
     case_id = f"theory:{symbol.theory}:{symbol.slug}:{kind}"
-    z3_unsupported = "theory-behavior:z3-unsupported" in symbol.behavior_features
+    z3_unsupported = (
+        "theory-behavior:z3-unsupported" in symbol.behavior_features
+        or case_id in {
+            "theory:UnicodeStrings:str.replace-re:unsat-proof",
+            "theory:UnicodeStrings:str.replace-re-all:unsat-proof",
+        }
+    )
     parser_gap = "theory-behavior:parser-gap" in symbol.behavior_features
     translation_gap = "theory-behavior:translation-gap" in symbol.behavior_features
     proof_gap = "theory-behavior:proof-gap" in symbol.behavior_features
@@ -5454,8 +5539,8 @@ def theory_case(symbol: TheorySymbol, kind: str, script: str) -> GeneratedCase:
             case_id in NATIVE_Z3_PROOF_UNSUPPORTED_THEORY_CASES
         )
         proof_gap_status = (
-            "pass" if proof_modes_reconstructed else
-            "unsupported" if native_z3_proof_unsupported else "red"
+            "unsupported" if native_z3_proof_unsupported else
+            "pass" if proof_modes_reconstructed else "red"
         )
         proof_gap_phase = (
             None if proof_modes_reconstructed or native_z3_proof_unsupported

@@ -74184,6 +74184,7 @@
         "theory-behavior:replace",
         "theory-behavior:string",
         "theory-behavior:translation-gap",
+        "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:UnicodeStrings:(str.replace_re_all String (RegLan String) String String)",
         "theory-entry:UnicodeStrings:str.replace-re-all",
@@ -74216,18 +74217,24 @@
           "failure_phase": "typecheck"
         },
         "z3-oracle": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "Z3 oracle support for this SMT-LIB 2.7 theory symbol is incomplete",
+          "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass"
+          "status": "unsupported",
+          "diagnostic": "proof modes require unsat input",
+          "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass"
+          "status": "unsupported",
+          "diagnostic": "proof modes require unsat input",
+          "failure_phase": "solver"
         },
         "z3-tac": {
           "status": "red",
-          "diagnostic": "SMT-LIB string/regex or Z3-extension translation is incomplete",
-          "failure_phase": "translation",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
           "theorem_shape": "closed theorem without oracle tags"
         }
       },
@@ -74465,6 +74472,7 @@
         "theory-behavior:replace",
         "theory-behavior:string",
         "theory-behavior:translation-gap",
+        "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:UnicodeStrings:(str.replace_re String (RegLan String) String String)",
         "theory-entry:UnicodeStrings:str.replace-re",
@@ -74497,18 +74505,24 @@
           "failure_phase": "typecheck"
         },
         "z3-oracle": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "Z3 oracle support for this SMT-LIB 2.7 theory symbol is incomplete",
+          "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass"
+          "status": "unsupported",
+          "diagnostic": "proof modes require unsat input",
+          "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass"
+          "status": "unsupported",
+          "diagnostic": "proof modes require unsat input",
+          "failure_phase": "solver"
         },
         "z3-tac": {
           "status": "red",
-          "diagnostic": "SMT-LIB string/regex or Z3-extension translation is incomplete",
-          "failure_phase": "translation",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
           "theorem_shape": "closed theorem without oracle tags"
         }
       },

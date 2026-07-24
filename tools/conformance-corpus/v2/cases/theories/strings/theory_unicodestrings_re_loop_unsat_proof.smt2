@@ -1,5 +1,5 @@
 (set-option :produce-proofs true)
 (set-logic QF_SLIA)
-(assert (not (= ((_ re.loop 1 3) (str.to_re "a")) ((_ re.loop 1 3) (str.to_re "a")))))
+(assert (not (str.in_re "aa" ((_ re.loop 1 3) (str.to_re "a")))))
 (check-sat)
 (get-proof)
