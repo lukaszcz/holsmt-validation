@@ -1,0 +1,5 @@
+(set-logic QF_S)
+(declare-const s String)
+(declare-const t String)
+(assert (distinct s t))
+(check-sat)

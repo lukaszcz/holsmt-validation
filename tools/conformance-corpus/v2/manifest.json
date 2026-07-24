@@ -26111,8 +26111,8 @@
       "implementation_obligation": {
         "files": [
           "src/HolSmt/Z3_ProofReplay.sml",
-          "tools/audit_complete_conformance.py",
-          "src/HolSmt/z3_tac_driver.sml"
+          "src/HolSmt/z3_tac_driver.sml",
+          "tools/audit_complete_conformance.py"
         ],
         "feature": "soundness:oracle-tag-boundary",
         "test_ids": [
@@ -26124,6 +26124,186 @@
       "source": {
         "kind": "HolSmt-internal",
         "reference": "checked Z3_TAC oracle-tag boundary"
+      }
+    },
+    {
+      "id": "soundness-audit:string-injection-concat",
+      "file": "cases/soundness/soundness_audit_string_injection_concat.smt2",
+      "logic": "QF_S",
+      "standard": "SMT-LIB-2.7",
+      "class": "soundness-audit",
+      "features": [
+        "string-injection:concat"
+      ],
+      "modes": [
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "HOL string injection through smtstring is not implemented",
+          "theorem_shape": "closed theorem without oracle tags"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/README",
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/Unittest.sml",
+          "src/HolSmt/smtstringScript.sml"
+        ],
+        "feature": "string-injection:concat",
+        "test_ids": [
+          "soundness-audit:string-injection-concat"
+        ],
+        "failure_phase": "translation",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "HolSmt-internal",
+        "reference": "HOL string concat goal transferred through smtstring"
+      }
+    },
+    {
+      "id": "soundness-audit:string-injection-le",
+      "file": "cases/soundness/soundness_audit_string_injection_le.smt2",
+      "logic": "QF_S",
+      "standard": "SMT-LIB-2.7",
+      "class": "soundness-audit",
+      "features": [
+        "string-injection:le"
+      ],
+      "modes": [
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "HOL string injection through smtstring is not implemented",
+          "theorem_shape": "closed theorem without oracle tags"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/README",
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/Unittest.sml",
+          "src/HolSmt/smtstringScript.sml"
+        ],
+        "feature": "string-injection:le",
+        "test_ids": [
+          "soundness-audit:string-injection-le"
+        ],
+        "failure_phase": "translation",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "HolSmt-internal",
+        "reference": "HOL string le goal transferred through smtstring"
+      }
+    },
+    {
+      "id": "soundness-audit:string-injection-lt",
+      "file": "cases/soundness/soundness_audit_string_injection_lt.smt2",
+      "logic": "QF_S",
+      "standard": "SMT-LIB-2.7",
+      "class": "soundness-audit",
+      "features": [
+        "string-injection:lt"
+      ],
+      "modes": [
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "HOL string injection through smtstring is not implemented",
+          "theorem_shape": "closed theorem without oracle tags"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/README",
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/Unittest.sml",
+          "src/HolSmt/smtstringScript.sml"
+        ],
+        "feature": "string-injection:lt",
+        "test_ids": [
+          "soundness-audit:string-injection-lt"
+        ],
+        "failure_phase": "translation",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "HolSmt-internal",
+        "reference": "HOL string lt goal transferred through smtstring"
+      }
+    },
+    {
+      "id": "soundness-audit:string-injection-prefixof",
+      "file": "cases/soundness/soundness_audit_string_injection_prefixof.smt2",
+      "logic": "QF_S",
+      "standard": "SMT-LIB-2.7",
+      "class": "soundness-audit",
+      "features": [
+        "string-injection:prefixof"
+      ],
+      "modes": [
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "HOL string injection through smtstring is not implemented",
+          "theorem_shape": "closed theorem without oracle tags"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/README",
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/Unittest.sml",
+          "src/HolSmt/smtstringScript.sml"
+        ],
+        "feature": "string-injection:prefixof",
+        "test_ids": [
+          "soundness-audit:string-injection-prefixof"
+        ],
+        "failure_phase": "translation",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "HolSmt-internal",
+        "reference": "HOL string prefixof goal transferred through smtstring"
       }
     },
     {
@@ -65341,6 +65521,592 @@
       }
     },
     {
+      "id": "theory:UnicodeStrings:char:boundary",
+      "file": "cases/theories/strings/theory_unicodestrings_char_boundary.smt2",
+      "logic": "QF_SLIA",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "theory-behavior:character",
+        "theory-behavior:indexed",
+        "theory-behavior:proof-gap",
+        "theory-behavior:singleton-string",
+        "theory-behavior:string",
+        "theory-behavior:translation-gap",
+        "theory-case:boundary",
+        "theory-declaration:UnicodeStrings:((_ char H) String)",
+        "theory-entry:UnicodeStrings:char",
+        "theory-kind:term",
+        "theory-operator:UnicodeStrings:(_ char H)",
+        "theory:UnicodeStrings"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "SMT-LIB 2.7 theory front-end support is incomplete",
+          "failure_phase": "typecheck"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "SMT-LIB string/regex or Z3-extension translation is incomplete",
+          "failure_phase": "translation"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Parser.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "theory-symbol:UnicodeStrings:char:boundary",
+        "test_ids": [
+          "theory:UnicodeStrings:char:boundary"
+        ],
+        "failure_phase": "translation",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 UnicodeStrings theory: (_ char H)"
+      }
+    },
+    {
+      "id": "theory:UnicodeStrings:char:sat",
+      "file": "cases/theories/strings/theory_unicodestrings_char_sat.smt2",
+      "logic": "QF_SLIA",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "theory-behavior:character",
+        "theory-behavior:indexed",
+        "theory-behavior:proof-gap",
+        "theory-behavior:singleton-string",
+        "theory-behavior:string",
+        "theory-behavior:translation-gap",
+        "theory-case:sat",
+        "theory-declaration:UnicodeStrings:((_ char H) String)",
+        "theory-entry:UnicodeStrings:char",
+        "theory-kind:term",
+        "theory-operator:UnicodeStrings:(_ char H)",
+        "theory:UnicodeStrings"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "SMT-LIB 2.7 theory front-end support is incomplete",
+          "failure_phase": "typecheck"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "SMT-LIB string/regex or Z3-extension translation is incomplete",
+          "failure_phase": "translation"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Parser.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "theory-symbol:UnicodeStrings:char:sat",
+        "test_ids": [
+          "theory:UnicodeStrings:char:sat"
+        ],
+        "failure_phase": "translation",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 UnicodeStrings theory: (_ char H)"
+      }
+    },
+    {
+      "id": "theory:UnicodeStrings:char:type-error",
+      "file": "cases/theories/strings/theory_unicodestrings_char_type_error.smt2",
+      "logic": "QF_SLIA",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "theory-behavior:character",
+        "theory-behavior:indexed",
+        "theory-behavior:proof-gap",
+        "theory-behavior:singleton-string",
+        "theory-behavior:string",
+        "theory-behavior:translation-gap",
+        "theory-case:type-error",
+        "theory-declaration:UnicodeStrings:((_ char H) String)",
+        "theory-entry:UnicodeStrings:char",
+        "theory-kind:term",
+        "theory-operator:UnicodeStrings:(_ char H)",
+        "theory:UnicodeStrings"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "negative theory sort/type diagnostics are incomplete",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "negative theory sort/type diagnostics are incomplete",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Parser.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "theory-symbol:UnicodeStrings:char:type-error",
+        "test_ids": [
+          "theory:UnicodeStrings:char:type-error"
+        ],
+        "failure_phase": "typecheck",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 UnicodeStrings theory: (_ char H)"
+      }
+    },
+    {
+      "id": "theory:UnicodeStrings:char:unsat-proof",
+      "file": "cases/theories/strings/theory_unicodestrings_char_unsat_proof.smt2",
+      "logic": "QF_SLIA",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "theory-behavior:character",
+        "theory-behavior:indexed",
+        "theory-behavior:proof-gap",
+        "theory-behavior:singleton-string",
+        "theory-behavior:string",
+        "theory-behavior:translation-gap",
+        "theory-case:unsat-proof",
+        "theory-declaration:UnicodeStrings:((_ char H) String)",
+        "theory-entry:UnicodeStrings:char",
+        "theory-kind:term",
+        "theory-operator:UnicodeStrings:(_ char H)",
+        "theory:UnicodeStrings"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "SMT-LIB 2.7 theory front-end support is incomplete",
+          "failure_phase": "typecheck"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "pass"
+        },
+        "proof-replay": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "SMT-LIB string/regex or Z3-extension translation is incomplete",
+          "failure_phase": "translation",
+          "theorem_shape": "closed theorem without oracle tags"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Parser.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "theory-symbol:UnicodeStrings:char:unsat-proof",
+        "test_ids": [
+          "theory:UnicodeStrings:char:unsat-proof"
+        ],
+        "failure_phase": "typecheck",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 UnicodeStrings theory: (_ char H)"
+      }
+    },
+    {
+      "id": "theory:UnicodeStrings:literal-backslash-verbatim",
+      "file": "cases/theories/strings/theory_unicodestrings_literal_backslash_verbatim.smt2",
+      "logic": "QF_SLIA",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "theory-behavior:backslash-verbatim",
+        "theory-behavior:literal",
+        "theory-behavior:string",
+        "theory-case:sat",
+        "theory-entry:UnicodeStrings:literal-backslash-verbatim",
+        "theory:UnicodeStrings"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 non-escape backslashes stand for themselves"
+      }
+    },
+    {
+      "id": "theory:UnicodeStrings:literal-doubled-quote",
+      "file": "cases/theories/strings/theory_unicodestrings_literal_doubled_quote.smt2",
+      "logic": "QF_SLIA",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "theory-behavior:doubled-quote",
+        "theory-behavior:literal",
+        "theory-behavior:string",
+        "theory-case:sat",
+        "theory-entry:UnicodeStrings:literal-doubled-quote",
+        "theory:UnicodeStrings"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 doubled-quote string escape"
+      }
+    },
+    {
+      "id": "theory:UnicodeStrings:literal-u-braced-one-to-five-hex-decode",
+      "file": "cases/theories/strings/theory_unicodestrings_literal_u_braced_one_to_five_hex_decode.smt2",
+      "logic": "QF_SLIA",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "theory-behavior:literal",
+        "theory-behavior:string",
+        "theory-behavior:unicode-escape",
+        "theory-behavior:unicode-escape-braced",
+        "theory-case:unsat-proof",
+        "theory-entry:UnicodeStrings:literal-u-braced-one-to-five-hex-decode",
+        "theory:UnicodeStrings"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "SMT-LIB Unicode string literal decoding is incomplete",
+          "failure_phase": "typecheck"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "red",
+          "diagnostic": "Unicode string escapes are not decoded in Z3 proofs",
+          "failure_phase": "proof-parse"
+        },
+        "proof-replay": {
+          "status": "red",
+          "diagnostic": "Unicode string escape replay is incomplete",
+          "failure_phase": "proof-replay"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "checked Unicode string literal translation is incomplete",
+          "failure_phase": "translation"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Parser.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "unicode-strings:literal-u-braced-one-to-five-hex-decode",
+        "test_ids": [
+          "theory:UnicodeStrings:literal-u-braced-one-to-five-hex-decode"
+        ],
+        "failure_phase": "typecheck",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 UnicodeStrings one-to-five-digit braced escapes"
+      }
+    },
+    {
+      "id": "theory:UnicodeStrings:literal-u-braced-out-of-range",
+      "file": "cases/theories/strings/theory_unicodestrings_literal_u_braced_out_of_range.smt2",
+      "logic": "QF_SLIA",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "theory-behavior:code-point-boundary",
+        "theory-behavior:literal",
+        "theory-behavior:string",
+        "theory-behavior:unicode-escape",
+        "theory-case:type-error",
+        "theory-entry:UnicodeStrings:literal-u-braced-out-of-range",
+        "theory:UnicodeStrings"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "Unicode escape code point exceeds #x2FFFF",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "Unicode escape code point exceeds #x2FFFF",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Parser.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "unicode-strings:literal-out-of-range-rejection",
+        "test_ids": [
+          "theory:UnicodeStrings:literal-u-braced-out-of-range"
+        ],
+        "failure_phase": "typecheck",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 UnicodeStrings code-point upper bound"
+      }
+    },
+    {
+      "id": "theory:UnicodeStrings:literal-u-four-hex-decode",
+      "file": "cases/theories/strings/theory_unicodestrings_literal_u_four_hex_decode.smt2",
+      "logic": "QF_SLIA",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "theory-behavior:literal",
+        "theory-behavior:string",
+        "theory-behavior:unicode-escape",
+        "theory-behavior:unicode-escape-fixed-width",
+        "theory-case:unsat-proof",
+        "theory-entry:UnicodeStrings:literal-u-four-hex-decode",
+        "theory:UnicodeStrings"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "SMT-LIB Unicode string literal decoding is incomplete",
+          "failure_phase": "typecheck"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "red",
+          "diagnostic": "Unicode string escapes are not decoded in Z3 proofs",
+          "failure_phase": "proof-parse"
+        },
+        "proof-replay": {
+          "status": "red",
+          "diagnostic": "Unicode string escape replay is incomplete",
+          "failure_phase": "proof-replay"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "checked Unicode string literal translation is incomplete",
+          "failure_phase": "translation"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Parser.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "unicode-strings:literal-u-four-hex-decode",
+        "test_ids": [
+          "theory:UnicodeStrings:literal-u-four-hex-decode"
+        ],
+        "failure_phase": "typecheck",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 UnicodeStrings fixed-width escape"
+      }
+    },
+    {
       "id": "theory:UnicodeStrings:re-concat:boundary",
       "file": "cases/theories/strings/theory_unicodestrings_re_concat_boundary.smt2",
       "logic": "QF_SLIA",
@@ -67022,6 +67788,287 @@
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 UnicodeStrings theory: re.allchar"
+      }
+    },
+    {
+      "id": "theory:UnicodeStrings:re.comp:boundary",
+      "file": "cases/theories/strings/theory_unicodestrings_re_comp_boundary.smt2",
+      "logic": "QF_SLIA",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "theory-behavior:complement",
+        "theory-behavior:proof-gap",
+        "theory-behavior:regex",
+        "theory-behavior:string",
+        "theory-behavior:translation-gap",
+        "theory-case:boundary",
+        "theory-declaration:UnicodeStrings:(re.comp (RegLan String) (RegLan String))",
+        "theory-entry:UnicodeStrings:re.comp",
+        "theory-kind:term",
+        "theory-operator:UnicodeStrings:re.comp",
+        "theory:UnicodeStrings"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "SMT-LIB 2.7 theory front-end support is incomplete",
+          "failure_phase": "typecheck"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "SMT-LIB string/regex or Z3-extension translation is incomplete",
+          "failure_phase": "translation"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Parser.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "theory-symbol:UnicodeStrings:re.comp:boundary",
+        "test_ids": [
+          "theory:UnicodeStrings:re.comp:boundary"
+        ],
+        "failure_phase": "translation",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 UnicodeStrings theory: re.comp"
+      }
+    },
+    {
+      "id": "theory:UnicodeStrings:re.comp:sat",
+      "file": "cases/theories/strings/theory_unicodestrings_re_comp_sat.smt2",
+      "logic": "QF_SLIA",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "theory-behavior:complement",
+        "theory-behavior:proof-gap",
+        "theory-behavior:regex",
+        "theory-behavior:string",
+        "theory-behavior:translation-gap",
+        "theory-case:sat",
+        "theory-declaration:UnicodeStrings:(re.comp (RegLan String) (RegLan String))",
+        "theory-entry:UnicodeStrings:re.comp",
+        "theory-kind:term",
+        "theory-operator:UnicodeStrings:re.comp",
+        "theory:UnicodeStrings"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "SMT-LIB 2.7 theory front-end support is incomplete",
+          "failure_phase": "typecheck"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "SMT-LIB string/regex or Z3-extension translation is incomplete",
+          "failure_phase": "translation"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Parser.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "theory-symbol:UnicodeStrings:re.comp:sat",
+        "test_ids": [
+          "theory:UnicodeStrings:re.comp:sat"
+        ],
+        "failure_phase": "translation",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 UnicodeStrings theory: re.comp"
+      }
+    },
+    {
+      "id": "theory:UnicodeStrings:re.comp:type-error",
+      "file": "cases/theories/strings/theory_unicodestrings_re_comp_type_error.smt2",
+      "logic": "QF_SLIA",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "theory-behavior:complement",
+        "theory-behavior:proof-gap",
+        "theory-behavior:regex",
+        "theory-behavior:string",
+        "theory-behavior:translation-gap",
+        "theory-case:type-error",
+        "theory-declaration:UnicodeStrings:(re.comp (RegLan String) (RegLan String))",
+        "theory-entry:UnicodeStrings:re.comp",
+        "theory-kind:term",
+        "theory-operator:UnicodeStrings:re.comp",
+        "theory:UnicodeStrings"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "negative theory sort/type diagnostics are incomplete",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "negative theory sort/type diagnostics are incomplete",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Parser.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "theory-symbol:UnicodeStrings:re.comp:type-error",
+        "test_ids": [
+          "theory:UnicodeStrings:re.comp:type-error"
+        ],
+        "failure_phase": "typecheck",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 UnicodeStrings theory: re.comp"
+      }
+    },
+    {
+      "id": "theory:UnicodeStrings:re.comp:unsat-proof",
+      "file": "cases/theories/strings/theory_unicodestrings_re_comp_unsat_proof.smt2",
+      "logic": "QF_SLIA",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "theory-behavior:complement",
+        "theory-behavior:proof-gap",
+        "theory-behavior:regex",
+        "theory-behavior:string",
+        "theory-behavior:translation-gap",
+        "theory-case:unsat-proof",
+        "theory-declaration:UnicodeStrings:(re.comp (RegLan String) (RegLan String))",
+        "theory-entry:UnicodeStrings:re.comp",
+        "theory-kind:term",
+        "theory-operator:UnicodeStrings:re.comp",
+        "theory:UnicodeStrings"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "SMT-LIB 2.7 theory front-end support is incomplete",
+          "failure_phase": "typecheck"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "pass"
+        },
+        "proof-replay": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "SMT-LIB string/regex or Z3-extension translation is incomplete",
+          "failure_phase": "translation",
+          "theorem_shape": "closed theorem without oracle tags"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Parser.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "theory-symbol:UnicodeStrings:re.comp:unsat-proof",
+        "test_ids": [
+          "theory:UnicodeStrings:re.comp:unsat-proof"
+        ],
+        "failure_phase": "typecheck",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 UnicodeStrings theory: re.comp"
       }
     },
     {
@@ -75635,6 +76682,135 @@
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 UnicodeStrings theory: String"
+      }
+    },
+    {
+      "id": "theory:UnicodeStrings:wf-free-variables-sat",
+      "file": "cases/theories/strings/theory_unicodestrings_wf_free_variables_sat.smt2",
+      "logic": "QF_S",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "theory-behavior:divergence-guard",
+        "theory-behavior:string",
+        "theory-behavior:wf-elaboration",
+        "theory-case:sat",
+        "theory-entry:UnicodeStrings:wf-free-variables-sat",
+        "theory:UnicodeStrings"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "String variables are not relativized by wfstr",
+          "failure_phase": "typecheck"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "wfstr-guarded String translation is incomplete",
+          "failure_phase": "translation"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Parser.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "unicode-strings:wf-free-variable-elaboration",
+        "test_ids": [
+          "theory:UnicodeStrings:wf-free-variables-sat"
+        ],
+        "failure_phase": "typecheck",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "HolSmt-internal",
+        "reference": "HolSmt wfstr free-variable divergence guard"
+      }
+    },
+    {
+      "id": "theory:UnicodeStrings:wf-quantified-binders-sat",
+      "file": "cases/theories/strings/theory_unicodestrings_wf_quantified_binders_sat.smt2",
+      "logic": "ALL",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "theory-behavior:divergence-guard",
+        "theory-behavior:quantifier",
+        "theory-behavior:string",
+        "theory-behavior:wf-elaboration",
+        "theory-case:sat",
+        "theory-entry:UnicodeStrings:wf-quantified-binders-sat",
+        "theory:UnicodeStrings"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "String variables are not relativized by wfstr",
+          "failure_phase": "typecheck"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "wfstr-guarded String translation is incomplete",
+          "failure_phase": "translation"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Parser.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "unicode-strings:wf-binder-relativization",
+        "test_ids": [
+          "theory:UnicodeStrings:wf-quantified-binders-sat"
+        ],
+        "failure_phase": "typecheck",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "HolSmt-internal",
+        "reference": "HolSmt wfstr quantified-binder divergence guard"
       }
     },
     {

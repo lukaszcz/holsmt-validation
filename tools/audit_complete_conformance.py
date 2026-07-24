@@ -24,6 +24,18 @@ DEFAULT_COVERAGE_MANIFEST = TOOLS_DIR / "coverage" / "coverage_manifest.json"
 
 SCHEMA = "holsmt-complete-conformance-audit-v1"
 MANIFEST_SCHEMA_VERSION = "2"
+HO_EXTENSION_LOGICS = (
+    "HO_ALL",
+    "HO_UF",
+    "HO_QF_UF",
+    "HO_UFLIA",
+    "HO_QF_UFLIA",
+    "HO_UFLRA",
+    "HO_QF_UFLRA",
+    "HO_AUFLIA",
+    "HO_AUFLIRA",
+    "HO_QF_AUFLIA",
+)
 STATUS_COLUMNS = ("parsed", "translated", "solved", "reconstructed", "tested")
 V2_MODES = {
     "parser-only",
@@ -512,15 +524,26 @@ def validate_v2_manifest(manifest: object) -> list[dict[str, object]]:
 def parse_accepted_logics(path: Path) -> list[str]:
     text = path.read_text(encoding="utf-8")
     match = re.search(
-        r"fun\s+parsedicts_of_logic\s*\([^)]*\)\s*=\s*case\s+logic\s+of(?P<body>.*?)"
+        r"fun\s+parsedicts_of_logic\s*\([^)]*\)\s*=(?P<body>.*?)"
         r"\n\s*\(\*\s*returns the symbol metadata",
         text,
         flags=re.DOTALL,
     )
     if match is None:
         raise AuditError(f"could not find parsedicts_of_logic case expression in {path}")
-    logics = re.findall(r'"([A-Z][A-Z0-9_]*)"\s*=>', match.group("body"))
+    body = match.group("body")
+    if re.search(r"\bcase\s+logic\s+of\b", body) is None:
+        raise AuditError(
+            f"could not find parsedicts_of_logic case expression in {path}"
+        )
+    logics = re.findall(r'"([A-Z][A-Z0-9_]*)"\s*=>', body)
     require(bool(logics), f"no accepted logic names found in {path}")
+    if 'String.isPrefix "HO_" logic' in body:
+        logics.extend(
+            logic
+            for logic in HO_EXTENSION_LOGICS
+            if logic.removeprefix("HO_") in logics
+        )
     return sorted(set(logics))
 
 

@@ -538,6 +538,58 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
             },
         )
 
+        self.assertEqual(
+            len(string_cases),
+            4 * len(generator.UNICODE_STRING_THEORY_SYMBOLS)
+            + len(generator.UNICODE_STRING_THEORY_CASES),
+        )
+        self.assertEqual(len(string_cases), 163)
+        string_by_id = {case["id"]: case for case in string_cases}
+        for symbol in ("re.comp", "char"):
+            for kind in ("sat", "unsat-proof", "type-error", "boundary"):
+                case_id = f"theory:UnicodeStrings:{symbol}:{kind}"
+                case = string_by_id[case_id]
+                self.assertIsNotNone(case["implementation_obligation"])
+                self.assertTrue(
+                    any(
+                        result["status"] == "red"
+                        for result in case["expected"].values()
+                    )
+                )
+
+        red_first_ids = {
+            "theory:UnicodeStrings:literal-u-four-hex-decode",
+            (
+                "theory:UnicodeStrings:"
+                "literal-u-braced-one-to-five-hex-decode"
+            ),
+            "theory:UnicodeStrings:literal-u-braced-out-of-range",
+            "theory:UnicodeStrings:wf-free-variables-sat",
+            "theory:UnicodeStrings:wf-quantified-binders-sat",
+        }
+        for case_id in red_first_ids:
+            case = string_by_id[case_id]
+            self.assertIsNotNone(case["implementation_obligation"])
+            self.assertTrue(
+                any(
+                    result["status"] == "red"
+                    for result in case["expected"].values()
+                )
+            )
+
+        for case_id in {
+            "theory:UnicodeStrings:literal-doubled-quote",
+            "theory:UnicodeStrings:literal-backslash-verbatim",
+        }:
+            case = string_by_id[case_id]
+            self.assertIsNone(case["implementation_obligation"])
+            self.assertTrue(
+                all(
+                    result["status"] == "pass"
+                    for result in case["expected"].values()
+                )
+            )
+
         checked_unsat_ids = {
             "theory:ArraysEx:array:unsat-proof",
             "theory:ArraysEx:store:unsat-proof",
@@ -882,6 +934,12 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
             '"ho-core"',
         }:
             self.assertIn(needle, function_sort_bucket)
+        strings_bucket_loop = runner.split(
+            'if category == "strings/regex"', 1
+        )[1].split(
+            "if any(needle in text for needle in needles):", 1
+        )[0]
+        self.assertIn('"z3_extensions" in text', strings_bucket_loop)
         self.assertNotIn("--fail-on-red-obligations", runner)
         self.assertNotIn(
             'nonzero_exit_reasons.append("red-obligations")',
@@ -891,6 +949,40 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
             'elif summary["red_obligation_count"]',
             runner,
         )
+
+    def test_soundness_subcommand_adds_string_injection_audits(self):
+        stdout = io.StringIO()
+        with contextlib.redirect_stdout(stdout):
+            self.assertEqual(generator.main(["soundness"]), 0)
+
+        manifest = json.loads(stdout.getvalue())
+        cases = audit.validate_v2_manifest(manifest)
+        self.assertEqual({case["class"] for case in cases}, {"soundness-audit"})
+        injection_cases = [
+            case for case in cases
+            if any(
+                feature.startswith("string-injection:")
+                for feature in case["features"]
+            )
+        ]
+        self.assertEqual(len(injection_cases), 4)
+        self.assertEqual(
+            {
+                feature
+                for case in injection_cases
+                for feature in case["features"]
+            },
+            {
+                "string-injection:concat",
+                "string-injection:prefixof",
+                "string-injection:lt",
+                "string-injection:le",
+            },
+        )
+        for case in injection_cases:
+            self.assertEqual(case["modes"], ["z3-tac"])
+            self.assertEqual(case["expected"]["z3-tac"]["status"], "red")
+            self.assertIsNotNone(case["implementation_obligation"])
 
     def test_manifest_entry_preserves_red_obligation_contract(self):
         case_id = generator.deterministic_case_id("command", "command:future")

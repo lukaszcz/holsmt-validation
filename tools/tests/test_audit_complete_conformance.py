@@ -89,6 +89,41 @@ def logic_inventory(required=("QF_UF", "QF_LIA"), excluded=()):
 
 
 class CompleteConformanceAuditTests(unittest.TestCase):
+    def test_logic_parser_accepts_higher_order_wrapper(self):
+        base_logics = tuple(
+            logic.removeprefix("HO_")
+            for logic in audit.HO_EXTENSION_LOGICS
+        )
+        branches = "\n".join(
+            f'    | "{logic}" => ({logic}.tydict, {logic}.tmdict)'
+            for logic in base_logics
+        )
+        with tempfile.TemporaryDirectory() as tmp:
+            path = pathlib.Path(tmp) / "SmtLib_Logics.sml"
+            path.write_text(
+                """
+fun parsedicts_of_logic (logic : string) =
+  if String.isPrefix "HO_" logic then
+    parsedicts_of_logic (String.extract (logic, 3, NONE))
+  else
+    case logic of
+"""
+                + branches
+                + """
+    | _ => raise Fail "unknown"
+
+(* returns the symbol metadata used to build the parse dictionaries of
+   the given SMT-LIB 2 logic *)
+""",
+                encoding="utf-8",
+            )
+            accepted = set(audit.parse_accepted_logics(path))
+
+        self.assertEqual(
+            accepted,
+            set(base_logics) | set(audit.HO_EXTENSION_LOGICS),
+        )
+
     def test_missing_accepted_logic_evidence_is_an_error(self):
         cases = [v2_case("qf_uf_smoke", logic="QF_UF")]
         issues = audit.audit_cases(cases, ["QF_UF", "QF_LIA"])

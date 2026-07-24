@@ -366,16 +366,27 @@ def source(kind: str, reference: str, *, url: str | None = None, notes: str | No
 def parse_accepted_logics(path: Path) -> list[str]:
     text = path.read_text(encoding="utf-8")
     match = re.search(
-        r"fun\s+parsedicts_of_logic\s*\([^)]*\)\s*=\s*case\s+logic\s+of(?P<body>.*?)"
+        r"fun\s+parsedicts_of_logic\s*\([^)]*\)\s*=(?P<body>.*?)"
         r"\n\s*\(\*\s*returns the symbol metadata",
         text,
         flags=re.DOTALL,
     )
     if match is None:
         raise GeneratorError(f"could not find parsedicts_of_logic case expression in {path}")
-    logics = re.findall(r'"([A-Z][A-Z0-9_]*)"\s*=>', match.group("body"))
+    body = match.group("body")
+    if re.search(r"\bcase\s+logic\s+of\b", body) is None:
+        raise GeneratorError(
+            f"could not find parsedicts_of_logic case expression in {path}"
+        )
+    logics = re.findall(r'"([A-Z][A-Z0-9_]*)"\s*=>', body)
     if not logics:
         raise GeneratorError(f"no accepted logic names found in {path}")
+    if 'String.isPrefix "HO_" logic' in body:
+        logics.extend(
+            logic
+            for logic in HO_EXTENSION_LOGICS
+            if logic.removeprefix("HO_") in logics
+        )
     return sorted(set(logics))
 
 
@@ -3753,12 +3764,280 @@ UNICODE_STRING_THEORY_SYMBOLS: tuple[TheorySymbol, ...] = (
     string_symbol("re.union", "re.union", ("(re.union (RegLan String) (RegLan String) (RegLan String) :left-assoc)",), "(re.union (str.to_re \"a\") (str.to_re \"b\"))", "RegLan", ("theory-behavior:regex", "theory-behavior:left-associative", "theory-behavior:union")),
     string_symbol("re.inter", "re.inter", ("(re.inter (RegLan String) (RegLan String) (RegLan String) :left-assoc)",), "(re.inter (str.to_re \"a\") re.all)", "RegLan", ("theory-behavior:regex", "theory-behavior:left-associative", "theory-behavior:intersection")),
     string_symbol("re.diff", "re.diff", ("(re.diff (RegLan String) (RegLan String) (RegLan String))",), "(re.diff re.all (str.to_re \"a\"))", "RegLan", ("theory-behavior:regex", "theory-behavior:difference")),
+    string_symbol("re.comp", "re.comp", ("(re.comp (RegLan String) (RegLan String))",), "(re.comp (str.to_re \"a\"))", "RegLan", ("theory-behavior:regex", "theory-behavior:complement")),
     string_symbol("re-star", "re.*", ("(re.* (RegLan String) (RegLan String))",), "(re.* (str.to_re \"a\"))", "RegLan", ("theory-behavior:regex", "theory-behavior:kleene-star")),
     string_symbol("re-plus", "re.+", ("(re.+ (RegLan String) (RegLan String))",), "(re.+ (str.to_re \"a\"))", "RegLan", ("theory-behavior:regex", "theory-behavior:kleene-plus")),
     string_symbol("re.opt", "re.opt", ("(re.opt (RegLan String) (RegLan String))",), "(re.opt (str.to_re \"a\"))", "RegLan", ("theory-behavior:regex", "theory-behavior:option")),
     string_symbol("re.range", "re.range", ("(re.range String String (RegLan String))",), "(re.range \"a\" \"z\")", "RegLan", ("theory-behavior:regex", "theory-behavior:range")),
     string_symbol("re-power", "re.^", ("((_ re.^ n) (RegLan String) (RegLan String))",), "((_ re.^ 2) (str.to_re \"a\"))", "RegLan", ("theory-behavior:regex", "theory-behavior:indexed", "theory-behavior:power")),
     string_symbol("re.loop", "re.loop", ("((_ re.loop lo hi) (RegLan String) (RegLan String))",), "((_ re.loop 1 3) (str.to_re \"a\"))", "RegLan", ("theory-behavior:regex", "theory-behavior:indexed", "theory-behavior:loop")),
+    string_symbol(
+        "char",
+        "(_ char H)",
+        ("((_ char H) String)",),
+        "(_ char #x41)",
+        "String",
+        (
+            "theory-behavior:character",
+            "theory-behavior:indexed",
+            "theory-behavior:singleton-string",
+        ),
+        boundary_assertion="(= (_ char #x2FFFF) (_ char #x2FFFF))",
+    ),
+)
+
+
+def string_frontend_expected(
+    *,
+    proof: bool = False,
+) -> tuple[tuple[str, ...], dict[str, dict[str, object]]]:
+    modes = ["parser-only", "typecheck-only", "z3-oracle"]
+    expected = {
+        "parser-only": expected_result("pass"),
+        "typecheck-only": expected_result(
+            "red",
+            diagnostic="SMT-LIB Unicode string literal decoding is incomplete",
+            failure_phase="typecheck",
+        ),
+        "z3-oracle": expected_result("pass"),
+    }
+    if proof:
+        modes.extend(("proof-parse", "proof-replay"))
+        expected["proof-parse"] = expected_result(
+            "red",
+            diagnostic="Unicode string escapes are not decoded in Z3 proofs",
+            failure_phase="proof-parse",
+        )
+        expected["proof-replay"] = expected_result(
+            "red",
+            diagnostic="Unicode string escape replay is incomplete",
+            failure_phase="proof-replay",
+        )
+    modes.append("z3-tac")
+    expected["z3-tac"] = expected_result(
+        "red",
+        diagnostic="checked Unicode string literal translation is incomplete",
+        failure_phase="translation",
+    )
+    return tuple(modes), expected
+
+
+def string_wf_expected() -> dict[str, dict[str, object]]:
+    return {
+        "parser-only": expected_result("pass"),
+        "typecheck-only": expected_result(
+            "red",
+            diagnostic="String variables are not relativized by wfstr",
+            failure_phase="typecheck",
+        ),
+        "z3-oracle": expected_result("pass"),
+        "z3-tac": expected_result(
+            "red",
+            diagnostic="wfstr-guarded String translation is incomplete",
+            failure_phase="translation",
+        ),
+    }
+
+
+STRING_ESCAPE_PROOF_MODES, STRING_ESCAPE_PROOF_EXPECTED = (
+    string_frontend_expected(proof=True)
+)
+
+
+UNICODE_STRING_THEORY_CASES: tuple[ScriptedCase, ...] = (
+    ScriptedCase(
+        slug="literal-u-four-hex-decode",
+        script=proof_script(
+            "QF_SLIA",
+            '(assert (distinct (str.len "\\u0041") 1))\n',
+        ),
+        modes=STRING_ESCAPE_PROOF_MODES,
+        expected=STRING_ESCAPE_PROOF_EXPECTED,
+        features=(
+            "theory:UnicodeStrings",
+            "theory-entry:UnicodeStrings:literal-u-four-hex-decode",
+            "theory-case:unsat-proof",
+            "theory-behavior:string",
+            "theory-behavior:literal",
+            "theory-behavior:unicode-escape",
+            "theory-behavior:unicode-escape-fixed-width",
+        ),
+        implementation_feature="unicode-strings:literal-u-four-hex-decode",
+        implementation_files=STRING_RECONSTRUCTION_FILES,
+        implementation_phase="typecheck",
+        logic="QF_SLIA",
+        source_reference="SMT-LIB 2.7 UnicodeStrings fixed-width escape",
+    ),
+    ScriptedCase(
+        slug="literal-u-braced-one-to-five-hex-decode",
+        script=proof_script(
+            "QF_SLIA",
+            '(assert (or\n'
+            '  (distinct (str.len "\\u{0}") 1)\n'
+            '  (distinct (str.len "\\u{20}") 1)\n'
+            '  (distinct (str.len "\\u{123}") 1)\n'
+            '  (distinct (str.len "\\u{27E8}") 1)\n'
+            '  (distinct (str.len "\\u{1BC3D}") 1)))\n',
+        ),
+        modes=STRING_ESCAPE_PROOF_MODES,
+        expected=STRING_ESCAPE_PROOF_EXPECTED,
+        features=(
+            "theory:UnicodeStrings",
+            "theory-entry:UnicodeStrings:literal-u-braced-one-to-five-hex-decode",
+            "theory-case:unsat-proof",
+            "theory-behavior:string",
+            "theory-behavior:literal",
+            "theory-behavior:unicode-escape",
+            "theory-behavior:unicode-escape-braced",
+        ),
+        implementation_feature=(
+            "unicode-strings:literal-u-braced-one-to-five-hex-decode"
+        ),
+        implementation_files=STRING_RECONSTRUCTION_FILES,
+        implementation_phase="typecheck",
+        logic="QF_SLIA",
+        source_reference=(
+            "SMT-LIB 2.7 UnicodeStrings one-to-five-digit braced escapes"
+        ),
+    ),
+    ScriptedCase(
+        slug="literal-doubled-quote",
+        script=(
+            "(set-logic QF_SLIA)\n"
+            '(assert (= (str.len """") 1))\n'
+            "(check-sat)\n"
+        ),
+        modes=("parser-only", "typecheck-only", "z3-oracle"),
+        expected={
+            "parser-only": expected_result("pass"),
+            "typecheck-only": expected_result("pass"),
+            "z3-oracle": expected_result("pass"),
+        },
+        features=(
+            "theory:UnicodeStrings",
+            "theory-entry:UnicodeStrings:literal-doubled-quote",
+            "theory-case:sat",
+            "theory-behavior:string",
+            "theory-behavior:literal",
+            "theory-behavior:doubled-quote",
+        ),
+        logic="QF_SLIA",
+        source_reference="SMT-LIB 2.7 doubled-quote string escape",
+    ),
+    ScriptedCase(
+        slug="literal-backslash-verbatim",
+        script=(
+            "(set-logic QF_SLIA)\n"
+            '(assert (= "\\n" (str.++ "\\" "n")))\n'
+            "(check-sat)\n"
+        ),
+        modes=("parser-only", "typecheck-only", "z3-oracle"),
+        expected={
+            "parser-only": expected_result("pass"),
+            "typecheck-only": expected_result("pass"),
+            "z3-oracle": expected_result("pass"),
+        },
+        features=(
+            "theory:UnicodeStrings",
+            "theory-entry:UnicodeStrings:literal-backslash-verbatim",
+            "theory-case:sat",
+            "theory-behavior:string",
+            "theory-behavior:literal",
+            "theory-behavior:backslash-verbatim",
+        ),
+        logic="QF_SLIA",
+        source_reference=(
+            "SMT-LIB 2.7 non-escape backslashes stand for themselves"
+        ),
+    ),
+    ScriptedCase(
+        slug="literal-u-braced-out-of-range",
+        script=(
+            "(set-logic QF_SLIA)\n"
+            '(assert (= "\\u{30000}" ""))\n'
+            "(check-sat)\n"
+        ),
+        modes=("parser-only", "typecheck-only", "z3-tac"),
+        expected={
+            "parser-only": expected_result("pass"),
+            "typecheck-only": expected_result(
+                "red",
+                diagnostic="Unicode escape code point exceeds #x2FFFF",
+                failure_phase="typecheck",
+            ),
+            "z3-tac": expected_result(
+                "red",
+                diagnostic="Unicode escape code point exceeds #x2FFFF",
+                failure_phase="typecheck",
+            ),
+        },
+        features=(
+            "theory:UnicodeStrings",
+            "theory-entry:UnicodeStrings:literal-u-braced-out-of-range",
+            "theory-case:type-error",
+            "theory-behavior:string",
+            "theory-behavior:literal",
+            "theory-behavior:unicode-escape",
+            "theory-behavior:code-point-boundary",
+        ),
+        implementation_feature="unicode-strings:literal-out-of-range-rejection",
+        implementation_files=STRING_RECONSTRUCTION_FILES,
+        implementation_phase="typecheck",
+        logic="QF_SLIA",
+        source_reference="SMT-LIB 2.7 UnicodeStrings code-point upper bound",
+    ),
+    ScriptedCase(
+        slug="wf-free-variables-sat",
+        script=(
+            "(set-logic QF_S)\n"
+            "(declare-const s String)\n"
+            "(declare-const t String)\n"
+            "(assert (distinct s t))\n"
+            "(check-sat)\n"
+        ),
+        modes=("parser-only", "typecheck-only", "z3-oracle", "z3-tac"),
+        expected=string_wf_expected(),
+        features=(
+            "theory:UnicodeStrings",
+            "theory-entry:UnicodeStrings:wf-free-variables-sat",
+            "theory-case:sat",
+            "theory-behavior:string",
+            "theory-behavior:wf-elaboration",
+            "theory-behavior:divergence-guard",
+        ),
+        implementation_feature="unicode-strings:wf-free-variable-elaboration",
+        implementation_files=STRING_RECONSTRUCTION_FILES,
+        implementation_phase="typecheck",
+        logic="QF_S",
+        source_reference="HolSmt wfstr free-variable divergence guard",
+        source_kind="HolSmt-internal",
+    ),
+    ScriptedCase(
+        slug="wf-quantified-binders-sat",
+        script=(
+            "(set-logic ALL)\n"
+            "(assert (forall ((s String))\n"
+            "  (exists ((t String)) (= t s))))\n"
+            "(check-sat)\n"
+        ),
+        modes=("parser-only", "typecheck-only", "z3-oracle", "z3-tac"),
+        expected=string_wf_expected(),
+        features=(
+            "theory:UnicodeStrings",
+            "theory-entry:UnicodeStrings:wf-quantified-binders-sat",
+            "theory-case:sat",
+            "theory-behavior:string",
+            "theory-behavior:wf-elaboration",
+            "theory-behavior:divergence-guard",
+            "theory-behavior:quantifier",
+        ),
+        implementation_feature="unicode-strings:wf-binder-relativization",
+        implementation_files=STRING_RECONSTRUCTION_FILES,
+        implementation_phase="typecheck",
+        logic="ALL",
+        source_reference="HolSmt wfstr quantified-binder divergence guard",
+        source_kind="HolSmt-internal",
+    ),
 )
 
 
@@ -5086,6 +5365,7 @@ def scripted_theory_case_file(theory: str, case_id: str) -> str:
     directory = {
         "Datatypes": "datatypes",
         "HO_Core": "hocore",
+        "UnicodeStrings": "strings",
     }[theory]
     return f"cases/theories/{directory}/{slug(case_id)}.smt2"
 
@@ -5365,7 +5645,63 @@ def theory_cases() -> list[GeneratedCase]:
         cases.append(theory_case(symbol, "boundary", symbol.boundary_script))
     cases.extend(scripted_theory_case("Datatypes", case) for case in DATATYPE_THEORY_CASES)
     cases.extend(scripted_theory_case("HO_Core", case) for case in HOCORE_THEORY_CASES)
+    cases.extend(
+        scripted_theory_case("UnicodeStrings", case)
+        for case in UNICODE_STRING_THEORY_CASES
+    )
     return cases
+
+
+def string_injection_soundness_cases() -> list[GeneratedCase]:
+    files = (
+        "src/HolSmt/smtstringScript.sml",
+        "src/HolSmt/SmtLib.sml",
+        "src/HolSmt/Unittest.sml",
+        "src/HolSmt/README",
+    )
+    rows = (
+        (
+            "concat",
+            "(declare-const s String)\n"
+            '(assert (distinct (str.++ s "") s))\n',
+        ),
+        (
+            "prefixof",
+            "(declare-const s String)\n"
+            "(assert (not (str.prefixof s s)))\n",
+        ),
+        (
+            "lt",
+            "(declare-const s String)\n"
+            "(assert (str.< s s))\n",
+        ),
+        (
+            "le",
+            "(declare-const s String)\n"
+            "(assert (not (str.<= s s)))\n",
+        ),
+    )
+    return [
+        red_sample(
+            row_class="soundness-audit",
+            feature=f"string-injection:{name}",
+            logic="QF_S",
+            standard="SMT-LIB-2.7",
+            modes=("z3-tac",),
+            files=files,
+            failure_phase="translation",
+            source_info=source(
+                "HolSmt-internal",
+                f"HOL string {name} goal transferred through smtstring",
+            ),
+            script=proof_script("QF_S", body),
+            diagnostic=(
+                "HOL string injection through smtstring is not implemented"
+            ),
+            theorem_shape="closed theorem without oracle tags",
+        )
+        for name, body in rows
+    ]
 
 
 def logic_features(logic: str, kind: str) -> list[str]:
@@ -5921,6 +6257,11 @@ def cases_for_domain(domain: str) -> list[GeneratedCase]:
         return logic_packet_cases()
     if domain == "proof-rules":
         return proof_rule_cases()
+    if domain == "soundness":
+        return (
+            sample_cases(("soundness-audit",))
+            + string_injection_soundness_cases()
+        )
     return sample_cases((DOMAIN_CLASSES[domain],))
 
 

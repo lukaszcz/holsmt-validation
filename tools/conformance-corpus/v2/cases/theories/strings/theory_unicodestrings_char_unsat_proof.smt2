@@ -1,0 +1,5 @@
+(set-option :produce-proofs true)
+(set-logic QF_SLIA)
+(assert (not (= (_ char #x41) (_ char #x41))))
+(check-sat)
+(get-proof)

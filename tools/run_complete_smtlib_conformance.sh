@@ -618,6 +618,8 @@ def first_red_category_counts(
             text = obligation_search_text(item)
             if category == "datatypes" and "cvc5-alethe-datatype-export" in text:
                 continue
+            if category == "strings/regex" and "z3_extensions" in text:
+                continue
             if any(needle in text for needle in needles):
                 count += 1
         counts[category] = count

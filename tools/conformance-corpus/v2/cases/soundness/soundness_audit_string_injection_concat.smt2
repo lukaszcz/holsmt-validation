@@ -1,0 +1,6 @@
+(set-option :produce-proofs true)
+(set-logic QF_S)
+(declare-const s String)
+(assert (distinct (str.++ s "") s))
+(check-sat)
+(get-proof)

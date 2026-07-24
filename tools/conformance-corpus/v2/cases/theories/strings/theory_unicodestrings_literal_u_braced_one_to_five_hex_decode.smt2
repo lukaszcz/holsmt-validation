@@ -1,0 +1,10 @@
+(set-option :produce-proofs true)
+(set-logic QF_SLIA)
+(assert (or
+  (distinct (str.len "\u{0}") 1)
+  (distinct (str.len "\u{20}") 1)
+  (distinct (str.len "\u{123}") 1)
+  (distinct (str.len "\u{27E8}") 1)
+  (distinct (str.len "\u{1BC3D}") 1)))
+(check-sat)
+(get-proof)
