@@ -3764,7 +3764,17 @@ UNICODE_STRING_THEORY_SYMBOLS: tuple[TheorySymbol, ...] = (
     string_symbol("re.union", "re.union", ("(re.union (RegLan String) (RegLan String) (RegLan String) :left-assoc)",), "(re.union (str.to_re \"a\") (str.to_re \"b\"))", "RegLan", ("theory-behavior:regex", "theory-behavior:left-associative", "theory-behavior:union")),
     string_symbol("re.inter", "re.inter", ("(re.inter (RegLan String) (RegLan String) (RegLan String) :left-assoc)",), "(re.inter (str.to_re \"a\") re.all)", "RegLan", ("theory-behavior:regex", "theory-behavior:left-associative", "theory-behavior:intersection")),
     string_symbol("re.diff", "re.diff", ("(re.diff (RegLan String) (RegLan String) (RegLan String))",), "(re.diff re.all (str.to_re \"a\"))", "RegLan", ("theory-behavior:regex", "theory-behavior:difference")),
-    string_symbol("re.comp", "re.comp", ("(re.comp (RegLan String) (RegLan String))",), "(re.comp (str.to_re \"a\"))", "RegLan", ("theory-behavior:regex", "theory-behavior:complement")),
+    string_symbol(
+        "re.comp",
+        "re.comp",
+        ("(re.comp (RegLan String) (RegLan String))",),
+        "(re.comp (str.to_re \"a\"))",
+        "RegLan",
+        ("theory-behavior:regex", "theory-behavior:complement"),
+        boundary_assertion=(
+            "(not (str.in_re \"\" (re.comp re.all)))"
+        ),
+    ),
     string_symbol("re-star", "re.*", ("(re.* (RegLan String) (RegLan String))",), "(re.* (str.to_re \"a\"))", "RegLan", ("theory-behavior:regex", "theory-behavior:kleene-star")),
     string_symbol("re-plus", "re.+", ("(re.+ (RegLan String) (RegLan String))",), "(re.+ (str.to_re \"a\"))", "RegLan", ("theory-behavior:regex", "theory-behavior:kleene-plus")),
     string_symbol("re.opt", "re.opt", ("(re.opt (RegLan String) (RegLan String))",), "(re.opt (str.to_re \"a\"))", "RegLan", ("theory-behavior:regex", "theory-behavior:option")),

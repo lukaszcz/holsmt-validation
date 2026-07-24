@@ -4,4 +4,5 @@
 (assert (= (str.len "abc") 3))
 (assert (str.prefixof "a" "abc"))
 (assert (str.in_re "aa" ((_ re.loop 1 3) (str.to_re "a"))))
+(assert (not (str.in_re "" (re.comp re.all))))
 (check-sat)

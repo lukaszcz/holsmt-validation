@@ -556,6 +556,15 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
                         for result in case["expected"].values()
                     )
                 )
+        re_comp_boundary = next(
+            case
+            for case in generator.theory_cases()
+            if case.case_id == "theory:UnicodeStrings:re.comp:boundary"
+        )
+        self.assertIn(
+            '(str.in_re "" (re.comp re.all))',
+            re_comp_boundary.script,
+        )
 
         red_first_ids = {
             "theory:UnicodeStrings:literal-u-four-hex-decode",
