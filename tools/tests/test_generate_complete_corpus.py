@@ -545,17 +545,48 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
         )
         self.assertEqual(len(string_cases), 163)
         string_by_id = {case["id"]: case for case in string_cases}
+        self.assertFalse(
+            any(
+                "theory-behavior:translation-gap" in case["features"]
+                for case in string_cases
+            )
+        )
+        self.assertEqual(
+            sum(
+                "theory-behavior:proof-gap" in case["features"]
+                for case in string_cases
+            ),
+            152,
+        )
         for symbol in ("re.comp", "char"):
             for kind in ("sat", "unsat-proof", "type-error", "boundary"):
                 case_id = f"theory:UnicodeStrings:{symbol}:{kind}"
                 case = string_by_id[case_id]
-                self.assertIsNotNone(case["implementation_obligation"])
-                self.assertTrue(
-                    any(
-                        result["status"] == "red"
-                        for result in case["expected"].values()
-                    )
+                self.assertIn(
+                    "theory-behavior:proof-gap",
+                    case["features"],
                 )
+                if kind == "unsat-proof":
+                    self.assertIsNotNone(
+                        case["implementation_obligation"]
+                    )
+                    self.assertEqual(
+                        case["expected"]["z3-tac"]["status"],
+                        "red",
+                    )
+                    self.assertEqual(
+                        case["expected"]["typecheck-only"]["status"],
+                        "pass",
+                    )
+                else:
+                    self.assertIsNone(case["implementation_obligation"])
+                    self.assertNotIn(
+                        "red",
+                        {
+                            result["status"]
+                            for result in case["expected"].values()
+                        },
+                    )
         re_comp_boundary = next(
             case
             for case in generator.theory_cases()
@@ -566,25 +597,75 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
             re_comp_boundary.script,
         )
 
-        red_first_ids = {
+        literal_proof_ids = {
             "theory:UnicodeStrings:literal-u-four-hex-decode",
             (
                 "theory:UnicodeStrings:"
                 "literal-u-braced-one-to-five-hex-decode"
             ),
-            "theory:UnicodeStrings:literal-u-braced-out-of-range",
-            "theory:UnicodeStrings:wf-free-variables-sat",
-            "theory:UnicodeStrings:wf-quantified-binders-sat",
         }
-        for case_id in red_first_ids:
+        for case_id in literal_proof_ids:
             case = string_by_id[case_id]
             self.assertIsNotNone(case["implementation_obligation"])
+            self.assertEqual(
+                case["expected"]["typecheck-only"]["status"],
+                "pass",
+            )
+            for mode in ("proof-parse", "proof-replay", "z3-tac"):
+                self.assertEqual(
+                    case["expected"][mode]["status"],
+                    "red",
+                )
+
+        out_of_range = string_by_id[
+            "theory:UnicodeStrings:literal-u-braced-out-of-range"
+        ]
+        self.assertIsNone(out_of_range["implementation_obligation"])
+        self.assertEqual(
+            out_of_range["expected"]["parser-only"]["status"],
+            "pass",
+        )
+        for mode in ("typecheck-only", "z3-tac"):
+            self.assertEqual(
+                out_of_range["expected"][mode]["status"],
+                "fail",
+            )
+
+        for case_id in {
+            "theory:UnicodeStrings:wf-free-variables-sat",
+            "theory:UnicodeStrings:wf-quantified-binders-sat",
+        }:
+            case = string_by_id[case_id]
+            self.assertIsNone(case["implementation_obligation"])
             self.assertTrue(
-                any(
-                    result["status"] == "red"
+                all(
+                    result["status"] == "pass"
                     for result in case["expected"].values()
                 )
             )
+
+        red_string_cases = [
+            case for case in string_cases
+            if any(
+                result["status"] == "red"
+                for result in case["expected"].values()
+            )
+        ]
+        self.assertEqual(len(red_string_cases), 31)
+        self.assertEqual(
+            sum(
+                result["status"] == "red"
+                for case in string_cases
+                for result in case["expected"].values()
+            ),
+            37,
+        )
+        self.assertTrue(
+            all(
+                case["implementation_obligation"] is not None
+                for case in red_string_cases
+            )
+        )
 
         for case_id in {
             "theory:UnicodeStrings:literal-doubled-quote",
@@ -989,9 +1070,11 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
             },
         )
         for case in injection_cases:
-            self.assertEqual(case["modes"], ["z3-tac"])
-            self.assertEqual(case["expected"]["z3-tac"]["status"], "red")
-            self.assertIsNotNone(case["implementation_obligation"])
+            self.assertEqual(case["modes"], ["z3-oracle"])
+            self.assertEqual(
+                case["expected"]["z3-oracle"]["status"], "pass"
+            )
+            self.assertIsNone(case["implementation_obligation"])
 
     def test_manifest_entry_preserves_red_obligation_contract(self):
         case_id = generator.deterministic_case_id("command", "command:future")

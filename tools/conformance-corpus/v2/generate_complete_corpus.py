@@ -3733,7 +3733,7 @@ def string_symbol(
     frontend_gap: bool = True,
 ) -> TheorySymbol:
     gap_features = (
-        ("theory-behavior:translation-gap", "theory-behavior:proof-gap")
+        ("theory-behavior:proof-gap",)
         if frontend_gap
         else ()
     )
@@ -3787,7 +3787,6 @@ def string_sort(slug_name: str, name: str, declaration: str, sat_decl: str) -> T
         check_sat_script("QF_SLIA", string_boundary_body()),
         (
             "theory-behavior:string",
-            "theory-behavior:translation-gap",
             "theory-behavior:proof-gap",
             "theory-behavior:sort-arity",
         ),
@@ -3877,11 +3876,7 @@ def string_frontend_expected(
     modes = ["parser-only", "typecheck-only", "z3-oracle"]
     expected = {
         "parser-only": expected_result("pass"),
-        "typecheck-only": expected_result(
-            "red",
-            diagnostic="SMT-LIB Unicode string literal decoding is incomplete",
-            failure_phase="typecheck",
-        ),
+        "typecheck-only": expected_result("pass"),
         "z3-oracle": expected_result("pass"),
     }
     if proof:
@@ -3899,8 +3894,8 @@ def string_frontend_expected(
     modes.append("z3-tac")
     expected["z3-tac"] = expected_result(
         "red",
-        diagnostic="checked Unicode string literal translation is incomplete",
-        failure_phase="translation",
+        diagnostic="checked Unicode string literal replay is incomplete",
+        failure_phase="proof-replay",
     )
     return tuple(modes), expected
 
@@ -3908,17 +3903,9 @@ def string_frontend_expected(
 def string_wf_expected() -> dict[str, dict[str, object]]:
     return {
         "parser-only": expected_result("pass"),
-        "typecheck-only": expected_result(
-            "red",
-            diagnostic="String variables are not relativized by wfstr",
-            failure_phase="typecheck",
-        ),
+        "typecheck-only": expected_result("pass"),
         "z3-oracle": expected_result("pass"),
-        "z3-tac": expected_result(
-            "red",
-            diagnostic="wfstr-guarded String translation is incomplete",
-            failure_phase="translation",
-        ),
+        "z3-tac": expected_result("pass"),
     }
 
 
@@ -3947,7 +3934,7 @@ UNICODE_STRING_THEORY_CASES: tuple[ScriptedCase, ...] = (
         ),
         implementation_feature="unicode-strings:literal-u-four-hex-decode",
         implementation_files=STRING_RECONSTRUCTION_FILES,
-        implementation_phase="typecheck",
+        implementation_phase="proof-parse",
         logic="QF_SLIA",
         source_reference="SMT-LIB 2.7 UnicodeStrings fixed-width escape",
     ),
@@ -3977,7 +3964,7 @@ UNICODE_STRING_THEORY_CASES: tuple[ScriptedCase, ...] = (
             "unicode-strings:literal-u-braced-one-to-five-hex-decode"
         ),
         implementation_files=STRING_RECONSTRUCTION_FILES,
-        implementation_phase="typecheck",
+        implementation_phase="proof-parse",
         logic="QF_SLIA",
         source_reference=(
             "SMT-LIB 2.7 UnicodeStrings one-to-five-digit braced escapes"
@@ -4044,12 +4031,12 @@ UNICODE_STRING_THEORY_CASES: tuple[ScriptedCase, ...] = (
         expected={
             "parser-only": expected_result("pass"),
             "typecheck-only": expected_result(
-                "red",
+                "fail",
                 diagnostic="Unicode escape code point exceeds #x2FFFF",
                 failure_phase="typecheck",
             ),
             "z3-tac": expected_result(
-                "red",
+                "fail",
                 diagnostic="Unicode escape code point exceeds #x2FFFF",
                 failure_phase="typecheck",
             ),
@@ -5494,7 +5481,14 @@ def theory_case(symbol: TheorySymbol, kind: str, script: str) -> GeneratedCase:
     )
     if kind == "sat":
         modes = ("parser-only", "typecheck-only", "z3-oracle", "z3-tac")
-        front_end_gap = parser_gap or z3_unsupported or translation_gap
+        front_end_gap = (
+            parser_gap
+            or translation_gap
+            or (
+                z3_unsupported
+                and symbol.theory != "UnicodeStrings"
+            )
+        )
         expected = {
             "parser-only": expected_result(
                 "red" if parser_gap else "pass",
@@ -5555,7 +5549,14 @@ def theory_case(symbol: TheorySymbol, kind: str, script: str) -> GeneratedCase:
             and case_id in RECONSTRUCTED_THEORY_Z3_TAC_UNSAT_PROOFS
         )
         z3_tac_reconstructed = case_id in RECONSTRUCTED_THEORY_Z3_TAC_UNSAT_PROOFS
-        front_end_gap = parser_gap or z3_unsupported or translation_gap
+        front_end_gap = (
+            parser_gap
+            or translation_gap
+            or (
+                z3_unsupported
+                and symbol.theory != "UnicodeStrings"
+            )
+        )
         expected = {
             "parser-only": expected_result(
                 "red" if parser_gap else "pass",
@@ -5651,6 +5652,28 @@ def theory_case(symbol: TheorySymbol, kind: str, script: str) -> GeneratedCase:
                     failure_phase="typecheck",
                 ),
             }
+            implementation = None
+        elif symbol.theory == "UnicodeStrings":
+            if symbol.slug == "reglan":
+                expected = {
+                    mode: expected_result("pass")
+                    for mode in modes
+                }
+            else:
+                diagnostic = "invalid SMT-LIB input"
+                expected = {
+                    "parser-only": expected_result("pass"),
+                    "typecheck-only": expected_result(
+                        "fail",
+                        diagnostic=diagnostic,
+                        failure_phase="typecheck",
+                    ),
+                    "z3-tac": expected_result(
+                        "fail",
+                        diagnostic=diagnostic,
+                        failure_phase="typecheck",
+                    ),
+                }
             implementation = None
         else:
             expected = {
@@ -5748,12 +5771,27 @@ def theory_cases() -> list[GeneratedCase]:
 
 
 def string_injection_soundness_cases() -> list[GeneratedCase]:
-    files = (
-        "src/HolSmt/smtstringScript.sml",
-        "src/HolSmt/SmtLib.sml",
-        "src/HolSmt/Unittest.sml",
-        "src/HolSmt/README",
-    )
+    def injection_case(name: str, body: str) -> GeneratedCase:
+        feature = f"string-injection:{name}"
+        case_id = deterministic_case_id("soundness-audit", feature)
+        entry = manifest_entry(
+            case_id=case_id,
+            file=deterministic_case_file("soundness-audit", case_id),
+            logic="QF_S",
+            standard="SMT-LIB-2.7",
+            row_class="soundness-audit",
+            features=[feature],
+            modes=("z3-oracle",),
+            versions=SUPPORTED_Z3_VERSIONS,
+            expected={"z3-oracle": expected_result("pass")},
+            implementation_obligation=None,
+            source=source(
+                "HolSmt-internal",
+                f"HOL string {name} goal transferred through smtstring",
+            ),
+        )
+        return GeneratedCase(entry=entry, script=proof_script("QF_S", body))
+
     rows = (
         (
             "concat",
@@ -5776,27 +5814,7 @@ def string_injection_soundness_cases() -> list[GeneratedCase]:
             "(assert (not (str.<= s s)))\n",
         ),
     )
-    return [
-        red_sample(
-            row_class="soundness-audit",
-            feature=f"string-injection:{name}",
-            logic="QF_S",
-            standard="SMT-LIB-2.7",
-            modes=("z3-tac",),
-            files=files,
-            failure_phase="translation",
-            source_info=source(
-                "HolSmt-internal",
-                f"HOL string {name} goal transferred through smtstring",
-            ),
-            script=proof_script("QF_S", body),
-            diagnostic=(
-                "HOL string injection through smtstring is not implemented"
-            ),
-            theorem_shape="closed theorem without oracle tags",
-        )
-        for name, body in rows
-    ]
+    return [injection_case(name, body) for name, body in rows]
 
 
 def logic_features(logic: str, kind: str) -> list[str]:
