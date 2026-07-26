@@ -1,0 +1,8 @@
+(set-logic QF_SLIA)
+(set-option :produce-proofs true)
+(declare-const x String)
+(assert (str.in_re x ((_ re.loop 1 3) (str.to_re "a"))))
+(assert (= (str.len x) 4))
+(check-sat)
+(get-proof)
+(exit)

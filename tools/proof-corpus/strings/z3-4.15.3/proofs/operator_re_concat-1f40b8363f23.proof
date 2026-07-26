@@ -1,0 +1,18 @@
+((set-logic QF_S)
+(proof
+(let ((?x27 (str.to_re "b")))
+(let ((?x25 (str.to_re "a")))
+(let ((?x28 (re.++ ?x25 ?x27)))
+(let (($x29 (str.in_re "ab" ?x28)))
+(let (($x30 (not $x29)))
+(let (($x65 (= $x30 false)))
+(let ((@x64 (rewrite (= (not true) false))))
+(let (($x60 (not true)))
+(let (($x61 (= $x30 $x60)))
+(let (($x58 (= $x29 true)))
+(let ((@x77 (rewrite (= (str.to_re (str.++ "a" "b")) (str.to_re "ab")))))
+(let ((@x73 (trans (rewrite (= ?x28 (str.to_re (str.++ "a" "b")))) @x77 (= ?x28 (str.to_re "ab")))))
+(let ((@x84 (trans (monotonicity @x73 (= $x29 (str.in_re "ab" (str.to_re "ab")))) (rewrite (= (str.in_re "ab" (str.to_re "ab")) true)) $x58)))
+(let ((@x31 (asserted $x30)))
+(mp @x31 (trans (monotonicity @x84 $x61) @x64 $x65) false)))))))))))))))))
+

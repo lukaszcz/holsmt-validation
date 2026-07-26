@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import collections
+import fnmatch
 import hashlib
 import json
 import os
@@ -20,6 +21,7 @@ from typing import Iterable
 
 SCHEMA = "holsmt-z3-proof-corpus-v1"
 MATRIX_SCHEMA = "holsmt-z3-proof-corpus-matrix-v1"
+STRING_CORPUS_SCHEMA = "holsmt-z3-string-proof-corpus-v1"
 RULE_CONTEXT_LIMIT = 3
 VALIDATION_ROOT = pathlib.Path(__file__).resolve().parent.parent
 DEFAULT_OUTPUT_DIR = VALIDATION_ROOT / "tools" / "proof-corpus" / "out"
@@ -32,6 +34,12 @@ DEFAULT_SUPPORTED_VERSION_MANIFEST = (
 DEFAULT_COMPLETE_CORPUS_MANIFEST = (
     pathlib.Path(__file__).resolve().parent / "proof-corpus" / "complete" / "manifest.json"
 )
+DEFAULT_STRING_CORPUS_MANIFEST = (
+    pathlib.Path(__file__).resolve().parent
+    / "proof-corpus"
+    / "strings"
+    / "manifest.json"
+)
 SUPPORTED_Z3_VERSIONS = ("4.12.4", "4.13.0")
 COMPLETE_CORPUS_Z3_VERSIONS = (
     "4.11.2",
@@ -39,6 +47,55 @@ COMPLETE_CORPUS_Z3_VERSIONS = (
     "4.13.0",
     "4.14.1",
     "4.15.3",
+)
+STRING_DRAFTING_PROBES = (
+    "concat",
+    "length",
+    "regex-membership",
+    "substr",
+    "contains",
+    "str-lt",
+    "str-to-int",
+    "re-loop",
+    "re-comp",
+    "replace-all-ground",
+    "literal-escapes",
+)
+STRING_OFFICIAL_OPERATORS = (
+    "str.++",
+    "str.len",
+    "str.<",
+    "str.<=",
+    "str.at",
+    "str.substr",
+    "str.prefixof",
+    "str.suffixof",
+    "str.contains",
+    "str.indexof",
+    "str.replace",
+    "str.replace_all",
+    "str.is_digit",
+    "str.to_code",
+    "str.from_code",
+    "str.to_int",
+    "str.from_int",
+    "str.to_re",
+    "str.in_re",
+    "str.replace_re",
+    "str.replace_re_all",
+    "re.none",
+    "re.all",
+    "re.allchar",
+    "re.++",
+    "re.union",
+    "re.inter",
+    "re.diff",
+    "re.*",
+    "re.+",
+    "re.opt",
+    "re.range",
+    "re.^",
+    "re.loop",
 )
 HO_PROOF_CORPUS_CASE_IDS = (
     "proof-rule:ho:lambda-equality",
@@ -80,6 +137,9 @@ REPLAY_SUPPORTED_RULES = {
     "th-lemma-array",
     "th-lemma-basic",
     "th-lemma-bv",
+    "th-lemma-char",
+    "th-lemma-character",
+    "th-lemma-characters",
     "th-lemma-datatype",
     "th-lemma-datatypes",
     "th-lemma-dt",
@@ -149,6 +209,9 @@ RULE_PREMISE_KIND = {
     "th-lemma-array": "list",
     "th-lemma-basic": "list",
     "th-lemma-bv": "list",
+    "th-lemma-char": "list",
+    "th-lemma-character": "list",
+    "th-lemma-characters": "list",
     "th-lemma-datatype": "list",
     "th-lemma-datatypes": "list",
     "th-lemma-dt": "list",
@@ -524,6 +587,76 @@ def extract_ho_shape_metadata(
     }
 
 
+def extract_string_shape_metadata(nodes: list[Node]) -> dict[str, object]:
+    """Collect exact Z3 string-internal spellings and printed literals."""
+
+    symbol_counts: collections.Counter[str] = collections.Counter()
+    indexed_counts: collections.Counter[str] = collections.Counter()
+    prefix_counts: collections.Counter[str] = collections.Counter()
+    char_literal_counts: collections.Counter[str] = collections.Counter()
+    char_bit_indices: set[str] = set()
+    string_literal_counts: collections.Counter[str] = collections.Counter()
+
+    tracked_atoms = {
+        "Char",
+        "aut.accept",
+        "char.is_digit",
+        "seq.digit",
+        "seq.digit2int",
+        "seq.eq",
+        "seq.nth_i",
+        "seq.stoi",
+        "seq.tail",
+        "seq.unit",
+    }
+
+    def visit(node: Node) -> None:
+        if isinstance(node, Atom):
+            if node.text in tracked_atoms:
+                symbol_counts[node.text] += 1
+            if node.text.startswith('"'):
+                string_literal_counts[node.text] += 1
+            return
+
+        if len(node.items) >= 2:
+            first = atom_text(node.items[0])
+            base = atom_text(node.items[1])
+            if first == "_" and base is not None:
+                exact = "(" + " ".join(
+                    child.text if isinstance(child, Atom) else "<list>"
+                    for child in node.items
+                ) + ")"
+                if base == "Char" and len(node.items) == 3:
+                    char_literal_counts[exact] += 1
+                if (
+                    base in {"aut.accept", "char.bit", "seq.eq", "seq.tail"}
+                    or base.startswith("seq.prefix.")
+                ):
+                    indexed_counts[exact] += 1
+                    if base not in tracked_atoms:
+                        symbol_counts[base] += 1
+                if base.startswith("seq.prefix."):
+                    prefix_counts[base] += 1
+                if base == "char.bit" and len(node.items) >= 4:
+                    index = atom_text(node.items[-1])
+                    if index is not None:
+                        char_bit_indices.add(index)
+        for child in node.items:
+            visit(child)
+
+    for node in nodes:
+        visit(node)
+
+    return {
+        "symbols": dict(sorted(symbol_counts.items())),
+        "indexed_symbols": dict(sorted(indexed_counts.items())),
+        "seq_prefix_symbols": dict(sorted(prefix_counts.items())),
+        "char_literals": dict(sorted(char_literal_counts.items())),
+        "char_bit_indices": sorted(char_bit_indices, key=version_sort_key),
+        "string_literals": dict(sorted(string_literal_counts.items())),
+    }
+
+
 def extract_rule_report(proof_text: str) -> dict[str, object]:
     histogram: collections.Counter[str] = collections.Counter()
     theory_lemma_histogram: collections.Counter[str] = collections.Counter()
@@ -569,11 +702,20 @@ def extract_rule_report(proof_text: str) -> dict[str, object]:
                 "proof_binds": [],
                 "proof_bind_consumers": {},
             },
+            "string_shape": {
+                "symbols": {},
+                "indexed_symbols": {},
+                "seq_prefix_symbols": {},
+                "char_literals": {},
+                "char_bit_indices": [],
+                "string_literals": {},
+            },
             "unknown_rules": [],
             "malformed_fragments": malformed,
         }
     dag_summary = parsed_dag_summary(nodes)
     ho_shape = extract_ho_shape_metadata(proof_text, nodes)
+    string_shape = extract_string_shape_metadata(nodes)
 
     def context_item(node: ListNode) -> dict[str, object]:
         loc = line_col(proof_text, node.start)
@@ -749,6 +891,7 @@ def extract_rule_report(proof_text: str) -> dict[str, object]:
         "theory_lemma_histogram": dict(sorted(theory_lemma_histogram.items())),
         "theory_lemma_metadata": theory_lemma_metadata,
         "ho_shape": ho_shape,
+        "string_shape": string_shape,
         "unknown_rules": unknown_rules,
         "malformed_fragments": malformed,
     }
@@ -931,6 +1074,14 @@ def record_one(
             "proof_binds": [],
             "proof_bind_consumers": {},
         },
+        "string_shape": {
+            "symbols": {},
+            "indexed_symbols": {},
+            "seq_prefix_symbols": {},
+            "char_literals": {},
+            "char_bit_indices": [],
+            "string_literals": {},
+        },
         "unknown_rules": [],
         "malformed_fragments": [],
     }
@@ -1000,9 +1151,31 @@ def build_summary(entries: Iterable[dict[str, object]]) -> dict[str, object]:
     aggregate: collections.Counter[str] = collections.Counter()
     inferred_aggregate: collections.Counter[str] = collections.Counter()
     theory_lemma_aggregate: collections.Counter[str] = collections.Counter()
-    aggregate_by_version: dict[str, collections.Counter[str]] = collections.defaultdict(collections.Counter)
-    inferred_by_version: dict[str, collections.Counter[str]] = collections.defaultdict(collections.Counter)
-    theory_lemma_by_version: dict[str, collections.Counter[str]] = collections.defaultdict(collections.Counter)
+    aggregate_by_version: dict[
+        str, collections.Counter[str]
+    ] = collections.defaultdict(collections.Counter)
+    inferred_by_version: dict[
+        str, collections.Counter[str]
+    ] = collections.defaultdict(collections.Counter)
+    theory_lemma_by_version: dict[
+        str, collections.Counter[str]
+    ] = collections.defaultdict(collections.Counter)
+    string_symbols_by_version: dict[
+        str, collections.Counter[str]
+    ] = collections.defaultdict(collections.Counter)
+    indexed_symbols_by_version: dict[
+        str, collections.Counter[str]
+    ] = collections.defaultdict(collections.Counter)
+    seq_prefixes_by_version: dict[
+        str, collections.Counter[str]
+    ] = collections.defaultdict(collections.Counter)
+    char_literals_by_version: dict[
+        str, collections.Counter[str]
+    ] = collections.defaultdict(collections.Counter)
+    char_bits_by_version: dict[str, set[str]] = collections.defaultdict(set)
+    string_literals_by_version: dict[
+        str, collections.Counter[str]
+    ] = collections.defaultdict(collections.Counter)
     version_entries: collections.Counter[str] = collections.Counter()
     version_proofs: collections.Counter[str] = collections.Counter()
     unknown: dict[str, list[dict[str, object]]] = collections.defaultdict(list)
@@ -1024,6 +1197,29 @@ def build_summary(entries: Iterable[dict[str, object]]) -> dict[str, object]:
         for key, count in proof.get("theory_lemma_histogram", {}).items():  # type: ignore[union-attr]
             theory_lemma_aggregate[key] += count
             theory_lemma_by_version[version][key] += count
+        string_shape = proof.get("string_shape", {})
+        if isinstance(string_shape, dict):
+            for field, target in (
+                ("symbols", string_symbols_by_version[version]),
+                ("indexed_symbols", indexed_symbols_by_version[version]),
+                ("seq_prefix_symbols", seq_prefixes_by_version[version]),
+                ("char_literals", char_literals_by_version[version]),
+                ("string_literals", string_literals_by_version[version]),
+            ):
+                values = string_shape.get(field, {})
+                if isinstance(values, dict):
+                    target.update(
+                        {
+                            key: count
+                            for key, count in values.items()
+                            if isinstance(key, str) and isinstance(count, int)
+                        }
+                    )
+            bit_indices = string_shape.get("char_bit_indices", [])
+            if isinstance(bit_indices, list):
+                char_bits_by_version[version].update(
+                    item for item in bit_indices if isinstance(item, str)
+                )
         for item in proof["unknown_rules"]:  # type: ignore[index, union-attr]
             unknown[item["rule"]].append(  # type: ignore[index]
                 {
@@ -1067,6 +1263,54 @@ def build_summary(entries: Iterable[dict[str, object]]) -> dict[str, object]:
                 "theory_lemma_histogram": dict(
                     sorted(theory_lemma_by_version.get(version, {}).items())
                 ),
+                **(
+                    {
+                        "string_internal_symbols": dict(
+                            sorted(
+                                string_symbols_by_version.get(
+                                    version, {}
+                                ).items()
+                            )
+                        ),
+                        "indexed_string_internal_symbols": dict(
+                            sorted(
+                                indexed_symbols_by_version.get(
+                                    version, {}
+                                ).items()
+                            )
+                        ),
+                        "seq_prefix_symbols": dict(
+                            sorted(
+                                seq_prefixes_by_version.get(version, {}).items()
+                            )
+                        ),
+                        "char_literals": dict(
+                            sorted(
+                                char_literals_by_version.get(version, {}).items()
+                            )
+                        ),
+                        "char_bit_indices": sorted(
+                            char_bits_by_version.get(version, set()),
+                            key=version_sort_key,
+                        ),
+                        "string_literals": dict(
+                            sorted(
+                                string_literals_by_version.get(
+                                    version, {}
+                                ).items()
+                            )
+                        ),
+                    }
+                    if (
+                        string_symbols_by_version.get(version)
+                        or indexed_symbols_by_version.get(version)
+                        or seq_prefixes_by_version.get(version)
+                        or char_literals_by_version.get(version)
+                        or char_bits_by_version.get(version)
+                        or string_literals_by_version.get(version)
+                    )
+                    else {}
+                ),
             }
             for version, histogram in sorted(
                 aggregate_by_version.items(),
@@ -1108,6 +1352,16 @@ def resolve_manifest_path(manifest_path: pathlib.Path, value: str) -> pathlib.Pa
     if root_path.exists():
         return root_path
     return manifest_path.parent / path
+
+
+def validation_relative_path(path: pathlib.Path) -> pathlib.Path:
+    """Normalize recorded absolute paths across validation worktrees."""
+
+    parts = path.resolve().parts
+    for index, part in enumerate(parts):
+        if part == "tools":
+            return pathlib.Path(*parts[index:])
+    return path.resolve()
 
 
 def complete_manifest_cases(manifest_path: pathlib.Path) -> list[dict[str, object]]:
@@ -1164,6 +1418,84 @@ def inputs_from_complete_manifest(
     return selected_paths
 
 
+def inputs_from_string_manifest(
+    manifest_path: pathlib.Path,
+) -> tuple[set[str], list[pathlib.Path]]:
+    manifest = load_json(manifest_path)
+    if not isinstance(manifest, dict):
+        raise ValueError("string corpus manifest root must be an object")
+    if manifest.get("schema") != STRING_CORPUS_SCHEMA:
+        raise ValueError(
+            f"string corpus manifest schema must be {STRING_CORPUS_SCHEMA}"
+        )
+
+    versions = manifest.get("supported_z3_versions", [])
+    if not isinstance(versions, list) or not all(
+        isinstance(item, str) for item in versions
+    ):
+        raise ValueError(
+            "string corpus manifest supported_z3_versions must be a string list"
+        )
+    if sorted(versions) != sorted(COMPLETE_CORPUS_Z3_VERSIONS):
+        raise ValueError(
+            "string corpus manifest supported_z3_versions mismatch: expected "
+            + ", ".join(COMPLETE_CORPUS_Z3_VERSIONS)
+        )
+
+    cases = manifest.get("cases", [])
+    if not isinstance(cases, list) or not cases:
+        raise ValueError(
+            "string corpus manifest cases must be a non-empty list"
+        )
+
+    inputs: list[pathlib.Path] = []
+    drafting_probes: set[str] = set()
+    operators: set[str] = set()
+    for index, item in enumerate(cases, 1):
+        if not isinstance(item, dict):
+            raise ValueError(f"string corpus case {index} must be an object")
+        path_value = item.get("path")
+        if not isinstance(path_value, str) or not path_value:
+            raise ValueError(f"string corpus case {index} is missing path")
+        path = resolve_manifest_path(manifest_path, path_value)
+        if not path.is_file():
+            raise ValueError(f"string corpus input does not exist: {path_value}")
+        inputs.append(path)
+
+        probe = item.get("drafting_probe")
+        if isinstance(probe, str):
+            drafting_probes.add(probe)
+        case_operators = item.get("operators", [])
+        if not isinstance(case_operators, list) or not all(
+            isinstance(operator, str) for operator in case_operators
+        ):
+            raise ValueError(
+                f"string corpus case {index} operators must be a string list"
+            )
+        operators.update(case_operators)
+
+    missing_probes = sorted(set(STRING_DRAFTING_PROBES) - drafting_probes)
+    extra_probes = sorted(drafting_probes - set(STRING_DRAFTING_PROBES))
+    if missing_probes or extra_probes:
+        raise ValueError(
+            "string corpus drafting-probe coverage mismatch: missing "
+            + (", ".join(missing_probes) or "<none>")
+            + "; extra "
+            + (", ".join(extra_probes) or "<none>")
+        )
+
+    missing_operators = sorted(set(STRING_OFFICIAL_OPERATORS) - operators)
+    extra_operators = sorted(operators - set(STRING_OFFICIAL_OPERATORS))
+    if missing_operators or extra_operators:
+        raise ValueError(
+            "string corpus operator coverage mismatch: missing "
+            + (", ".join(missing_operators) or "<none>")
+            + "; extra "
+            + (", ".join(extra_operators) or "<none>")
+        )
+    return set(versions), inputs
+
+
 def classify_ho_shape(entry: dict[str, object]) -> str:
     proof = entry.get("proof", {})
     shape = proof.get("ho_shape", {}) if isinstance(proof, dict) else {}
@@ -1215,7 +1547,11 @@ def validate_ho_shape_matrix(
         if not isinstance(path_value, str):
             errors.append(f"{case_id}: missing path")
             continue
-        case_by_path[resolve_manifest_path(manifest_path, path_value).resolve()] = (
+        case_by_path[
+            validation_relative_path(
+                resolve_manifest_path(manifest_path, path_value)
+            )
+        ] = (
             case_id,
             item,
         )
@@ -1227,7 +1563,9 @@ def validate_ho_shape_matrix(
         if not isinstance(input_path, str):
             errors.append("HO corpus entry is missing input.path")
             continue
-        case_info = case_by_path.get(pathlib.Path(input_path).resolve())
+        case_info = case_by_path.get(
+            validation_relative_path(pathlib.Path(input_path))
+        )
         if case_info is None:
             errors.append(f"unexpected HO corpus input: {input_path}")
             continue
@@ -1515,7 +1853,10 @@ def build_requirement_report(
     missing_subkinds = [
         {"theory_subkind": item}
         for item in sorted(set(required_theory_subkinds))
-        if aggregate_subkinds.get(item, 0) <= 0
+        if not any(
+            count > 0 and fnmatch.fnmatchcase(observed, item)
+            for observed, count in aggregate_subkinds.items()
+        )
     ]
 
     replay_failures: list[dict[str, object]] = []
@@ -1933,6 +2274,16 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         ),
     )
     parser.add_argument(
+        "--string-corpus",
+        nargs="?",
+        const=DEFAULT_STRING_CORPUS_MANIFEST,
+        type=pathlib.Path,
+        help=(
+            "record the Phase 4 string/regex corpus; an optional argument "
+            "selects a non-default manifest"
+        ),
+    )
+    parser.add_argument(
         "--case-id",
         action="append",
         default=[],
@@ -1980,13 +2331,28 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         return args
     if args.ho_corpus and args.complete_corpus_manifest is None:
         args.complete_corpus_manifest = DEFAULT_COMPLETE_CORPUS_MANIFEST
+    if (
+        args.string_corpus is not None
+        and args.complete_corpus_manifest is not None
+    ):
+        parser.error(
+            "--string-corpus cannot be combined with "
+            "--complete-corpus-manifest"
+        )
     if args.case_id and args.complete_corpus_manifest is None:
         parser.error("--case-id requires --complete-corpus-manifest")
     malformed_subkinds = [item for item in args.require_theory_subkind if ":" not in item]
     if malformed_subkinds:
         parser.error("--require-theory-subkind values must have THEORY:SUBKIND shape")
-    if not args.inputs and args.complete_corpus_manifest is None:
-        parser.error("SMT-LIB input files are required unless --validate-corpus-manifest is used")
+    if (
+        not args.inputs
+        and args.complete_corpus_manifest is None
+        and args.string_corpus is None
+    ):
+        parser.error(
+            "SMT-LIB input files, --complete-corpus-manifest, or "
+            "--string-corpus is required"
+        )
     if args.fail_on_unseen_rules and args.expected_rules is None:
         parser.error("--fail-on-unseen-rules requires --expected-rules")
     return args
@@ -2055,8 +2421,24 @@ def main(argv: list[str]) -> int:
                         ],
                     )
                 ]
+        elif args.string_corpus is not None:
+            supported_versions, inputs = inputs_from_string_manifest(
+                args.string_corpus
+            )
+            if (
+                args.z3_version is not None
+                and args.z3_version not in supported_versions
+            ):
+                print(
+                    f"selected Z3 version {args.z3_version} is not listed in "
+                    f"{args.string_corpus}",
+                    file=sys.stderr,
+                )
+                return 2
+            if not args.inputs:
+                args.inputs = [str(path) for path in inputs]
     except (OSError, json.JSONDecodeError, ValueError) as exc:
-        print(f"complete proof corpus manifest error: {exc}", file=sys.stderr)
+        print(f"proof corpus manifest error: {exc}", file=sys.stderr)
         return 2
 
     detected_version = z3_version(args.z3)

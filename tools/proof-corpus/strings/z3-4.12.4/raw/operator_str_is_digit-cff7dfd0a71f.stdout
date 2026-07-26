@@ -1,0 +1,10 @@
+unsat
+((set-logic QF_S)
+(proof
+(let ((@x39 (monotonicity (rewrite (= (str.is_digit "7") true)) (= (not (str.is_digit "7")) (not true)))))
+ (let ((@x43 (trans @x39 (rewrite (= (not true) false)) (= (not (str.is_digit "7")) false))))
+ (let (($x25 (str.is_digit "7")))
+ (let (($x26 (not $x25)))
+ (let ((@x27 (asserted $x26)))
+ (mp @x27 @x43 false))))))))
+

@@ -1,0 +1,9 @@
+((set-logic QF_S)
+(proof
+(let ((@x38 (monotonicity (rewrite (= (str.is_digit "7") true)) (= (not (str.is_digit "7")) (not true)))))
+(let ((@x42 (trans @x38 (rewrite (= (not true) false)) (= (not (str.is_digit "7")) false))))
+(let (($x24 (str.is_digit "7")))
+(let (($x25 (not $x24)))
+(let ((@x26 (asserted $x25)))
+(mp @x26 @x42 false))))))))
+

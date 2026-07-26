@@ -1,0 +1,15 @@
+unsat
+((set-logic QF_S)
+(proof
+(let ((?x27 (str.replace "aba" "a" "x")))
+ (let (($x29 (= ?x27 "xba")))
+ (let (($x30 (not $x29)))
+ (let (($x68 (= $x30 false)))
+ (let ((@x67 (rewrite (= (not true) false))))
+ (let (($x63 (not true)))
+ (let (($x64 (= $x30 $x63)))
+ (let (($x61 (= $x29 true)))
+ (let ((@x77 (trans (monotonicity (rewrite $x29) (= $x29 (= "xba" "xba"))) (rewrite (= (= "xba" "xba") true)) $x61)))
+ (let ((@x31 (asserted $x30)))
+ (mp @x31 (trans (monotonicity @x77 $x64) @x67 $x68) false)))))))))))))
+

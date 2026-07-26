@@ -1,0 +1,7 @@
+(set-logic QF_S)
+(set-option :produce-proofs true)
+(declare-const x String)
+(assert (= (str.++ x "a") (str.++ x "b")))
+(check-sat)
+(get-proof)
+(exit)

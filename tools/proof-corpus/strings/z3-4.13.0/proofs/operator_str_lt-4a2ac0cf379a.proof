@@ -1,0 +1,9 @@
+((set-logic QF_S)
+(proof
+(let ((@x42 (monotonicity (rewrite (= (str.< "a" "b") true)) (= (not (str.< "a" "b")) (not true)))))
+ (let ((@x46 (trans @x42 (rewrite (= (not true) false)) (= (not (str.< "a" "b")) false))))
+ (let (($x26 (str.< "a" "b")))
+ (let (($x27 (not $x26)))
+ (let ((@x28 (asserted $x27)))
+ (mp @x28 @x46 false))))))))
+

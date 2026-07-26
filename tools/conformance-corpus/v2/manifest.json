@@ -4712,35 +4712,17 @@
           "status": "pass"
         },
         "proof-parse": {
-          "status": "red",
-          "diagnostic": "external benchmark proof parsing evidence is not wired into mandatory CI",
-          "failure_phase": "proof-parse"
+          "status": "pass"
         },
         "proof-replay": {
-          "status": "red",
-          "diagnostic": "external benchmark proof replay is not implemented for this reduced case",
-          "failure_phase": "proof-replay"
+          "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "external benchmark theorem reconstruction is not implemented for this reduced case",
-          "failure_phase": "proof-replay",
+          "status": "pass",
           "theorem_shape": "closed theorem proving unsatisfiability"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/Z3_ProofParser.sml",
-          "src/HolSmt/Z3_ProofReplay.sml",
-          "tools/external-benchmarks/pinned/manifest.json"
-        ],
-        "feature": "external-proof:QF_S",
-        "test_ids": [
-          "external-benchmark:curated-reduced-qf-s-unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Pinned external UNSAT proof benchmark; keep red until proof parsing and replay are executable evidence."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "external-benchmark",
         "reference": "HolSmt curated reduced QF_S UNSAT proof external benchmark",
@@ -25710,6 +25692,56 @@
       }
     },
     {
+      "id": "proof-rule:th-lemma-char",
+      "file": "cases/proof_rules/proof_rule_th_lemma_char.smt2",
+      "logic": "QF_UF",
+      "standard": "Z3-extension",
+      "class": "proof-rule",
+      "features": [
+        "proof-rule-behavior:checked-replay",
+        "proof-rule-family:th-lemma",
+        "proof-rule:th-lemma-char"
+      ],
+      "modes": [
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "proof-parse": {
+          "status": "pass",
+          "proof_rule_histogram": {
+            "th-lemma-char": 1
+          }
+        },
+        "proof-replay": {
+          "status": "pass",
+          "proof_rule_histogram": {
+            "th-lemma-char": 1
+          }
+        },
+        "z3-tac": {
+          "status": "pass",
+          "theorem_shape": "closed theorem without oracle tags",
+          "proof_rule_histogram": {
+            "th-lemma-char": 1
+          }
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "Z3-proof",
+        "reference": "Z3 proof rule th-lemma-char"
+      }
+    },
+    {
       "id": "proof-rule:th-lemma-datatype",
       "file": "cases/proof_rules/proof_rule_th_lemma_datatype.smt2",
       "logic": "QF_UF",
@@ -25885,7 +25917,7 @@
       "standard": "Z3-extension",
       "class": "proof-rule",
       "features": [
-        "proof-rule-behavior:diagnostic-only",
+        "proof-rule-behavior:checked-replay",
         "proof-rule-family:th-lemma",
         "proof-rule:th-lemma-regexp"
       ],
@@ -25903,44 +25935,26 @@
       ],
       "expected": {
         "proof-parse": {
-          "status": "red",
-          "diagnostic": "regular-expression th-lemma replay is diagnostic-only",
-          "failure_phase": "proof-parse",
+          "status": "pass",
           "proof_rule_histogram": {
             "th-lemma-regexp": 1
           }
         },
         "proof-replay": {
-          "status": "red",
-          "diagnostic": "regular-expression th-lemma replay is diagnostic-only",
-          "failure_phase": "proof-replay",
+          "status": "pass",
           "proof_rule_histogram": {
             "th-lemma-regexp": 1
           }
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "diagnostic-only proof-rule obligation has no reconstructed HOL theorem yet",
-          "failure_phase": "proof-replay",
+          "status": "pass",
           "theorem_shape": "closed theorem without oracle tags",
           "proof_rule_histogram": {
             "th-lemma-regexp": 1
           }
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/Unittest.sml",
-          "src/HolSmt/Z3_ProofParser.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "proof-rule:th-lemma-regexp",
-        "test_ids": [
-          "proof-rule:th-lemma-regexp"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Diagnostic-only synthetic coverage exists; keep this row red until checked replay and real proof-corpus evidence are added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "Z3-proof",
         "reference": "Z3 proof rule th-lemma-regexp"
@@ -25953,7 +25967,7 @@
       "standard": "Z3-extension",
       "class": "proof-rule",
       "features": [
-        "proof-rule-behavior:diagnostic-only",
+        "proof-rule-behavior:checked-replay",
         "proof-rule-family:th-lemma",
         "proof-rule:th-lemma-seq"
       ],
@@ -25971,44 +25985,26 @@
       ],
       "expected": {
         "proof-parse": {
-          "status": "red",
-          "diagnostic": "sequence th-lemma replay is diagnostic-only",
-          "failure_phase": "proof-parse",
+          "status": "pass",
           "proof_rule_histogram": {
             "th-lemma-seq": 1
           }
         },
         "proof-replay": {
-          "status": "red",
-          "diagnostic": "sequence th-lemma replay is diagnostic-only",
-          "failure_phase": "proof-replay",
+          "status": "pass",
           "proof_rule_histogram": {
             "th-lemma-seq": 1
           }
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "diagnostic-only proof-rule obligation has no reconstructed HOL theorem yet",
-          "failure_phase": "proof-replay",
+          "status": "pass",
           "theorem_shape": "closed theorem without oracle tags",
           "proof_rule_histogram": {
             "th-lemma-seq": 1
           }
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/Unittest.sml",
-          "src/HolSmt/Z3_ProofParser.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "proof-rule:th-lemma-seq",
-        "test_ids": [
-          "proof-rule:th-lemma-seq"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Diagnostic-only synthetic coverage exists; keep this row red until checked replay and real proof-corpus evidence are added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "Z3-proof",
         "reference": "Z3 proof rule th-lemma-seq"
@@ -26021,7 +26017,7 @@
       "standard": "Z3-extension",
       "class": "proof-rule",
       "features": [
-        "proof-rule-behavior:diagnostic-only",
+        "proof-rule-behavior:checked-replay",
         "proof-rule-family:th-lemma",
         "proof-rule:th-lemma-string"
       ],
@@ -26039,44 +26035,26 @@
       ],
       "expected": {
         "proof-parse": {
-          "status": "red",
-          "diagnostic": "string th-lemma replay is diagnostic-only",
-          "failure_phase": "proof-parse",
+          "status": "pass",
           "proof_rule_histogram": {
             "th-lemma-string": 1
           }
         },
         "proof-replay": {
-          "status": "red",
-          "diagnostic": "string th-lemma replay is diagnostic-only",
-          "failure_phase": "proof-replay",
+          "status": "pass",
           "proof_rule_histogram": {
             "th-lemma-string": 1
           }
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "diagnostic-only proof-rule obligation has no reconstructed HOL theorem yet",
-          "failure_phase": "proof-replay",
+          "status": "pass",
           "theorem_shape": "closed theorem without oracle tags",
           "proof_rule_histogram": {
             "th-lemma-string": 1
           }
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/Unittest.sml",
-          "src/HolSmt/Z3_ProofParser.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "proof-rule:th-lemma-string",
-        "test_ids": [
-          "proof-rule:th-lemma-string"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Diagnostic-only synthetic coverage exists; keep this row red until checked replay and real proof-corpus evidence are added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "Z3-proof",
         "reference": "Z3 proof rule th-lemma-string"
@@ -65469,7 +65447,6 @@
       "features": [
         "theory-behavior:character",
         "theory-behavior:indexed",
-        "theory-behavior:proof-gap",
         "theory-behavior:singleton-string",
         "theory-behavior:string",
         "theory-case:boundary",
@@ -65517,7 +65494,6 @@
       "features": [
         "theory-behavior:character",
         "theory-behavior:indexed",
-        "theory-behavior:proof-gap",
         "theory-behavior:singleton-string",
         "theory-behavior:string",
         "theory-case:sat",
@@ -65569,7 +65545,6 @@
       "features": [
         "theory-behavior:character",
         "theory-behavior:indexed",
-        "theory-behavior:proof-gap",
         "theory-behavior:singleton-string",
         "theory-behavior:string",
         "theory-case:type-error",
@@ -65621,7 +65596,6 @@
       "features": [
         "theory-behavior:character",
         "theory-behavior:indexed",
-        "theory-behavior:proof-gap",
         "theory-behavior:singleton-string",
         "theory-behavior:string",
         "theory-case:unsat-proof",
@@ -65663,26 +65637,13 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked Z3_TAC reconstruction for theory symbol is incomplete",
+          "status": "unsupported",
+          "diagnostic": "Z3 proof replay failed",
           "failure_phase": "proof-replay",
           "theorem_shape": "closed theorem without oracle tags"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "theory-symbol:UnicodeStrings:char:unsat-proof",
-        "test_ids": [
-          "theory:UnicodeStrings:char:unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 UnicodeStrings theory: (_ char H)"
@@ -65815,35 +65776,18 @@
           "status": "pass"
         },
         "proof-parse": {
-          "status": "red",
-          "diagnostic": "Unicode string escapes are not decoded in Z3 proofs",
-          "failure_phase": "proof-parse"
+          "status": "pass"
         },
         "proof-replay": {
-          "status": "red",
-          "diagnostic": "Unicode string escape replay is incomplete",
-          "failure_phase": "proof-replay"
+          "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked Unicode string literal replay is incomplete",
+          "status": "unsupported",
+          "diagnostic": "simplification produced more than one subgoal",
           "failure_phase": "proof-replay"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "unicode-strings:literal-u-braced-one-to-five-hex-decode",
-        "test_ids": [
-          "theory:UnicodeStrings:literal-u-braced-one-to-five-hex-decode"
-        ],
-        "failure_phase": "proof-parse",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 UnicodeStrings one-to-five-digit braced escapes"
@@ -65938,35 +65882,16 @@
           "status": "pass"
         },
         "proof-parse": {
-          "status": "red",
-          "diagnostic": "Unicode string escapes are not decoded in Z3 proofs",
-          "failure_phase": "proof-parse"
+          "status": "pass"
         },
         "proof-replay": {
-          "status": "red",
-          "diagnostic": "Unicode string escape replay is incomplete",
-          "failure_phase": "proof-replay"
+          "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked Unicode string literal replay is incomplete",
-          "failure_phase": "proof-replay"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "unicode-strings:literal-u-four-hex-decode",
-        "test_ids": [
-          "theory:UnicodeStrings:literal-u-four-hex-decode"
-        ],
-        "failure_phase": "proof-parse",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 UnicodeStrings fixed-width escape"
@@ -65980,7 +65905,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:concat",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:boundary",
@@ -66027,7 +65951,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:concat",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:sat",
@@ -66078,7 +66001,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:concat",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:type-error",
@@ -66129,7 +66051,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:concat",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:unsat-proof",
@@ -66171,26 +66092,13 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked Z3_TAC reconstruction for theory symbol is incomplete",
+          "status": "unsupported",
+          "diagnostic": "z3-tac command timed out",
           "failure_phase": "proof-replay",
           "theorem_shape": "closed theorem without oracle tags"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "theory-symbol:UnicodeStrings:re-concat:unsat-proof",
-        "test_ids": [
-          "theory:UnicodeStrings:re-concat:unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 UnicodeStrings theory: re.++"
@@ -66204,7 +66112,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:kleene-plus",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:boundary",
@@ -66251,7 +66158,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:kleene-plus",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:sat",
@@ -66302,7 +66208,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:kleene-plus",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:type-error",
@@ -66353,7 +66258,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:kleene-plus",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:unsat-proof",
@@ -66395,26 +66299,13 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked Z3_TAC reconstruction for theory symbol is incomplete",
+          "status": "unsupported",
+          "diagnostic": "z3-tac command timed out",
           "failure_phase": "proof-replay",
           "theorem_shape": "closed theorem without oracle tags"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "theory-symbol:UnicodeStrings:re-plus:unsat-proof",
-        "test_ids": [
-          "theory:UnicodeStrings:re-plus:unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 UnicodeStrings theory: re.+"
@@ -66429,7 +66320,6 @@
       "features": [
         "theory-behavior:indexed",
         "theory-behavior:power",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:boundary",
@@ -66477,7 +66367,6 @@
       "features": [
         "theory-behavior:indexed",
         "theory-behavior:power",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:sat",
@@ -66529,7 +66418,6 @@
       "features": [
         "theory-behavior:indexed",
         "theory-behavior:power",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:type-error",
@@ -66581,7 +66469,6 @@
       "features": [
         "theory-behavior:indexed",
         "theory-behavior:power",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:unsat-proof",
@@ -66623,26 +66510,13 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked Z3_TAC reconstruction for theory symbol is incomplete",
+          "status": "unsupported",
+          "diagnostic": "z3-tac command timed out",
           "failure_phase": "proof-replay",
           "theorem_shape": "closed theorem without oracle tags"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "theory-symbol:UnicodeStrings:re-power:unsat-proof",
-        "test_ids": [
-          "theory:UnicodeStrings:re-power:unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 UnicodeStrings theory: re.^"
@@ -66656,7 +66530,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:kleene-star",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:boundary",
@@ -66703,7 +66576,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:kleene-star",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:sat",
@@ -66754,7 +66626,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:kleene-star",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:type-error",
@@ -66805,7 +66676,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:kleene-star",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:unsat-proof",
@@ -66847,26 +66717,10 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked Z3_TAC reconstruction for theory symbol is incomplete",
-          "failure_phase": "proof-replay",
-          "theorem_shape": "closed theorem without oracle tags"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "theory-symbol:UnicodeStrings:re-star:unsat-proof",
-        "test_ids": [
-          "theory:UnicodeStrings:re-star:unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 UnicodeStrings theory: re.*"
@@ -66879,7 +66733,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:regex-constant",
         "theory-behavior:string",
@@ -66926,7 +66779,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:regex-constant",
         "theory-behavior:string",
@@ -66977,7 +66829,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:regex-constant",
         "theory-behavior:string",
@@ -67028,7 +66879,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:regex-constant",
         "theory-behavior:string",
@@ -67087,7 +66937,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:regex-constant",
         "theory-behavior:string",
@@ -67134,7 +66983,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:regex-constant",
         "theory-behavior:string",
@@ -67185,7 +67033,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:regex-constant",
         "theory-behavior:string",
@@ -67236,7 +67083,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:regex-constant",
         "theory-behavior:string",
@@ -67296,7 +67142,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:complement",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:boundary",
@@ -67343,7 +67188,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:complement",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:sat",
@@ -67394,7 +67238,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:complement",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:type-error",
@@ -67445,7 +67288,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:complement",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:unsat-proof",
@@ -67487,26 +67329,10 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked Z3_TAC reconstruction for theory symbol is incomplete",
-          "failure_phase": "proof-replay",
-          "theorem_shape": "closed theorem without oracle tags"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "theory-symbol:UnicodeStrings:re.comp:unsat-proof",
-        "test_ids": [
-          "theory:UnicodeStrings:re.comp:unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 UnicodeStrings theory: re.comp"
@@ -67520,7 +67346,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:difference",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:boundary",
@@ -67567,7 +67392,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:difference",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:sat",
@@ -67618,7 +67442,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:difference",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:type-error",
@@ -67669,7 +67492,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:difference",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:unsat-proof",
@@ -67711,26 +67533,13 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked Z3_TAC reconstruction for theory symbol is incomplete",
+          "status": "unsupported",
+          "diagnostic": "z3-tac command timed out",
           "failure_phase": "proof-replay",
           "theorem_shape": "closed theorem without oracle tags"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "theory-symbol:UnicodeStrings:re.diff:unsat-proof",
-        "test_ids": [
-          "theory:UnicodeStrings:re.diff:unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 UnicodeStrings theory: re.diff"
@@ -67745,7 +67554,6 @@
       "features": [
         "theory-behavior:intersection",
         "theory-behavior:left-associative",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:boundary",
@@ -67793,7 +67601,6 @@
       "features": [
         "theory-behavior:intersection",
         "theory-behavior:left-associative",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:sat",
@@ -67845,7 +67652,6 @@
       "features": [
         "theory-behavior:intersection",
         "theory-behavior:left-associative",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:type-error",
@@ -67897,7 +67703,6 @@
       "features": [
         "theory-behavior:intersection",
         "theory-behavior:left-associative",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:unsat-proof",
@@ -67939,26 +67744,10 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked Z3_TAC reconstruction for theory symbol is incomplete",
-          "failure_phase": "proof-replay",
-          "theorem_shape": "closed theorem without oracle tags"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "theory-symbol:UnicodeStrings:re.inter:unsat-proof",
-        "test_ids": [
-          "theory:UnicodeStrings:re.inter:unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 UnicodeStrings theory: re.inter"
@@ -67973,7 +67762,6 @@
       "features": [
         "theory-behavior:indexed",
         "theory-behavior:loop",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:boundary",
@@ -68021,7 +67809,6 @@
       "features": [
         "theory-behavior:indexed",
         "theory-behavior:loop",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:sat",
@@ -68073,7 +67860,6 @@
       "features": [
         "theory-behavior:indexed",
         "theory-behavior:loop",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:type-error",
@@ -68125,7 +67911,6 @@
       "features": [
         "theory-behavior:indexed",
         "theory-behavior:loop",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:unsat-proof",
@@ -68167,26 +67952,10 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked Z3_TAC reconstruction for theory symbol is incomplete",
-          "failure_phase": "proof-replay",
-          "theorem_shape": "closed theorem without oracle tags"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "theory-symbol:UnicodeStrings:re.loop:unsat-proof",
-        "test_ids": [
-          "theory:UnicodeStrings:re.loop:unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 UnicodeStrings theory: re.loop"
@@ -68199,7 +67968,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:regex-constant",
         "theory-behavior:string",
@@ -68246,7 +68014,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:regex-constant",
         "theory-behavior:string",
@@ -68297,7 +68064,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:regex-constant",
         "theory-behavior:string",
@@ -68348,7 +68114,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:regex-constant",
         "theory-behavior:string",
@@ -68408,7 +68173,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:option",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:boundary",
@@ -68455,7 +68219,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:option",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:sat",
@@ -68506,7 +68269,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:option",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:type-error",
@@ -68557,7 +68319,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:option",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:unsat-proof",
@@ -68599,26 +68360,13 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked Z3_TAC reconstruction for theory symbol is incomplete",
+          "status": "unsupported",
+          "diagnostic": "z3-tac command timed out",
           "failure_phase": "proof-replay",
           "theorem_shape": "closed theorem without oracle tags"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "theory-symbol:UnicodeStrings:re.opt:unsat-proof",
-        "test_ids": [
-          "theory:UnicodeStrings:re.opt:unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 UnicodeStrings theory: re.opt"
@@ -68631,7 +68379,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:range",
         "theory-behavior:regex",
         "theory-behavior:string",
@@ -68678,7 +68425,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:range",
         "theory-behavior:regex",
         "theory-behavior:string",
@@ -68729,7 +68475,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:range",
         "theory-behavior:regex",
         "theory-behavior:string",
@@ -68780,7 +68525,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:range",
         "theory-behavior:regex",
         "theory-behavior:string",
@@ -68823,26 +68567,10 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked Z3_TAC reconstruction for theory symbol is incomplete",
-          "failure_phase": "proof-replay",
-          "theorem_shape": "closed theorem without oracle tags"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "theory-symbol:UnicodeStrings:re.range:unsat-proof",
-        "test_ids": [
-          "theory:UnicodeStrings:re.range:unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 UnicodeStrings theory: re.range"
@@ -68856,7 +68584,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:left-associative",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-behavior:union",
@@ -68904,7 +68631,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:left-associative",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-behavior:union",
@@ -68956,7 +68682,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:left-associative",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-behavior:union",
@@ -69008,7 +68733,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:left-associative",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-behavior:union",
@@ -69051,26 +68775,10 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked Z3_TAC reconstruction for theory symbol is incomplete",
-          "failure_phase": "proof-replay",
-          "theorem_shape": "closed theorem without oracle tags"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "theory-symbol:UnicodeStrings:re.union:unsat-proof",
-        "test_ids": [
-          "theory:UnicodeStrings:re.union:unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 UnicodeStrings theory: re.union"
@@ -69083,7 +68791,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:sort-arity",
         "theory-behavior:string",
         "theory-case:boundary",
@@ -69129,7 +68836,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:sort-arity",
         "theory-behavior:string",
         "theory-case:sat",
@@ -69179,7 +68885,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:sort-arity",
         "theory-behavior:string",
         "theory-case:type-error",
@@ -69225,7 +68930,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:sort-arity",
         "theory-behavior:string",
         "theory-case:unsat-proof",
@@ -69285,7 +68989,6 @@
       "features": [
         "theory-behavior:concat",
         "theory-behavior:left-associative",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-case:boundary",
         "theory-declaration:UnicodeStrings:(str.++ String String String :left-assoc)",
@@ -69332,7 +69035,6 @@
       "features": [
         "theory-behavior:concat",
         "theory-behavior:left-associative",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-case:sat",
         "theory-declaration:UnicodeStrings:(str.++ String String String :left-assoc)",
@@ -69383,7 +69085,6 @@
       "features": [
         "theory-behavior:concat",
         "theory-behavior:left-associative",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-case:type-error",
         "theory-declaration:UnicodeStrings:(str.++ String String String :left-assoc)",
@@ -69434,7 +69135,6 @@
       "features": [
         "theory-behavior:concat",
         "theory-behavior:left-associative",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-case:unsat-proof",
         "theory-declaration:UnicodeStrings:(str.++ String String String :left-assoc)",
@@ -69475,26 +69175,10 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked Z3_TAC reconstruction for theory symbol is incomplete",
-          "failure_phase": "proof-replay",
-          "theorem_shape": "closed theorem without oracle tags"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "theory-symbol:UnicodeStrings:str-concat:unsat-proof",
-        "test_ids": [
-          "theory:UnicodeStrings:str-concat:unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 UnicodeStrings theory: str.++"
@@ -69509,7 +69193,6 @@
       "features": [
         "theory-behavior:chainable",
         "theory-behavior:comparison",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-case:boundary",
         "theory-declaration:UnicodeStrings:(str.<= String String Bool :chainable)",
@@ -69556,7 +69239,6 @@
       "features": [
         "theory-behavior:chainable",
         "theory-behavior:comparison",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-case:sat",
         "theory-declaration:UnicodeStrings:(str.<= String String Bool :chainable)",
@@ -69607,7 +69289,6 @@
       "features": [
         "theory-behavior:chainable",
         "theory-behavior:comparison",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-case:type-error",
         "theory-declaration:UnicodeStrings:(str.<= String String Bool :chainable)",
@@ -69658,7 +69339,6 @@
       "features": [
         "theory-behavior:chainable",
         "theory-behavior:comparison",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-case:unsat-proof",
         "theory-declaration:UnicodeStrings:(str.<= String String Bool :chainable)",
@@ -69699,26 +69379,10 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked Z3_TAC reconstruction for theory symbol is incomplete",
-          "failure_phase": "proof-replay",
-          "theorem_shape": "closed theorem without oracle tags"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "theory-symbol:UnicodeStrings:str-le:unsat-proof",
-        "test_ids": [
-          "theory:UnicodeStrings:str-le:unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 UnicodeStrings theory: str.<="
@@ -69733,7 +69397,6 @@
       "features": [
         "theory-behavior:chainable",
         "theory-behavior:comparison",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-case:boundary",
         "theory-declaration:UnicodeStrings:(str.< String String Bool :chainable)",
@@ -69780,7 +69443,6 @@
       "features": [
         "theory-behavior:chainable",
         "theory-behavior:comparison",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-case:sat",
         "theory-declaration:UnicodeStrings:(str.< String String Bool :chainable)",
@@ -69831,7 +69493,6 @@
       "features": [
         "theory-behavior:chainable",
         "theory-behavior:comparison",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-case:type-error",
         "theory-declaration:UnicodeStrings:(str.< String String Bool :chainable)",
@@ -69882,7 +69543,6 @@
       "features": [
         "theory-behavior:chainable",
         "theory-behavior:comparison",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-case:unsat-proof",
         "theory-declaration:UnicodeStrings:(str.< String String Bool :chainable)",
@@ -69923,26 +69583,10 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked Z3_TAC reconstruction for theory symbol is incomplete",
-          "failure_phase": "proof-replay",
-          "theorem_shape": "closed theorem without oracle tags"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "theory-symbol:UnicodeStrings:str-lt:unsat-proof",
-        "test_ids": [
-          "theory:UnicodeStrings:str-lt:unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 UnicodeStrings theory: str.<"
@@ -69956,7 +69600,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:indexing",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:string-int",
         "theory-case:boundary",
@@ -70003,7 +69646,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:indexing",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:string-int",
         "theory-case:sat",
@@ -70054,7 +69696,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:indexing",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:string-int",
         "theory-case:type-error",
@@ -70105,7 +69746,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:indexing",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:string-int",
         "theory-case:unsat-proof",
@@ -70147,26 +69787,10 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked Z3_TAC reconstruction for theory symbol is incomplete",
-          "failure_phase": "proof-replay",
-          "theorem_shape": "closed theorem without oracle tags"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "theory-symbol:UnicodeStrings:str.at:unsat-proof",
-        "test_ids": [
-          "theory:UnicodeStrings:str.at:unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 UnicodeStrings theory: str.at"
@@ -70181,7 +69805,6 @@
       "features": [
         "theory-behavior:contains",
         "theory-behavior:predicate",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-case:boundary",
         "theory-declaration:UnicodeStrings:(str.contains String String Bool)",
@@ -70228,7 +69851,6 @@
       "features": [
         "theory-behavior:contains",
         "theory-behavior:predicate",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-case:sat",
         "theory-declaration:UnicodeStrings:(str.contains String String Bool)",
@@ -70279,7 +69901,6 @@
       "features": [
         "theory-behavior:contains",
         "theory-behavior:predicate",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-case:type-error",
         "theory-declaration:UnicodeStrings:(str.contains String String Bool)",
@@ -70330,7 +69951,6 @@
       "features": [
         "theory-behavior:contains",
         "theory-behavior:predicate",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-case:unsat-proof",
         "theory-declaration:UnicodeStrings:(str.contains String String Bool)",
@@ -70371,26 +69991,10 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked Z3_TAC reconstruction for theory symbol is incomplete",
-          "failure_phase": "proof-replay",
-          "theorem_shape": "closed theorem without oracle tags"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "theory-symbol:UnicodeStrings:str.contains:unsat-proof",
-        "test_ids": [
-          "theory:UnicodeStrings:str.contains:unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 UnicodeStrings theory: str.contains"
@@ -70404,7 +70008,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:code-conversion",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:string-int",
         "theory-case:boundary",
@@ -70451,7 +70054,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:code-conversion",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:string-int",
         "theory-case:sat",
@@ -70502,7 +70104,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:code-conversion",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:string-int",
         "theory-case:type-error",
@@ -70553,7 +70154,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:code-conversion",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:string-int",
         "theory-case:unsat-proof",
@@ -70612,7 +70212,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:int-conversion",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:string-int",
         "theory-case:boundary",
@@ -70659,7 +70258,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:int-conversion",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:string-int",
         "theory-case:sat",
@@ -70710,7 +70308,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:int-conversion",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:string-int",
         "theory-case:type-error",
@@ -70761,7 +70358,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:int-conversion",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:string-int",
         "theory-case:unsat-proof",
@@ -70820,7 +70416,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:membership",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:boundary",
@@ -70867,7 +70462,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:membership",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:sat",
@@ -70918,7 +70512,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:membership",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:type-error",
@@ -70969,7 +70562,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:membership",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:unsat-proof",
@@ -71011,26 +70603,10 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked Z3_TAC reconstruction for theory symbol is incomplete",
-          "failure_phase": "proof-replay",
-          "theorem_shape": "closed theorem without oracle tags"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "theory-symbol:UnicodeStrings:str.in-re:unsat-proof",
-        "test_ids": [
-          "theory:UnicodeStrings:str.in-re:unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 UnicodeStrings theory: str.in_re"
@@ -71044,7 +70620,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:indexing",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:string-int",
         "theory-case:boundary",
@@ -71091,7 +70666,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:indexing",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:string-int",
         "theory-case:sat",
@@ -71142,7 +70716,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:indexing",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:string-int",
         "theory-case:type-error",
@@ -71193,7 +70766,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:indexing",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:string-int",
         "theory-case:unsat-proof",
@@ -71235,26 +70807,10 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked Z3_TAC reconstruction for theory symbol is incomplete",
-          "failure_phase": "proof-replay",
-          "theorem_shape": "closed theorem without oracle tags"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "theory-symbol:UnicodeStrings:str.indexof:unsat-proof",
-        "test_ids": [
-          "theory:UnicodeStrings:str.indexof:unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 UnicodeStrings theory: str.indexof"
@@ -71269,7 +70825,6 @@
       "features": [
         "theory-behavior:code-conversion",
         "theory-behavior:predicate",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-case:boundary",
         "theory-declaration:UnicodeStrings:(str.is_digit String Bool)",
@@ -71316,7 +70871,6 @@
       "features": [
         "theory-behavior:code-conversion",
         "theory-behavior:predicate",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-case:sat",
         "theory-declaration:UnicodeStrings:(str.is_digit String Bool)",
@@ -71367,7 +70921,6 @@
       "features": [
         "theory-behavior:code-conversion",
         "theory-behavior:predicate",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-case:type-error",
         "theory-declaration:UnicodeStrings:(str.is_digit String Bool)",
@@ -71418,7 +70971,6 @@
       "features": [
         "theory-behavior:code-conversion",
         "theory-behavior:predicate",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-case:unsat-proof",
         "theory-declaration:UnicodeStrings:(str.is_digit String Bool)",
@@ -71476,7 +71028,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:length",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:string-int",
         "theory-case:boundary",
@@ -71523,7 +71074,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:length",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:string-int",
         "theory-case:sat",
@@ -71574,7 +71124,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:length",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:string-int",
         "theory-case:type-error",
@@ -71625,7 +71174,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:length",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:string-int",
         "theory-case:unsat-proof",
@@ -71667,26 +71215,10 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked Z3_TAC reconstruction for theory symbol is incomplete",
-          "failure_phase": "proof-replay",
-          "theorem_shape": "closed theorem without oracle tags"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "theory-symbol:UnicodeStrings:str.len:unsat-proof",
-        "test_ids": [
-          "theory:UnicodeStrings:str.len:unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 UnicodeStrings theory: str.len"
@@ -71701,7 +71233,6 @@
       "features": [
         "theory-behavior:predicate",
         "theory-behavior:prefix",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-case:boundary",
         "theory-declaration:UnicodeStrings:(str.prefixof String String Bool)",
@@ -71748,7 +71279,6 @@
       "features": [
         "theory-behavior:predicate",
         "theory-behavior:prefix",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-case:sat",
         "theory-declaration:UnicodeStrings:(str.prefixof String String Bool)",
@@ -71799,7 +71329,6 @@
       "features": [
         "theory-behavior:predicate",
         "theory-behavior:prefix",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-case:type-error",
         "theory-declaration:UnicodeStrings:(str.prefixof String String Bool)",
@@ -71850,7 +71379,6 @@
       "features": [
         "theory-behavior:predicate",
         "theory-behavior:prefix",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-case:unsat-proof",
         "theory-declaration:UnicodeStrings:(str.prefixof String String Bool)",
@@ -71891,26 +71419,10 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked Z3_TAC reconstruction for theory symbol is incomplete",
-          "failure_phase": "proof-replay",
-          "theorem_shape": "closed theorem without oracle tags"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "theory-symbol:UnicodeStrings:str.prefixof:unsat-proof",
-        "test_ids": [
-          "theory:UnicodeStrings:str.prefixof:unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 UnicodeStrings theory: str.prefixof"
@@ -71924,7 +71436,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:global-replace",
-        "theory-behavior:proof-gap",
         "theory-behavior:replace",
         "theory-behavior:string",
         "theory-case:boundary",
@@ -71971,7 +71482,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:global-replace",
-        "theory-behavior:proof-gap",
         "theory-behavior:replace",
         "theory-behavior:string",
         "theory-case:sat",
@@ -72022,7 +71532,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:global-replace",
-        "theory-behavior:proof-gap",
         "theory-behavior:replace",
         "theory-behavior:string",
         "theory-case:type-error",
@@ -72073,7 +71582,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:global-replace",
-        "theory-behavior:proof-gap",
         "theory-behavior:replace",
         "theory-behavior:string",
         "theory-case:unsat-proof",
@@ -72115,26 +71623,10 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked Z3_TAC reconstruction for theory symbol is incomplete",
-          "failure_phase": "proof-replay",
-          "theorem_shape": "closed theorem without oracle tags"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "theory-symbol:UnicodeStrings:str.replace-all:unsat-proof",
-        "test_ids": [
-          "theory:UnicodeStrings:str.replace-all:unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 UnicodeStrings theory: str.replace_all"
@@ -72148,7 +71640,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:global-replace",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:replace",
         "theory-behavior:string",
@@ -72196,7 +71687,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:global-replace",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:replace",
         "theory-behavior:string",
@@ -72248,7 +71738,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:global-replace",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:replace",
         "theory-behavior:string",
@@ -72300,7 +71789,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:global-replace",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:replace",
         "theory-behavior:string",
@@ -72335,8 +71823,8 @@
           "status": "pass"
         },
         "z3-oracle": {
-          "status": "red",
-          "diagnostic": "Z3 oracle support for this SMT-LIB 2.7 theory symbol is incomplete",
+          "status": "unsupported",
+          "diagnostic": "Z3 returned unknown",
           "failure_phase": "solver"
         },
         "proof-parse": {
@@ -72350,26 +71838,13 @@
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "status": "unsupported",
+          "diagnostic": "UNKNOWN result has no HOL theorem to reconstruct",
           "failure_phase": "solver",
           "theorem_shape": "closed theorem without oracle tags"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "theory-symbol:UnicodeStrings:str.replace-re-all:unsat-proof",
-        "test_ids": [
-          "theory:UnicodeStrings:str.replace-re-all:unsat-proof"
-        ],
-        "failure_phase": "solver",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 UnicodeStrings theory: str.replace_re_all"
@@ -72382,7 +71857,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:replace",
         "theory-behavior:string",
@@ -72429,7 +71903,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:replace",
         "theory-behavior:string",
@@ -72480,7 +71953,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:replace",
         "theory-behavior:string",
@@ -72531,7 +72003,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:replace",
         "theory-behavior:string",
@@ -72566,8 +72037,8 @@
           "status": "pass"
         },
         "z3-oracle": {
-          "status": "red",
-          "diagnostic": "Z3 oracle support for this SMT-LIB 2.7 theory symbol is incomplete",
+          "status": "unsupported",
+          "diagnostic": "Z3 returned unknown",
           "failure_phase": "solver"
         },
         "proof-parse": {
@@ -72581,26 +72052,13 @@
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "status": "unsupported",
+          "diagnostic": "UNKNOWN result has no HOL theorem to reconstruct",
           "failure_phase": "solver",
           "theorem_shape": "closed theorem without oracle tags"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "theory-symbol:UnicodeStrings:str.replace-re:unsat-proof",
-        "test_ids": [
-          "theory:UnicodeStrings:str.replace-re:unsat-proof"
-        ],
-        "failure_phase": "solver",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 UnicodeStrings theory: str.replace_re"
@@ -72613,7 +72071,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:replace",
         "theory-behavior:string",
         "theory-case:boundary",
@@ -72659,7 +72116,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:replace",
         "theory-behavior:string",
         "theory-case:sat",
@@ -72709,7 +72165,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:replace",
         "theory-behavior:string",
         "theory-case:type-error",
@@ -72759,7 +72214,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:replace",
         "theory-behavior:string",
         "theory-case:unsat-proof",
@@ -72801,26 +72255,10 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked Z3_TAC reconstruction for theory symbol is incomplete",
-          "failure_phase": "proof-replay",
-          "theorem_shape": "closed theorem without oracle tags"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "theory-symbol:UnicodeStrings:str.replace:unsat-proof",
-        "test_ids": [
-          "theory:UnicodeStrings:str.replace:unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 UnicodeStrings theory: str.replace"
@@ -72833,7 +72271,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:string-int",
         "theory-behavior:substring",
@@ -72880,7 +72317,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:string-int",
         "theory-behavior:substring",
@@ -72931,7 +72367,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:string-int",
         "theory-behavior:substring",
@@ -72982,7 +72417,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:string-int",
         "theory-behavior:substring",
@@ -73025,26 +72459,10 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked Z3_TAC reconstruction for theory symbol is incomplete",
-          "failure_phase": "proof-replay",
-          "theorem_shape": "closed theorem without oracle tags"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "theory-symbol:UnicodeStrings:str.substr:unsat-proof",
-        "test_ids": [
-          "theory:UnicodeStrings:str.substr:unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 UnicodeStrings theory: str.substr"
@@ -73058,7 +72476,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:predicate",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:suffix",
         "theory-case:boundary",
@@ -73105,7 +72522,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:predicate",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:suffix",
         "theory-case:sat",
@@ -73156,7 +72572,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:predicate",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:suffix",
         "theory-case:type-error",
@@ -73207,7 +72622,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:predicate",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:suffix",
         "theory-case:unsat-proof",
@@ -73249,26 +72663,10 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked Z3_TAC reconstruction for theory symbol is incomplete",
-          "failure_phase": "proof-replay",
-          "theorem_shape": "closed theorem without oracle tags"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "theory-symbol:UnicodeStrings:str.suffixof:unsat-proof",
-        "test_ids": [
-          "theory:UnicodeStrings:str.suffixof:unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 UnicodeStrings theory: str.suffixof"
@@ -73282,7 +72680,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:code-conversion",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:string-int",
         "theory-case:boundary",
@@ -73329,7 +72726,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:code-conversion",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:string-int",
         "theory-case:sat",
@@ -73380,7 +72776,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:code-conversion",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:string-int",
         "theory-case:type-error",
@@ -73431,7 +72826,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:code-conversion",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:string-int",
         "theory-case:unsat-proof",
@@ -73473,26 +72867,10 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked Z3_TAC reconstruction for theory symbol is incomplete",
-          "failure_phase": "proof-replay",
-          "theorem_shape": "closed theorem without oracle tags"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "theory-symbol:UnicodeStrings:str.to-code:unsat-proof",
-        "test_ids": [
-          "theory:UnicodeStrings:str.to-code:unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 UnicodeStrings theory: str.to_code"
@@ -73506,7 +72884,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:int-conversion",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:string-int",
         "theory-case:boundary",
@@ -73553,7 +72930,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:int-conversion",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:string-int",
         "theory-case:sat",
@@ -73604,7 +72980,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:int-conversion",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:string-int",
         "theory-case:type-error",
@@ -73655,7 +73030,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:int-conversion",
-        "theory-behavior:proof-gap",
         "theory-behavior:string",
         "theory-behavior:string-int",
         "theory-case:unsat-proof",
@@ -73714,7 +73088,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:conversion",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:boundary",
@@ -73761,7 +73134,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:conversion",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:sat",
@@ -73812,7 +73184,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:conversion",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:type-error",
@@ -73863,7 +73234,6 @@
       "class": "theory",
       "features": [
         "theory-behavior:conversion",
-        "theory-behavior:proof-gap",
         "theory-behavior:regex",
         "theory-behavior:string",
         "theory-case:unsat-proof",
@@ -73905,26 +73275,10 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "checked Z3_TAC reconstruction for theory symbol is incomplete",
-          "failure_phase": "proof-replay",
-          "theorem_shape": "closed theorem without oracle tags"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib.sml",
-          "src/HolSmt/SmtLib_Parser.sml",
-          "src/HolSmt/SmtLib_Theories.sml",
-          "src/HolSmt/Z3_ProofReplay.sml"
-        ],
-        "feature": "theory-symbol:UnicodeStrings:str.to-re:unsat-proof",
-        "test_ids": [
-          "theory:UnicodeStrings:str.to-re:unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Generated red seed row; keep red until executable evidence is added."
-      },
+      "implementation_obligation": null,
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 UnicodeStrings theory: str.to_re"
@@ -74137,7 +73491,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:sort-arity",
         "theory-behavior:string",
         "theory-case:boundary",
@@ -74183,7 +73536,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:sort-arity",
         "theory-behavior:string",
         "theory-case:sat",
@@ -74233,7 +73585,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:sort-arity",
         "theory-behavior:string",
         "theory-case:type-error",
@@ -74283,7 +73634,6 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
-        "theory-behavior:proof-gap",
         "theory-behavior:sort-arity",
         "theory-behavior:string",
         "theory-case:unsat-proof",

@@ -1,0 +1,12 @@
+unsat
+((set-logic QF_S)
+(proof
+(let ((?x26 (str.++ x "a")))
+ (let (($x27 (str.contains ?x26 "a")))
+ (let (($x28 (not $x27)))
+ (let (($x49 (= $x28 false)))
+ (let ((@x48 (rewrite (= (not true) false))))
+ (let ((@x54 (trans (monotonicity (rewrite (= $x27 true)) (= $x28 (not true))) @x48 $x49)))
+ (let ((@x29 (asserted $x28)))
+ (mp @x29 @x54 false))))))))))
+

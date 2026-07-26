@@ -1,0 +1,11 @@
+unsat
+((set-logic QF_S)
+(proof
+(let (($x26 (str.suffixof "bc" "abc")))
+ (let (($x27 (not $x26)))
+ (let (($x53 (= $x27 false)))
+ (let ((@x52 (rewrite (= (not true) false))))
+ (let ((@x58 (trans (monotonicity (rewrite (= $x26 true)) (= $x27 (not true))) @x52 $x53)))
+ (let ((@x28 (asserted $x27)))
+ (mp @x28 @x58 false)))))))))
+

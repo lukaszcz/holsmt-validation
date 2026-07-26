@@ -1,0 +1,15 @@
+((set-logic QF_S)
+(proof
+(let ((?x25 (str.at "abc" 1)))
+(let (($x27 (= ?x25 "b")))
+(let (($x28 (not $x27)))
+(let (($x61 (= $x28 false)))
+(let ((@x60 (rewrite (= (not true) false))))
+(let (($x56 (not true)))
+(let (($x57 (= $x28 $x56)))
+(let (($x54 (= $x27 true)))
+(let ((@x67 (trans (rewrite (= ?x25 (seq.unit (_ Char 98)))) (rewrite (= (seq.unit (_ Char 98)) "b")) $x27)))
+(let ((@x73 (trans (monotonicity @x67 (= $x27 (= "b" "b"))) (rewrite (= (= "b" "b") true)) $x54)))
+(let ((@x29 (asserted $x28)))
+(mp @x29 (trans (monotonicity @x73 $x57) @x60 $x61) false))))))))))))))
+

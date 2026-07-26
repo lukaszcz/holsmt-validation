@@ -1,0 +1,26 @@
+{
+  "kind": "proof-rule-discovery-gate",
+  "malformed_fragments": [],
+  "parse_only_rules": [],
+  "passed": true,
+  "replay_unknown_rules": [],
+  "requirements": {
+    "missing_rule_occurrences": [],
+    "missing_theory_subkinds": [],
+    "oracle_failures": [],
+    "passed": true,
+    "replay_failures": [],
+    "require_no_oracles": false,
+    "require_replay_success": false,
+    "required_rule_occurrences": [
+      "th-lemma-char",
+      "th-lemma-seq"
+    ],
+    "required_theory_subkinds": [
+      "char:*",
+      "seq:*"
+    ]
+  },
+  "schema": "holsmt-z3-proof-corpus-v1",
+  "unseen_rules": []
+}

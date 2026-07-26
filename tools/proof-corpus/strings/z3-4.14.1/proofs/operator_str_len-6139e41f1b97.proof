@@ -1,0 +1,15 @@
+((set-logic QF_S)
+(proof
+(let ((?x24 (str.len "abc")))
+(let (($x26 (= ?x24 3)))
+(let (($x27 (not $x26)))
+(let (($x58 (= $x27 false)))
+(let ((@x57 (rewrite (= (not true) false))))
+(let (($x53 (not true)))
+(let (($x54 (= $x27 $x53)))
+(let (($x51 (= $x26 true)))
+(let ((@x50 (rewrite (= (= 3 3) true))))
+(let ((@x63 (trans (monotonicity (rewrite $x26) (= $x26 (= 3 3))) @x50 $x51)))
+(let ((@x28 (asserted $x27)))
+(mp @x28 (trans (monotonicity @x63 $x54) @x57 $x58) false))))))))))))))
+

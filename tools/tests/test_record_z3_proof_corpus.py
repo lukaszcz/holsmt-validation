@@ -10,11 +10,14 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 
 from record_z3_proof_corpus import (
     DEFAULT_COMPLETE_CORPUS_MANIFEST,
+    DEFAULT_STRING_CORPUS_MANIFEST,
     DEFAULT_SUPPORTED_VERSION_MANIFEST,
     HO_PROOF_CORPUS_CASE_IDS,
     PARSE_ONLY_RULES,
     REPLAY_SUPPORTED_RULES,
     RULE_PREMISE_KIND,
+    STRING_DRAFTING_PROBES,
+    STRING_OFFICIAL_OPERATORS,
     build_requirement_report,
     build_rule_gate_report,
     build_summary,
@@ -22,6 +25,9 @@ from record_z3_proof_corpus import (
     expected_rules_for_version,
     extract_rule_report,
     inputs_from_complete_manifest,
+    inputs_from_string_manifest,
+    sha256_file,
+    validation_relative_path,
     validate_corpus_manifest,
     validate_ho_shape_matrix,
 )
@@ -239,6 +245,28 @@ class ProofRuleExtractionTests(unittest.TestCase):
         report = extract_rule_report(proof)
         self.assertEqual(report["rule_histogram"], {"th-lemma-arith": 1})
 
+    def test_char_theory_rule_and_string_internal_shapes_are_recorded(self):
+        proof = """(proof
+((_ th-lemma char) (asserted a)
+  (= (seq.unit (_ Char 97))
+     ((_ seq.tail seq.tail) "a" 0)))
+((_ th-lemma seq) (asserted b)
+  ((_ seq.prefix.c seq.prefix.c) "a"))
+((_ rewrite) (= "A\\u{1f642}" "A\\u{1f642}"))
+((_ char.bit char.bit 17) (_ Char 97)))
+"""
+        report = extract_rule_report(proof)
+        shape = report["string_shape"]
+
+        self.assertIn("th-lemma-char", REPLAY_SUPPORTED_RULES)
+        self.assertEqual(report["theory_lemma_histogram"]["char:<none>"], 1)
+        self.assertIn("seq.unit", shape["symbols"])
+        self.assertIn("seq.tail", shape["symbols"])
+        self.assertIn("seq.prefix.c", shape["seq_prefix_symbols"])
+        self.assertIn("(_ Char 97)", shape["char_literals"])
+        self.assertEqual(shape["char_bit_indices"], ["17"])
+        self.assertIn('"A\\u{1f642}"', shape["string_literals"])
+
     def test_malformed_fragment_is_recorded(self):
         report = extract_rule_report("(proof (asserted false)")
         self.assertEqual(report["rule_histogram"], {})
@@ -397,6 +425,114 @@ class ProofRuleExtractionTests(unittest.TestCase):
 
         self.assertTrue(report["passed"])
         self.assertEqual(report["missing_rule_occurrences"], [])
+
+    def test_requirement_report_accepts_theory_subkind_wildcards(self):
+        proof = extract_rule_report(
+            "(proof ((_ th-lemma char) (asserted a) false) "
+            "((_ th-lemma seq extensionality) (asserted b) false))"
+        )
+        report = build_requirement_report(
+            [entry("strings.smt2", "4.15.3", proof)],
+            required_rules=["th-lemma-char", "th-lemma-seq"],
+            required_theory_subkinds=["char:*", "seq:*"],
+            require_replay_success=False,
+            require_no_oracles=False,
+        )
+
+        self.assertTrue(report["passed"])
+        self.assertEqual(report["missing_theory_subkinds"], [])
+
+    def test_checked_in_string_manifest_covers_probes_and_operators(self):
+        versions, paths = inputs_from_string_manifest(
+            DEFAULT_STRING_CORPUS_MANIFEST
+        )
+        manifest = json.loads(DEFAULT_STRING_CORPUS_MANIFEST.read_text())
+        probes = {
+            case["drafting_probe"]
+            for case in manifest["cases"]
+            if "drafting_probe" in case
+        }
+        operators = {
+            operator
+            for case in manifest["cases"]
+            for operator in case["operators"]
+        }
+
+        self.assertEqual(
+            versions,
+            {"4.11.2", "4.12.4", "4.13.0", "4.14.1", "4.15.3"},
+        )
+        self.assertEqual(probes, set(STRING_DRAFTING_PROBES))
+        self.assertEqual(operators, set(STRING_OFFICIAL_OPERATORS))
+        self.assertEqual(len(paths), len(manifest["cases"]))
+        self.assertTrue(all(path.exists() for path in paths))
+
+    def test_checked_in_string_recordings_are_complete_and_gated(self):
+        corpus_root = DEFAULT_STRING_CORPUS_MANIFEST.parent
+        validation_root = corpus_root.parents[2]
+        manifest = json.loads(DEFAULT_STRING_CORPUS_MANIFEST.read_text())
+        expected_count = len(manifest["cases"])
+
+        for version in sorted(manifest["supported_z3_versions"]):
+            version_root = corpus_root / f"z3-{version}"
+            entries = [
+                json.loads(line)
+                for line in (version_root / "entries.jsonl")
+                .read_text()
+                .splitlines()
+            ]
+            summary = json.loads((version_root / "summary.json").read_text())
+            gate = json.loads((version_root / "rule-gate.json").read_text())
+
+            self.assertEqual(len(entries), expected_count)
+            self.assertTrue(
+                all(
+                    item["solver"]["result"] == "unsat"
+                    and item["proof"]["available"]
+                    and item["z3"]["exit_code"] == 0
+                    and not item["z3"]["timed_out"]
+                    for item in entries
+                )
+            )
+            self.assertEqual(build_summary(entries), summary)
+            self.assertTrue(gate["passed"])
+            self.assertEqual(gate["unseen_rules"], [])
+            self.assertEqual(gate["replay_unknown_rules"], [])
+            self.assertEqual(gate["malformed_fragments"], [])
+            self.assertEqual(
+                gate["requirements"]["missing_rule_occurrences"],
+                [],
+            )
+            self.assertEqual(
+                gate["requirements"]["missing_theory_subkinds"],
+                [],
+            )
+
+            for item in entries:
+                for path_value in (
+                    item["input"]["path"],
+                    item["proof"]["raw_path"],
+                    item["z3"]["stdout_path"],
+                    item["z3"]["stderr_path"],
+                ):
+                    relative = validation_relative_path(
+                        pathlib.Path(path_value)
+                    )
+                    self.assertTrue((validation_root / relative).is_file())
+                input_path = validation_root / validation_relative_path(
+                    pathlib.Path(item["input"]["path"])
+                )
+                proof_path = validation_root / validation_relative_path(
+                    pathlib.Path(item["proof"]["raw_path"])
+                )
+                self.assertEqual(
+                    sha256_file(input_path),
+                    item["input"]["sha256"],
+                )
+                self.assertEqual(
+                    sha256_file(proof_path),
+                    item["proof"]["raw_sha256"],
+                )
 
     def test_requirement_report_flags_oracle_tags(self):
         proof = extract_rule_report("(proof (asserted false))")

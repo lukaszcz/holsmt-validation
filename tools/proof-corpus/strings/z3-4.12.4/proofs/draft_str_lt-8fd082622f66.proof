@@ -1,0 +1,10 @@
+((set-logic QF_S)
+(proof
+(let (($x2830 (str.< x x)))
+ (let (($x2847 (not $x2830)))
+ (let (($x28 (str.< y x)))
+ (let ((@x29 (asserted $x28)))
+ (let (($x26 (str.< x y)))
+ (let ((@x27 (asserted $x26)))
+ (unit-resolution ((_ th-lemma seq) (or (not $x26) (not $x28) $x2830)) (mp @x27 (rewrite (= $x26 $x26)) $x26) (mp @x29 (rewrite (= $x28 $x28)) $x28) (lemma (unit-resolution ((_ th-lemma seq) $x2847) (hypothesis $x2830) false) $x2847) false)))))))))
+

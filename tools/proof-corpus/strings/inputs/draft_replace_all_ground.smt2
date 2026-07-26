@@ -1,0 +1,6 @@
+(set-logic QF_S)
+(set-option :produce-proofs true)
+(assert (not (= (str.replace_all "aba" "a" "c") "cbc")))
+(check-sat)
+(get-proof)
+(exit)

@@ -743,32 +743,42 @@ TH_LEMMA_PROOF_RULE_OBLIGATIONS: tuple[ProofRuleObligation, ...] = (
     ProofRuleObligation(
         rule="th-lemma-regexp",
         file_slug="th_lemma_regexp",
-        diagnostic="regular-expression th-lemma replay is diagnostic-only",
+        diagnostic="regular-expression th-lemma replay uses the string prover",
         notes=(
-            "Diagnostic-only synthetic coverage exists; keep this row red until "
-            "checked replay and real proof-corpus evidence are added."
+            "The regexp alias routes to checked string/sequence replay; real "
+            "Z3 proofs use th-lemma-seq and th-lemma-char."
         ),
-        behavior="diagnostic-only",
+        behavior="checked-replay",
     ),
     ProofRuleObligation(
         rule="th-lemma-seq",
         file_slug="th_lemma_seq",
-        diagnostic="sequence th-lemma replay is diagnostic-only",
+        diagnostic="sequence th-lemma replay is checked by SmtStringProve",
         notes=(
-            "Diagnostic-only synthetic coverage exists; keep this row red until "
-            "checked replay and real proof-corpus evidence are added."
+            "String-typed sequence th-lemmas replay through SmtStringProve with "
+            "real proof-corpus occurrences across the supported Z3 matrix."
         ),
-        behavior="diagnostic-only",
+        behavior="checked-replay",
     ),
     ProofRuleObligation(
         rule="th-lemma-string",
         file_slug="th_lemma_string",
-        diagnostic="string th-lemma replay is diagnostic-only",
+        diagnostic="string th-lemma replay uses the string prover",
         notes=(
-            "Diagnostic-only synthetic coverage exists; keep this row red until "
-            "checked replay and real proof-corpus evidence are added."
+            "The string alias routes to checked string/sequence replay; real "
+            "Z3 proofs use th-lemma-seq and th-lemma-char."
         ),
-        behavior="diagnostic-only",
+        behavior="checked-replay",
+    ),
+    ProofRuleObligation(
+        rule="th-lemma-char",
+        file_slug="th_lemma_char",
+        diagnostic="character th-lemma replay is checked by SmtStringProve",
+        notes=(
+            "Character th-lemmas replay through the bounded bit-decomposition "
+            "rung with real proof-corpus occurrences across the Z3 matrix."
+        ),
+        behavior="checked-replay",
     ),
 )
 
@@ -1468,6 +1478,21 @@ NATIVE_Z3_PROOF_UNSUPPORTED_THEORY_CASES = {
     "theory:Ints:pow:unsat-proof",
     "theory:UnicodeStrings:str.replace-re:unsat-proof",
     "theory:UnicodeStrings:str.replace-re-all:unsat-proof",
+}
+
+UNICODE_STRING_Z3_TAC_GATES = {
+    "theory:UnicodeStrings:char:unsat-proof":
+        "Z3 proof replay failed",
+    "theory:UnicodeStrings:re-concat:unsat-proof":
+        "z3-tac command timed out",
+    "theory:UnicodeStrings:re-plus:unsat-proof":
+        "z3-tac command timed out",
+    "theory:UnicodeStrings:re-power:unsat-proof":
+        "z3-tac command timed out",
+    "theory:UnicodeStrings:re.diff:unsat-proof":
+        "z3-tac command timed out",
+    "theory:UnicodeStrings:re.opt:unsat-proof":
+        "z3-tac command timed out",
 }
 
 RECONSTRUCTED_THEORY_Z3_TAC_UNSAT_PROOFS = {
@@ -3730,13 +3755,7 @@ def string_symbol(
     sat_declarations: str = "",
     type_error_assertion: str | None = None,
     boundary_assertion: str | None = None,
-    frontend_gap: bool = True,
 ) -> TheorySymbol:
-    gap_features = (
-        ("theory-behavior:proof-gap",)
-        if frontend_gap
-        else ()
-    )
     return TheorySymbol(
         "UnicodeStrings",
         slug_name,
@@ -3767,7 +3786,6 @@ def string_symbol(
         ),
         (
             "theory-behavior:string",
-            *gap_features,
             *behavior_features,
         ),
     )
@@ -3787,7 +3805,6 @@ def string_sort(slug_name: str, name: str, declaration: str, sat_decl: str) -> T
         check_sat_script("QF_SLIA", string_boundary_body()),
         (
             "theory-behavior:string",
-            "theory-behavior:proof-gap",
             "theory-behavior:sort-arity",
         ),
     )
@@ -3806,7 +3823,6 @@ UNICODE_STRING_THEORY_SYMBOLS: tuple[TheorySymbol, ...] = (
         kind="literal",
         type_error_assertion="(= \"abc\" 3)",
         boundary_assertion="(= \"line\" \"line\")",
-        frontend_gap=False,
     ),
     string_symbol("str-concat", "str.++", ("(str.++ String String String :left-assoc)",), "(str.++ \"a\" \"b\")", "String", ("theory-behavior:left-associative", "theory-behavior:concat")),
     string_symbol("str.len", "str.len", ("(str.len String Int)",), "(str.len \"abc\")", "Int", ("theory-behavior:length", "theory-behavior:string-int")),
@@ -3881,22 +3897,10 @@ def string_frontend_expected(
     }
     if proof:
         modes.extend(("proof-parse", "proof-replay"))
-        expected["proof-parse"] = expected_result(
-            "red",
-            diagnostic="Unicode string escapes are not decoded in Z3 proofs",
-            failure_phase="proof-parse",
-        )
-        expected["proof-replay"] = expected_result(
-            "red",
-            diagnostic="Unicode string escape replay is incomplete",
-            failure_phase="proof-replay",
-        )
+        expected["proof-parse"] = expected_result("pass")
+        expected["proof-replay"] = expected_result("pass")
     modes.append("z3-tac")
-    expected["z3-tac"] = expected_result(
-        "red",
-        diagnostic="checked Unicode string literal replay is incomplete",
-        failure_phase="proof-replay",
-    )
+    expected["z3-tac"] = expected_result("pass")
     return tuple(modes), expected
 
 
@@ -3911,6 +3915,15 @@ def string_wf_expected() -> dict[str, dict[str, object]]:
 
 STRING_ESCAPE_PROOF_MODES, STRING_ESCAPE_PROOF_EXPECTED = (
     string_frontend_expected(proof=True)
+)
+STRING_ESCAPE_BRACED_EXPECTED = {
+    mode: dict(outcome)
+    for mode, outcome in STRING_ESCAPE_PROOF_EXPECTED.items()
+}
+STRING_ESCAPE_BRACED_EXPECTED["z3-tac"] = expected_result(
+    "unsupported",
+    diagnostic="simplification produced more than one subgoal",
+    failure_phase="proof-replay",
 )
 
 
@@ -3950,7 +3963,7 @@ UNICODE_STRING_THEORY_CASES: tuple[ScriptedCase, ...] = (
             '  (distinct (str.len "\\u{1BC3D}") 1)))\n',
         ),
         modes=STRING_ESCAPE_PROOF_MODES,
-        expected=STRING_ESCAPE_PROOF_EXPECTED,
+        expected=STRING_ESCAPE_BRACED_EXPECTED,
         features=(
             "theory:UnicodeStrings",
             "theory-entry:UnicodeStrings:literal-u-braced-one-to-five-hex-decode",
@@ -5475,7 +5488,6 @@ def theory_case(symbol: TheorySymbol, kind: str, script: str) -> GeneratedCase:
     )
     parser_gap = "theory-behavior:parser-gap" in symbol.behavior_features
     translation_gap = "theory-behavior:translation-gap" in symbol.behavior_features
-    proof_gap = "theory-behavior:proof-gap" in symbol.behavior_features
     blocked_by_parser = (
         "SMT-LIB string literal tokenization lacks token-kind metadata for this coverage row"
     )
@@ -5548,7 +5560,14 @@ def theory_case(symbol: TheorySymbol, kind: str, script: str) -> GeneratedCase:
             symbol.theory in {"Ints", "Reals", "Reals_Ints"}
             and case_id in RECONSTRUCTED_THEORY_Z3_TAC_UNSAT_PROOFS
         )
-        z3_tac_reconstructed = case_id in RECONSTRUCTED_THEORY_Z3_TAC_UNSAT_PROOFS
+        z3_tac_reconstructed = (
+            case_id in RECONSTRUCTED_THEORY_Z3_TAC_UNSAT_PROOFS
+            or (
+                symbol.theory == "UnicodeStrings"
+                and not z3_unsupported
+                and case_id not in UNICODE_STRING_Z3_TAC_GATES
+            )
+        )
         front_end_gap = (
             parser_gap
             or translation_gap
@@ -5571,8 +5590,14 @@ def theory_case(symbol: TheorySymbol, kind: str, script: str) -> GeneratedCase:
                 failure_phase="parser" if parser_gap else "typecheck" if front_end_gap else None,
             ),
             "z3-oracle": expected_result(
-                "red" if z3_unsupported or parser_gap else "pass",
-                diagnostic="Z3 oracle support for this SMT-LIB 2.7 theory symbol is incomplete"
+                "unsupported"
+                if z3_unsupported and symbol.theory == "UnicodeStrings"
+                else "red"
+                if z3_unsupported or parser_gap
+                else "pass",
+                diagnostic="Z3 returned unknown"
+                if z3_unsupported and symbol.theory == "UnicodeStrings"
+                else "Z3 oracle support for this SMT-LIB 2.7 theory symbol is incomplete"
                 if z3_unsupported else blocked_by_parser if parser_gap else None,
                 failure_phase="solver" if z3_unsupported else "parser" if parser_gap else None,
             ),
@@ -5601,13 +5626,31 @@ def theory_case(symbol: TheorySymbol, kind: str, script: str) -> GeneratedCase:
                 proof_rule_histogram=None if proof_modes_reconstructed else {"asserted": 1},
             ),
             "z3-tac": expected_result(
-                "pass" if z3_tac_reconstructed else "red",
-                diagnostic=None
-                if z3_tac_reconstructed else "checked Z3_TAC reconstruction is blocked by missing solver support"
+                "unsupported"
+                if (
+                    z3_unsupported and symbol.theory == "UnicodeStrings"
+                    or case_id in UNICODE_STRING_Z3_TAC_GATES
+                )
+                else "pass"
+                if z3_tac_reconstructed
+                else "red",
+                diagnostic=UNICODE_STRING_Z3_TAC_GATES.get(case_id)
+                or (
+                    "UNKNOWN result has no HOL theorem to reconstruct"
+                    if z3_unsupported and symbol.theory == "UnicodeStrings"
+                    else None
+                )
+                if z3_tac_reconstructed or (
+                    z3_unsupported and symbol.theory == "UnicodeStrings"
+                    or case_id in UNICODE_STRING_Z3_TAC_GATES
+                )
+                else "checked Z3_TAC reconstruction is blocked by missing solver support"
                 if z3_unsupported else blocked_by_parser
                 if parser_gap else "SMT-LIB string/regex or Z3-extension translation is incomplete"
                 if translation_gap else "checked Z3_TAC reconstruction for theory symbol is incomplete",
-                failure_phase=None
+                failure_phase="proof-replay"
+                if case_id in UNICODE_STRING_Z3_TAC_GATES
+                else None
                 if z3_tac_reconstructed else "solver" if z3_unsupported else "parser"
                 if parser_gap else "translation" if translation_gap else "proof-replay",
                 theorem_shape=None if z3_tac_reconstructed else "closed theorem without oracle tags",

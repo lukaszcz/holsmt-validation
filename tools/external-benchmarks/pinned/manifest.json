@@ -747,35 +747,17 @@
           "status": "pass"
         },
         "proof-parse": {
-          "status": "red",
-          "diagnostic": "external benchmark proof parsing evidence is not wired into mandatory CI",
-          "failure_phase": "proof-parse"
+          "status": "pass"
         },
         "proof-replay": {
-          "status": "red",
-          "diagnostic": "external benchmark proof replay is not implemented for this reduced case",
-          "failure_phase": "proof-replay"
+          "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "external benchmark theorem reconstruction is not implemented for this reduced case",
-          "failure_phase": "proof-replay",
+          "status": "pass",
           "theorem_shape": "closed theorem proving unsatisfiability"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/Z3_ProofParser.sml",
-          "src/HolSmt/Z3_ProofReplay.sml",
-          "tools/external-benchmarks/pinned/manifest.json"
-        ],
-        "feature": "external-proof:QF_S",
-        "test_ids": [
-          "external-benchmark:curated-reduced-qf-s-unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Pinned external UNSAT proof benchmark; keep red until proof parsing and replay are executable evidence."
-      }
+      "implementation_obligation": null
     },
     {
       "id": "external-benchmark:curated-reduced-qf-dt-sat",

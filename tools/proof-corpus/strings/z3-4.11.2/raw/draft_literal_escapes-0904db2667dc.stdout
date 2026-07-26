@@ -1,0 +1,22 @@
+unsat
+((set-logic QF_S)
+(proof
+(let (($x33 (= "\u{2ffff}" "\u{2ffff}")))
+ (let (($x31 (= "A\u{1f642}" "A\u{1f642}")))
+ (let (($x29 (= "\" "\")))
+ (let (($x27 (= """" """")))
+ (let (($x25 (= "\u{7}" "\u{7}")))
+ (let (($x34 (and $x25 $x27 $x29 $x31 $x33)))
+ (let (($x35 (not $x34)))
+ (let (($x107 (= $x35 false)))
+ (let ((@x106 (rewrite (= (not true) false))))
+ (let (($x102 (not true)))
+ (let (($x103 (= $x35 $x102)))
+ (let (($x100 (= $x34 true)))
+ (let ((@x99 (rewrite (= (and true true true true true) true))))
+ (let (($x95 (and true true true true true)))
+ (let (($x96 (= $x34 $x95)))
+ (let ((@x115 (monotonicity (rewrite (= $x25 true)) (rewrite (= $x27 true)) (rewrite (= $x29 true)) (rewrite (= $x31 true)) (rewrite (= $x33 true)) $x96)))
+ (let ((@x36 (asserted $x35)))
+ (mp @x36 (trans (monotonicity (trans @x115 @x99 $x100) $x103) @x106 $x107) false))))))))))))))))))))
+

@@ -1,0 +1,8 @@
+(set-logic QF_S)
+(set-option :produce-proofs true)
+(declare-const x String)
+(assert (str.in_re x (str.to_re "a")))
+(assert (str.in_re x (re.comp (str.to_re "a"))))
+(check-sat)
+(get-proof)
+(exit)

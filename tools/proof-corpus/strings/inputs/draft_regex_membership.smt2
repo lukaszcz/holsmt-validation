@@ -1,0 +1,8 @@
+(set-logic QF_S)
+(set-option :produce-proofs true)
+(declare-const x String)
+(assert (str.in_re x (re.range "a" "z")))
+(assert (str.< x "a"))
+(check-sat)
+(get-proof)
+(exit)

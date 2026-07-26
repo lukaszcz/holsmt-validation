@@ -61,6 +61,24 @@ if "(get-value" in text:
     return path
 
 
+def make_fake_unknown_z3(directory):
+    path = pathlib.Path(directory) / "fake-unknown-z3"
+    script = """#!/usr/bin/env python3
+import sys
+
+if "-version" in sys.argv:
+    print("Z3 version 4.13.0")
+    raise SystemExit(0)
+
+print("unknown")
+print('(error "proof is not available")')
+raise SystemExit(1)
+"""
+    path.write_text(script, encoding="utf-8")
+    path.chmod(path.stat().st_mode | stat.S_IXUSR)
+    return path
+
+
 def make_fake_cvc5(directory):
     path = pathlib.Path(directory) / "fake-cvc5"
     script = """#!/usr/bin/env python3
@@ -297,19 +315,18 @@ class ConformanceSuiteTests(unittest.TestCase):
             self.assertNotIn("theory-pending", proof.tags, logic)
             self.assertNotIn("theory-pending", oracle.tags, logic)
 
-        # FloatingPoint and string logics stay limited to the syntactic modes,
-        # marked (not dropped) so the deferral is a categorized case row.
+        # FloatingPoint stays limited to the syntactic modes, marked (not
+        # dropped) so the deferral is a categorized case row.
         for logic in conformance.THEORY_PENDING_LOGICS:
             for kind in ("proof", "oracle"):
                 case = smoke_cases[(logic, kind)]
                 self.assertEqual(case.modes, conformance.SYNTACTIC_MODES, logic)
                 self.assertIn("theory-pending", case.tags, logic)
-        # The deferred set is exactly the FloatingPoint and string logics.
+        # The deferred set is exactly the FloatingPoint logics.
         self.assertEqual(
             set(conformance.THEORY_PENDING_LOGICS),
             {
                 "QF_FP", "QF_FPBV", "QF_BVFP", "QF_UFFP", "QF_UFBVFP",
-                "QF_S", "QF_SLIA", "QF_SNIA",
             },
         )
 
@@ -949,6 +966,63 @@ class ConformanceSuiteTests(unittest.TestCase):
             self.assertFalse(item["diagnostic_match"])
             self.assertTrue(list((out_dir / "repro").rglob("input.smt2")))
             self.assertTrue(list((out_dir / "repro").rglob("result.json")))
+
+    def test_expected_unsupported_accepts_matching_checked_failure(self):
+        case = conformance.Case(
+            name="performance-gate",
+            logic="QF_SLIA",
+            text="(set-logic QF_SLIA)\n(check-sat)\n",
+            origin="test",
+            tags=("test",),
+            modes=(conformance.MODE_Z3_TAC,),
+            expected={
+                conformance.MODE_Z3_TAC: conformance.ExpectedOutcome(
+                    status=conformance.UNSUPPORTED,
+                    diagnostic_substring="timed out",
+                )
+            },
+        )
+        item = conformance.result(
+            case,
+            conformance.MODE_Z3_TAC,
+            conformance.FAIL,
+            "z3-tac command timed out after 30s",
+        )
+        classified = conformance.apply_expectation(case, item)
+        self.assertEqual(classified["conformance_status"], conformance.PASS)
+        self.assertEqual(
+            classified["classification"],
+            conformance.CLASSIFICATION_MATCHED,
+        )
+        self.assertEqual(
+            conformance.failure_class(classified),
+            "expected unsupported diagnostic",
+        )
+
+    def test_z3_unknown_is_an_unsupported_solver_result(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            input_path = root / "unknown.smt2"
+            input_path.write_text(
+                "(set-logic QF_SLIA)\n(check-sat)\n",
+                encoding="utf-8",
+            )
+            case = conformance.Case(
+                name="unknown",
+                logic="QF_SLIA",
+                text=input_path.read_text(encoding="utf-8"),
+                origin="test",
+                tags=("test",),
+            )
+            item = conformance.run_z3_oracle(
+                case,
+                input_path,
+                str(make_fake_unknown_z3(root)),
+                5,
+                "4.13.0",
+            )
+            self.assertEqual(item["status"], conformance.UNSUPPORTED)
+            self.assertIn("Z3 returned unknown", item["detail"])
 
     def test_z3_tac_command_reports_success_and_expected_diagnostic(self):
         with tempfile.TemporaryDirectory() as tmp:

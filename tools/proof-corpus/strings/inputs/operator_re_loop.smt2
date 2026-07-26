@@ -1,0 +1,6 @@
+(set-logic QF_S)
+(set-option :produce-proofs true)
+(assert (not (str.in_re "aa" ((_ re.loop 1 3) (str.to_re "a")))))
+(check-sat)
+(get-proof)
+(exit)

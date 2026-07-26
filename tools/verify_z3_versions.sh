@@ -40,9 +40,9 @@ Options:
   --jobs J              Concurrent shards (default: 4; env JOBS)
   -h, --help            Show this help
 
-The report is written to OUT_DIR/report.json.  Per-version stdout/stderr and
-proof-corpus and higher-order proof-shape outputs are kept under
-OUT_DIR/results/<version>/.
+The report is written to OUT_DIR/report.json. Per-version stdout/stderr,
+general proof-corpus, string proof-corpus, and higher-order proof-shape
+outputs are kept under OUT_DIR/results/<version>/.
 EOF
 }
 
@@ -295,6 +295,28 @@ run_version() {
       "$result_dir/ho-proof-corpus.stdout" 2>/dev/null)
     write_result "$result_json" "$version" "fail" "$z3_path" \
       "$z3_output" "ho-proof-corpus" "$detail"
+    return 0
+  fi
+
+  if ! python3 "$script_dir/record_z3_proof_corpus.py" \
+      --z3 "$z3_path" \
+      --z3-version "$version" \
+      --out "$result_dir/string-proof-corpus" \
+      --string-corpus \
+      --expected-rules \
+        "$script_dir/proof-corpus/strings/expected_rules.json" \
+      --fail-on-unseen-rules \
+      --fail-on-unknown-rules \
+      --require-rule-occurrence th-lemma-seq \
+      --require-rule-occurrence th-lemma-char \
+      --require-theory-subkind 'seq:*' \
+      --require-theory-subkind 'char:*' \
+      > "$result_dir/string-proof-corpus.stdout" \
+      2> "$result_dir/string-proof-corpus.stderr"; then
+    detail=$(tail -n 40 "$result_dir/string-proof-corpus.stderr" \
+      "$result_dir/string-proof-corpus.stdout" 2>/dev/null)
+    write_result "$result_json" "$version" "fail" "$z3_path" \
+      "$z3_output" "string-proof-corpus" "$detail"
     return 0
   fi
 

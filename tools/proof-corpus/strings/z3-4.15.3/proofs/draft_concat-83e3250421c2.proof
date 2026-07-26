@@ -1,0 +1,8 @@
+((set-logic QF_S)
+(proof
+(let ((?x27 (str.++ x "b")))
+(let ((?x25 (str.++ x "a")))
+(let (($x28 (= ?x25 ?x27)))
+(let ((@x29 (asserted $x28)))
+(mp @x29 (rewrite (= $x28 false)) false)))))))
+

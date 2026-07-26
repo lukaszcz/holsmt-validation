@@ -1,0 +1,11 @@
+((set-logic QF_S)
+(proof
+(let ((?x26 ((_ re.loop 1 3) (str.to_re "a"))))
+(let (($x27 (str.in_re "aa" ?x26)))
+(let (($x28 (not $x27)))
+(let (($x70 (= $x28 false)))
+(let ((@x69 (rewrite (= (not true) false))))
+(let ((@x77 (trans (monotonicity (rewrite (= $x27 true)) (= $x28 (not true))) @x69 $x70)))
+(let ((@x29 (asserted $x28)))
+(mp @x29 @x77 false))))))))))
+

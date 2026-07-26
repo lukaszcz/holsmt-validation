@@ -69,6 +69,7 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
         self.assertIn("proof-rule:asserted", case_ids)
         self.assertIn("proof-rule:th-lemma-basic", case_ids)
         self.assertIn("proof-rule:th-lemma-fp", case_ids)
+        self.assertIn("proof-rule:th-lemma-char", case_ids)
         self.assertEqual(
             {
                 case.case_id
@@ -556,23 +557,21 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
                 "theory-behavior:proof-gap" in case["features"]
                 for case in string_cases
             ),
-            152,
+            0,
         )
         for symbol in ("re.comp", "char"):
             for kind in ("sat", "unsat-proof", "type-error", "boundary"):
                 case_id = f"theory:UnicodeStrings:{symbol}:{kind}"
                 case = string_by_id[case_id]
-                self.assertIn(
+                self.assertNotIn(
                     "theory-behavior:proof-gap",
                     case["features"],
                 )
                 if kind == "unsat-proof":
-                    self.assertIsNotNone(
-                        case["implementation_obligation"]
-                    )
+                    self.assertIsNone(case["implementation_obligation"])
                     self.assertEqual(
                         case["expected"]["z3-tac"]["status"],
-                        "red",
+                        "unsupported" if symbol == "char" else "pass",
                     )
                     self.assertEqual(
                         case["expected"]["typecheck-only"]["status"],
@@ -597,25 +596,32 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
             re_comp_boundary.script,
         )
 
-        literal_proof_ids = {
-            "theory:UnicodeStrings:literal-u-four-hex-decode",
-            (
-                "theory:UnicodeStrings:"
-                "literal-u-braced-one-to-five-hex-decode"
-            ),
-        }
-        for case_id in literal_proof_ids:
-            case = string_by_id[case_id]
-            self.assertIsNotNone(case["implementation_obligation"])
+        fixed_literal = string_by_id[
+            "theory:UnicodeStrings:literal-u-four-hex-decode"
+        ]
+        braced_literal = string_by_id[
+            "theory:UnicodeStrings:"
+            "literal-u-braced-one-to-five-hex-decode"
+        ]
+        for case in (fixed_literal, braced_literal):
+            self.assertIsNone(case["implementation_obligation"])
             self.assertEqual(
                 case["expected"]["typecheck-only"]["status"],
                 "pass",
             )
-            for mode in ("proof-parse", "proof-replay", "z3-tac"):
+            for mode in ("proof-parse", "proof-replay"):
                 self.assertEqual(
                     case["expected"][mode]["status"],
-                    "red",
+                    "pass",
                 )
+        self.assertEqual(
+            fixed_literal["expected"]["z3-tac"]["status"],
+            "pass",
+        )
+        self.assertEqual(
+            braced_literal["expected"]["z3-tac"]["status"],
+            "unsupported",
+        )
 
         out_of_range = string_by_id[
             "theory:UnicodeStrings:literal-u-braced-out-of-range"
@@ -651,20 +657,69 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
                 for result in case["expected"].values()
             )
         ]
-        self.assertEqual(len(red_string_cases), 31)
+        self.assertEqual(len(red_string_cases), 0)
         self.assertEqual(
             sum(
                 result["status"] == "red"
                 for case in string_cases
                 for result in case["expected"].values()
             ),
-            37,
+            0,
         )
-        self.assertTrue(
-            all(
-                case["implementation_obligation"] is not None
-                for case in red_string_cases
+        for slug in ("str.replace-re", "str.replace-re-all"):
+            case = string_by_id[
+                f"theory:UnicodeStrings:{slug}:unsat-proof"
+            ]
+            self.assertIn(
+                "theory-behavior:z3-unsupported",
+                case["features"],
             )
+            self.assertIsNone(case["implementation_obligation"])
+            for mode in (
+                "z3-oracle",
+                "proof-parse",
+                "proof-replay",
+                "z3-tac",
+            ):
+                self.assertEqual(
+                    case["expected"][mode]["status"],
+                    "unsupported",
+                )
+        z3_tac_gate_ids = {
+            "theory:UnicodeStrings:char:unsat-proof",
+            "theory:UnicodeStrings:re-concat:unsat-proof",
+            "theory:UnicodeStrings:re-plus:unsat-proof",
+            "theory:UnicodeStrings:re-power:unsat-proof",
+            "theory:UnicodeStrings:re.diff:unsat-proof",
+            "theory:UnicodeStrings:re.opt:unsat-proof",
+            (
+                "theory:UnicodeStrings:"
+                "literal-u-braced-one-to-five-hex-decode"
+            ),
+        }
+        for case_id in z3_tac_gate_ids:
+            case = string_by_id[case_id]
+            self.assertIsNone(case["implementation_obligation"])
+            self.assertEqual(
+                case["expected"]["z3-tac"]["status"],
+                "unsupported",
+            )
+            self.assertTrue(
+                all(
+                    case["expected"][mode]["status"] == "pass"
+                    for mode in case["modes"]
+                    if mode != "z3-tac"
+                )
+            )
+        self.assertEqual(
+            sum(
+                any(
+                    result["status"] == "unsupported"
+                    for result in case["expected"].values()
+                )
+                for case in string_cases
+            ),
+            9,
         )
 
         for case_id in {

@@ -4084,22 +4084,16 @@
       "positive_tests": [
         {
           "kind": "source",
-          "path": "tools/conformance-corpus/v1/manifest.json",
-          "match": "qf_s_unicode_regex_typecheck"
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:UnicodeStrings"
         },
         {
           "kind": "source",
-          "path": "tools/conformance-corpus/v1/manifest.json",
-          "match": "qf_s_string_literals_parser_only"
-        }
-      ],
-      "negative_tests": [
-        {
-          "kind": "source",
           "path": "src/HolSmt/Unittest.sml",
-          "match": "z3_th_lemma_advanced_unsupported_diagnostic"
+          "match": "smtlib_advanced_symbol_coverage_success"
         }
       ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
@@ -4108,7 +4102,7 @@
           "match": "structure UnicodeStrings"
         }
       ],
-      "notes": "Covers supported string/regex parser/typechecker surface and parser-only string literal syntax."
+      "notes": "Covers the official UnicodeStrings and RegLan surface, Unicode literals, and checked test metadata."
     },
     {
       "section": "theories",
@@ -4118,17 +4112,24 @@
         "translated",
         "solved"
       ],
-      "expected_status": "parse_only",
-      "positive_tests": [],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:UnicodeStrings"
+        }
+      ],
       "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
-          "kind": "manual",
-          "description": "UnicodeStrings/regex theory row is parser/typechecker evidence; native HOL string translation is tracked separately in the soundness audit row."
+          "kind": "source",
+          "path": "src/HolSmt/SmtLib_Theories.sml",
+          "match": "structure UnicodeStrings"
         }
       ],
-      "notes": "Conservative parse/typecheck embedding for regex and non-native string operators."
+      "notes": "UnicodeStrings terms translate to smtstringTheory and run through the solver-facing corpus."
     },
     {
       "section": "theories",
@@ -4137,24 +4138,24 @@
       "phases": [
         "reconstructed"
       ],
-      "expected_status": "unsupported_diagnostic",
-      "positive_tests": [],
-      "negative_tests": [
+      "expected_status": "implemented",
+      "positive_tests": [
         {
           "kind": "source",
           "path": "src/HolSmt/Unittest.sml",
-          "match": "theory=regexp"
+          "match": "z3_string_th_lemma_dispatch_success"
         }
       ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
           "kind": "source",
-          "path": "src/HolSmt/Z3_ProofReplay.sml",
-          "match": "proof-format limitation"
+          "path": "src/HolSmt/SmtStringProve.sml",
+          "match": "string_prove"
         }
       ],
-      "notes": "String and regex th-lemma replay fails explicitly."
+      "notes": "Sequence, character, string-alias, and regexp-alias lemmas replay through SmtStringProve."
     },
     {
       "section": "theories",
@@ -4348,17 +4349,11 @@
       "positive_tests": [
         {
           "kind": "source",
-          "path": "tools/conformance-corpus/v1/manifest.json",
-          "match": "qf_s_unicode_regex_typecheck"
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "string-injection:concat"
         }
       ],
-      "negative_tests": [
-        {
-          "kind": "source",
-          "path": "src/HolSmt/Unittest.sml",
-          "match": "theory=string"
-        }
-      ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
@@ -4396,24 +4391,24 @@
       "phases": [
         "reconstructed"
       ],
-      "expected_status": "unsupported_diagnostic",
-      "positive_tests": [],
-      "negative_tests": [
+      "expected_status": "implemented",
+      "positive_tests": [
         {
           "kind": "source",
-          "path": "src/HolSmt/Unittest.sml",
-          "match": "theory=regexp"
+          "path": "tools/proof-corpus/strings/z3-4.15.3/summary.json",
+          "match": "th-lemma-seq"
         }
       ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
           "kind": "source",
-          "path": "src/HolSmt/Z3_ProofReplay.sml",
-          "match": "proof-format limitation"
+          "path": "src/HolSmt/SmtStringProve.sml",
+          "match": "string_prove"
         }
       ],
-      "notes": "String/regex proof replay is explicitly gated."
+      "notes": "QF_S, QF_SLIA, and QF_SNIA proofs replay through the checked string pipeline."
     },
     {
       "section": "logics",
@@ -4591,25 +4586,27 @@
         {
           "kind": "source",
           "path": "src/HolSmt/Unittest.sml",
-          "match": "z3_th_lemma_advanced_unsupported_diagnostic"
-        }
-      ],
-      "negative_tests": [
+          "match": "z3_string_th_lemma_dispatch_success"
+        },
         {
-          "kind": "source",
-          "path": "src/HolSmt/Unittest.sml",
-          "match": "proof-format limitation"
+          "kind": "proof_rule",
+          "rule": "th-lemma-seq"
+        },
+        {
+          "kind": "proof_rule",
+          "rule": "th-lemma-char"
         }
       ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
           "kind": "source",
           "path": "src/HolSmt/Z3_Proof.sml",
-          "match": "TH_LEMMA_ADVANCED"
+          "match": "TH_LEMMA_SEQ"
         }
       ],
-      "notes": "Non-arithmetic advanced th-lemma labels are parsed and classified; nonlinear arithmetic routes through the arithmetic replay ladder."
+      "notes": "Sequence, character, string, and regexp labels are parsed and mapped to the checked string prover."
     },
     {
       "section": "z3_proof_rules",
@@ -4638,6 +4635,93 @@
       "phases": [
         "reconstructed"
       ],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "src/HolSmt/Unittest.sml",
+          "match": "z3_string_th_lemma_dispatch_success"
+        },
+        {
+          "kind": "proof_rule",
+          "rule": "th-lemma-seq"
+        },
+        {
+          "kind": "proof_rule",
+          "rule": "th-lemma-char"
+        }
+      ],
+      "negative_tests": [],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "src/HolSmt/Z3_ProofReplay.sml",
+          "match": "z3_th_lemma_seq"
+        }
+      ],
+      "notes": "SmtStringProve reconstructs real th-lemma-seq and th-lemma-char proof occurrences; the string and regexp aliases share the sequence handler."
+    },
+    {
+      "section": "z3_proof_rules",
+      "item": "th-lemma floating-point family",
+      "class": "Z3 extension",
+      "phases": [
+        "parsed",
+        "tested"
+      ],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "src/HolSmt/Unittest.sml",
+          "match": "z3_th_lemma_advanced_unsupported_diagnostic"
+        }
+      ],
+      "negative_tests": [
+        {
+          "kind": "source",
+          "path": "src/HolSmt/Unittest.sml",
+          "match": "proof-format limitation"
+        }
+      ],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "source",
+          "path": "src/HolSmt/Z3_Proof.sml",
+          "match": "th-lemma-fp"
+        }
+      ],
+      "notes": "Floating-point th-lemma labels are parsed and retain an explicit diagnostic."
+    },
+    {
+      "section": "z3_proof_rules",
+      "item": "th-lemma floating-point family",
+      "class": "Z3 extension",
+      "phases": [
+        "translated",
+        "solved"
+      ],
+      "expected_status": "not_applicable",
+      "positive_tests": [],
+      "negative_tests": [],
+      "z3_versions": [],
+      "artifacts": [
+        {
+          "kind": "manual",
+          "description": "Z3 proof-rule rows do not have HOL translation or solver phases."
+        }
+      ],
+      "notes": "Proof-rule replay surface."
+    },
+    {
+      "section": "z3_proof_rules",
+      "item": "th-lemma floating-point family",
+      "class": "Z3 extension",
+      "phases": [
+        "reconstructed"
+      ],
       "expected_status": "unsupported_diagnostic",
       "positive_tests": [],
       "negative_tests": [
@@ -4652,10 +4736,10 @@
         {
           "kind": "source",
           "path": "src/HolSmt/Z3_ProofReplay.sml",
-          "match": "proof-format limitation"
+          "match": "z3_th_lemma_advanced_unsupported"
         }
       ],
-      "notes": "Datatype th-lemma has graduated to checked replay; FP, string, regexp and seq advanced th-lemma families remain explicit unsupported diagnostics."
+      "notes": "Floating-point th-lemma replay remains an explicit unsupported diagnostic."
     },
     {
       "section": "soundness_audit",
@@ -4763,13 +4847,7 @@
           "match": "qf_s_unicode_regex_typecheck"
         }
       ],
-      "negative_tests": [
-        {
-          "kind": "source",
-          "path": "src/HolSmt/Unittest.sml",
-          "match": "theory=string"
-        }
-      ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
@@ -4778,7 +4856,7 @@
           "match": "HOL strings: string type, STRCAT, isPREFIX, string_lt, string_le"
         }
       ],
-      "notes": "Selected HOL string operations have native translation records; regex remains parser/typechecker evidence."
+      "notes": "HOL strings inject into smtstringTheory with discharged transfer obligations and replay enabled."
     },
     {
       "section": "soundness_audit",
@@ -4787,17 +4865,24 @@
       "phases": [
         "solved"
       ],
-      "expected_status": "parse_only",
-      "positive_tests": [],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "string-injection:concat"
+        }
+      ],
       "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
-          "kind": "manual",
-          "description": "String/regex soundness audit has parser/typechecker and translation-record evidence, but no solver completeness claim."
+          "kind": "source",
+          "path": "src/HolSmt/SmtLib.sml",
+          "match": "replay = true"
         }
       ],
-      "notes": "Conservative soundness-audit status."
+      "notes": "The injected HOL-string surface runs through solver-backed conformance cases."
     },
     {
       "section": "soundness_audit",
@@ -4806,24 +4891,24 @@
       "phases": [
         "reconstructed"
       ],
-      "expected_status": "unsupported_diagnostic",
-      "positive_tests": [],
-      "negative_tests": [
+      "expected_status": "implemented",
+      "positive_tests": [
         {
           "kind": "source",
           "path": "src/HolSmt/Unittest.sml",
-          "match": "theory=regexp"
+          "match": "z3_string_th_lemma_dispatch_success"
         }
       ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
           "kind": "source",
-          "path": "src/HolSmt/Z3_ProofReplay.sml",
-          "match": "proof-format limitation"
+          "path": "src/HolSmt/SmtStringProve.sml",
+          "match": "string_prove"
         }
       ],
-      "notes": "String/regex replay remains explicitly gated."
+      "notes": "Injected HOL-string goals use the same checked string and regex replay pipeline."
     },
     {
       "section": "selftest_categories",
@@ -4959,7 +5044,7 @@
         {
           "kind": "source",
           "path": "src/HolSmt/SmtLib.sml",
-          "match": "(\"forall\", boolSyntax.strip_forall tm)"
+          "match": "val (vars, body) = boolSyntax.strip_forall tm"
         }
       ],
       "notes": "Covers binder translation, generated bound-variable declarations, and existing semantic replay tests."

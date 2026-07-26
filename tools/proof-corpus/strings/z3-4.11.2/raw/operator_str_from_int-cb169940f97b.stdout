@@ -1,0 +1,14 @@
+unsat
+((set-logic QF_S)
+(proof
+(let (($x27 (= (str.from_int 123) "123")))
+ (let (($x28 (not $x27)))
+ (let (($x71 (= $x28 false)))
+ (let ((@x70 (rewrite (= (not true) false))))
+ (let (($x66 (not true)))
+ (let (($x67 (= $x28 $x66)))
+ (let (($x64 (= $x27 true)))
+ (let ((@x79 (trans (monotonicity (rewrite $x27) (= $x27 (= "123" "123"))) (rewrite (= (= "123" "123") true)) $x64)))
+ (let ((@x29 (asserted $x28)))
+ (mp @x29 (trans (monotonicity @x79 $x67) @x70 $x71) false))))))))))))
+

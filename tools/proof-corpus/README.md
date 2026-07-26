@@ -80,6 +80,14 @@ cross-version proof evidence; `supported_versions/manifest.json` records
 justifications for supported replay rules that do not occur in that minimal
 raw corpus.
 
+## String and regex proof-shape corpus
+
+`strings/` contains the Phase 4 UnicodeStrings proof-shape corpus across the
+five-version matrix. It includes the eleven drafting probes, a proof-producing
+unsat input for every operator in the current 34-operator surface, the missing
+`re.comp` and `(_ char H)` frontend entries, and string-literal escape pins.
+See `strings/README.md` for regeneration and gate commands.
+
 ## Higher-order proof-shape corpus
 
 The complete corpus includes six Phase 3 C1 Z3-dialect cases.  Function sorts

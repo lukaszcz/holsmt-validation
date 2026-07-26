@@ -1,0 +1,6 @@
+(set-logic QF_S)
+(set-option :produce-proofs true)
+(assert (not (str.in_re "m" (re.range "a" "z"))))
+(check-sat)
+(get-proof)
+(exit)

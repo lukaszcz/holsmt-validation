@@ -1,0 +1,6 @@
+((set-logic QF_S)
+(proof
+(let (($x26 (str.in_re "a" re.none)))
+ (let ((@x27 (asserted $x26)))
+ (mp @x27 (rewrite (= $x26 false)) false)))))
+

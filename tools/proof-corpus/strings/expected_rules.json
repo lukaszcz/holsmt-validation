@@ -1,0 +1,26 @@
+{
+  "default": [
+    "and-elim",
+    "asserted",
+    "commutativity",
+    "def-axiom",
+    "hypothesis",
+    "iff-false",
+    "iff-true",
+    "lemma",
+    "monotonicity",
+    "mp",
+    "rewrite",
+    "symm",
+    "th-lemma-arith",
+    "th-lemma-char",
+    "th-lemma-seq",
+    "trans",
+    "trans*",
+    "true-axiom",
+    "unit-resolution"
+  ],
+  "description": "Expected Z3 rule heads for the Phase 4 string corpus.",
+  "schema": "holsmt-z3-proof-rule-allowlist-v1",
+  "versions": {}
+}

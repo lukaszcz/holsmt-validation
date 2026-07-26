@@ -1520,28 +1520,30 @@
       "item": "Strings and regular expressions",
       "class": "SMT-LIB 2.7",
       "parsed": "implemented",
-      "translated": "parse_only",
-      "solved": "parse_only",
-      "reconstructed": "unsupported_diagnostic",
+      "translated": "implemented",
+      "solved": "implemented",
+      "reconstructed": "implemented",
       "tested": "implemented",
-      "evidence": "SmtLib_Theories.UnicodeStrings records String and RegLan sorts plus string, code conversion, replacement, membership, and regex operators; conformance cases qf_s_unicode_regex_typecheck and qf_s_string_literals_parser_only cover representative typecheck and literal-token parsing behavior; Z3_Proof.TH_LEMMA_ADVANCED gates string/regexp th-lemma replay with a versioned proof-format diagnostic.",
-      "notes": "Basic string concatenation, length, ordering, and prefix use existing HOL string/list constructors where available; remaining string and regex operators are abstract parse/typecheck embeddings. SMT-LIB string literals remain parser-only because the legacy tokenizer lacks token-kind metadata. Z3 th-lemma replay is explicitly unsupported until proof certificates expose checkable string/regex evidence.",
+      "evidence": "The complete UnicodeStrings corpus covers the official String and RegLan surface, Unicode literals, well-formedness elaboration, solver behavior, and checked Z3 replay. SmtStringProve reconstructs sequence, character, and regex proof shapes.",
+      "notes": "All generated rows pass or use the two explicit Z3-unsupported str.replace_re proof gates. Real th-lemma-seq and th-lemma-char occurrences are recorded across the supported Z3 matrix.",
       "test_ids": [
-        "source:tools/conformance-corpus/v1/manifest.json#qf_s_unicode_regex_typecheck",
-        "source:tools/conformance-corpus/v1/manifest.json#qf_s_string_literals_parser_only"
+        "source:tools/conformance-corpus/v2/manifest.json#theory:UnicodeStrings",
+        "source:src/HolSmt/Unittest.sml#smtlib_advanced_symbol_coverage_success",
+        "source:src/HolSmt/Unittest.sml#z3_string_th_lemma_dispatch_success"
       ],
       "last_verified_by": "coverage_manifest.json",
-      "diagnostic_test_ids": [
-        "source:src/HolSmt/Unittest.sml#theory=regexp"
-      ],
-      "current_status": "unsupported_diagnostic",
+      "diagnostic_test_ids": [],
+      "current_status": "implemented",
       "complete_test_ids": [
-        "theory:UnicodeStrings:string-literal:boundary",
-        "theory:UnicodeStrings:string-literal:sat",
-        "theory:UnicodeStrings:string-literal:type-error",
-        "theory:UnicodeStrings:string-literal:unsat-proof"
-      ],
-      "red_obligation_ids": [
+        "theory:UnicodeStrings:char:boundary",
+        "theory:UnicodeStrings:char:sat",
+        "theory:UnicodeStrings:char:type-error",
+        "theory:UnicodeStrings:char:unsat-proof",
+        "theory:UnicodeStrings:literal-backslash-verbatim",
+        "theory:UnicodeStrings:literal-doubled-quote",
+        "theory:UnicodeStrings:literal-u-braced-one-to-five-hex-decode",
+        "theory:UnicodeStrings:literal-u-braced-out-of-range",
+        "theory:UnicodeStrings:literal-u-four-hex-decode",
         "theory:UnicodeStrings:re-concat:boundary",
         "theory:UnicodeStrings:re-concat:sat",
         "theory:UnicodeStrings:re-concat:type-error",
@@ -1566,6 +1568,10 @@
         "theory:UnicodeStrings:re.allchar:sat",
         "theory:UnicodeStrings:re.allchar:type-error",
         "theory:UnicodeStrings:re.allchar:unsat-proof",
+        "theory:UnicodeStrings:re.comp:boundary",
+        "theory:UnicodeStrings:re.comp:sat",
+        "theory:UnicodeStrings:re.comp:type-error",
+        "theory:UnicodeStrings:re.comp:unsat-proof",
         "theory:UnicodeStrings:re.diff:boundary",
         "theory:UnicodeStrings:re.diff:sat",
         "theory:UnicodeStrings:re.diff:type-error",
@@ -1682,12 +1688,19 @@
         "theory:UnicodeStrings:str.to-re:sat",
         "theory:UnicodeStrings:str.to-re:type-error",
         "theory:UnicodeStrings:str.to-re:unsat-proof",
+        "theory:UnicodeStrings:string-literal:boundary",
+        "theory:UnicodeStrings:string-literal:sat",
+        "theory:UnicodeStrings:string-literal:type-error",
+        "theory:UnicodeStrings:string-literal:unsat-proof",
         "theory:UnicodeStrings:string:boundary",
         "theory:UnicodeStrings:string:sat",
         "theory:UnicodeStrings:string:type-error",
-        "theory:UnicodeStrings:string:unsat-proof"
+        "theory:UnicodeStrings:string:unsat-proof",
+        "theory:UnicodeStrings:wf-free-variables-sat",
+        "theory:UnicodeStrings:wf-quantified-binders-sat"
       ],
-      "complete_required_status": "red"
+      "red_obligation_ids": [],
+      "complete_required_status": "reconstructed"
     },
     {
       "item": "Datatypes",
@@ -2313,18 +2326,17 @@
       "parsed": "implemented",
       "translated": "parse_only",
       "solved": "parse_only",
-      "reconstructed": "unsupported_diagnostic",
+      "reconstructed": "implemented",
       "tested": "implemented",
-      "evidence": "SmtLib_Logics.Strings_Ints combines Core, Ints, and UnicodeStrings dictionaries; conformance cases qf_s_unicode_regex_typecheck and qf_s_string_literals_parser_only check parser/typecheck and literal parser surfaces; advanced th-lemma raw replay tests cover string and regexp unsupported diagnostics.",
-      "notes": "String logics are parse/typecheck embeddings. Parser does not enforce logic fragment restrictions, and proof replay gates string or regex theory lemmas with versioned proof-format diagnostics.",
+      "evidence": "SmtLib_Logics.Strings_Ints combines Core, Ints, and UnicodeStrings dictionaries; complete QF_S, QF_SLIA, and QF_SNIA cases exercise parser, typechecker, solver, proof parser, checked replay, and z3-tac modes; recorded string proofs contain real th-lemma sequence and character occurrences.",
+      "notes": "String logics retain conservative parser-fragment claims while their unsatisfiable proof cases now replay through the checked string pipeline.",
       "test_ids": [
-        "source:tools/conformance-corpus/v1/manifest.json#qf_s_unicode_regex_typecheck"
+        "source:tools/conformance-corpus/v2/manifest.json#string-injection:concat",
+        "source:tools/proof-corpus/strings/z3-4.15.3/summary.json#th-lemma-seq"
       ],
       "last_verified_by": "coverage_manifest.json",
-      "diagnostic_test_ids": [
-        "source:src/HolSmt/Unittest.sml#theory=regexp"
-      ],
-      "current_status": "unsupported_diagnostic",
+      "diagnostic_test_ids": [],
+      "current_status": "parse_only",
       "complete_test_ids": [
         "logic:QF_S:boundary",
         "logic:QF_S:fragment-violation",
@@ -3038,10 +3050,37 @@
       "parsed": "implemented",
       "translated": "not_applicable",
       "solved": "not_applicable",
+      "reconstructed": "implemented",
+      "tested": "implemented",
+      "evidence": "Z3_Proof and Z3_ProofParser classify seq, char, string, and regexp aliases; Z3_ProofReplay routes them through checked SmtStringProve replay. The string proof corpus records real th-lemma-seq and th-lemma-char occurrences across all supported versions.",
+      "notes": "Z3 emits seq and char theory lemmas for String and RegLan problems. The string and regexp aliases are retained and route to the same checked prover.",
+      "test_ids": [
+        "source:src/HolSmt/Unittest.sml#z3_string_th_lemma_dispatch_success",
+        "proof_rule:th-lemma-seq",
+        "proof_rule:th-lemma-char"
+      ],
+      "last_verified_by": "coverage_manifest.json",
+      "diagnostic_test_ids": [],
+      "current_status": "implemented",
+      "complete_test_ids": [
+        "proof-rule:th-lemma-char",
+        "proof-rule:th-lemma-regexp",
+        "proof-rule:th-lemma-seq",
+        "proof-rule:th-lemma-string"
+      ],
+      "red_obligation_ids": [],
+      "complete_required_status": "reconstructed"
+    },
+    {
+      "item": "th-lemma floating-point family",
+      "class": "Z3 extension",
+      "parsed": "implemented",
+      "translated": "not_applicable",
+      "solved": "not_applicable",
       "reconstructed": "unsupported_diagnostic",
       "tested": "implemented",
-      "evidence": "Z3_Proof.TH_LEMMA_ADVANCED, Z3_ProofParser indexed metadata preservation for fp/fpa, seq, string/str, and regexp/regex/re labels, Z3_ProofReplay proof-format diagnostics, and src/HolSmt/Unittest.sml z3_th_lemma_advanced_unsupported_diagnostic. Nonlinear arithmetic th-lemmas route through the arithmetic replay ladder.",
-      "notes": "Non-arithmetic advanced theory lemmas fail at replay with Z3 version, theory, subkind, proof indices, conclusion, and an explicit proof-format limitation instead of using an oracle or falling through to an unknown-rule error. Datatype th-lemmas are tracked by the Datatypes theory row.",
+      "evidence": "Z3 floating-point th-lemma labels are parsed and classified, with an explicit replay diagnostic.",
+      "notes": "Floating-point theory replay remains tracked for Phase 5.",
       "test_ids": [
         "source:src/HolSmt/Unittest.sml#z3_th_lemma_advanced_unsupported_diagnostic"
       ],
@@ -3052,10 +3091,7 @@
       "current_status": "unsupported_diagnostic",
       "complete_test_ids": [],
       "red_obligation_ids": [
-        "proof-rule:th-lemma-fp",
-        "proof-rule:th-lemma-regexp",
-        "proof-rule:th-lemma-seq",
-        "proof-rule:th-lemma-string"
+        "proof-rule:th-lemma-fp"
       ],
       "complete_required_status": "red"
     },
@@ -4090,28 +4126,31 @@
       "class": "SMT-LIB 2.7",
       "parsed": "implemented",
       "translated": "implemented",
-      "solved": "parse_only",
-      "reconstructed": "unsupported_diagnostic",
+      "solved": "implemented",
+      "reconstructed": "implemented",
       "tested": "implemented",
-      "evidence": "src/HolSmt/SmtLib.sml records HOLTheoryEncoding proof obligations for HOL char-list strings and regex; src/HolSmt/Unittest.sml smtlib_extended_hol_encoding_records_success checks selected native HOL string translation records; conformance case qf_s_unicode_regex_typecheck covers supported string and regex signatures; Z3_ProofReplay gates string/regex th-lemma replay.",
-      "notes": "Selected HOL string operations are emitted as SMT-LIB UnicodeStrings, but replay completeness requires a proof obligation relating HOL char lists, Unicode strings and regex-language membership.",
+      "evidence": "HOL strings are injected into smtstringTheory with proved transfer lemmas and replay=true. The complete UnicodeStrings corpus and SmtStringProve checked replay cover the emitted string and regex proof surface.",
+      "notes": "The former HOL-string soundness obligation is discharged by the injection conversion and checked replay pipeline.",
       "test_ids": [
         "source:src/HolSmt/Unittest.sml#smtlib_extended_hol_encoding_records_success",
         "source:src/HolSmt/Unittest.sml#smtlib_term_translation_branch_matrix_success",
-        "source:tools/conformance-corpus/v1/manifest.json#qf_s_unicode_regex_typecheck"
+        "source:tools/conformance-corpus/v1/manifest.json#qf_s_unicode_regex_typecheck",
+        "source:tools/conformance-corpus/v2/manifest.json#string-injection:concat",
+        "source:src/HolSmt/Unittest.sml#z3_string_th_lemma_dispatch_success"
       ],
       "last_verified_by": "coverage_manifest.json",
-      "diagnostic_test_ids": [
-        "source:src/HolSmt/Unittest.sml#theory=regexp"
-      ],
-      "current_status": "unsupported_diagnostic",
+      "diagnostic_test_ids": [],
+      "current_status": "implemented",
       "complete_test_ids": [
-        "theory:UnicodeStrings:string-literal:boundary",
-        "theory:UnicodeStrings:string-literal:sat",
-        "theory:UnicodeStrings:string-literal:type-error",
-        "theory:UnicodeStrings:string-literal:unsat-proof"
-      ],
-      "red_obligation_ids": [
+        "theory:UnicodeStrings:char:boundary",
+        "theory:UnicodeStrings:char:sat",
+        "theory:UnicodeStrings:char:type-error",
+        "theory:UnicodeStrings:char:unsat-proof",
+        "theory:UnicodeStrings:literal-backslash-verbatim",
+        "theory:UnicodeStrings:literal-doubled-quote",
+        "theory:UnicodeStrings:literal-u-braced-one-to-five-hex-decode",
+        "theory:UnicodeStrings:literal-u-braced-out-of-range",
+        "theory:UnicodeStrings:literal-u-four-hex-decode",
         "theory:UnicodeStrings:re-concat:boundary",
         "theory:UnicodeStrings:re-concat:sat",
         "theory:UnicodeStrings:re-concat:type-error",
@@ -4136,6 +4175,10 @@
         "theory:UnicodeStrings:re.allchar:sat",
         "theory:UnicodeStrings:re.allchar:type-error",
         "theory:UnicodeStrings:re.allchar:unsat-proof",
+        "theory:UnicodeStrings:re.comp:boundary",
+        "theory:UnicodeStrings:re.comp:sat",
+        "theory:UnicodeStrings:re.comp:type-error",
+        "theory:UnicodeStrings:re.comp:unsat-proof",
         "theory:UnicodeStrings:re.diff:boundary",
         "theory:UnicodeStrings:re.diff:sat",
         "theory:UnicodeStrings:re.diff:type-error",
@@ -4252,12 +4295,19 @@
         "theory:UnicodeStrings:str.to-re:sat",
         "theory:UnicodeStrings:str.to-re:type-error",
         "theory:UnicodeStrings:str.to-re:unsat-proof",
+        "theory:UnicodeStrings:string-literal:boundary",
+        "theory:UnicodeStrings:string-literal:sat",
+        "theory:UnicodeStrings:string-literal:type-error",
+        "theory:UnicodeStrings:string-literal:unsat-proof",
         "theory:UnicodeStrings:string:boundary",
         "theory:UnicodeStrings:string:sat",
         "theory:UnicodeStrings:string:type-error",
-        "theory:UnicodeStrings:string:unsat-proof"
+        "theory:UnicodeStrings:string:unsat-proof",
+        "theory:UnicodeStrings:wf-free-variables-sat",
+        "theory:UnicodeStrings:wf-quantified-binders-sat"
       ],
-      "complete_required_status": "red"
+      "red_obligation_ids": [],
+      "complete_required_status": "reconstructed"
     },
     {
       "item": "ArraysEx select/store versus HOL function encoding",

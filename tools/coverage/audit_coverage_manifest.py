@@ -94,11 +94,12 @@ PROOF_RULE_FEATURE_ALIASES = {
     "th-lemma-basic collected subkinds": ["proof-rule:th-lemma-basic"],
     "th-lemma-bv collected subkinds": ["proof-rule:th-lemma-bv"],
     "th-lemma advanced theory families": [
-        "proof-rule:th-lemma-fp",
         "proof-rule:th-lemma-regexp",
         "proof-rule:th-lemma-seq",
         "proof-rule:th-lemma-string",
+        "proof-rule:th-lemma-char",
     ],
+    "th-lemma floating-point family": ["proof-rule:th-lemma-fp"],
 }
 SOUNDNESS_FEATURE_ALIASES = {
     "Z3_TAC oracle-tag boundary": ["soundness:oracle-tag-boundary"],

@@ -1,0 +1,7 @@
+(set-logic QF_S)
+(set-option :produce-proofs true)
+(declare-const x String)
+(assert (not (str.contains (str.++ x "a") "a")))
+(check-sat)
+(get-proof)
+(exit)

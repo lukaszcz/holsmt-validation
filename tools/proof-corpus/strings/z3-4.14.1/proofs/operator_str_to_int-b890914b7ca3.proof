@@ -1,0 +1,15 @@
+((set-logic QF_S)
+(proof
+(let ((?x24 (str.to_int "123")))
+(let (($x26 (= ?x24 123)))
+(let (($x27 (not $x26)))
+(let (($x209 (= $x27 false)))
+(let ((@x208 (rewrite (= (not true) false))))
+(let (($x204 (not true)))
+(let (($x205 (= $x27 $x204)))
+(let (($x202 (= $x26 true)))
+(let ((@x201 (rewrite (= (= 123 123) true))))
+(let ((@x214 (trans (monotonicity (rewrite $x26) (= $x26 (= 123 123))) @x201 $x202)))
+(let ((@x28 (asserted $x27)))
+(mp @x28 (trans (monotonicity @x214 $x205) @x208 $x209) false))))))))))))))
+

@@ -1,0 +1,15 @@
+unsat
+((set-logic QF_S)
+(proof
+(let ((?x27 (str.substr "abc" 1 2)))
+ (let (($x29 (= ?x27 "bc")))
+ (let (($x30 (not $x29)))
+ (let (($x69 (= $x30 false)))
+ (let ((@x68 (rewrite (= (not true) false))))
+ (let (($x64 (not true)))
+ (let (($x65 (= $x30 $x64)))
+ (let (($x62 (= $x29 true)))
+ (let ((@x78 (trans (monotonicity (rewrite $x29) (= $x29 (= "bc" "bc"))) (rewrite (= (= "bc" "bc") true)) $x62)))
+ (let ((@x31 (asserted $x30)))
+ (mp @x31 (trans (monotonicity @x78 $x65) @x68 $x69) false)))))))))))))
+

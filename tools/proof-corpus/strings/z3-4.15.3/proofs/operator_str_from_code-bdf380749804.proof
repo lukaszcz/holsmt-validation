@@ -1,0 +1,13 @@
+((set-logic QF_S)
+(proof
+(let (($x26 (= (str.from_code 65) "A")))
+(let (($x27 (not $x26)))
+(let (($x50 (= $x27 false)))
+(let ((@x49 (rewrite (= (not true) false))))
+(let (($x45 (not true)))
+(let (($x46 (= $x27 $x45)))
+(let (($x43 (= $x26 true)))
+(let ((@x58 (trans (monotonicity (rewrite $x26) (= $x26 (= "A" "A"))) (rewrite (= (= "A" "A") true)) $x43)))
+(let ((@x28 (asserted $x27)))
+(mp @x28 (trans (monotonicity @x58 $x46) @x49 $x50) false))))))))))))
+

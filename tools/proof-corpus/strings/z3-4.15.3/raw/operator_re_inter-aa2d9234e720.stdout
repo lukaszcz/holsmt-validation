@@ -1,0 +1,16 @@
+unsat
+((set-logic QF_S)
+(proof
+(let ((?x25 (str.to_re "a")))
+(let ((?x26 (re.inter re.allchar ?x25)))
+(let (($x27 (str.in_re "a" ?x26)))
+(let (($x28 (not $x27)))
+(let (($x69 (= $x28 false)))
+(let ((@x68 (rewrite (= (not true) false))))
+(let (($x64 (not true)))
+(let (($x65 (= $x28 $x64)))
+(let (($x62 (= $x27 true)))
+(let ((@x77 (trans (monotonicity (rewrite (= ?x26 ?x26)) (= $x27 $x27)) (rewrite $x62) $x62)))
+(let ((@x29 (asserted $x28)))
+(mp @x29 (trans (monotonicity @x77 $x65) @x68 $x69) false))))))))))))))
+

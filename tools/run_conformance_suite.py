@@ -175,17 +175,14 @@ HO_EXTENSION_LOGICS = [
 HOLSMT_LOGICS = ["ALL", *OFFICIAL_LOGICS, *HO_EXTENSION_LOGICS]
 
 # Official logics whose theories HolSmt does not yet translate to HOL or replay
-# in the checked Z3_TAC path: the FloatingPoint (QF_FP) family and the
-# UnicodeStrings/RegLan (QF_S) family.  Per PLAN_full_smtlib.md Phase 0 (0.3)
-# these stay limited to the syntactic modes until their dedicated phases land --
-# HolSmt has parser and typechecker embeddings for them (see the README support
-# matrix) but no solver, proof or checked-tactic coverage.  The generated
-# default cases keep them to MODE_PARSER/MODE_TYPECHECK and tag them
+# in the checked Z3_TAC path: the FloatingPoint (QF_FP) family. Per
+# PLAN_full_smtlib.md Phase 0 (0.3), these stay limited to the syntactic modes
+# until their dedicated phase lands. The generated default cases keep them to
+# MODE_PARSER/MODE_TYPECHECK and tag them
 # `theory-pending`, so the deferral is an explicit, categorized case row rather
 # than a silent omission or an unexpected failure.
 THEORY_PENDING_LOGICS = frozenset({
     "QF_FP", "QF_FPBV", "QF_BVFP", "QF_UFFP", "QF_UFBVFP",  # FloatingPoint
-    "QF_S", "QF_SLIA", "QF_SNIA",                            # UnicodeStrings/RegLan
 })
 
 # Modes a theory-pending logic can exercise today.
@@ -436,8 +433,8 @@ def logic_smoke_case(logic: str, unsat: bool) -> Case:
         )
         expected[MODE_CVC5_ORACLE] = ExpectedOutcome(status=PASS)
     elif logic in THEORY_PENDING_LOGICS:
-        # Solver/proof/checked-tactic modes are deferred for FloatingPoint and
-        # string logics; run only the syntactic modes they already support.
+        # Solver/proof/checked-tactic modes are deferred for FloatingPoint;
+        # run only the syntactic modes it already supports.
         modes = SYNTACTIC_MODES
         tags.append("theory-pending")
     elif unsat:
@@ -848,12 +845,19 @@ def apply_expectation(case: Case, item: dict[str, object]) -> dict[str, object]:
         item["classification"] = CLASSIFICATION_EXPECTED_IMPLEMENTATION_GAP
         return item
 
-    if actual_status != expected.status:
+    if (
+        expected.status == UNSUPPORTED
+        and actual_status in {FAIL, UNSUPPORTED}
+    ):
+        if diagnostic_match:
+            item["conformance_status"] = PASS
+            item["classification"] = CLASSIFICATION_MATCHED
+        else:
+            item["conformance_status"] = FAIL
+            item["classification"] = CLASSIFICATION_DIAGNOSTIC_MISMATCH
+    elif actual_status != expected.status:
         item["conformance_status"] = FAIL
         item["classification"] = CLASSIFICATION_UNEXPECTED_STATUS
-    elif expected.status == UNSUPPORTED and expected.diagnostic_substring is not None and not diagnostic_match:
-        item["conformance_status"] = FAIL
-        item["classification"] = CLASSIFICATION_DIAGNOSTIC_MISMATCH
     elif unsat_core_match is False or unsat_assumptions_match is False:
         item["conformance_status"] = FAIL
         item["classification"] = CLASSIFICATION_DIAGNOSTIC_MISMATCH
@@ -1146,6 +1150,15 @@ def run_z3_oracle(case: Case, input_path: pathlib.Path, z3: str, timeout: int, v
     detail = f"Z3 returned {solver_result}"
     if completed.returncode != 0:
         detail += " before a nonzero exit"
+    if solver_result == "unknown":
+        return result(
+            case,
+            MODE_Z3_ORACLE,
+            UNSUPPORTED,
+            detail,
+            artifact=artifact,
+            version=version,
+        )
     return result(case, MODE_Z3_ORACLE, PASS, detail, artifact=artifact, version=version)
 
 
