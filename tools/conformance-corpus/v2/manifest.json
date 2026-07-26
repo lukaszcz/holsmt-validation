@@ -5229,6 +5229,222 @@
       }
     },
     {
+      "id": "external-benchmark:smtlib-2025-qf-s-regex-membership-sat",
+      "file": "cases/external/smtlib_2025_qf_s_regex_membership_sat.smt2",
+      "logic": "QF_S",
+      "standard": "SMT-LIB-2.7",
+      "class": "external-benchmark",
+      "features": [
+        "external-family:strings",
+        "external-logic-family:QF_S",
+        "external-source:smt-lib-2025",
+        "external-status:sat",
+        "string:regex-membership",
+        "string:unicode-escape"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "external-benchmark",
+        "reference": "SMT-LIB 2025 non-incremental/QF_S/20230329-automatark-lu/instance02542.smt2",
+        "url": "https://zenodo.org/records/16740866/files/QF_S.tar.zst",
+        "notes": "pinned source_path=qf_s_regex_membership_sat.smt2; pin=SMT-LIB-2025; sha256=b19bc8a3cbcd21a7d49572a42283a8c00dccc8a5ec1a0ed7f1d8041b22269b00"
+      }
+    },
+    {
+      "id": "external-benchmark:smtlib-2025-qf-slia-from-int",
+      "file": "cases/external/smtlib_2025_qf_slia_from_int.smt2",
+      "logic": "QF_SLIA",
+      "standard": "SMT-LIB-2.7",
+      "class": "external-benchmark",
+      "features": [
+        "arithmetic:linear-integer",
+        "external-family:strings",
+        "external-logic-family:QF_SLIA",
+        "external-source:smt-lib-2025",
+        "external-status:unsat-proof",
+        "string:from-int"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "pass"
+        },
+        "proof-replay": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass",
+          "theorem_shape": "closed theorem proving unsatisfiability"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "external-benchmark",
+        "reference": "SMT-LIB 2025 non-incremental/QF_SLIA/20190311-str-small-rw-Noetzli/str-term-small-rw/str-term-small-rw_27.smt2",
+        "url": "https://zenodo.org/records/16740866/files/QF_SLIA.tar.zst",
+        "notes": "pinned source_path=qf_slia_from_int.smt2; pin=SMT-LIB-2025; sha256=1108c8470cf371af4e17c2aadfb4dcb0190fb0212bcf4115fe7b74fa7fb2bd21"
+      }
+    },
+    {
+      "id": "external-benchmark:smtlib-2025-qf-slia-substr-indexof-sat",
+      "file": "cases/external/smtlib_2025_qf_slia_substr_indexof_sat.smt2",
+      "logic": "QF_SLIA",
+      "standard": "SMT-LIB-2.7",
+      "class": "external-benchmark",
+      "features": [
+        "arithmetic:linear-integer",
+        "external-family:strings",
+        "external-logic-family:QF_SLIA",
+        "external-source:smt-lib-2025",
+        "external-status:sat",
+        "string:indexof",
+        "string:substr"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "external-benchmark",
+        "reference": "SMT-LIB 2025 non-incremental/QF_SLIA/2019-full_str_int/py-conbyte_cvc4/lib_int-wsgiref_check_status/3.smt2",
+        "url": "https://zenodo.org/records/16740866/files/QF_SLIA.tar.zst",
+        "notes": "pinned source_path=qf_slia_substr_indexof_sat.smt2; pin=SMT-LIB-2025; sha256=f9ab6c0cff6c2322bf90338fcd100b11dca9a5a7285cb063ae58c3e9f5d8ea3d"
+      }
+    },
+    {
+      "id": "external-benchmark:smtlib-2025-qf-slia-to-int",
+      "file": "cases/external/smtlib_2025_qf_slia_to_int.smt2",
+      "logic": "QF_SLIA",
+      "standard": "SMT-LIB-2.7",
+      "class": "external-benchmark",
+      "features": [
+        "arithmetic:linear-integer",
+        "external-family:strings",
+        "external-logic-family:QF_SLIA",
+        "external-source:smt-lib-2025",
+        "external-status:unsat-proof",
+        "string:substr",
+        "string:to-int"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "pass"
+        },
+        "proof-replay": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass",
+          "theorem_shape": "closed theorem proving unsatisfiability"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "external-benchmark",
+        "reference": "SMT-LIB 2025 non-incremental/QF_SLIA/20190311-str-small-rw-Noetzli/str-term-small-rw/str-term-small-rw_326.smt2",
+        "url": "https://zenodo.org/records/16740866/files/QF_SLIA.tar.zst",
+        "notes": "pinned source_path=qf_slia_to_int.smt2; pin=SMT-LIB-2025; sha256=ec0dab92029ce867e0e821c5b79992fc2232e021ca49b7e4551ff984cd229663"
+      }
+    },
+    {
       "id": "external-benchmark:z3-upstream-horn3-fixedpoint",
       "file": "cases/external/z3_upstream_horn3_fixedpoint.smt2",
       "logic": "ALL",

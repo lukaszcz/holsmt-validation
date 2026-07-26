@@ -26,6 +26,14 @@ importer hash-checks the local payloads before copying them into the v2 corpus.
 The UNSAT cases carry checked `cvc5-oracle` expectations, and two lowerable
 cases also carry `z3-tac` spot-check expectations.
 
+The `curated-small/strings/` slice combines the existing QF_S concatenation
+seed with four cases selected from the official SMT-LIB 2025 release.  The
+selection covers QF_S regular-language membership and QF_SLIA
+substring/index-of arithmetic plus integer/string conversions.  The curated
+copies add per-mode expectations, and the UNSAT cases request proofs before
+exiting.  Their payload hashes and exact upstream archive paths are pinned in
+`pinned/manifest.json`.
+
 `pinned/manifest.json` is the reduced mandatory checked-in slice.  Refresh it
 with:
 

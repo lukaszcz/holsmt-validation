@@ -26,8 +26,12 @@
       "source": "curated-small"
     },
     "QF_S": {
-      "reason": "covered by curated-small/strings/qf_s_concat.smt2",
-      "source": "curated-small"
+      "reason": "covered by the pinned curated-small/strings slice",
+      "source": "smt-lib-2025"
+    },
+    "QF_SLIA": {
+      "reason": "covered by the pinned curated-small/strings slice",
+      "source": "smt-lib-2025"
     },
     "QF_UF": {
       "reason": "covered by curated-small/uf/qf_uf_congruence.smt2",
@@ -53,6 +57,13 @@
       "pin": "37c6cd5d98edb46057f30cef35ba7c7250fe0161",
       "pin_type": "git-commit",
       "url": "https://github.com/SMT-LIB/benchmark-submission-2025"
+    },
+    {
+      "id": "smt-lib-2025",
+      "kind": "official-smtlib-release",
+      "pin": "16740866",
+      "pin_type": "zenodo-record",
+      "url": "https://zenodo.org/records/16740866"
     },
     {
       "id": "z3-regressions",

@@ -18,7 +18,7 @@ on:
   workflow_dispatch:
 
 env:
-  HOLSMT_SOURCE_REF: 62b66d6e522792777742871d916d4d61df2817f1
+  HOLSMT_SOURCE_REF: a3008a44b556c6b29367b52f8869205cb3370cf6
   HOLSMT_ROOT: ${{ github.workspace }}/hol-source
   HOLSMT_VALIDATION_DIR: ${{ github.workspace }}
 
@@ -63,6 +63,19 @@ jobs:
             --benchmark-dir tools/external-benchmarks/curated-small \
             --mode parser-only \
             --out /tmp/holsmt-curated-external
+
+      - name: Run curated string conformance slice
+        run: |
+          docker run --rm \
+            -e HOLSMT_ROOT=/ML/HOL \
+            -e HOLSMT_VALIDATION_DIR=/validation \
+            -v "$PWD:/validation:ro" \
+            holsmt-external:ci \
+            sh -lc 'python3 /validation/tools/run_conformance_suite.py \
+              --no-default-suite \
+              --benchmark-dir \
+                /validation/tools/external-benchmarks/curated-small/strings \
+              --out /tmp/holsmt-curated-strings'
 
       - name: Run curated higher-order cvc5 oracle slice
         run: |

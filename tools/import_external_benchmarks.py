@@ -19,10 +19,18 @@ DEFAULT_SOURCES_LOCK = TOOLS_DIR / "external-benchmarks" / "pinned" / "sources.l
 DEFAULT_CORPUS_ROOT = TOOLS_DIR / "conformance-corpus" / "v2"
 DEFAULT_CORPUS_MANIFEST = DEFAULT_CORPUS_ROOT / "manifest.json"
 HO_CURATED_ROOT = TOOLS_DIR / "external-benchmarks" / "ho"
+STRING_CURATED_ROOT = (
+    TOOLS_DIR / "external-benchmarks" / "curated-small" / "strings"
+)
 MANIFEST_SCHEMA_VERSION = "2"
 PINNED_SCHEMA_VERSION = "holsmt-external-benchmarks-pinned-v1"
 LOCK_SCHEMA_VERSION = "holsmt-external-benchmark-sources-lock-v1"
 HO_CURATED_SOURCE_ID = "smt-lib-ho-curated"
+STRING_CURATED_SOURCE_ID = "smt-lib-strings-curated"
+LOCAL_CURATED_ROOTS = {
+    HO_CURATED_SOURCE_ID: HO_CURATED_ROOT,
+    STRING_CURATED_SOURCE_ID: STRING_CURATED_ROOT,
+}
 SUPPORTED_Z3_VERSIONS = (
     "4.11.2",
     "4.12.4",
@@ -248,18 +256,19 @@ def read_pinned_content(entry: PinnedEntry) -> bytes:
     content = entry.raw.get("content")
     if isinstance(content, str):
         return content.encode("utf-8")
-    if entry.raw.get("source_id") == HO_CURATED_SOURCE_ID:
+    curated_root = LOCAL_CURATED_ROOTS.get(entry.raw.get("source_id"))
+    if curated_root is not None:
         source_path = require_string(
             entry.raw.get("source_path"), f"{entry.case_id}.source_path"
         )
-        path = (HO_CURATED_ROOT / source_path).resolve()
+        path = (curated_root / source_path).resolve()
         require(
-            path.is_relative_to(HO_CURATED_ROOT.resolve()),
-            f"{entry.case_id}.source_path escapes ho/",
+            path.is_relative_to(curated_root.resolve()),
+            f"{entry.case_id}.source_path escapes checked-in curated root",
         )
         if not path.is_file():
             raise ImportErrorWithContext(
-                f"{entry.case_id} has no local ho/ benchmark: {source_path}"
+                f"{entry.case_id} has no checked-in benchmark: {source_path}"
             )
         return path.read_bytes()
     if entry.raw.get("source_id") == "curated-reduced":

@@ -8,6 +8,7 @@
     "QF_BV",
     "QF_AUFLIA",
     "QF_S",
+    "QF_SLIA",
     "QF_DT",
     "QF_UFDT"
   ],
@@ -144,6 +145,194 @@
         "parser-only": {"status": "pass"},
         "typecheck-only": {"status": "pass"},
         "cvc5-oracle": {"status": "pass"}
+      },
+      "implementation_obligation": null
+    },
+    {
+      "id": "external-benchmark:smtlib-2025-qf-s-regex-membership-sat",
+      "source_id": "smt-lib-strings-curated",
+      "source_url": "https://zenodo.org/records/16740866/files/QF_S.tar.zst",
+      "commit_or_release": "SMT-LIB-2025",
+      "source_path": "qf_s_regex_membership_sat.smt2",
+      "sha256": "b19bc8a3cbcd21a7d49572a42283a8c00dccc8a5ec1a0ed7f1d8041b22269b00",
+      "target_file": "cases/external/smtlib_2025_qf_s_regex_membership_sat.smt2",
+      "logic_family": "QF_S",
+      "logic": "QF_S",
+      "standard": "SMT-LIB-2.7",
+      "source_reference": "SMT-LIB 2025 non-incremental/QF_S/20230329-automatark-lu/instance02542.smt2",
+      "features": [
+        "external-source:smt-lib-2025",
+        "external-logic-family:QF_S",
+        "external-family:strings",
+        "external-status:sat",
+        "string:regex-membership",
+        "string:unicode-escape"
+      ],
+      "expected_modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "z3-tac"
+      ],
+      "expected_status": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null
+    },
+    {
+      "id": "external-benchmark:smtlib-2025-qf-slia-substr-indexof-sat",
+      "source_id": "smt-lib-strings-curated",
+      "source_url": "https://zenodo.org/records/16740866/files/QF_SLIA.tar.zst",
+      "commit_or_release": "SMT-LIB-2025",
+      "source_path": "qf_slia_substr_indexof_sat.smt2",
+      "sha256": "f9ab6c0cff6c2322bf90338fcd100b11dca9a5a7285cb063ae58c3e9f5d8ea3d",
+      "target_file": "cases/external/smtlib_2025_qf_slia_substr_indexof_sat.smt2",
+      "logic_family": "QF_SLIA",
+      "logic": "QF_SLIA",
+      "standard": "SMT-LIB-2.7",
+      "source_reference": "SMT-LIB 2025 non-incremental/QF_SLIA/2019-full_str_int/py-conbyte_cvc4/lib_int-wsgiref_check_status/3.smt2",
+      "features": [
+        "external-source:smt-lib-2025",
+        "external-logic-family:QF_SLIA",
+        "external-family:strings",
+        "external-status:sat",
+        "arithmetic:linear-integer",
+        "string:indexof",
+        "string:substr"
+      ],
+      "expected_modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "z3-tac"
+      ],
+      "expected_status": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null
+    },
+    {
+      "id": "external-benchmark:smtlib-2025-qf-slia-from-int",
+      "source_id": "smt-lib-strings-curated",
+      "source_url": "https://zenodo.org/records/16740866/files/QF_SLIA.tar.zst",
+      "commit_or_release": "SMT-LIB-2025",
+      "source_path": "qf_slia_from_int.smt2",
+      "sha256": "1108c8470cf371af4e17c2aadfb4dcb0190fb0212bcf4115fe7b74fa7fb2bd21",
+      "target_file": "cases/external/smtlib_2025_qf_slia_from_int.smt2",
+      "logic_family": "QF_SLIA",
+      "logic": "QF_SLIA",
+      "standard": "SMT-LIB-2.7",
+      "source_reference": "SMT-LIB 2025 non-incremental/QF_SLIA/20190311-str-small-rw-Noetzli/str-term-small-rw/str-term-small-rw_27.smt2",
+      "features": [
+        "external-source:smt-lib-2025",
+        "external-logic-family:QF_SLIA",
+        "external-family:strings",
+        "external-status:unsat-proof",
+        "arithmetic:linear-integer",
+        "string:from-int"
+      ],
+      "expected_modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "expected_status": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "pass"
+        },
+        "proof-replay": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass",
+          "theorem_shape": "closed theorem proving unsatisfiability"
+        }
+      },
+      "implementation_obligation": null
+    },
+    {
+      "id": "external-benchmark:smtlib-2025-qf-slia-to-int",
+      "source_id": "smt-lib-strings-curated",
+      "source_url": "https://zenodo.org/records/16740866/files/QF_SLIA.tar.zst",
+      "commit_or_release": "SMT-LIB-2025",
+      "source_path": "qf_slia_to_int.smt2",
+      "sha256": "ec0dab92029ce867e0e821c5b79992fc2232e021ca49b7e4551ff984cd229663",
+      "target_file": "cases/external/smtlib_2025_qf_slia_to_int.smt2",
+      "logic_family": "QF_SLIA",
+      "logic": "QF_SLIA",
+      "standard": "SMT-LIB-2.7",
+      "source_reference": "SMT-LIB 2025 non-incremental/QF_SLIA/20190311-str-small-rw-Noetzli/str-term-small-rw/str-term-small-rw_326.smt2",
+      "features": [
+        "external-source:smt-lib-2025",
+        "external-logic-family:QF_SLIA",
+        "external-family:strings",
+        "external-status:unsat-proof",
+        "arithmetic:linear-integer",
+        "string:substr",
+        "string:to-int"
+      ],
+      "expected_modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "expected_status": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "pass"
+        },
+        "proof-replay": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass",
+          "theorem_shape": "closed theorem proving unsatisfiability"
+        }
       },
       "implementation_obligation": null
     },

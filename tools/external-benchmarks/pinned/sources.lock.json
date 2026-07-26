@@ -16,6 +16,13 @@
       "pin_type": "git-commit"
     },
     {
+      "id": "smt-lib-strings-curated",
+      "kind": "official-smtlib-2025-string-curated-selection",
+      "url": "https://zenodo.org/records/16740866",
+      "pin": "16740866",
+      "pin_type": "zenodo-record"
+    },
+    {
       "id": "z3-upstream",
       "kind": "z3-upstream-proof-regression-source",
       "url": "https://github.com/Z3Prover/z3",

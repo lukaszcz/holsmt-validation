@@ -129,7 +129,28 @@ class ExternalBenchmarkImporterTests(unittest.TestCase):
             }
         )
         path = importer.HO_CURATED_ROOT / "tptp_lambda_beta.smt2"
-        self.assertEqual(importer.read_pinned_content(entry), path.read_bytes())
+        self.assertEqual(
+            importer.read_pinned_content(entry),
+            path.read_bytes(),
+        )
+
+    def test_string_source_reads_checked_in_payload(self):
+        entry = importer.PinnedEntry(
+            {
+                "id": "external-benchmark:string-fixture",
+                "source_id": importer.STRING_CURATED_SOURCE_ID,
+                "source_path": "qf_s_regex_membership_sat.smt2",
+                "source_url": "https://example.invalid/string.smt2",
+                "sha256": "0" * 64,
+            }
+        )
+        path = (
+            importer.STRING_CURATED_ROOT / "qf_s_regex_membership_sat.smt2"
+        )
+        self.assertEqual(
+            importer.read_pinned_content(entry),
+            path.read_bytes(),
+        )
 
     def test_import_verifies_hash_and_links_case_into_v2_manifest(self):
         content = "(set-logic QF_UF)\n(check-sat)\n"
