@@ -1,0 +1,6 @@
+(set-logic QF_S)
+(set-option :produce-proofs true)
+(assert (not (str.prefixof "ab" "abc")))
+(check-sat)
+(get-proof)
+(exit)

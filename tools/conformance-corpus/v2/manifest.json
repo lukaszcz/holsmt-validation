@@ -4638,12 +4638,14 @@
       "features": [
         "external-logic-family:QF_S",
         "external-source:curated-reduced",
-        "external-status:sat"
+        "external-status:sat",
+        "solver-result:sat"
       ],
       "modes": [
         "parser-only",
         "typecheck-only",
         "z3-oracle",
+        "cvc5-oracle",
         "z3-tac"
       ],
       "versions": [
@@ -4661,6 +4663,9 @@
           "status": "pass"
         },
         "z3-oracle": {
+          "status": "pass"
+        },
+        "cvc5-oracle": {
           "status": "pass"
         },
         "z3-tac": {
@@ -4684,12 +4689,14 @@
       "features": [
         "external-logic-family:QF_S",
         "external-source:curated-reduced",
-        "external-status:unsat-proof"
+        "external-status:unsat-proof",
+        "solver-result:unsat"
       ],
       "modes": [
         "parser-only",
         "typecheck-only",
         "z3-oracle",
+        "cvc5-oracle",
         "proof-parse",
         "proof-replay",
         "z3-tac"
@@ -4709,6 +4716,9 @@
           "status": "pass"
         },
         "z3-oracle": {
+          "status": "pass"
+        },
+        "cvc5-oracle": {
           "status": "pass"
         },
         "proof-parse": {
@@ -5239,6 +5249,7 @@
         "external-logic-family:QF_S",
         "external-source:smt-lib-2025",
         "external-status:sat",
+        "solver-result:sat",
         "string:regex-membership",
         "string:unicode-escape"
       ],
@@ -5246,6 +5257,7 @@
         "parser-only",
         "typecheck-only",
         "z3-oracle",
+        "cvc5-oracle",
         "z3-tac"
       ],
       "versions": [
@@ -5263,6 +5275,9 @@
           "status": "pass"
         },
         "z3-oracle": {
+          "status": "pass"
+        },
+        "cvc5-oracle": {
           "status": "pass"
         },
         "z3-tac": {
@@ -5289,12 +5304,14 @@
         "external-logic-family:QF_SLIA",
         "external-source:smt-lib-2025",
         "external-status:unsat-proof",
+        "solver-result:unsat",
         "string:from-int"
       ],
       "modes": [
         "parser-only",
         "typecheck-only",
         "z3-oracle",
+        "cvc5-oracle",
         "proof-parse",
         "proof-replay",
         "z3-tac"
@@ -5314,6 +5331,9 @@
           "status": "pass"
         },
         "z3-oracle": {
+          "status": "pass"
+        },
+        "cvc5-oracle": {
           "status": "pass"
         },
         "proof-parse": {
@@ -5347,6 +5367,7 @@
         "external-logic-family:QF_SLIA",
         "external-source:smt-lib-2025",
         "external-status:sat",
+        "solver-result:sat",
         "string:indexof",
         "string:substr"
       ],
@@ -5354,6 +5375,7 @@
         "parser-only",
         "typecheck-only",
         "z3-oracle",
+        "cvc5-oracle",
         "z3-tac"
       ],
       "versions": [
@@ -5371,6 +5393,9 @@
           "status": "pass"
         },
         "z3-oracle": {
+          "status": "pass"
+        },
+        "cvc5-oracle": {
           "status": "pass"
         },
         "z3-tac": {
@@ -5397,6 +5422,7 @@
         "external-logic-family:QF_SLIA",
         "external-source:smt-lib-2025",
         "external-status:unsat-proof",
+        "solver-result:unsat",
         "string:substr",
         "string:to-int"
       ],
@@ -5404,6 +5430,7 @@
         "parser-only",
         "typecheck-only",
         "z3-oracle",
+        "cvc5-oracle",
         "proof-parse",
         "proof-replay",
         "z3-tac"
@@ -5423,6 +5450,9 @@
           "status": "pass"
         },
         "z3-oracle": {
+          "status": "pass"
+        },
+        "cvc5-oracle": {
           "status": "pass"
         },
         "proof-parse": {

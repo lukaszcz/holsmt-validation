@@ -1,0 +1,6 @@
+(set-logic QF_S)
+(set-option :produce-proofs true)
+(assert (not (= (str.++ "a" "b") "ab")))
+(check-sat)
+(get-proof)
+(exit)

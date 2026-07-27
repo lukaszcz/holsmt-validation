@@ -1,0 +1,15 @@
+unsat
+(
+(define @t1 () (str.in_re "a" re.none))
+(define @t2 () (= @t1 false))
+(assume @p1 @t1)
+(step @p2 @t2 :rule str-in-re-eval :args (@t2))
+(step @p3 false :rule eq_resolve :premises (@p1 @p2))
+)
+(
+(define @t1 () (str.in_re "a" re.none))
+(define @t2 () (= @t1 false))
+(assume @p1 @t1)
+(step @p2 @t2 :rule str-in-re-eval :args (@t2))
+(step @p3 false :rule eq_resolve :premises (@p1 @p2))
+)

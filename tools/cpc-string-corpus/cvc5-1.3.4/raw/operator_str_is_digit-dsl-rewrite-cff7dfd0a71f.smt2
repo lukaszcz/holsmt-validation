@@ -1,0 +1,6 @@
+(set-logic QF_S)
+(set-option :produce-proofs true)
+(assert (not (str.is_digit "7")))
+(check-sat)
+(get-proof)
+(exit)

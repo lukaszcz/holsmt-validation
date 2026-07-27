@@ -1,0 +1,6 @@
+(set-logic QF_S)
+(set-option :produce-proofs true)
+(assert (not (= (_ char #x41) "A")))
+(check-sat)
+(get-proof)
+(exit)

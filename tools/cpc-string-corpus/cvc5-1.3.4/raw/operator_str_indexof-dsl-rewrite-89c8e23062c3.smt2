@@ -1,0 +1,6 @@
+(set-logic QF_S)
+(set-option :produce-proofs true)
+(assert (not (= (str.indexof "abcabc" "bc" 0) 1)))
+(check-sat)
+(get-proof)
+(exit)

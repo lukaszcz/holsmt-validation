@@ -118,6 +118,31 @@ def pinned_manifest(content, sha256=None):
 
 
 class ExternalBenchmarkImporterTests(unittest.TestCase):
+    def test_string_rows_include_cvc5_oracle_mode(self):
+        data = importer.load_json(importer.DEFAULT_PINNED_MANIFEST)
+        entries = [
+            entry
+            for entry in data["entries"]
+            if entry.get("logic") in {"QF_S", "QF_SLIA", "QF_SNIA"}
+        ]
+
+        self.assertEqual(len(entries), 6)
+        for entry in entries:
+            self.assertIn("cvc5-oracle", entry["expected_modes"])
+            self.assertEqual(
+                entry["expected_status"]["cvc5-oracle"],
+                {"status": "pass"},
+            )
+            expected_result = (
+                "sat"
+                if "external-status:sat" in entry["features"]
+                else "unsat"
+            )
+            self.assertIn(
+                f"solver-result:{expected_result}",
+                entry["features"],
+            )
+
     def test_ho_source_reads_checked_in_payload(self):
         entry = importer.PinnedEntry(
             {

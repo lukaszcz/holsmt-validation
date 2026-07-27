@@ -1,0 +1,6 @@
+(set-logic QF_S)
+(set-option :produce-proofs true)
+(assert (not (= (str.to_code "A") 65)))
+(check-sat)
+(get-proof)
+(exit)

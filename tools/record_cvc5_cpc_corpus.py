@@ -82,7 +82,9 @@ def proof_forms(output: str) -> list[str]:
 
 
 def inventory(proof: str) -> dict[str, Any]:
-    rules = collections.Counter(re.findall(r"\(step\s+\S+(?:\s+[^:()]+)?\s+:rule\s+(\S+)", proof))
+    rules = collections.Counter(
+        re.findall(r":rule\s+([^\s()]+)", proof)
+    )
     # `:args` may contain nested terms.  Its outer shape is useful evidence
     # even when detailed semantic replay has not landed yet.
     args = collections.Counter(
@@ -92,6 +94,9 @@ def inventory(proof: str) -> dict[str, Any]:
     defines = re.findall(r"\(define\s+([^\s()]+)", proof)
     declarations = re.findall(r"\((declare-(?:const|fun|sort|datatype|datatypes))\b", proof)
     steps = re.findall(r"\(step\s+([^\s()]+)", proof)
+    omitted_conclusions = len(
+        re.findall(r"\(step\s+[^\s()]+\s+:rule\b", proof)
+    )
     return {
         "rules": dict(sorted(rules.items())),
         "arg_shapes": dict(sorted(args.items())),
@@ -99,7 +104,8 @@ def inventory(proof: str) -> dict[str, Any]:
         "skolem_markers": sorted({name for name in defines if name.startswith("@")}),
         "declarations": dict(sorted(collections.Counter(declarations).items())),
         "step_count": len(steps),
-        "optional_conclusions": len(re.findall(r"\(step\s+\S+\s+:rule\b", proof)),
+        "explicit_conclusions": len(steps) - omitted_conclusions,
+        "optional_conclusions": omitted_conclusions,
         "trust_steps": len(re.findall(r":rule\s+trust\b", proof)),
     }
 
@@ -109,7 +115,7 @@ def run_one(executable: str, granularity: str, path: pathlib.Path,
     command = [
         executable, "--produce-proofs", "--dump-proofs",
         "--proof-format-mode=cpc", f"--proof-granularity={granularity}",
-        "--lang", "smt2", str(path),
+        "--proof-print-conclusion", "--lang", "smt2", str(path),
     ]
     try:
         result = subprocess.run(command, text=True, capture_output=True,
@@ -139,6 +145,7 @@ def run_one(executable: str, granularity: str, path: pathlib.Path,
         "input": str(path),
         "raw_stem": stem,
         "granularity": granularity,
+        "proof_print_conclusion": True,
         "command": command,
         "exit_code": None if timed_out else result.returncode,
         "timed_out": timed_out,

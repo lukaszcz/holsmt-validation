@@ -1,0 +1,6 @@
+(set-logic QF_S)
+(set-option :produce-proofs true)
+(assert (not (= (str.from_int 123) "123")))
+(check-sat)
+(get-proof)
+(exit)

@@ -165,6 +165,7 @@
         "external-logic-family:QF_S",
         "external-family:strings",
         "external-status:sat",
+        "solver-result:sat",
         "string:regex-membership",
         "string:unicode-escape"
       ],
@@ -172,6 +173,7 @@
         "parser-only",
         "typecheck-only",
         "z3-oracle",
+        "cvc5-oracle",
         "z3-tac"
       ],
       "expected_status": {
@@ -182,6 +184,9 @@
           "status": "pass"
         },
         "z3-oracle": {
+          "status": "pass"
+        },
+        "cvc5-oracle": {
           "status": "pass"
         },
         "z3-tac": {
@@ -207,6 +212,7 @@
         "external-logic-family:QF_SLIA",
         "external-family:strings",
         "external-status:sat",
+        "solver-result:sat",
         "arithmetic:linear-integer",
         "string:indexof",
         "string:substr"
@@ -215,6 +221,7 @@
         "parser-only",
         "typecheck-only",
         "z3-oracle",
+        "cvc5-oracle",
         "z3-tac"
       ],
       "expected_status": {
@@ -225,6 +232,9 @@
           "status": "pass"
         },
         "z3-oracle": {
+          "status": "pass"
+        },
+        "cvc5-oracle": {
           "status": "pass"
         },
         "z3-tac": {
@@ -250,6 +260,7 @@
         "external-logic-family:QF_SLIA",
         "external-family:strings",
         "external-status:unsat-proof",
+        "solver-result:unsat",
         "arithmetic:linear-integer",
         "string:from-int"
       ],
@@ -257,6 +268,7 @@
         "parser-only",
         "typecheck-only",
         "z3-oracle",
+        "cvc5-oracle",
         "proof-parse",
         "proof-replay",
         "z3-tac"
@@ -269,6 +281,9 @@
           "status": "pass"
         },
         "z3-oracle": {
+          "status": "pass"
+        },
+        "cvc5-oracle": {
           "status": "pass"
         },
         "proof-parse": {
@@ -301,6 +316,7 @@
         "external-logic-family:QF_SLIA",
         "external-family:strings",
         "external-status:unsat-proof",
+        "solver-result:unsat",
         "arithmetic:linear-integer",
         "string:substr",
         "string:to-int"
@@ -309,6 +325,7 @@
         "parser-only",
         "typecheck-only",
         "z3-oracle",
+        "cvc5-oracle",
         "proof-parse",
         "proof-replay",
         "z3-tac"
@@ -321,6 +338,9 @@
           "status": "pass"
         },
         "z3-oracle": {
+          "status": "pass"
+        },
+        "cvc5-oracle": {
           "status": "pass"
         },
         "proof-parse": {
@@ -876,12 +896,14 @@
       "features": [
         "external-source:curated-reduced",
         "external-logic-family:QF_S",
-        "external-status:sat"
+        "external-status:sat",
+        "solver-result:sat"
       ],
       "expected_modes": [
         "parser-only",
         "typecheck-only",
         "z3-oracle",
+        "cvc5-oracle",
         "z3-tac"
       ],
       "expected_status": {
@@ -892,6 +914,9 @@
           "status": "pass"
         },
         "z3-oracle": {
+          "status": "pass"
+        },
+        "cvc5-oracle": {
           "status": "pass"
         },
         "z3-tac": {
@@ -915,12 +940,14 @@
       "features": [
         "external-source:curated-reduced",
         "external-logic-family:QF_S",
-        "external-status:unsat-proof"
+        "external-status:unsat-proof",
+        "solver-result:unsat"
       ],
       "expected_modes": [
         "parser-only",
         "typecheck-only",
         "z3-oracle",
+        "cvc5-oracle",
         "proof-parse",
         "proof-replay",
         "z3-tac"
@@ -933,6 +960,9 @@
           "status": "pass"
         },
         "z3-oracle": {
+          "status": "pass"
+        },
+        "cvc5-oracle": {
           "status": "pass"
         },
         "proof-parse": {
