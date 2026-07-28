@@ -237,6 +237,7 @@ SOURCE_KIND_CORPUS = "corpus"
 class ExpectedOutcome:
     status: str
     diagnostic_substring: str | None = None
+    diagnostic_alternatives: tuple[str, ...] = ()
     unsat_core: str | None = None
     unsat_assumptions: str | None = None
     stdout: str | None = None
@@ -293,6 +294,7 @@ def normalize_expected_outcome(value: object, *, context: str) -> ExpectedOutcom
     if isinstance(value, str):
         status = value
         diagnostic = None
+        diagnostic_alternatives: object = ()
         unsat_core = None
         unsat_assumptions = None
         stdout = None
@@ -306,6 +308,7 @@ def normalize_expected_outcome(value: object, *, context: str) -> ExpectedOutcom
             or value.get("diagnostic")
             or value.get("detail")
         )
+        diagnostic_alternatives = value.get("diagnostic_alternatives", ())
         unsat_core = value.get("unsat_core")
         unsat_assumptions = value.get("unsat_assumptions")
         stdout = value.get("stdout")
@@ -319,6 +322,16 @@ def normalize_expected_outcome(value: object, *, context: str) -> ExpectedOutcom
         raise ValueError(f"{context}: expected status must be one of {sorted(VALID_EXPECTED_STATUSES)}")
     if diagnostic is not None and not isinstance(diagnostic, str):
         raise ValueError(f"{context}: expected diagnostic substring must be a string")
+    if (
+        not isinstance(diagnostic_alternatives, (list, tuple))
+        or not all(
+            isinstance(item, str) and item
+            for item in diagnostic_alternatives
+        )
+    ):
+        raise ValueError(
+            f"{context}: diagnostic_alternatives must be non-empty strings"
+        )
     if unsat_core is not None and not isinstance(unsat_core, str):
         raise ValueError(f"{context}: expected unsat_core must be a string")
     if unsat_assumptions is not None and not isinstance(unsat_assumptions, str):
@@ -336,6 +349,7 @@ def normalize_expected_outcome(value: object, *, context: str) -> ExpectedOutcom
     return ExpectedOutcome(
         status=status,
         diagnostic_substring=diagnostic,
+        diagnostic_alternatives=tuple(diagnostic_alternatives),
         unsat_core=unsat_core,
         unsat_assumptions=unsat_assumptions,
         stdout=stdout,
@@ -402,6 +416,10 @@ def expected_outcome_json(expected: Mapping[str, ExpectedOutcome]) -> dict[str, 
             "status": outcome.status,
             "diagnostic_substring": outcome.diagnostic_substring,
         }
+        if outcome.diagnostic_alternatives:
+            item["diagnostic_alternatives"] = list(
+                outcome.diagnostic_alternatives
+            )
         if outcome.unsat_core is not None:
             item["unsat_core"] = outcome.unsat_core
         if outcome.unsat_assumptions is not None:
@@ -784,6 +802,9 @@ def apply_expectation(case: Case, item: dict[str, object]) -> dict[str, object]:
 
     item["expected_status"] = expected.status
     item["expected_diagnostic"] = expected.diagnostic_substring
+    item["expected_diagnostic_alternatives"] = list(
+        expected.diagnostic_alternatives
+    )
     item["expected_unsat_core"] = expected.unsat_core
     item["expected_unsat_assumptions"] = expected.unsat_assumptions
     item["expected_stdout"] = expected.stdout
@@ -791,7 +812,14 @@ def apply_expectation(case: Case, item: dict[str, object]) -> dict[str, object]:
     item["expected_stdout_contains"] = expected.stdout_contains
     item["expected_stderr_contains"] = expected.stderr_contains
     diagnostic_match = (
-        expected.diagnostic_substring in actual_diagnostic
+        any(
+            candidate in actual_diagnostic
+            for candidate in (
+                expected.diagnostic_substring,
+                *expected.diagnostic_alternatives,
+            )
+            if candidate is not None
+        )
         if expected.diagnostic_substring is not None
         else None
     )

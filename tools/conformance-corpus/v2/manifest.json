@@ -44055,6 +44055,192 @@
       }
     },
     {
+      "id": "theory:FloatingPoint:d12-fp-add-commutativity-float32",
+      "file": "cases/theories/floatingpoint/theory_floatingpoint_d12_fp_add_commutativity_float32.smt2",
+      "logic": "QF_FP",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "theory-behavior:arithmetic",
+        "theory-behavior:floatingpoint",
+        "theory-behavior:resource-gated",
+        "theory-behavior:rounding-mode",
+        "theory-behavior:symbolic",
+        "theory-case:unsat-proof",
+        "theory-entry:FloatingPoint:d12-fp-add-commutativity-float32",
+        "theory:FloatingPoint"
+      ],
+      "modes": [
+        "parser-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "unsupported",
+          "diagnostic": "resource-gated: fp-bitblast;",
+          "diagnostic_alternatives": [
+            "UNKNOWN result has no HOL theorem to reconstruct"
+          ]
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "HolSmt-internal",
+        "reference": "Phase 5 D12 FloatingPoint resource-budget exemplar"
+      }
+    },
+    {
+      "id": "theory:FloatingPoint:d12-fp-add-commutativity-tiny-3-5",
+      "file": "cases/theories/floatingpoint/theory_floatingpoint_d12_fp_add_commutativity_tiny_3_5.smt2",
+      "logic": "QF_FP",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "theory-behavior:arithmetic",
+        "theory-behavior:floatingpoint",
+        "theory-behavior:resource-gated",
+        "theory-behavior:rounding-mode",
+        "theory-behavior:symbolic",
+        "theory-case:unsat-proof",
+        "theory-entry:FloatingPoint:d12-fp-add-commutativity-tiny-3-5",
+        "theory:FloatingPoint"
+      ],
+      "modes": [
+        "parser-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "unsupported",
+          "diagnostic": "resource-gated: fp-bitblast;",
+          "diagnostic_alternatives": [
+            "failed to parse 'FloatingPoint'"
+          ]
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "HolSmt-internal",
+        "reference": "Phase 5 D12 FloatingPoint resource-budget exemplar"
+      }
+    },
+    {
+      "id": "theory:FloatingPoint:divergence-fp-add-reflexive-sat",
+      "file": "cases/theories/floatingpoint/theory_floatingpoint_divergence_fp_add_reflexive_sat.smt2",
+      "logic": "QF_FP",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "theory-behavior:arithmetic",
+        "theory-behavior:divergence-guard",
+        "theory-behavior:floatingpoint",
+        "theory-behavior:rounding-mode",
+        "theory-behavior:symbolic",
+        "theory-case:sat",
+        "theory-entry:FloatingPoint:divergence-fp-add-reflexive-sat",
+        "theory:FloatingPoint"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 FloatingPoint theory semantic regression"
+      }
+    },
+    {
+      "id": "theory:FloatingPoint:divergence-free-variable-reflexive-sat",
+      "file": "cases/theories/floatingpoint/theory_floatingpoint_divergence_free_variable_reflexive_sat.smt2",
+      "logic": "QF_FP",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "theory-behavior:divergence-guard",
+        "theory-behavior:floatingpoint",
+        "theory-behavior:free-variable",
+        "theory-case:sat",
+        "theory-entry:FloatingPoint:divergence-free-variable-reflexive-sat",
+        "theory:FloatingPoint"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 FloatingPoint theory semantic regression"
+      }
+    },
+    {
       "id": "theory:FloatingPoint:float128:boundary",
       "file": "cases/theories/theory_floatingpoint_float128_boundary.smt2",
       "logic": "QF_FP",
@@ -45467,6 +45653,509 @@
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 FloatingPoint theory: FloatingPoint"
+      }
+    },
+    {
+      "id": "theory:FloatingPoint:fp-max-signed-zero-negative-pin-sat",
+      "file": "cases/theories/floatingpoint/theory_floatingpoint_fp_max_signed_zero_negative_pin_sat.smt2",
+      "logic": "QF_FP",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "theory-behavior:admissible-pin",
+        "theory-behavior:floatingpoint",
+        "theory-behavior:min-max",
+        "theory-behavior:signed-zero",
+        "theory-behavior:underspecified",
+        "theory-case:sat",
+        "theory-entry:FloatingPoint:fp-max-signed-zero-negative-pin-sat",
+        "theory:FloatingPoint"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "native FloatingPoint front-end support is incomplete",
+          "failure_phase": "typecheck"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "checked FloatingPoint SAT handling is incomplete",
+          "failure_phase": "solver"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/HolSmtScript.sml",
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "theory-symbol:FloatingPoint:fp-max-signed-zero-negative-pin-sat",
+        "test_ids": [
+          "theory:FloatingPoint:fp-max-signed-zero-negative-pin-sat"
+        ],
+        "failure_phase": "proof-replay",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 FloatingPoint theory semantic regression"
+      }
+    },
+    {
+      "id": "theory:FloatingPoint:fp-max-signed-zero-positive-pin-sat",
+      "file": "cases/theories/floatingpoint/theory_floatingpoint_fp_max_signed_zero_positive_pin_sat.smt2",
+      "logic": "QF_FP",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "theory-behavior:admissible-pin",
+        "theory-behavior:floatingpoint",
+        "theory-behavior:min-max",
+        "theory-behavior:signed-zero",
+        "theory-behavior:underspecified",
+        "theory-case:sat",
+        "theory-entry:FloatingPoint:fp-max-signed-zero-positive-pin-sat",
+        "theory:FloatingPoint"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "native FloatingPoint front-end support is incomplete",
+          "failure_phase": "typecheck"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "checked FloatingPoint SAT handling is incomplete",
+          "failure_phase": "solver"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/HolSmtScript.sml",
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "theory-symbol:FloatingPoint:fp-max-signed-zero-positive-pin-sat",
+        "test_ids": [
+          "theory:FloatingPoint:fp-max-signed-zero-positive-pin-sat"
+        ],
+        "failure_phase": "proof-replay",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 FloatingPoint theory semantic regression"
+      }
+    },
+    {
+      "id": "theory:FloatingPoint:fp-min-signed-zero-negative-pin-sat",
+      "file": "cases/theories/floatingpoint/theory_floatingpoint_fp_min_signed_zero_negative_pin_sat.smt2",
+      "logic": "QF_FP",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "theory-behavior:admissible-pin",
+        "theory-behavior:floatingpoint",
+        "theory-behavior:min-max",
+        "theory-behavior:signed-zero",
+        "theory-behavior:underspecified",
+        "theory-case:sat",
+        "theory-entry:FloatingPoint:fp-min-signed-zero-negative-pin-sat",
+        "theory:FloatingPoint"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "native FloatingPoint front-end support is incomplete",
+          "failure_phase": "typecheck"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "checked FloatingPoint SAT handling is incomplete",
+          "failure_phase": "solver"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/HolSmtScript.sml",
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "theory-symbol:FloatingPoint:fp-min-signed-zero-negative-pin-sat",
+        "test_ids": [
+          "theory:FloatingPoint:fp-min-signed-zero-negative-pin-sat"
+        ],
+        "failure_phase": "proof-replay",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 FloatingPoint theory semantic regression"
+      }
+    },
+    {
+      "id": "theory:FloatingPoint:fp-min-signed-zero-positive-pin-sat",
+      "file": "cases/theories/floatingpoint/theory_floatingpoint_fp_min_signed_zero_positive_pin_sat.smt2",
+      "logic": "QF_FP",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "theory-behavior:admissible-pin",
+        "theory-behavior:floatingpoint",
+        "theory-behavior:min-max",
+        "theory-behavior:signed-zero",
+        "theory-behavior:underspecified",
+        "theory-case:sat",
+        "theory-entry:FloatingPoint:fp-min-signed-zero-positive-pin-sat",
+        "theory:FloatingPoint"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "native FloatingPoint front-end support is incomplete",
+          "failure_phase": "typecheck"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "checked FloatingPoint SAT handling is incomplete",
+          "failure_phase": "solver"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/HolSmtScript.sml",
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "theory-symbol:FloatingPoint:fp-min-signed-zero-positive-pin-sat",
+        "test_ids": [
+          "theory:FloatingPoint:fp-min-signed-zero-positive-pin-sat"
+        ],
+        "failure_phase": "proof-replay",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 FloatingPoint theory semantic regression"
+      }
+    },
+    {
+      "id": "theory:FloatingPoint:fp-min-signed-zero-range-unsat-proof",
+      "file": "cases/theories/floatingpoint/theory_floatingpoint_fp_min_signed_zero_range_unsat_proof.smt2",
+      "logic": "QF_FP",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "fp-proof-shape:ground-underspecified-range",
+        "theory-behavior:floatingpoint",
+        "theory-behavior:min-max",
+        "theory-behavior:signed-zero",
+        "theory-behavior:underspecified",
+        "theory-case:unsat-proof",
+        "theory-entry:FloatingPoint:fp-min-signed-zero-range-unsat-proof",
+        "theory:FloatingPoint"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "native FloatingPoint front-end support is incomplete",
+          "failure_phase": "typecheck"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "red",
+          "diagnostic": "FloatingPoint proof parsing evidence is incomplete",
+          "failure_phase": "proof-parse"
+        },
+        "proof-replay": {
+          "status": "red",
+          "diagnostic": "FloatingPoint proof replay is incomplete",
+          "failure_phase": "proof-replay"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "native FloatingPoint front-end support is incomplete",
+          "failure_phase": "proof-replay",
+          "theorem_shape": "closed theorem without oracle tags"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/HolSmtScript.sml",
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "theory-symbol:FloatingPoint:fp-min-signed-zero-range-unsat-proof",
+        "test_ids": [
+          "theory:FloatingPoint:fp-min-signed-zero-range-unsat-proof"
+        ],
+        "failure_phase": "proof-replay",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 FloatingPoint theory semantic regression"
+      }
+    },
+    {
+      "id": "theory:FloatingPoint:fp-to-real-ground-unsat-proof",
+      "file": "cases/theories/floatingpoint/theory_floatingpoint_fp_to_real_ground_unsat_proof.smt2",
+      "logic": "QF_FPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "fp-proof-shape:ground-conversion",
+        "theory-behavior:conversion",
+        "theory-behavior:floatingpoint",
+        "theory-behavior:qf-fplra",
+        "theory-case:unsat-proof",
+        "theory-entry:FloatingPoint:fp-to-real-ground-unsat-proof",
+        "theory:FloatingPoint"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "unknown logic QF_FPLRA",
+          "failure_phase": "typecheck"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "red",
+          "diagnostic": "FloatingPoint proof parsing evidence is incomplete",
+          "failure_phase": "proof-parse"
+        },
+        "proof-replay": {
+          "status": "red",
+          "diagnostic": "FloatingPoint proof replay is incomplete",
+          "failure_phase": "proof-replay"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "unknown logic QF_FPLRA",
+          "failure_phase": "typecheck",
+          "theorem_shape": "closed theorem without oracle tags"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/HolSmtScript.sml",
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Logics.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "theory-symbol:FloatingPoint:fp-to-real-ground-unsat-proof",
+        "test_ids": [
+          "theory:FloatingPoint:fp-to-real-ground-unsat-proof"
+        ],
+        "failure_phase": "typecheck",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 FloatingPoint theory semantic regression"
+      }
+    },
+    {
+      "id": "theory:FloatingPoint:fp-to-real-symbolic-bridge-unsat-proof",
+      "file": "cases/theories/floatingpoint/theory_floatingpoint_fp_to_real_symbolic_bridge_unsat_proof.smt2",
+      "logic": "QF_FPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "fp-proof-shape:symbolic-atom",
+        "theory-behavior:conversion",
+        "theory-behavior:floatingpoint",
+        "theory-behavior:qf-fplra",
+        "theory-behavior:real-arithmetic",
+        "theory-behavior:symbolic",
+        "theory-case:unsat-proof",
+        "theory-entry:FloatingPoint:fp-to-real-symbolic-bridge-unsat-proof",
+        "theory:FloatingPoint"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "unknown logic QF_FPLRA",
+          "failure_phase": "typecheck"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "red",
+          "diagnostic": "FloatingPoint proof parsing evidence is incomplete",
+          "failure_phase": "proof-parse"
+        },
+        "proof-replay": {
+          "status": "red",
+          "diagnostic": "FloatingPoint proof replay is incomplete",
+          "failure_phase": "proof-replay"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "unknown logic QF_FPLRA",
+          "failure_phase": "typecheck",
+          "theorem_shape": "closed theorem without oracle tags"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/HolSmtScript.sml",
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Logics.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "theory-symbol:FloatingPoint:fp-to-real-symbolic-bridge-unsat-proof",
+        "test_ids": [
+          "theory:FloatingPoint:fp-to-real-symbolic-bridge-unsat-proof"
+        ],
+        "failure_phase": "typecheck",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 FloatingPoint theory semantic regression"
       }
     },
     {
@@ -53414,6 +54103,149 @@
       }
     },
     {
+      "id": "theory:FloatingPoint:nan-payload-equality-sat",
+      "file": "cases/theories/floatingpoint/theory_floatingpoint_nan_payload_equality_sat.smt2",
+      "logic": "QF_FP",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "theory-behavior:canonical-equality",
+        "theory-behavior:floatingpoint",
+        "theory-behavior:nan",
+        "theory-behavior:nan-payload-equality",
+        "theory-case:sat",
+        "theory-entry:FloatingPoint:nan-payload-equality-sat",
+        "theory:FloatingPoint"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "native FloatingPoint front-end support is incomplete",
+          "failure_phase": "typecheck"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "checked FloatingPoint SAT handling is incomplete",
+          "failure_phase": "solver"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/HolSmtScript.sml",
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "theory-symbol:FloatingPoint:nan-payload-equality-sat",
+        "test_ids": [
+          "theory:FloatingPoint:nan-payload-equality-sat"
+        ],
+        "failure_phase": "proof-replay",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 FloatingPoint theory semantic regression"
+      }
+    },
+    {
+      "id": "theory:FloatingPoint:nan-payload-equality-unsat-proof",
+      "file": "cases/theories/floatingpoint/theory_floatingpoint_nan_payload_equality_unsat_proof.smt2",
+      "logic": "QF_FP",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "theory-behavior:canonical-equality",
+        "theory-behavior:floatingpoint",
+        "theory-behavior:nan",
+        "theory-behavior:nan-payload-equality",
+        "theory-case:unsat-proof",
+        "theory-entry:FloatingPoint:nan-payload-equality-unsat-proof",
+        "theory:FloatingPoint"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "native FloatingPoint front-end support is incomplete",
+          "failure_phase": "typecheck"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "red",
+          "diagnostic": "FloatingPoint proof parsing evidence is incomplete",
+          "failure_phase": "proof-parse"
+        },
+        "proof-replay": {
+          "status": "red",
+          "diagnostic": "FloatingPoint proof replay is incomplete",
+          "failure_phase": "proof-replay"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "native FloatingPoint front-end support is incomplete",
+          "failure_phase": "proof-replay",
+          "theorem_shape": "closed theorem without oracle tags"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/HolSmtScript.sml",
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "theory-symbol:FloatingPoint:nan-payload-equality-unsat-proof",
+        "test_ids": [
+          "theory:FloatingPoint:nan-payload-equality-unsat-proof"
+        ],
+        "failure_phase": "proof-replay",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 FloatingPoint theory semantic regression"
+      }
+    },
+    {
       "id": "theory:FloatingPoint:nan:boundary",
       "file": "cases/theories/theory_floatingpoint_nan_boundary.smt2",
       "logic": "QF_FP",
@@ -54846,6 +55678,163 @@
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 FloatingPoint theory: +zero"
+      }
+    },
+    {
+      "id": "theory:FloatingPoint:rna-ground-add-unsat-proof",
+      "file": "cases/theories/floatingpoint/theory_floatingpoint_rna_ground_add_unsat_proof.smt2",
+      "logic": "QF_FP",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "fp-proof-shape:ground-evaluation",
+        "theory-behavior:arithmetic",
+        "theory-behavior:floatingpoint",
+        "theory-behavior:rna",
+        "theory-behavior:rounding-mode",
+        "theory-case:unsat-proof",
+        "theory-entry:FloatingPoint:rna-ground-add-unsat-proof",
+        "theory:FloatingPoint"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "native FloatingPoint front-end support is incomplete",
+          "failure_phase": "typecheck"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "red",
+          "diagnostic": "FloatingPoint proof parsing evidence is incomplete",
+          "failure_phase": "proof-parse"
+        },
+        "proof-replay": {
+          "status": "red",
+          "diagnostic": "FloatingPoint proof replay is incomplete",
+          "failure_phase": "proof-replay"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "native FloatingPoint front-end support is incomplete",
+          "failure_phase": "proof-replay",
+          "theorem_shape": "closed theorem without oracle tags"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/HolSmtScript.sml",
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "theory-symbol:FloatingPoint:rna-ground-add-unsat-proof",
+        "test_ids": [
+          "theory:FloatingPoint:rna-ground-add-unsat-proof"
+        ],
+        "failure_phase": "proof-replay",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 FloatingPoint theory semantic regression"
+      }
+    },
+    {
+      "id": "theory:FloatingPoint:rna-round-to-integral-unsat-proof",
+      "file": "cases/theories/floatingpoint/theory_floatingpoint_rna_round_to_integral_unsat_proof.smt2",
+      "logic": "QF_FP",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "fp-proof-shape:ground-evaluation",
+        "theory-behavior:floatingpoint",
+        "theory-behavior:rna",
+        "theory-behavior:rounding-mode",
+        "theory-case:unsat-proof",
+        "theory-entry:FloatingPoint:rna-round-to-integral-unsat-proof",
+        "theory:FloatingPoint"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "native FloatingPoint front-end support is incomplete",
+          "failure_phase": "typecheck"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "red",
+          "diagnostic": "FloatingPoint proof parsing evidence is incomplete",
+          "failure_phase": "proof-parse"
+        },
+        "proof-replay": {
+          "status": "red",
+          "diagnostic": "FloatingPoint proof replay is incomplete",
+          "failure_phase": "proof-replay"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "native FloatingPoint front-end support is incomplete",
+          "failure_phase": "proof-replay",
+          "theorem_shape": "closed theorem without oracle tags"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/HolSmtScript.sml",
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "theory-symbol:FloatingPoint:rna-round-to-integral-unsat-proof",
+        "test_ids": [
+          "theory:FloatingPoint:rna-round-to-integral-unsat-proof"
+        ],
+        "failure_phase": "proof-replay",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 FloatingPoint theory semantic regression"
       }
     },
     {
@@ -57919,6 +58908,556 @@
       "source": {
         "kind": "SMT-LIB-theory",
         "reference": "SMT-LIB 2.7 FloatingPoint theory: RTZ"
+      }
+    },
+    {
+      "id": "theory:FloatingPoint:symbolic-comparison-eq-unsat-proof",
+      "file": "cases/theories/floatingpoint/theory_floatingpoint_symbolic_comparison_eq_unsat_proof.smt2",
+      "logic": "QF_FP",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "fp-proof-shape:symbolic-atom",
+        "theory-behavior:comparison",
+        "theory-behavior:floatingpoint",
+        "theory-behavior:symbolic",
+        "theory-case:unsat-proof",
+        "theory-entry:FloatingPoint:symbolic-comparison-eq-unsat-proof",
+        "theory:FloatingPoint"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "native FloatingPoint front-end support is incomplete",
+          "failure_phase": "typecheck"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "red",
+          "diagnostic": "FloatingPoint proof parsing evidence is incomplete",
+          "failure_phase": "proof-parse"
+        },
+        "proof-replay": {
+          "status": "red",
+          "diagnostic": "FloatingPoint proof replay is incomplete",
+          "failure_phase": "proof-replay"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "native FloatingPoint front-end support is incomplete",
+          "failure_phase": "proof-replay",
+          "theorem_shape": "closed theorem without oracle tags"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/HolSmtScript.sml",
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "theory-symbol:FloatingPoint:symbolic-comparison-eq-unsat-proof",
+        "test_ids": [
+          "theory:FloatingPoint:symbolic-comparison-eq-unsat-proof"
+        ],
+        "failure_phase": "proof-replay",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 FloatingPoint theory semantic regression"
+      }
+    },
+    {
+      "id": "theory:FloatingPoint:symbolic-comparison-geq-unsat-proof",
+      "file": "cases/theories/floatingpoint/theory_floatingpoint_symbolic_comparison_geq_unsat_proof.smt2",
+      "logic": "QF_FP",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "fp-proof-shape:symbolic-atom",
+        "theory-behavior:comparison",
+        "theory-behavior:floatingpoint",
+        "theory-behavior:symbolic",
+        "theory-case:unsat-proof",
+        "theory-entry:FloatingPoint:symbolic-comparison-geq-unsat-proof",
+        "theory:FloatingPoint"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "native FloatingPoint front-end support is incomplete",
+          "failure_phase": "typecheck"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "red",
+          "diagnostic": "FloatingPoint proof parsing evidence is incomplete",
+          "failure_phase": "proof-parse"
+        },
+        "proof-replay": {
+          "status": "red",
+          "diagnostic": "FloatingPoint proof replay is incomplete",
+          "failure_phase": "proof-replay"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "native FloatingPoint front-end support is incomplete",
+          "failure_phase": "proof-replay",
+          "theorem_shape": "closed theorem without oracle tags"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/HolSmtScript.sml",
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "theory-symbol:FloatingPoint:symbolic-comparison-geq-unsat-proof",
+        "test_ids": [
+          "theory:FloatingPoint:symbolic-comparison-geq-unsat-proof"
+        ],
+        "failure_phase": "proof-replay",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 FloatingPoint theory semantic regression"
+      }
+    },
+    {
+      "id": "theory:FloatingPoint:symbolic-comparison-gt-unsat-proof",
+      "file": "cases/theories/floatingpoint/theory_floatingpoint_symbolic_comparison_gt_unsat_proof.smt2",
+      "logic": "QF_FP",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "fp-proof-shape:symbolic-atom",
+        "theory-behavior:comparison",
+        "theory-behavior:floatingpoint",
+        "theory-behavior:symbolic",
+        "theory-case:unsat-proof",
+        "theory-entry:FloatingPoint:symbolic-comparison-gt-unsat-proof",
+        "theory:FloatingPoint"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "native FloatingPoint front-end support is incomplete",
+          "failure_phase": "typecheck"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "red",
+          "diagnostic": "FloatingPoint proof parsing evidence is incomplete",
+          "failure_phase": "proof-parse"
+        },
+        "proof-replay": {
+          "status": "red",
+          "diagnostic": "FloatingPoint proof replay is incomplete",
+          "failure_phase": "proof-replay"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "native FloatingPoint front-end support is incomplete",
+          "failure_phase": "proof-replay",
+          "theorem_shape": "closed theorem without oracle tags"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/HolSmtScript.sml",
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "theory-symbol:FloatingPoint:symbolic-comparison-gt-unsat-proof",
+        "test_ids": [
+          "theory:FloatingPoint:symbolic-comparison-gt-unsat-proof"
+        ],
+        "failure_phase": "proof-replay",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 FloatingPoint theory semantic regression"
+      }
+    },
+    {
+      "id": "theory:FloatingPoint:symbolic-comparison-leq-unsat-proof",
+      "file": "cases/theories/floatingpoint/theory_floatingpoint_symbolic_comparison_leq_unsat_proof.smt2",
+      "logic": "QF_FP",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "fp-proof-shape:symbolic-atom",
+        "theory-behavior:comparison",
+        "theory-behavior:floatingpoint",
+        "theory-behavior:symbolic",
+        "theory-case:unsat-proof",
+        "theory-entry:FloatingPoint:symbolic-comparison-leq-unsat-proof",
+        "theory:FloatingPoint"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "native FloatingPoint front-end support is incomplete",
+          "failure_phase": "typecheck"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "red",
+          "diagnostic": "FloatingPoint proof parsing evidence is incomplete",
+          "failure_phase": "proof-parse"
+        },
+        "proof-replay": {
+          "status": "red",
+          "diagnostic": "FloatingPoint proof replay is incomplete",
+          "failure_phase": "proof-replay"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "native FloatingPoint front-end support is incomplete",
+          "failure_phase": "proof-replay",
+          "theorem_shape": "closed theorem without oracle tags"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/HolSmtScript.sml",
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "theory-symbol:FloatingPoint:symbolic-comparison-leq-unsat-proof",
+        "test_ids": [
+          "theory:FloatingPoint:symbolic-comparison-leq-unsat-proof"
+        ],
+        "failure_phase": "proof-replay",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 FloatingPoint theory semantic regression"
+      }
+    },
+    {
+      "id": "theory:FloatingPoint:symbolic-comparison-lt-unsat-proof",
+      "file": "cases/theories/floatingpoint/theory_floatingpoint_symbolic_comparison_lt_unsat_proof.smt2",
+      "logic": "QF_FP",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "fp-proof-shape:symbolic-atom",
+        "theory-behavior:comparison",
+        "theory-behavior:floatingpoint",
+        "theory-behavior:symbolic",
+        "theory-case:unsat-proof",
+        "theory-entry:FloatingPoint:symbolic-comparison-lt-unsat-proof",
+        "theory:FloatingPoint"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "native FloatingPoint front-end support is incomplete",
+          "failure_phase": "typecheck"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "red",
+          "diagnostic": "FloatingPoint proof parsing evidence is incomplete",
+          "failure_phase": "proof-parse"
+        },
+        "proof-replay": {
+          "status": "red",
+          "diagnostic": "FloatingPoint proof replay is incomplete",
+          "failure_phase": "proof-replay"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "native FloatingPoint front-end support is incomplete",
+          "failure_phase": "proof-replay",
+          "theorem_shape": "closed theorem without oracle tags"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/HolSmtScript.sml",
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "theory-symbol:FloatingPoint:symbolic-comparison-lt-unsat-proof",
+        "test_ids": [
+          "theory:FloatingPoint:symbolic-comparison-lt-unsat-proof"
+        ],
+        "failure_phase": "proof-replay",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 FloatingPoint theory semantic regression"
+      }
+    },
+    {
+      "id": "theory:FloatingPoint:to-fp-mixed-format-chain-unsat-proof",
+      "file": "cases/theories/floatingpoint/theory_floatingpoint_to_fp_mixed_format_chain_unsat_proof.smt2",
+      "logic": "QF_FPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "fp-proof-shape:ground-conversion",
+        "theory-behavior:conversion",
+        "theory-behavior:floatingpoint",
+        "theory-behavior:mixed-format",
+        "theory-behavior:qf-fplra",
+        "theory-behavior:rna",
+        "theory-case:unsat-proof",
+        "theory-entry:FloatingPoint:to-fp-mixed-format-chain-unsat-proof",
+        "theory:FloatingPoint"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "unknown logic QF_FPLRA",
+          "failure_phase": "typecheck"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "red",
+          "diagnostic": "FloatingPoint proof parsing evidence is incomplete",
+          "failure_phase": "proof-parse"
+        },
+        "proof-replay": {
+          "status": "red",
+          "diagnostic": "FloatingPoint proof replay is incomplete",
+          "failure_phase": "proof-replay"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "unknown logic QF_FPLRA",
+          "failure_phase": "typecheck",
+          "theorem_shape": "closed theorem without oracle tags"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/HolSmtScript.sml",
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Logics.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "theory-symbol:FloatingPoint:to-fp-mixed-format-chain-unsat-proof",
+        "test_ids": [
+          "theory:FloatingPoint:to-fp-mixed-format-chain-unsat-proof"
+        ],
+        "failure_phase": "typecheck",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 FloatingPoint theory semantic regression"
+      }
+    },
+    {
+      "id": "theory:FloatingPoint:to-fp-mixed-format-rna-unsat-proof",
+      "file": "cases/theories/floatingpoint/theory_floatingpoint_to_fp_mixed_format_rna_unsat_proof.smt2",
+      "logic": "QF_FP",
+      "standard": "SMT-LIB-2.7",
+      "class": "theory",
+      "features": [
+        "fp-proof-shape:ground-conversion",
+        "theory-behavior:conversion",
+        "theory-behavior:floatingpoint",
+        "theory-behavior:mixed-format",
+        "theory-behavior:rna",
+        "theory-case:unsat-proof",
+        "theory-entry:FloatingPoint:to-fp-mixed-format-rna-unsat-proof",
+        "theory:FloatingPoint"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "native FloatingPoint front-end support is incomplete",
+          "failure_phase": "typecheck"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "red",
+          "diagnostic": "FloatingPoint proof parsing evidence is incomplete",
+          "failure_phase": "proof-parse"
+        },
+        "proof-replay": {
+          "status": "red",
+          "diagnostic": "FloatingPoint proof replay is incomplete",
+          "failure_phase": "proof-replay"
+        },
+        "z3-tac": {
+          "status": "red",
+          "diagnostic": "native FloatingPoint front-end support is incomplete",
+          "failure_phase": "proof-replay",
+          "theorem_shape": "closed theorem without oracle tags"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/HolSmtScript.sml",
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "theory-symbol:FloatingPoint:to-fp-mixed-format-rna-unsat-proof",
+        "test_ids": [
+          "theory:FloatingPoint:to-fp-mixed-format-rna-unsat-proof"
+        ],
+        "failure_phase": "proof-replay",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "SMT-LIB-theory",
+        "reference": "SMT-LIB 2.7 FloatingPoint theory semantic regression"
       }
     },
     {

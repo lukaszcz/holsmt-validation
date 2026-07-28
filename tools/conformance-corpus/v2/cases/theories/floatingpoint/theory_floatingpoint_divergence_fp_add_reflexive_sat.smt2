@@ -1,0 +1,6 @@
+(set-logic QF_FP)
+(declare-const x Float32)
+(declare-const y Float32)
+(assert (= (fp.add RNA x y) (fp.add RNA x y)))
+(check-sat)
+(exit)

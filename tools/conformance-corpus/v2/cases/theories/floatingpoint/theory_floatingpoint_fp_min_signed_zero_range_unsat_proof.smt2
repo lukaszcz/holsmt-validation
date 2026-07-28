@@ -1,0 +1,9 @@
+(set-option :produce-proofs true)
+(set-logic QF_FP)
+(assert
+  (not
+    (or (= (fp.min (_ +zero 3 5) (_ -zero 3 5)) (_ +zero 3 5))
+        (= (fp.min (_ +zero 3 5) (_ -zero 3 5)) (_ -zero 3 5)))))
+(check-sat)
+(get-proof)
+(exit)

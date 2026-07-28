@@ -349,6 +349,7 @@ def validate_expected_result(value: object, label: str) -> str:
     allowed = {
         "status",
         "diagnostic",
+        "diagnostic_alternatives",
         "failure_phase",
         "theorem_shape",
         "proof_rule_histogram",
@@ -378,6 +379,20 @@ def validate_expected_result(value: object, label: str) -> str:
     ):
         if string_field in value:
             require_string(value[string_field], f"{label}.{string_field}", allow_empty=string_field == "notes")
+    if "diagnostic_alternatives" in value:
+        alternatives = value["diagnostic_alternatives"]
+        require(
+            isinstance(alternatives, list) and bool(alternatives),
+            f"{label}.diagnostic_alternatives must be a non-empty list",
+        )
+        require(
+            all(isinstance(item, str) and bool(item) for item in alternatives),
+            f"{label}.diagnostic_alternatives must contain non-empty strings",
+        )
+        require(
+            len(alternatives) == len(set(alternatives)),
+            f"{label}.diagnostic_alternatives must be unique",
+        )
     if "failure_phase" in value:
         require(
             value["failure_phase"]

@@ -288,6 +288,7 @@ def expected_result(
     status: str,
     *,
     diagnostic: str | None = None,
+    diagnostic_alternatives: Sequence[str] | None = None,
     failure_phase: str | None = None,
     theorem_shape: str | None = None,
     proof_rule_histogram: Mapping[str, int] | None = None,
@@ -303,6 +304,10 @@ def expected_result(
     result: dict[str, object] = {"status": status}
     if diagnostic is not None:
         result["diagnostic"] = require_string(diagnostic, "diagnostic")
+    if diagnostic_alternatives is not None:
+        result["diagnostic_alternatives"] = require_string_list(
+            diagnostic_alternatives, "diagnostic_alternatives"
+        )
     if failure_phase is not None:
         result["failure_phase"] = require_choice(failure_phase, "failure_phase", FAILURE_PHASES)
     if theorem_shape is not None:
@@ -478,6 +483,9 @@ def manifest_entry(
         expected_result_by_mode["z3-tac"] = expected_result(
             "unsupported",
             diagnostic=RESOURCE_GATE_DIAGNOSTIC,
+            diagnostic_alternatives=expected_result_by_mode[
+                "z3-tac"
+            ].get("diagnostic_alternatives"),
         )
 
     red_modes = [
@@ -3916,6 +3924,405 @@ FLOATINGPOINT_THEORY_SYMBOLS: tuple[TheorySymbol, ...] = (
 )
 
 
+def fp_scripted_expected(
+    *,
+    sat: bool,
+    divergence_guard: bool = False,
+    qf_fplra: bool = False,
+) -> tuple[tuple[str, ...], dict[str, dict[str, object]]]:
+    if sat:
+        modes = ("parser-only", "typecheck-only", "z3-oracle", "z3-tac")
+        if divergence_guard:
+            return modes, {mode: expected_result("pass") for mode in modes}
+        return modes, {
+            "parser-only": expected_result("pass"),
+            "typecheck-only": expected_result(
+                "red",
+                diagnostic="native FloatingPoint front-end support is incomplete",
+                failure_phase="typecheck",
+            ),
+            "z3-oracle": expected_result("pass"),
+            "z3-tac": expected_result(
+                "red",
+                diagnostic="checked FloatingPoint SAT handling is incomplete",
+                failure_phase="solver",
+            ),
+        }
+
+    modes = (
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac",
+    )
+    hol_diagnostic = (
+        "unknown logic QF_FPLRA"
+        if qf_fplra
+        else "native FloatingPoint front-end support is incomplete"
+    )
+    return modes, {
+        "parser-only": expected_result("pass"),
+        "typecheck-only": expected_result(
+            "red", diagnostic=hol_diagnostic, failure_phase="typecheck"
+        ),
+        "z3-oracle": expected_result("pass"),
+        "proof-parse": expected_result(
+            "red",
+            diagnostic="FloatingPoint proof parsing evidence is incomplete",
+            failure_phase="proof-parse",
+        ),
+        "proof-replay": expected_result(
+            "red",
+            diagnostic="FloatingPoint proof replay is incomplete",
+            failure_phase="proof-replay",
+        ),
+        "z3-tac": expected_result(
+            "red",
+            diagnostic=hol_diagnostic,
+            failure_phase="typecheck" if qf_fplra else "proof-replay",
+            theorem_shape="closed theorem without oracle tags",
+        ),
+    }
+
+
+def fp_scripted_case(
+    *,
+    slug_name: str,
+    body: str,
+    sat: bool,
+    features: tuple[str, ...],
+    logic: str = "QF_FP",
+    divergence_guard: bool = False,
+) -> ScriptedCase:
+    modes, expected = fp_scripted_expected(
+        sat=sat,
+        divergence_guard=divergence_guard,
+        qf_fplra=logic == "QF_FPLRA",
+    )
+    red = any(result["status"] == "red" for result in expected.values())
+    return ScriptedCase(
+        slug=slug_name,
+        script=(
+            ("(set-option :produce-proofs true)\n" if not sat else "")
+            + f"(set-logic {logic})\n"
+            + body
+            + "(check-sat)\n"
+            + ("(get-proof)\n" if not sat else "")
+            + "(exit)\n"
+        ),
+        modes=modes,
+        expected=expected,
+        features=(
+            "theory:FloatingPoint",
+            "theory-behavior:floatingpoint",
+            f"theory-case:{'sat' if sat else 'unsat-proof'}",
+            f"theory-entry:FloatingPoint:{slug_name}",
+            *features,
+        ),
+        implementation_feature=(
+            f"theory-symbol:FloatingPoint:{slug_name}"
+            if red else None
+        ),
+        implementation_files=(
+            FLOATINGPOINT_RECONSTRUCTION_FILES
+            + (("src/HolSmt/SmtLib_Logics.sml",)
+               if logic == "QF_FPLRA" else ())
+            if red else ()
+        ),
+        implementation_phase=(
+            "typecheck" if logic == "QF_FPLRA" else "proof-replay"
+        ) if red else None,
+        logic=logic,
+        source_reference=(
+            "SMT-LIB 2.7 FloatingPoint theory semantic regression"
+        ),
+    )
+
+
+def fp_d12_case(
+    *,
+    slug_name: str,
+    declarations: str,
+    one: str,
+) -> ScriptedCase:
+    modes = ("parser-only", "z3-tac")
+    return ScriptedCase(
+        slug=slug_name,
+        script=(
+            "(set-logic QF_FP)\n"
+            + declarations
+            + "(assert\n"
+            + "  (not\n"
+            + f"    (= (fp.add RNE x {one})\n"
+            + f"       (fp.add RNE {one} x))))\n"
+            + "(check-sat)\n(exit)\n"
+        ),
+        modes=modes,
+        expected={
+            "parser-only": expected_result("pass"),
+            "z3-tac": expected_result(
+                "red",
+                diagnostic=RESOURCE_GATE_DIAGNOSTIC,
+                diagnostic_alternatives=(
+                    "UNKNOWN result has no HOL theorem to reconstruct",
+                ) if "float32" in slug_name else (
+                    "failed to parse 'FloatingPoint'",
+                ),
+                failure_phase="proof-replay",
+            ),
+        },
+        features=(
+            "theory:FloatingPoint",
+            "theory-behavior:floatingpoint",
+            "theory-case:unsat-proof",
+            f"theory-entry:FloatingPoint:{slug_name}",
+            "theory-behavior:arithmetic",
+            "theory-behavior:rounding-mode",
+            "theory-behavior:symbolic",
+            RESOURCE_GATE_FEATURE,
+        ),
+        implementation_feature=f"theory-symbol:FloatingPoint:{slug_name}",
+        implementation_files=FLOATINGPOINT_RECONSTRUCTION_FILES,
+        implementation_phase="proof-replay",
+        logic="QF_FP",
+        source_kind="HolSmt-internal",
+        source_reference="Phase 5 D12 FloatingPoint resource-budget exemplar",
+    )
+
+
+_FP_NAN_PAYLOAD = "(fp #b1 #b11111 #b0000000001)"
+_FP_NAN_5_11 = "(_ NaN 5 11)"
+_FP_MIN_ZERO = "(fp.min (_ +zero 3 5) (_ -zero 3 5))"
+_FP_MAX_ZERO = "(fp.max (_ +zero 3 5) (_ -zero 3 5))"
+
+
+FLOATINGPOINT_THEORY_CASES: tuple[ScriptedCase, ...] = (
+    fp_scripted_case(
+        slug_name="nan-payload-equality-sat",
+        body=f"(assert (= {_FP_NAN_PAYLOAD} {_FP_NAN_5_11}))\n",
+        sat=True,
+        features=(
+            "theory-behavior:nan",
+            "theory-behavior:nan-payload-equality",
+            "theory-behavior:canonical-equality",
+        ),
+    ),
+    fp_scripted_case(
+        slug_name="nan-payload-equality-unsat-proof",
+        body=f"(assert (not (= {_FP_NAN_PAYLOAD} {_FP_NAN_5_11})))\n",
+        sat=False,
+        features=(
+            "theory-behavior:nan",
+            "theory-behavior:nan-payload-equality",
+            "theory-behavior:canonical-equality",
+        ),
+    ),
+    *(
+        fp_scripted_case(
+            slug_name=f"fp-{operation}-signed-zero-{pin}-pin-sat",
+            body=f"(assert (= {term} (_ {sign}zero 3 5)))\n",
+            sat=True,
+            features=(
+                "theory-behavior:min-max",
+                "theory-behavior:signed-zero",
+                "theory-behavior:underspecified",
+                "theory-behavior:admissible-pin",
+            ),
+        )
+        for operation, term in (("min", _FP_MIN_ZERO), ("max", _FP_MAX_ZERO))
+        for pin, sign in (("positive", "+"), ("negative", "-"))
+    ),
+    fp_scripted_case(
+        slug_name="fp-min-signed-zero-range-unsat-proof",
+        body=(
+            "(assert\n"
+            "  (not\n"
+            f"    (or (= {_FP_MIN_ZERO} (_ +zero 3 5))\n"
+            f"        (= {_FP_MIN_ZERO} (_ -zero 3 5)))))\n"
+        ),
+        sat=False,
+        features=(
+            "theory-behavior:min-max",
+            "theory-behavior:signed-zero",
+            "theory-behavior:underspecified",
+            "fp-proof-shape:ground-underspecified-range",
+        ),
+    ),
+    fp_scripted_case(
+        slug_name="rna-ground-add-unsat-proof",
+        body=(
+            "(assert\n"
+            "  (not\n"
+            "    (= (fp.add RNA (fp #b0 #b011 #b0000)\n"
+            "                    (fp #b0 #b000 #b0010))\n"
+            "       (fp #b0 #b011 #b0001))))\n"
+        ),
+        sat=False,
+        features=(
+            "theory-behavior:arithmetic",
+            "theory-behavior:rounding-mode",
+            "theory-behavior:rna",
+            "fp-proof-shape:ground-evaluation",
+        ),
+    ),
+    fp_scripted_case(
+        slug_name="rna-round-to-integral-unsat-proof",
+        body=(
+            "(assert\n"
+            "  (not\n"
+            "    (= (fp.roundToIntegral RNA (fp #b1 #b100 #b0100))\n"
+            "       (fp #b1 #b100 #b1000))))\n"
+        ),
+        sat=False,
+        features=(
+            "theory-behavior:rounding-mode",
+            "theory-behavior:rna",
+            "fp-proof-shape:ground-evaluation",
+        ),
+    ),
+    fp_scripted_case(
+        slug_name="to-fp-mixed-format-rna-unsat-proof",
+        body=(
+            "(assert\n"
+            "  (not\n"
+            "    (= ((_ to_fp 3 5) RNA (fp #b0 #b0111 #b000010))\n"
+            "       (fp #b0 #b011 #b0001))))\n"
+        ),
+        sat=False,
+        features=(
+            "theory-behavior:conversion",
+            "theory-behavior:mixed-format",
+            "theory-behavior:rna",
+            "fp-proof-shape:ground-conversion",
+        ),
+    ),
+    fp_scripted_case(
+        slug_name="to-fp-mixed-format-chain-unsat-proof",
+        body=(
+            "(assert\n"
+            "  (not\n"
+            "    (= ((_ to_fp 3 5) RNA\n"
+            "          ((_ to_fp 4 7) RNE (/ 33.0 32.0)))\n"
+            "       (fp #b0 #b011 #b0001))))\n"
+        ),
+        sat=False,
+        logic="QF_FPLRA",
+        features=(
+            "theory-behavior:conversion",
+            "theory-behavior:mixed-format",
+            "theory-behavior:rna",
+            "theory-behavior:qf-fplra",
+            "fp-proof-shape:ground-conversion",
+        ),
+    ),
+    fp_scripted_case(
+        slug_name="fp-to-real-ground-unsat-proof",
+        body=(
+            "(assert\n"
+            "  (not (= (fp.to_real (fp #b0 #b011 #b1000))\n"
+            "          (/ 3.0 2.0))))\n"
+        ),
+        sat=False,
+        logic="QF_FPLRA",
+        features=(
+            "theory-behavior:conversion",
+            "theory-behavior:qf-fplra",
+            "fp-proof-shape:ground-conversion",
+        ),
+    ),
+    fp_scripted_case(
+        slug_name="fp-to-real-symbolic-bridge-unsat-proof",
+        body=(
+            "(declare-const x Float32)\n"
+            "(declare-const r Real)\n"
+            "(assert\n"
+            "  (not\n"
+            "    (=> (= x (_ +zero 8 24))\n"
+            "        (<= (+ (fp.to_real x) r) r))))\n"
+        ),
+        sat=False,
+        logic="QF_FPLRA",
+        features=(
+            "theory-behavior:conversion",
+            "theory-behavior:qf-fplra",
+            "theory-behavior:real-arithmetic",
+            "theory-behavior:symbolic",
+            "fp-proof-shape:symbolic-atom",
+        ),
+    ),
+    *(
+        fp_scripted_case(
+            slug_name=f"symbolic-comparison-{name}-unsat-proof",
+            body=(
+                "(declare-const x (_ FloatingPoint 3 5))\n"
+                "(declare-const y (_ FloatingPoint 3 5))\n"
+                f"(assert {assertion})\n"
+            ),
+            sat=False,
+            features=(
+                "theory-behavior:comparison",
+                "theory-behavior:symbolic",
+                "fp-proof-shape:symbolic-atom",
+            ),
+        )
+        for name, assertion in (
+            ("lt", "(and (fp.lt x y) (fp.lt y x))"),
+            ("gt", "(and (fp.gt x y) (fp.gt y x))"),
+            (
+                "leq",
+                "(and (fp.leq x y) (fp.leq y x) (not (fp.eq x y)))",
+            ),
+            (
+                "geq",
+                "(and (fp.geq x y) (fp.geq y x) (not (fp.eq x y)))",
+            ),
+            ("eq", "(and (fp.eq x y) (not (fp.leq x y)))"),
+        )
+    ),
+    fp_scripted_case(
+        slug_name="divergence-free-variable-reflexive-sat",
+        body=(
+            "(declare-const x Float32)\n"
+            "(assert (= x x))\n"
+        ),
+        sat=True,
+        divergence_guard=True,
+        features=(
+            "theory-behavior:divergence-guard",
+            "theory-behavior:free-variable",
+        ),
+    ),
+    fp_scripted_case(
+        slug_name="divergence-fp-add-reflexive-sat",
+        body=(
+            "(declare-const x Float32)\n"
+            "(declare-const y Float32)\n"
+            "(assert (= (fp.add RNA x y) (fp.add RNA x y)))\n"
+        ),
+        sat=True,
+        divergence_guard=True,
+        features=(
+            "theory-behavior:arithmetic",
+            "theory-behavior:divergence-guard",
+            "theory-behavior:rounding-mode",
+            "theory-behavior:symbolic",
+        ),
+    ),
+    fp_d12_case(
+        slug_name="d12-fp-add-commutativity-float32",
+        declarations="(declare-const x Float32)\n",
+        one="(fp #b0 #x7f #b00000000000000000000000)",
+    ),
+    fp_d12_case(
+        slug_name="d12-fp-add-commutativity-tiny-3-5",
+        declarations="(declare-const x (_ FloatingPoint 3 5))\n",
+        one="(fp #b0 #b011 #b0000)",
+    ),
+)
+
+
 def string_body(
     assertion: str,
     declarations: str = "",
@@ -5740,6 +6147,7 @@ ARRAY_TYPE_ERROR_DIAGNOSTICS = {
 def scripted_theory_case_file(theory: str, case_id: str) -> str:
     directory = {
         "Datatypes": "datatypes",
+        "FloatingPoint": "floatingpoint",
         "HO_Core": "hocore",
         "UnicodeStrings": "strings",
     }[theory]
@@ -6106,6 +6514,10 @@ def theory_cases() -> list[GeneratedCase]:
         cases.append(theory_case(symbol, "type-error", symbol.type_error_script))
         cases.append(theory_case(symbol, "boundary", symbol.boundary_script))
     cases.extend(scripted_theory_case("Datatypes", case) for case in DATATYPE_THEORY_CASES)
+    cases.extend(
+        scripted_theory_case("FloatingPoint", case)
+        for case in FLOATINGPOINT_THEORY_CASES
+    )
     cases.extend(scripted_theory_case("HO_Core", case) for case in HOCORE_THEORY_CASES)
     cases.extend(
         scripted_theory_case("UnicodeStrings", case)

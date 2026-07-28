@@ -154,6 +154,38 @@ class ConformanceSuiteTests(unittest.TestCase):
             conformance.CLASSIFICATION_MATCHED,
         )
 
+    def test_unsupported_expectation_accepts_transitional_diagnostic(self):
+        expected = conformance.normalize_expected_outcome(
+            {
+                "status": "unsupported",
+                "diagnostic": "resource-gated: fp-bitblast;",
+                "diagnostic_alternatives": ["pre-native FP diagnostic"],
+            },
+            context="synthetic",
+        )
+        case = conformance.Case(
+            name="synthetic-resource-transition",
+            logic="QF_FP",
+            text="(check-sat)\n",
+            origin="synthetic",
+            tags=("theory-behavior:resource-gated",),
+            modes=(conformance.MODE_Z3_TAC,),
+            expected={conformance.MODE_Z3_TAC: expected},
+        )
+        observed = conformance.result(
+            case,
+            conformance.MODE_Z3_TAC,
+            conformance.UNSUPPORTED,
+            "pre-native FP diagnostic: abstract carrier",
+        )
+        classified = conformance.apply_expectation(case, observed)
+        self.assertTrue(classified["diagnostic_match"])
+        self.assertEqual(classified["conformance_status"], conformance.PASS)
+        self.assertEqual(
+            classified["expected_diagnostic"],
+            "resource-gated: fp-bitblast;",
+        )
+
     def test_cvc5_default_accepts_hol_solver_environment_name(self):
         with mock.patch.dict(
             os.environ,

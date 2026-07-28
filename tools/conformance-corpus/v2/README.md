@@ -27,6 +27,9 @@ Each case entry has these required fields:
 - `expected`: per-mode expected results.  Each result status is exactly
   `pass`, `fail`, or `red`; negative and red rows may also carry diagnostic
   substrings, theorem-shape predicates, and proof-rule histogram constraints.
+  `diagnostic_alternatives` records temporary pre-implementation diagnostics
+  without weakening the primary reserved diagnostic that must match after a
+  red-first row flips.
 - `implementation_obligation`: `null` for non-red rows; non-null for red rows,
   naming likely implementation files, the missing feature, failing test IDs,
   and the failure phase.

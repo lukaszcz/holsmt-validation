@@ -596,6 +596,120 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
                 f"theory-symbol:FloatingPoint:{slug}:unsat-proof",
             )
 
+    def test_floatingpoint_red_first_semantic_families(self):
+        generated = {
+            case.entry["id"]: case
+            for case in generator.theory_cases()
+            if case.entry["id"].startswith("theory:FloatingPoint:")
+        }
+        new_ids = {
+            f"theory:FloatingPoint:{case.slug}"
+            for case in generator.FLOATINGPOINT_THEORY_CASES
+        }
+        self.assertEqual(len(new_ids), 22)
+        self.assertTrue(new_ids <= set(generated))
+
+        family_features = {
+            "theory-behavior:nan-payload-equality": 2,
+            "theory-behavior:admissible-pin": 4,
+            "theory-behavior:rna": 4,
+            "theory-behavior:mixed-format": 2,
+            "theory-behavior:qf-fplra": 3,
+            "theory-behavior:comparison": 5,
+            "theory-behavior:divergence-guard": 2,
+            generator.RESOURCE_GATE_FEATURE: 2,
+        }
+        new_cases = [generated[case_id] for case_id in new_ids]
+        for feature, count in family_features.items():
+            self.assertEqual(
+                sum(feature in case.entry["features"] for case in new_cases),
+                count,
+                feature,
+            )
+
+        red_cases = [
+            case for case in new_cases
+            if any(
+                result["status"] == "red"
+                for result in case.entry["expected"].values()
+            )
+        ]
+        self.assertTrue(red_cases)
+        for case in red_cases:
+            self.assertIsNotNone(case.entry["implementation_obligation"])
+            self.assertEqual(case.entry["expected"]["parser-only"]["status"],
+                             "pass")
+            self.assertEqual(case.entry["expected"]["z3-oracle"]["status"],
+                             "pass")
+
+        qf_fplra = [case for case in new_cases
+                    if case.entry["logic"] == "QF_FPLRA"]
+        self.assertEqual(len(qf_fplra), 3)
+        for case in qf_fplra:
+            expected = case.entry["expected"]
+            self.assertEqual(expected["parser-only"]["status"], "pass")
+            self.assertEqual(expected["z3-oracle"]["status"], "pass")
+            self.assertEqual(expected["typecheck-only"]["status"], "red")
+            self.assertIn("unknown logic QF_FPLRA",
+                          expected["typecheck-only"]["diagnostic"])
+
+    def test_floatingpoint_sat_pins_and_divergence_guards(self):
+        cases = {
+            case.slug: case
+            for case in generator.FLOATINGPOINT_THEORY_CASES
+        }
+        pin_ids = {
+            f"fp-{operation}-signed-zero-{pin}-pin-sat"
+            for operation in ("min", "max")
+            for pin in ("positive", "negative")
+        }
+        for case_id in pin_ids:
+            case = cases[case_id]
+            self.assertIn("theory-behavior:underspecified", case.features)
+            self.assertIn("theory-behavior:admissible-pin", case.features)
+            self.assertIn("(check-sat)", case.script)
+            self.assertNotIn("(get-proof)", case.script)
+
+        guards = [
+            case for case in cases.values()
+            if "theory-behavior:divergence-guard" in case.features
+        ]
+        self.assertEqual(len(guards), 2)
+        for case in guards:
+            self.assertIn("Float32", case.script)
+            self.assertEqual(
+                {result["status"] for result in case.expected.values()},
+                {"pass"},
+            )
+
+    def test_floatingpoint_d12_exemplars_are_enumerated_gates(self):
+        cases = {
+            case.entry["id"]: case
+            for case in generator.theory_cases()
+            if generator.RESOURCE_GATE_FEATURE in case.entry["features"]
+        }
+        expected_ids = {
+            "theory:FloatingPoint:d12-fp-add-commutativity-float32",
+            "theory:FloatingPoint:d12-fp-add-commutativity-tiny-3-5",
+        }
+        self.assertEqual(set(cases), expected_ids)
+        for case_id, case in cases.items():
+            self.assertIn("fp.add", case.script)
+            self.assertIn("theory-behavior:symbolic",
+                          case.entry["features"])
+            z3_expected = case.entry["expected"]["z3-tac"]
+            self.assertEqual(z3_expected["status"], "unsupported")
+            self.assertEqual(
+                z3_expected["diagnostic"],
+                generator.RESOURCE_GATE_DIAGNOSTIC,
+            )
+            self.assertEqual(len(z3_expected["diagnostic_alternatives"]), 1)
+            self.assertIsNone(case.entry["implementation_obligation"])
+            if case_id.endswith("float32"):
+                self.assertIn("Float32", case.script)
+            else:
+                self.assertIn("(_ FloatingPoint 3 5)", case.script)
+
     def test_theories_subcommand_separates_strings_and_z3_extensions(self):
         stdout = io.StringIO()
         with contextlib.redirect_stdout(stdout):
