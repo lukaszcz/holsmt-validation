@@ -1,6 +1,5 @@
 (set-option :produce-proofs true)
 (set-logic QF_FP)
-(declare-const fpv Float16)
-(assert (not (= fpv fpv)))
+(assert (not (fp.isZero (as (_ +zero 5 11) Float16))))
 (check-sat)
 (get-proof)

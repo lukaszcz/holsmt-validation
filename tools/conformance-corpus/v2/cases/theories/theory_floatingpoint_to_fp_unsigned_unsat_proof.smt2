@@ -1,5 +1,5 @@
 (set-option :produce-proofs true)
-(set-logic QF_FP)
-(assert (not (= ((_ to_fp_unsigned 8 24) RNE #x00000001) ((_ to_fp_unsigned 8 24) RNE #x00000001))))
+(set-logic QF_BVFP)
+(assert (not (= ((_ to_fp_unsigned 3 5) RNE #b1101) (fp #b0 #b110 #b1010))))
 (check-sat)
 (get-proof)

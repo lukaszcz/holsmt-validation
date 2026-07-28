@@ -3439,10 +3439,274 @@ def fp_self_assertion(term: str, result_sort: str) -> str:
     return f"(= {term} {term})"
 
 
-def fp_unsat_assertion(term: str, result_sort: str) -> str:
-    if result_sort == "Bool":
-        return f"(and {term} (not {term}))"
-    return f"(not (= {term} {term}))"
+@dataclass(frozen=True)
+class FpUnsatShape:
+    logic: str
+    declarations: str
+    assertion: str
+    shape: str
+    fact: str
+
+
+_FP_POS_TWO = "(fp #b0 #b100 #b0000)"
+_FP_POS_TWO_POINT_FIVE = "(fp #b0 #b100 #b0100)"
+_FP_POS_THREE = "(fp #b0 #b100 #b1000)"
+_FP_TINY_XY = (
+    "(declare-const x (_ FloatingPoint 3 5))\n"
+    "(declare-const y (_ FloatingPoint 3 5))\n"
+)
+_FP_TINY_X = "(declare-const x (_ FloatingPoint 3 5))\n"
+
+
+def fp_rounding_shape(name: str, expected: str) -> FpUnsatShape:
+    return FpUnsatShape(
+        "QF_FP",
+        "",
+        f"(not (= (fp.roundToIntegral {name} {_FP_POS_TWO_POINT_FIVE}) "
+        f"{expected}))",
+        "ground-rounding",
+        f"{name} rounds positive 2.5 to "
+        + ("3.0" if expected == _FP_POS_THREE else "2.0"),
+    )
+
+
+def fp_sort_shape(sort_name: str, eb: int, sb: int) -> FpUnsatShape:
+    return FpUnsatShape(
+        "QF_FP",
+        "",
+        f"(not (fp.isZero (as (_ +zero {eb} {sb}) {sort_name})))",
+        "ground-sort-special",
+        f"positive zero ascribed to {sort_name} is classified as zero",
+    )
+
+
+FP_SEMANTIC_UNSAT_SHAPES: dict[str, FpUnsatShape] = {
+    "roundingmode": FpUnsatShape(
+        "QF_FP",
+        "",
+        "(not (= (fp.roundToIntegral (as RNE RoundingMode) "
+        f"{_FP_POS_TWO_POINT_FIVE}) {_FP_POS_TWO}))",
+        "ground-sort-rounding",
+        "RNE ascribed to RoundingMode rounds positive 2.5 to 2.0",
+    ),
+    "floatingpoint": fp_sort_shape("(_ FloatingPoint 3 5)", 3, 5),
+    "float16": fp_sort_shape("Float16", 5, 11),
+    "float32": fp_sort_shape("Float32", 8, 24),
+    "float64": fp_sort_shape("Float64", 11, 53),
+    "float128": fp_sort_shape("Float128", 15, 113),
+    "roundnearesttiestoeven": fp_rounding_shape(
+        "roundNearestTiesToEven", _FP_POS_TWO
+    ),
+    "rne": fp_rounding_shape("RNE", _FP_POS_TWO),
+    "roundnearesttiestoaway": fp_rounding_shape(
+        "roundNearestTiesToAway", _FP_POS_THREE
+    ),
+    "rna": fp_rounding_shape("RNA", _FP_POS_THREE),
+    "roundtowardpositive": fp_rounding_shape(
+        "roundTowardPositive", _FP_POS_THREE
+    ),
+    "rtp": fp_rounding_shape("RTP", _FP_POS_THREE),
+    "roundtowardnegative": fp_rounding_shape(
+        "roundTowardNegative", _FP_POS_TWO
+    ),
+    "rtn": fp_rounding_shape("RTN", _FP_POS_TWO),
+    "roundtowardzero": fp_rounding_shape("roundTowardZero", _FP_POS_TWO),
+    "rtz": fp_rounding_shape("RTZ", _FP_POS_TWO),
+    "positive-zero": FpUnsatShape(
+        "QF_FP", "",
+        "(not (= (_ +zero 3 5) (fp #b0 #b000 #b0000)))",
+        "literal-normalization", "+zero has all-zero sign/exponent/fraction",
+    ),
+    "negative-zero": FpUnsatShape(
+        "QF_FP", "",
+        "(not (= (_ -zero 3 5) (fp #b1 #b000 #b0000)))",
+        "literal-normalization", "-zero has sign one and zero magnitude",
+    ),
+    "positive-infinity": FpUnsatShape(
+        "QF_FP", "",
+        "(not (= (_ +oo 3 5) (fp #b0 #b111 #b0000)))",
+        "literal-normalization", "+infinity has an all-ones exponent",
+    ),
+    "negative-infinity": FpUnsatShape(
+        "QF_FP", "",
+        "(not (= (_ -oo 3 5) (fp #b1 #b111 #b0000)))",
+        "literal-normalization", "-infinity also has sign one",
+    ),
+    "nan": FpUnsatShape(
+        "QF_FP", "",
+        "(not (= (_ NaN 3 5) (fp #b0 #b111 #b0001)))",
+        "nan-canonical-equality", "SMT equality identifies NaN payloads",
+    ),
+    "fp": FpUnsatShape(
+        "QF_FP", "",
+        "(not (= (fp #b1 #b11111 #b0000000001) (_ NaN 5 11)))",
+        "nan-canonical-equality",
+        "the fp constructor's nonzero NaN payload equals canonical NaN",
+    ),
+    "fp.add": FpUnsatShape(
+        "QF_FP", "",
+        "(not (= (fp.add RNE (fp #b0 #b011 #b0000) "
+        "(fp #b0 #b011 #b0000)) (fp #b0 #b100 #b0000)))",
+        "ground-evaluation", "1.0 + 1.0 is 2.0",
+    ),
+    "fp.sub": FpUnsatShape(
+        "QF_FP", "",
+        "(not (= (fp.sub RNE (fp #b0 #b100 #b0000) "
+        "(fp #b0 #b011 #b0000)) (fp #b0 #b011 #b0000)))",
+        "ground-evaluation", "2.0 - 1.0 is 1.0",
+    ),
+    "fp.mul": FpUnsatShape(
+        "QF_FP", "",
+        "(not (= (fp.mul RNE (fp #b0 #b100 #b0000) "
+        "(fp #b0 #b100 #b0000)) (fp #b0 #b101 #b0000)))",
+        "ground-evaluation", "2.0 * 2.0 is 4.0",
+    ),
+    "fp.div": FpUnsatShape(
+        "QF_FP", "",
+        "(not (= (fp.div RNE (fp #b0 #b100 #b0000) "
+        "(fp #b0 #b100 #b0000)) (fp #b0 #b011 #b0000)))",
+        "ground-evaluation", "2.0 / 2.0 is 1.0",
+    ),
+    "fp.fma": FpUnsatShape(
+        "QF_FP", "",
+        "(not (= (fp.fma RNE (fp #b0 #b011 #b0000) "
+        "(fp #b0 #b011 #b0000) (fp #b0 #b011 #b0000)) "
+        "(fp #b0 #b100 #b0000)))",
+        "ground-evaluation", "fused 1.0 * 1.0 + 1.0 is 2.0",
+    ),
+    "fp.sqrt": FpUnsatShape(
+        "QF_FP", "",
+        "(not (= (fp.sqrt RNE (fp #b0 #b101 #b0000)) "
+        "(fp #b0 #b100 #b0000)))",
+        "ground-evaluation", "sqrt(4.0) is 2.0",
+    ),
+    "fp.roundtointegral": FpUnsatShape(
+        "QF_FP", "",
+        "(not (= (fp.roundToIntegral RNA (fp #b1 #b100 #b0100)) "
+        "(fp #b1 #b100 #b1000)))",
+        "ground-evaluation", "RNA rounds -2.5 away to -3.0",
+    ),
+    "fp.rem": FpUnsatShape(
+        "QF_FP", "",
+        "(not (= (fp.rem (fp #b0 #b101 #b0100) "
+        "(fp #b0 #b100 #b0000)) (fp #b0 #b011 #b0000)))",
+        "ground-evaluation", "IEEE remainder of 5.0 by 2.0 is 1.0",
+    ),
+    "fp.min": FpUnsatShape(
+        "QF_FP", "",
+        "(not (or (= (fp.min (_ +zero 3 5) (_ -zero 3 5)) "
+        "(_ +zero 3 5)) (= (fp.min (_ +zero 3 5) (_ -zero 3 5)) "
+        "(_ -zero 3 5))))",
+        "ground-underspecified-range", "min(+0,-0) is one of its operands",
+    ),
+    "fp.max": FpUnsatShape(
+        "QF_FP", "",
+        "(not (or (= (fp.max (_ +zero 3 5) (_ -zero 3 5)) "
+        "(_ +zero 3 5)) (= (fp.max (_ +zero 3 5) (_ -zero 3 5)) "
+        "(_ -zero 3 5))))",
+        "ground-underspecified-range", "max(+0,-0) is one of its operands",
+    ),
+    "fp.abs": FpUnsatShape(
+        "QF_FP", _FP_TINY_X, "(fp.isNegative (fp.abs x))",
+        "symbolic-atom", "absolute value is never negative",
+    ),
+    "fp.neg": FpUnsatShape(
+        "QF_FP", _FP_TINY_X, "(not (= (fp.neg (fp.neg x)) x))",
+        "symbolic-normalization", "double negation is identity",
+    ),
+    "fp.leq": FpUnsatShape(
+        "QF_FP", _FP_TINY_XY,
+        "(and (fp.leq x y) (fp.leq y x) (not (fp.eq x y)))",
+        "symbolic-atom", "mutual leq implies IEEE fp.eq",
+    ),
+    "fp.lt": FpUnsatShape(
+        "QF_FP", _FP_TINY_XY, "(and (fp.lt x y) (fp.lt y x))",
+        "symbolic-atom", "fp.lt is asymmetric",
+    ),
+    "fp.geq": FpUnsatShape(
+        "QF_FP", _FP_TINY_XY,
+        "(and (fp.geq x y) (fp.geq y x) (not (fp.eq x y)))",
+        "symbolic-atom", "mutual geq implies IEEE fp.eq",
+    ),
+    "fp.gt": FpUnsatShape(
+        "QF_FP", _FP_TINY_XY, "(and (fp.gt x y) (fp.gt y x))",
+        "symbolic-atom", "fp.gt is asymmetric",
+    ),
+    "fp.eq": FpUnsatShape(
+        "QF_FP", _FP_TINY_XY, "(and (fp.eq x y) (not (fp.leq x y)))",
+        "symbolic-atom", "IEEE fp.eq implies fp.leq",
+    ),
+    "fp.isnormal": FpUnsatShape(
+        "QF_FP", _FP_TINY_X,
+        "(and (fp.isNormal x) (fp.isSubnormal x))",
+        "symbolic-atom", "normal and subnormal classes are disjoint",
+    ),
+    "fp.issubnormal": FpUnsatShape(
+        "QF_FP", _FP_TINY_X,
+        "(and (fp.isSubnormal x) (fp.isNormal x))",
+        "symbolic-atom", "subnormal and normal classes are disjoint",
+    ),
+    "fp.iszero": FpUnsatShape(
+        "QF_FP", _FP_TINY_X, "(and (fp.isZero x) (fp.isNormal x))",
+        "symbolic-atom", "zero and normal classes are disjoint",
+    ),
+    "fp.isinfinite": FpUnsatShape(
+        "QF_FP", _FP_TINY_X,
+        "(and (fp.isInfinite x) (fp.isNormal x))",
+        "symbolic-atom", "infinite and normal classes are disjoint",
+    ),
+    "fp.isnan": FpUnsatShape(
+        "QF_FP", _FP_TINY_X, "(and (fp.isNaN x) (fp.isPositive x))",
+        "symbolic-atom", "NaN is not positive",
+    ),
+    "fp.isnegative": FpUnsatShape(
+        "QF_FP", _FP_TINY_X,
+        "(and (fp.isNegative x) (fp.isPositive x))",
+        "symbolic-atom", "negative and positive classes are disjoint",
+    ),
+    "fp.ispositive": FpUnsatShape(
+        "QF_FP", _FP_TINY_X,
+        "(and (fp.isPositive x) (fp.isNegative x))",
+        "symbolic-atom", "positive and negative classes are disjoint",
+    ),
+    "to-fp": FpUnsatShape(
+        "QF_BVFP", "",
+        "(not (= ((_ to_fp 3 5) #b00110000) "
+        "(fp #b0 #b011 #b0000)))",
+        "ground-conversion", "bitcast 0x30 is tiny-format 1.0",
+    ),
+    "to-fp-unsigned": FpUnsatShape(
+        "QF_BVFP", "",
+        "(not (= ((_ to_fp_unsigned 3 5) RNE #b1101) "
+        "(fp #b0 #b110 #b1010)))",
+        "ground-conversion", "unsigned bit-vector 13 converts exactly",
+    ),
+    "fp.to-ubv": FpUnsatShape(
+        "QF_BVFP", "",
+        "(not (= ((_ fp.to_ubv 4) RTZ (fp #b0 #b100 #b1000)) "
+        "#b0011))",
+        "ground-conversion", "3.0 converts to unsigned #b0011",
+    ),
+    "fp.to-sbv": FpUnsatShape(
+        "QF_BVFP", "",
+        "(not (= ((_ fp.to_sbv 4) RTZ (fp #b1 #b100 #b1000)) "
+        "#b1101))",
+        "ground-conversion", "-3.0 converts to signed #b1101",
+    ),
+    "fp.to-real": FpUnsatShape(
+        "QF_FPLRA", "",
+        "(not (= (fp.to_real (fp #b0 #b011 #b1000)) (/ 3.0 2.0)))",
+        "ground-conversion", "tiny-format 1.5 converts to real 3/2",
+    ),
+}
+
+
+def fp_unsat_proof_script(slug_name: str) -> str:
+    shape = FP_SEMANTIC_UNSAT_SHAPES[slug_name]
+    return proof_script(
+        shape.logic,
+        fp_body(shape.assertion, declarations=shape.declarations),
+    )
 
 
 def fp_type_error_assertion(term: str, result_sort: str) -> str:
@@ -3491,10 +3755,6 @@ def fp_symbol(
         fp_self_assertion(term, result_sort),
         declarations=sat_declarations,
     )
-    unsat_body = fp_body(
-        fp_unsat_assertion(term, result_sort),
-        declarations=sat_declarations,
-    )
     type_error_body = fp_body(
         type_error_assertion
         if type_error_assertion is not None
@@ -3512,7 +3772,7 @@ def fp_symbol(
         "QF_FP",
         declarations,
         check_sat_script("QF_FP", sat_body),
-        proof_script("QF_FP", unsat_body),
+        fp_unsat_proof_script(slug_name),
         check_sat_script("QF_FP", type_error_body),
         check_sat_script("QF_FP", boundary_body),
         (
@@ -3532,7 +3792,7 @@ def fp_sort(slug_name: str, name: str, declaration: str, sat_decl: str) -> Theor
         "QF_FP",
         (declaration,),
         check_sat_script("QF_FP", f"{sat_decl}\n(assert (= fpv fpv))\n"),
-        proof_script("QF_FP", f"{sat_decl}\n(assert (not (= fpv fpv)))\n"),
+        fp_unsat_proof_script(slug_name),
         check_sat_script("QF_FP", "(declare-const bad (FloatingPoint))\n"),
         check_sat_script("QF_FP", floatingpoint_boundary_body()),
         (
@@ -5406,6 +5666,11 @@ def theory_features(symbol: TheorySymbol, kind: str) -> list[str]:
         and symbol.theory == "UnicodeStrings"
         and symbol.slug in {"str.replace-re", "str.replace-re-all"}
     )
+    fp_shape = (
+        FP_SEMANTIC_UNSAT_SHAPES[symbol.slug]
+        if kind == "unsat-proof" and symbol.theory == "FloatingPoint"
+        else None
+    )
     return [
         f"theory:{symbol.theory}",
         f"theory-kind:{symbol.kind}",
@@ -5415,6 +5680,8 @@ def theory_features(symbol: TheorySymbol, kind: str) -> list[str]:
         *(f"theory-declaration:{symbol.theory}:{declaration}" for declaration in symbol.declarations),
         *symbol.behavior_features,
         *(("theory-behavior:z3-unsupported",) if unsupported else ()),
+        *(("theory-behavior:semantic-fp-proof",) if fp_shape else ()),
+        *((f"fp-proof-shape:{fp_shape.shape}",) if fp_shape else ()),
     ]
 
 
@@ -5508,6 +5775,9 @@ def theory_case(symbol: TheorySymbol, kind: str, script: str) -> GeneratedCase:
     )
     parser_gap = "theory-behavior:parser-gap" in symbol.behavior_features
     translation_gap = "theory-behavior:translation-gap" in symbol.behavior_features
+    semantic_fp_unsat = (
+        kind == "unsat-proof" and symbol.theory == "FloatingPoint"
+    )
     blocked_by_parser = (
         "SMT-LIB string literal tokenization lacks token-kind metadata for this coverage row"
     )
@@ -5559,6 +5829,7 @@ def theory_case(symbol: TheorySymbol, kind: str, script: str) -> GeneratedCase:
         modes = ("parser-only", "typecheck-only", "z3-oracle", "proof-parse", "proof-replay", "z3-tac")
         proof_modes_reconstructed = (
             not parser_gap
+            and not semantic_fp_unsat
             and case_id not in UNSAT_PROOF_MODE_BLOCKED_THEORY_CASES
         )
         native_z3_proof_unsupported = (
@@ -5581,11 +5852,14 @@ def theory_case(symbol: TheorySymbol, kind: str, script: str) -> GeneratedCase:
             and case_id in RECONSTRUCTED_THEORY_Z3_TAC_UNSAT_PROOFS
         )
         z3_tac_reconstructed = (
-            case_id in RECONSTRUCTED_THEORY_Z3_TAC_UNSAT_PROOFS
-            or (
-                symbol.theory == "UnicodeStrings"
-                and not z3_unsupported
-                and case_id not in UNICODE_STRING_Z3_TAC_GATES
+            not semantic_fp_unsat
+            and (
+                case_id in RECONSTRUCTED_THEORY_Z3_TAC_UNSAT_PROOFS
+                or (
+                    symbol.theory == "UnicodeStrings"
+                    and not z3_unsupported
+                    and case_id not in UNICODE_STRING_Z3_TAC_GATES
+                )
             )
         )
         front_end_gap = (
@@ -5631,7 +5905,9 @@ def theory_case(symbol: TheorySymbol, kind: str, script: str) -> GeneratedCase:
                 if proof_modes_reconstructed else "theory proof parsing evidence is incomplete",
                 failure_phase="solver" if z3_unsupported else "parser"
                 if parser_gap else proof_gap_phase,
-                proof_rule_histogram=None if proof_modes_reconstructed else {"asserted": 1},
+                proof_rule_histogram=None
+                if proof_modes_reconstructed or semantic_fp_unsat
+                else {"asserted": 1},
             ),
             "proof-replay": expected_result(
                 proof_gap_status,
@@ -5643,7 +5919,9 @@ def theory_case(symbol: TheorySymbol, kind: str, script: str) -> GeneratedCase:
                 if proof_modes_reconstructed else "theory proof replay evidence is incomplete",
                 failure_phase="solver" if z3_unsupported else "parser"
                 if parser_gap else proof_replay_gap_phase,
-                proof_rule_histogram=None if proof_modes_reconstructed else {"asserted": 1},
+                proof_rule_histogram=None
+                if proof_modes_reconstructed or semantic_fp_unsat
+                else {"asserted": 1},
             ),
             "z3-tac": expected_result(
                 "unsupported"
@@ -5804,7 +6082,10 @@ def theory_case(symbol: TheorySymbol, kind: str, script: str) -> GeneratedCase:
     entry = manifest_entry(
         case_id=case_id,
         file=theory_case_file(symbol, case_id),
-        logic=symbol.logic,
+        logic=(
+            FP_SEMANTIC_UNSAT_SHAPES[symbol.slug].logic
+            if semantic_fp_unsat else symbol.logic
+        ),
         standard=theory_standard(symbol),
         row_class="theory",
         features=theory_features(symbol, kind),

@@ -44259,7 +44259,9 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:ground-sort-special",
         "theory-behavior:floatingpoint",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:sort-arity",
         "theory-behavior:standard-sort",
         "theory-behavior:z3-unsupported",
@@ -44300,15 +44302,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -44535,7 +44542,9 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:ground-sort-special",
         "theory-behavior:floatingpoint",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:sort-arity",
         "theory-behavior:standard-sort",
         "theory-behavior:z3-unsupported",
@@ -44576,15 +44585,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -44811,7 +44825,9 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:ground-sort-special",
         "theory-behavior:floatingpoint",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:sort-arity",
         "theory-behavior:standard-sort",
         "theory-behavior:z3-unsupported",
@@ -44852,15 +44868,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -45087,7 +45108,9 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:ground-sort-special",
         "theory-behavior:floatingpoint",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:sort-arity",
         "theory-behavior:standard-sort",
         "theory-behavior:z3-unsupported",
@@ -45128,15 +45151,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -45363,8 +45391,10 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:ground-sort-special",
         "theory-behavior:floatingpoint",
         "theory-behavior:indexed-sort",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:sort-arity",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
@@ -45404,11 +45434,13 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
@@ -45642,7 +45674,9 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:symbolic-atom",
         "theory-behavior:floatingpoint",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:signed-zero",
         "theory-behavior:unary",
         "theory-behavior:z3-unsupported",
@@ -45683,15 +45717,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -45918,9 +45957,11 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:ground-evaluation",
         "theory-behavior:arithmetic",
         "theory-behavior:floatingpoint",
         "theory-behavior:rounding-mode",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:FloatingPoint:(fp.add RoundingMode (_ FloatingPoint eb sb) (_ FloatingPoint eb sb) (_ FloatingPoint eb sb))",
@@ -45959,15 +46000,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -46197,10 +46243,12 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:ground-evaluation",
         "theory-behavior:arithmetic",
         "theory-behavior:division",
         "theory-behavior:floatingpoint",
         "theory-behavior:rounding-mode",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:FloatingPoint:(fp.div RoundingMode (_ FloatingPoint eb sb) (_ FloatingPoint eb sb) (_ FloatingPoint eb sb))",
@@ -46239,15 +46287,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -46477,9 +46530,11 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:symbolic-atom",
         "theory-behavior:comparison",
         "theory-behavior:floatingpoint",
         "theory-behavior:nan",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:signed-zero",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
@@ -46519,15 +46574,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -46757,10 +46817,12 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:ground-evaluation",
         "theory-behavior:arithmetic",
         "theory-behavior:floatingpoint",
         "theory-behavior:fused",
         "theory-behavior:rounding-mode",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:FloatingPoint:(fp.fma RoundingMode (_ FloatingPoint eb sb) (_ FloatingPoint eb sb) (_ FloatingPoint eb sb) (_ FloatingPoint eb sb))",
@@ -46799,15 +46861,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -47034,9 +47101,11 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:symbolic-atom",
         "theory-behavior:chainable",
         "theory-behavior:comparison",
         "theory-behavior:floatingpoint",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:FloatingPoint:(fp.geq (_ FloatingPoint eb sb) (_ FloatingPoint eb sb) Bool :chainable)",
@@ -47075,15 +47144,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -47310,9 +47384,11 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:symbolic-atom",
         "theory-behavior:chainable",
         "theory-behavior:comparison",
         "theory-behavior:floatingpoint",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:FloatingPoint:(fp.gt (_ FloatingPoint eb sb) (_ FloatingPoint eb sb) Bool :chainable)",
@@ -47351,15 +47427,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -47586,9 +47667,11 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:symbolic-atom",
         "theory-behavior:floatingpoint",
         "theory-behavior:infinity",
         "theory-behavior:predicate",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:FloatingPoint:(fp.isInfinite (_ FloatingPoint eb sb) Bool)",
@@ -47627,15 +47710,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -47862,9 +47950,11 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:symbolic-atom",
         "theory-behavior:floatingpoint",
         "theory-behavior:nan",
         "theory-behavior:predicate",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:FloatingPoint:(fp.isNaN (_ FloatingPoint eb sb) Bool)",
@@ -47903,15 +47993,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -48138,8 +48233,10 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:symbolic-atom",
         "theory-behavior:floatingpoint",
         "theory-behavior:predicate",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:signed-zero",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
@@ -48179,15 +48276,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -48414,9 +48516,11 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:symbolic-atom",
         "theory-behavior:classification",
         "theory-behavior:floatingpoint",
         "theory-behavior:predicate",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:FloatingPoint:(fp.isNormal (_ FloatingPoint eb sb) Bool)",
@@ -48455,15 +48559,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -48690,8 +48799,10 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:symbolic-atom",
         "theory-behavior:floatingpoint",
         "theory-behavior:predicate",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:signed-zero",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
@@ -48731,15 +48842,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -48966,9 +49082,11 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:symbolic-atom",
         "theory-behavior:classification",
         "theory-behavior:floatingpoint",
         "theory-behavior:predicate",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:FloatingPoint:(fp.isSubnormal (_ FloatingPoint eb sb) Bool)",
@@ -49007,15 +49125,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -49242,8 +49365,10 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:symbolic-atom",
         "theory-behavior:floatingpoint",
         "theory-behavior:predicate",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:signed-zero",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
@@ -49283,15 +49408,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -49518,9 +49648,11 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:symbolic-atom",
         "theory-behavior:chainable",
         "theory-behavior:comparison",
         "theory-behavior:floatingpoint",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:FloatingPoint:(fp.leq (_ FloatingPoint eb sb) (_ FloatingPoint eb sb) Bool :chainable)",
@@ -49559,15 +49691,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -49794,9 +49931,11 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:symbolic-atom",
         "theory-behavior:chainable",
         "theory-behavior:comparison",
         "theory-behavior:floatingpoint",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:FloatingPoint:(fp.lt (_ FloatingPoint eb sb) (_ FloatingPoint eb sb) Bool :chainable)",
@@ -49835,15 +49974,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -50070,9 +50214,11 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:ground-underspecified-range",
         "theory-behavior:floatingpoint",
         "theory-behavior:min-max",
         "theory-behavior:nan",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:FloatingPoint:(fp.max (_ FloatingPoint eb sb) (_ FloatingPoint eb sb) (_ FloatingPoint eb sb))",
@@ -50111,15 +50257,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -50346,9 +50497,11 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:ground-underspecified-range",
         "theory-behavior:floatingpoint",
         "theory-behavior:min-max",
         "theory-behavior:nan",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:FloatingPoint:(fp.min (_ FloatingPoint eb sb) (_ FloatingPoint eb sb) (_ FloatingPoint eb sb))",
@@ -50387,15 +50540,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -50622,9 +50780,11 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:ground-evaluation",
         "theory-behavior:arithmetic",
         "theory-behavior:floatingpoint",
         "theory-behavior:rounding-mode",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:FloatingPoint:(fp.mul RoundingMode (_ FloatingPoint eb sb) (_ FloatingPoint eb sb) (_ FloatingPoint eb sb))",
@@ -50663,15 +50823,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -50898,7 +51063,9 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:symbolic-normalization",
         "theory-behavior:floatingpoint",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:signed-zero",
         "theory-behavior:unary",
         "theory-behavior:z3-unsupported",
@@ -50939,15 +51106,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -51174,9 +51346,11 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:ground-evaluation",
         "theory-behavior:arithmetic",
         "theory-behavior:floatingpoint",
         "theory-behavior:remainder",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:FloatingPoint:(fp.rem (_ FloatingPoint eb sb) (_ FloatingPoint eb sb) (_ FloatingPoint eb sb))",
@@ -51215,15 +51389,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -51447,8 +51626,10 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:ground-evaluation",
         "theory-behavior:floatingpoint",
         "theory-behavior:rounding-mode",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:FloatingPoint:(fp.roundToIntegral RoundingMode (_ FloatingPoint eb sb) (_ FloatingPoint eb sb))",
@@ -51487,15 +51668,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -51722,9 +51908,11 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:ground-evaluation",
         "theory-behavior:arithmetic",
         "theory-behavior:floatingpoint",
         "theory-behavior:rounding-mode",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:FloatingPoint:(fp.sqrt RoundingMode (_ FloatingPoint eb sb) (_ FloatingPoint eb sb))",
@@ -51763,15 +51951,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -51998,9 +52191,11 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:ground-evaluation",
         "theory-behavior:arithmetic",
         "theory-behavior:floatingpoint",
         "theory-behavior:rounding-mode",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:FloatingPoint:(fp.sub RoundingMode (_ FloatingPoint eb sb) (_ FloatingPoint eb sb) (_ FloatingPoint eb sb))",
@@ -52039,15 +52234,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -52267,12 +52467,14 @@
     {
       "id": "theory:FloatingPoint:fp.to-real:unsat-proof",
       "file": "cases/theories/theory_floatingpoint_fp_to_real_unsat_proof.smt2",
-      "logic": "QF_FP",
+      "logic": "QF_FPLRA",
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:ground-conversion",
         "theory-behavior:conversion",
         "theory-behavior:floatingpoint",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:FloatingPoint:(fp.to_real (_ FloatingPoint eb sb) Real)",
@@ -52311,15 +52513,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -52548,14 +52755,16 @@
     {
       "id": "theory:FloatingPoint:fp.to-sbv:unsat-proof",
       "file": "cases/theories/theory_floatingpoint_fp_to_sbv_unsat_proof.smt2",
-      "logic": "QF_FP",
+      "logic": "QF_BVFP",
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:ground-conversion",
         "theory-behavior:conversion",
         "theory-behavior:floatingpoint",
         "theory-behavior:indexed",
         "theory-behavior:rounding-mode",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:signed",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
@@ -52595,11 +52804,13 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
@@ -52835,14 +53046,16 @@
     {
       "id": "theory:FloatingPoint:fp.to-ubv:unsat-proof",
       "file": "cases/theories/theory_floatingpoint_fp_to_ubv_unsat_proof.smt2",
-      "logic": "QF_FP",
+      "logic": "QF_BVFP",
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:ground-conversion",
         "theory-behavior:conversion",
         "theory-behavior:floatingpoint",
         "theory-behavior:indexed",
         "theory-behavior:rounding-mode",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:unsigned",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
@@ -52882,11 +53095,13 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
@@ -53120,9 +53335,11 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:nan-canonical-equality",
         "theory-behavior:bitvector-encoding",
         "theory-behavior:constructor",
         "theory-behavior:floatingpoint",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:FloatingPoint:(fp (_ BitVec 1) (_ BitVec eb) (_ BitVec (- sb 1)) (_ FloatingPoint eb sb))",
@@ -53161,15 +53378,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -53399,9 +53621,11 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:nan-canonical-equality",
         "theory-behavior:floatingpoint",
         "theory-behavior:indexed",
         "theory-behavior:nan",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:special-value",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
@@ -53441,15 +53665,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -53679,9 +53908,11 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:literal-normalization",
         "theory-behavior:floatingpoint",
         "theory-behavior:indexed",
         "theory-behavior:infinity",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:special-value",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
@@ -53721,15 +53952,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -53959,8 +54195,10 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:literal-normalization",
         "theory-behavior:floatingpoint",
         "theory-behavior:indexed",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:signed-zero",
         "theory-behavior:special-value",
         "theory-behavior:z3-unsupported",
@@ -54001,15 +54239,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -54239,9 +54482,11 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:literal-normalization",
         "theory-behavior:floatingpoint",
         "theory-behavior:indexed",
         "theory-behavior:infinity",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:special-value",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
@@ -54281,15 +54526,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -54519,8 +54769,10 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:literal-normalization",
         "theory-behavior:floatingpoint",
         "theory-behavior:indexed",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:signed-zero",
         "theory-behavior:special-value",
         "theory-behavior:z3-unsupported",
@@ -54561,15 +54813,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -54793,8 +55050,10 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:ground-rounding",
         "theory-behavior:floatingpoint",
         "theory-behavior:rounding-mode",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:FloatingPoint:(RNA RoundingMode)",
@@ -54833,15 +55092,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -55065,8 +55329,10 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:ground-rounding",
         "theory-behavior:floatingpoint",
         "theory-behavior:rounding-mode",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:FloatingPoint:(RNE RoundingMode)",
@@ -55105,15 +55371,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -55340,7 +55611,9 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:ground-sort-rounding",
         "theory-behavior:floatingpoint",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:sort-arity",
         "theory-behavior:standard-sort",
         "theory-behavior:z3-unsupported",
@@ -55381,15 +55654,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -55613,8 +55891,10 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:ground-rounding",
         "theory-behavior:floatingpoint",
         "theory-behavior:rounding-mode",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:FloatingPoint:(roundNearestTiesToAway RoundingMode)",
@@ -55653,15 +55933,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -55885,8 +56170,10 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:ground-rounding",
         "theory-behavior:floatingpoint",
         "theory-behavior:rounding-mode",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:FloatingPoint:(roundNearestTiesToEven RoundingMode)",
@@ -55925,15 +56212,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -56157,8 +56449,10 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:ground-rounding",
         "theory-behavior:floatingpoint",
         "theory-behavior:rounding-mode",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:FloatingPoint:(roundTowardNegative RoundingMode)",
@@ -56197,15 +56491,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -56429,8 +56728,10 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:ground-rounding",
         "theory-behavior:floatingpoint",
         "theory-behavior:rounding-mode",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:FloatingPoint:(roundTowardPositive RoundingMode)",
@@ -56469,15 +56770,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -56701,8 +57007,10 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:ground-rounding",
         "theory-behavior:floatingpoint",
         "theory-behavior:rounding-mode",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:FloatingPoint:(roundTowardZero RoundingMode)",
@@ -56741,15 +57049,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -56973,8 +57286,10 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:ground-rounding",
         "theory-behavior:floatingpoint",
         "theory-behavior:rounding-mode",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:FloatingPoint:(RTN RoundingMode)",
@@ -57013,15 +57328,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -57245,8 +57565,10 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:ground-rounding",
         "theory-behavior:floatingpoint",
         "theory-behavior:rounding-mode",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:FloatingPoint:(RTP RoundingMode)",
@@ -57285,15 +57607,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -57517,8 +57844,10 @@
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:ground-rounding",
         "theory-behavior:floatingpoint",
         "theory-behavior:rounding-mode",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:FloatingPoint:(RTZ RoundingMode)",
@@ -57557,15 +57886,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -57794,14 +58128,16 @@
     {
       "id": "theory:FloatingPoint:to-fp-unsigned:unsat-proof",
       "file": "cases/theories/theory_floatingpoint_to_fp_unsigned_unsat_proof.smt2",
-      "logic": "QF_FP",
+      "logic": "QF_BVFP",
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:ground-conversion",
         "theory-behavior:conversion",
         "theory-behavior:floatingpoint",
         "theory-behavior:indexed",
         "theory-behavior:rounding-mode",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:unsigned",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
@@ -57841,15 +58177,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {
@@ -58075,14 +58416,16 @@
     {
       "id": "theory:FloatingPoint:to-fp:unsat-proof",
       "file": "cases/theories/theory_floatingpoint_to_fp_unsat_proof.smt2",
-      "logic": "QF_FP",
+      "logic": "QF_BVFP",
       "standard": "SMT-LIB-2.7",
       "class": "theory",
       "features": [
+        "fp-proof-shape:ground-conversion",
         "theory-behavior:conversion",
         "theory-behavior:floatingpoint",
         "theory-behavior:indexed",
         "theory-behavior:rounding-mode",
+        "theory-behavior:semantic-fp-proof",
         "theory-behavior:z3-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:FloatingPoint:((_ to_fp eb sb) ... (_ FloatingPoint eb sb))",
@@ -58121,15 +58464,20 @@
           "failure_phase": "solver"
         },
         "proof-parse": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof parsing evidence is incomplete",
           "failure_phase": "solver"
         },
         "proof-replay": {
-          "status": "pass",
+          "status": "red",
+          "diagnostic": "theory proof replay evidence is incomplete",
           "failure_phase": "solver"
         },
         "z3-tac": {
-          "status": "pass"
+          "status": "red",
+          "diagnostic": "checked Z3_TAC reconstruction is blocked by missing solver support",
+          "failure_phase": "solver",
+          "theorem_shape": "closed theorem without oracle tags"
         }
       },
       "implementation_obligation": {

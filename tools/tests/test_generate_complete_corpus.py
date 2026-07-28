@@ -525,6 +525,77 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
                         diagnostic,
                     )
 
+    def test_floatingpoint_unsat_rows_are_semantic_and_red_first(self):
+        symbols = {
+            symbol.slug: symbol
+            for symbol in generator.FLOATINGPOINT_THEORY_SYMBOLS
+        }
+        self.assertEqual(set(generator.FP_SEMANTIC_UNSAT_SHAPES), set(symbols))
+        self.assertEqual(len(symbols), 51)
+
+        symbolic_slugs = {
+            "fp.abs",
+            "fp.neg",
+            "fp.leq",
+            "fp.lt",
+            "fp.geq",
+            "fp.gt",
+            "fp.eq",
+            "fp.isnormal",
+            "fp.issubnormal",
+            "fp.iszero",
+            "fp.isinfinite",
+            "fp.isnan",
+            "fp.isnegative",
+            "fp.ispositive",
+        }
+        actual_symbolic = {
+            slug
+            for slug, shape in generator.FP_SEMANTIC_UNSAT_SHAPES.items()
+            if shape.declarations
+        }
+        self.assertEqual(actual_symbolic, symbolic_slugs)
+        for slug in symbolic_slugs:
+            self.assertIn("(_ FloatingPoint 3 5)",
+                          generator.FP_SEMANTIC_UNSAT_SHAPES[slug].declarations)
+
+        generated = {
+            case.entry["id"]: case
+            for case in generator.theory_cases()
+            if case.entry["id"].startswith("theory:FloatingPoint:")
+            and case.entry["id"].endswith(":unsat-proof")
+        }
+        self.assertEqual(len(generated), 51)
+        for slug, shape in generator.FP_SEMANTIC_UNSAT_SHAPES.items():
+            case_id = f"theory:FloatingPoint:{slug}:unsat-proof"
+            case = generated[case_id]
+            self.assertEqual(case.script,
+                             generator.fp_unsat_proof_script(slug))
+            self.assertIn(f"(set-logic {shape.logic})", case.script)
+            self.assertIn(f"(assert {shape.assertion})", case.script)
+            self.assertTrue(shape.fact)
+            self.assertIn("theory-behavior:semantic-fp-proof",
+                          case.entry["features"])
+            self.assertIn(f"fp-proof-shape:{shape.shape}",
+                          case.entry["features"])
+            self.assertEqual(case.entry["expected"]["parser-only"]["status"],
+                             "pass")
+            for mode in (
+                "typecheck-only",
+                "z3-oracle",
+                "proof-parse",
+                "proof-replay",
+                "z3-tac",
+            ):
+                self.assertEqual(case.entry["expected"][mode]["status"],
+                                 "red", (case_id, mode))
+            obligation = case.entry["implementation_obligation"]
+            self.assertIsNotNone(obligation)
+            self.assertEqual(
+                obligation["feature"],
+                f"theory-symbol:FloatingPoint:{slug}:unsat-proof",
+            )
+
     def test_theories_subcommand_separates_strings_and_z3_extensions(self):
         stdout = io.StringIO()
         with contextlib.redirect_stdout(stdout):

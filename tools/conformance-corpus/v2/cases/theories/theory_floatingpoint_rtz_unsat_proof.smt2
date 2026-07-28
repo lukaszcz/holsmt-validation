@@ -1,5 +1,5 @@
 (set-option :produce-proofs true)
 (set-logic QF_FP)
-(assert (not (= RTZ RTZ)))
+(assert (not (= (fp.roundToIntegral RTZ (fp #b0 #b100 #b0100)) (fp #b0 #b100 #b0000))))
 (check-sat)
 (get-proof)

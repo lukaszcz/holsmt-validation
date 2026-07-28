@@ -1,6 +1,5 @@
 (set-option :produce-proofs true)
 (set-logic QF_FP)
-(declare-const fpv RoundingMode)
-(assert (not (= fpv fpv)))
+(assert (not (= (fp.roundToIntegral (as RNE RoundingMode) (fp #b0 #b100 #b0100)) (fp #b0 #b100 #b0000))))
 (check-sat)
 (get-proof)
