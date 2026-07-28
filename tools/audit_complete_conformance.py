@@ -49,6 +49,8 @@ V2_MODES = {
 }
 V2_STATUSES = {"pass", "fail", "unsupported", "red"}
 UNSAT_REQUIRED_MODES = {"proof-parse", "proof-replay", "z3-tac"}
+RESOURCE_GATE_FEATURE = "theory-behavior:resource-gated"
+RESOURCE_GATE_DIAGNOSTIC = "resource-gated: fp-bitblast;"
 THEORY_REQUIRED_CASE_KINDS = {"sat", "unsat-proof", "type-error", "boundary"}
 COMPLETE_REQUIRED_CLASSES = {"SMT-LIB 2.7", "Z3 extension"}
 WEAK_COVERAGE_STATUSES = {
@@ -398,6 +400,11 @@ def validate_expected_result(value: object, label: str) -> str:
         for rule, count in histogram.items():
             require_string(rule, f"{label}.proof_rule_histogram key")
             require(isinstance(count, int) and count >= 0, f"{label}.proof_rule_histogram[{rule!r}] must be a non-negative integer")
+    if status == "unsupported":
+        require(
+            isinstance(value.get("diagnostic"), str) and bool(value["diagnostic"]),
+            f"{label}.diagnostic is required for unsupported status",
+        )
     return str(status)
 
 
@@ -503,6 +510,25 @@ def validate_case(case: object, index: int) -> dict[str, object]:
         )
     elif obligation is not None:
         raise AuditError(f"{label}.implementation_obligation must be null when no expected row is red")
+
+    if RESOURCE_GATE_FEATURE in case["features"]:
+        gated_results = [
+            (mode, result)
+            for mode, result in expected.items()
+            if isinstance(result, dict) and result.get("status") == "unsupported"
+        ]
+        require(
+            bool(gated_results),
+            f"{label} carries {RESOURCE_GATE_FEATURE} but has no unsupported row",
+        )
+        for mode, result in gated_results:
+            diagnostic = result.get("diagnostic")
+            require(
+                isinstance(diagnostic, str)
+                and diagnostic.startswith(RESOURCE_GATE_DIAGNOSTIC),
+                f"{label}.expected[{mode}] resource gate must carry reserved "
+                f"diagnostic {RESOURCE_GATE_DIAGNOSTIC!r}",
+            )
     validate_source(case["source"], f"{label}.source")
     return case
 

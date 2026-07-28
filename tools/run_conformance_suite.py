@@ -1531,6 +1531,15 @@ def run_z3_tac_mode(
             artifact=artifact,
             version=version,
         )
+    if "Z3_TAC_RESOURCE_GATED" in combined:
+        return result(
+            case,
+            MODE_Z3_TAC,
+            UNSUPPORTED,
+            diagnostic or "checked Z3_TAC driver reported a resource gate",
+            artifact=artifact,
+            version=version,
+        )
     if "Z3_TAC_UNSUPPORTED" in combined:
         return result(
             case,

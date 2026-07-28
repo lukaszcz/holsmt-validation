@@ -336,6 +336,15 @@ def is_complete_evidence_case(case: dict[str, object]) -> bool:
     return "pass" in statuses and "red" not in statuses
 
 
+def is_resource_gated_case(case: dict[str, object]) -> bool:
+    features = case.get("features")
+    return (
+        isinstance(features, list)
+        and "theory-behavior:resource-gated" in features
+        and "unsupported" in complete_case_statuses(case)
+    )
+
+
 def split_item_names(item: object) -> list[str]:
     return [part.strip() for part in str(item).split(",") if part.strip()]
 
@@ -457,6 +466,13 @@ def enrich_complete_metadata(
         row["red_obligation_ids"] = complete_case_ids_for_row(
             section_name, row, complete_cases, is_coverage_red_case
         )
+        resource_gated_ids = complete_case_ids_for_row(
+            section_name, row, complete_cases, is_resource_gated_case
+        )
+        if resource_gated_ids:
+            row["resource_gated_ids"] = resource_gated_ids
+        else:
+            row.pop("resource_gated_ids", None)
         if str(row.get("class")) not in COMPLETE_REQUIRED_CLASSES:
             row["complete_required_status"] = "not_applicable"
             row["outside_complete_scope_reason"] = outside_complete_scope_reason(row)

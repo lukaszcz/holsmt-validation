@@ -38,6 +38,50 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
             else:
                 self.assertIsNone(case["implementation_obligation"], case)
 
+    def test_resource_gated_feature_produces_reserved_unsupported_row(self):
+        case_id = "theory:FloatingPoint:synthetic-resource-gate"
+        generated = generator.manifest_entry(
+            case_id=case_id,
+            file="cases/theories/theory_floatingpoint_synthetic_resource_gate.smt2",
+            logic="QF_FP",
+            standard="SMT-LIB-2.7",
+            row_class="theory",
+            features=[
+                "theory:FloatingPoint",
+                generator.RESOURCE_GATE_FEATURE,
+            ],
+            modes=["parser-only", "z3-tac"],
+            versions=generator.SUPPORTED_Z3_VERSIONS,
+            expected={
+                "parser-only": generator.expected_result("pass"),
+                "z3-tac": generator.expected_result("red"),
+            },
+            implementation_obligation=generator.implementation_obligation(
+                files=["src/HolSmt/SmtResource.sml"],
+                feature="synthetic-resource-gate",
+                test_ids=[case_id],
+                failure_phase="proof-replay",
+            ),
+            source=generator.source(
+                "HolSmt-internal",
+                "synthetic D12 resource-gate contract",
+            ),
+        )
+
+        audited = audit.validate_v2_manifest(
+            generator.manifest_for_cases(
+                [generator.GeneratedCase(entry=generated, script="(assert false)\n")]
+            )
+        )[0]
+        self.assertEqual(
+            audited["expected"]["z3-tac"],
+            {
+                "status": "unsupported",
+                "diagnostic": generator.RESOURCE_GATE_DIAGNOSTIC,
+            },
+        )
+        self.assertIsNone(audited["implementation_obligation"])
+
     def test_dry_run_output_is_deterministic_and_valid(self):
         stdout_a = io.StringIO()
         stdout_b = io.StringIO()

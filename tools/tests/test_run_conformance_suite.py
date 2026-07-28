@@ -116,6 +116,44 @@ print("sat")
 
 
 class ConformanceSuiteTests(unittest.TestCase):
+    def test_resource_gated_driver_result_matches_unsupported_expectation(self):
+        diagnostic = "resource-gated: fp-bitblast; limit=proof-size"
+        case = conformance.Case(
+            name="synthetic-resource-gate",
+            logic="QF_FP",
+            text="(set-logic QF_FP)\n(assert false)\n(check-sat)\n",
+            origin="synthetic",
+            tags=("theory-behavior:resource-gated",),
+            modes=(conformance.MODE_Z3_TAC,),
+            expected={
+                conformance.MODE_Z3_TAC: conformance.ExpectedOutcome(
+                    status=conformance.UNSUPPORTED,
+                    diagnostic_substring="resource-gated: fp-bitblast;",
+                )
+            },
+        )
+        with tempfile.TemporaryDirectory() as tmp:
+            input_path = pathlib.Path(tmp) / "gate.smt2"
+            input_path.write_text(case.text, encoding="utf-8")
+            command = (
+                "printf 'Z3_TAC_RESOURCE_GATED\\n"
+                f"diagnostic={diagnostic}\\n'; exit 1"
+            )
+            observed = conformance.run_z3_tac_mode(
+                case,
+                input_path,
+                command,
+                timeout=5,
+            )
+
+        classified = conformance.apply_expectation(case, observed)
+        self.assertEqual(classified["actual_status"], conformance.UNSUPPORTED)
+        self.assertEqual(classified["conformance_status"], conformance.PASS)
+        self.assertEqual(
+            classified["classification"],
+            conformance.CLASSIFICATION_MATCHED,
+        )
+
     def test_cvc5_default_accepts_hol_solver_environment_name(self):
         with mock.patch.dict(
             os.environ,

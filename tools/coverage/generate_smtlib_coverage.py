@@ -427,6 +427,7 @@ def row_values(row: dict) -> list[str]:
         status(row.get("complete_required_status", "")),
         "<br>".join(row.get("complete_test_ids", [])),
         "<br>".join(row.get("red_obligation_ids", [])),
+        "<br>".join(row.get("resource_gated_ids", [])),
         row.get("outside_complete_scope_reason", ""),
         *[status(row[column]) for column in STATUS_COLUMNS],
         "<br>".join(row.get("test_ids", [])),
@@ -455,6 +456,10 @@ def render(data: dict) -> str:
         "only when real complete evidence exists, `red` while implementation obligations remain, "
         "and `not_applicable` only with an explicit scope reason.",
         "",
+        "## COMPLETE Status Conventions",
+        "",
+        metadata["complete_status_convention"],
+        "",
         "## Status Legend",
         "",
     ]
@@ -477,6 +482,7 @@ def render(data: dict) -> str:
         "Complete Required Status",
         "Complete Test IDs",
         "Red Obligation IDs",
+        "Resource-gated IDs",
         "Outside COMPLETE Scope Reason",
         "Parsed",
         "Translated",

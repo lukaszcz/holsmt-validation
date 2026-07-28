@@ -71,6 +71,8 @@ SOURCE_KINDS = (
 )
 
 GENERATED_OBLIGATION_NOTES = "Generated red seed row; keep red until executable evidence is added."
+RESOURCE_GATE_FEATURE = "theory-behavior:resource-gated"
+RESOURCE_GATE_DIAGNOSTIC = "resource-gated: fp-bitblast;"
 
 CLASS_DIRECTORIES = {
     "command": "commands",
@@ -462,11 +464,29 @@ def manifest_entry(
         expected_result_by_mode[mode] = dict(value)
         expected_result_by_mode[mode]["status"] = status
 
+    original_red_modes = [
+        mode
+        for mode, value in expected_result_by_mode.items()
+        if value.get("status") == "red"
+    ]
+    resource_gated = RESOURCE_GATE_FEATURE in features_list
+    if resource_gated:
+        if "z3-tac" not in modes_list:
+            raise GeneratorError(
+                f"{RESOURCE_GATE_FEATURE} cases must schedule z3-tac"
+            )
+        expected_result_by_mode["z3-tac"] = expected_result(
+            "unsupported",
+            diagnostic=RESOURCE_GATE_DIAGNOSTIC,
+        )
+
     red_modes = [
         mode
         for mode, value in expected_result_by_mode.items()
         if value.get("status") == "red"
     ]
+    if resource_gated and original_red_modes == ["z3-tac"]:
+        implementation_obligation = None
     if red_modes and implementation_obligation is None:
         raise GeneratorError(
             "red expected results require implementation_obligation metadata "

@@ -82,6 +82,31 @@ def manifest_entry(item, phases, expected_status, *, positive=None, negative=Non
 
 
 class CoverageManifestAuditTests(unittest.TestCase):
+    def test_resource_gated_ids_are_enumerated_without_a_fourth_status(self):
+        coverage = minimal_coverage([row("fp-gate", "implemented")])
+        case = {
+            "id": "command:fp-gate",
+            "class": "command",
+            "logic": "QF_FP",
+            "features": [
+                "command:fp-gate",
+                "theory-behavior:resource-gated",
+            ],
+            "expected": {
+                "parser-only": {"status": "pass"},
+                "z3-tac": {
+                    "status": "unsupported",
+                    "diagnostic": "resource-gated: fp-bitblast;",
+                },
+            },
+        }
+
+        audit.enrich_complete_metadata(coverage, [case])
+        enriched = coverage["commands"][0]
+        self.assertEqual(enriched["complete_required_status"], "reconstructed")
+        self.assertEqual(enriched["red_obligation_ids"], [])
+        self.assertEqual(enriched["resource_gated_ids"], ["command:fp-gate"])
+
     def test_validation_rejects_malformed_manifest_entry(self):
         coverage = minimal_coverage([row("set-logic", "implemented")])
         manifest = {

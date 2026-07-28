@@ -417,21 +417,39 @@ if steps_file.exists():
 
 manifest = load_json(manifest_path)
 manifest_red = []
+resource_gated = []
+resource_gate_feature = "theory-behavior:resource-gated"
 for case in manifest.get("cases", []):
     expected = case.get("expected", {})
     if not isinstance(expected, dict):
         continue
+    features = case.get("features", [])
+    is_resource_gated = (
+        isinstance(features, list) and resource_gate_feature in features
+    )
     for mode, result in expected.items():
-        if isinstance(result, dict) and result.get("status") == "red":
+        if not isinstance(result, dict):
+            continue
+        if result.get("status") == "red":
             manifest_red.append(
                 {
                     "case": case.get("id"),
                     "mode": mode,
                     "class": case.get("class"),
                     "logic": case.get("logic"),
-                    "features": case.get("features", []),
+                    "features": features,
                     "diagnostic": result.get("diagnostic"),
                     "implementation_obligation": case.get("implementation_obligation"),
+                }
+            )
+        if is_resource_gated and result.get("status") == "unsupported":
+            resource_gated.append(
+                {
+                    "case": case.get("id"),
+                    "mode": mode,
+                    "class": case.get("class"),
+                    "logic": case.get("logic"),
+                    "diagnostic": result.get("diagnostic"),
                 }
             )
 
@@ -679,6 +697,8 @@ red_summary = {
     "manifest_red_count": len(manifest_red),
     "complete_audit_red_count": len(complete_audit_red),
     "proof_audit_red_count": len(proof_audit_red),
+    "resource_gated_count": len(resource_gated),
+    "resource_gated": resource_gated,
     "required_first_red_category_counts": first_red_counts,
     "obligations": flat_obligations,
     "manifest_red_obligations": manifest_red,
@@ -717,6 +737,19 @@ for category, count in first_red_counts.items():
     red_md.append(f"| {md_cell(category)} | {count} |")
 red_md.extend([
     "",
+    "## Resource-gated (D12)",
+    "",
+    f"Resource-gated rows: {len(resource_gated)}. These rows are enumerated but are not red obligations.",
+    "",
+    "| Case | Mode | Class | Logic | Reserved diagnostic |",
+    "| --- | --- | --- | --- | --- |",
+])
+for item in resource_gated:
+    red_md.append(
+        f"| `{md_cell(item.get('case'))}` | `{md_cell(item.get('mode'))}` | `{md_cell(item.get('class'))}` | `{md_cell(item.get('logic'))}` | `{md_cell(item.get('diagnostic'))}` |"
+    )
+red_md.extend([
+    "",
     "## Red Rows",
     "",
     "| Source | Case | Mode | Class | Logic | Missing feature | Failure phase | Files | Test IDs |",
@@ -736,6 +769,7 @@ summary = {
     "report_dir": display_path(report_dir),
     "status": "pass",
     "red_obligation_count": red_count,
+    "resource_gated_count": len(resource_gated),
     "unexpected_regression_count": len(unexpected_results) + len(audit_blocking),
     "infrastructure_error_count": len(infrastructure_errors),
     "step_count": len(steps),
@@ -777,6 +811,7 @@ md = [
     "",
     f"- Status: `{summary['status']}`",
     f"- Red obligations: {summary['red_obligation_count']}",
+    f"- Resource-gated rows: {summary['resource_gated_count']}",
     f"- Unexpected regressions: {summary['unexpected_regression_count']}",
     f"- Infrastructure errors: {summary['infrastructure_error_count']}",
     f"- Nonzero exit reasons: {', '.join(summary['nonzero_exit_reasons']) or 'none'}",
@@ -799,6 +834,19 @@ md = [
 for step in steps:
     md.append(
         f"| `{step.get('name')}` | `{step.get('kind')}` | `{step.get('status')}` | {step.get('exit_code')} |"
+    )
+md.extend([
+    "",
+    "## Resource-gated (D12)",
+    "",
+    f"Resource-gated rows: {len(resource_gated)}. These rows are enumerated but never counted as red.",
+    "",
+    "| Case | Mode | Logic | Reserved diagnostic |",
+    "| --- | --- | --- | --- |",
+])
+for item in resource_gated:
+    md.append(
+        f"| `{item.get('case')}` | `{item.get('mode')}` | `{item.get('logic')}` | {md_cell(item.get('diagnostic'))} |"
     )
 if unexpected_results:
     md.extend(["", "## Unexpected Regressions", "", "| Report | Case | Mode | Detail |", "| --- | --- | --- | --- |"])

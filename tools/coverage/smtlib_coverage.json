@@ -4,8 +4,9 @@
     "smtlib_target": "SMT-LIB 2.7",
     "generated_report": "tools/coverage/SMTLIB_COVERAGE.md",
     "generator": "python3 tools/coverage/generate_smtlib_coverage.py",
-    "last_reviewed": "2026-06-29",
-    "scope_note": "Baseline coverage matrix for current HolSmt parser, HOL-to-SMT-LIB translator, solver entry points, and Z3 proof replay. This is not a completeness claim."
+    "last_reviewed": "2026-07-28",
+    "scope_note": "Baseline coverage matrix for current HolSmt parser, HOL-to-SMT-LIB translator, solver entry points, and Z3 proof replay. This is not a completeness claim.",
+    "complete_status_convention": "D12 resource-gated cases retain the existing `reconstructed`, `red`, and `not_applicable` COMPLETE statuses. Their case IDs are enumerated separately in the Resource-gated IDs column on matching FloatingPoint rows: a gate is checked evidence of the fixed resource boundary, not an implementation obligation and never a red row. This is the smallest honest representation because no fourth row status is needed."
   },
   "status_legend": {
     "implemented": "Implemented in current source for the stated surface.",

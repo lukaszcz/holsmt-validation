@@ -325,6 +325,46 @@ fun parsedicts_of_logic (logic : string) =
             [issue.render() for issue in issues],
         )
 
+    def test_resource_gated_rows_require_reserved_diagnostic(self):
+        case = v2_case(
+            "resource_gate",
+            features=[audit.RESOURCE_GATE_FEATURE],
+            modes=["z3-tac"],
+            expected={
+                "z3-tac": {
+                    "status": "unsupported",
+                    "diagnostic": "some other gate",
+                }
+            },
+        )
+        manifest = {"schema_version": "2", "cases": [case]}
+
+        with self.assertRaisesRegex(audit.AuditError, "reserved diagnostic"):
+            audit.validate_v2_manifest(manifest)
+
+    def test_resource_gate_can_coexist_with_separate_red_obligation(self):
+        case = v2_case(
+            "resource_gate_with_frontend_red",
+            features=[audit.RESOURCE_GATE_FEATURE],
+            modes=["typecheck-only", "z3-tac"],
+            expected={
+                "typecheck-only": {"status": "red"},
+                "z3-tac": {
+                    "status": "unsupported",
+                    "diagnostic": audit.RESOURCE_GATE_DIAGNOSTIC,
+                },
+            },
+            impl=obligation("future FP frontend"),
+        )
+        manifest = {"schema_version": "2", "cases": [case]}
+
+        validated = audit.validate_v2_manifest(manifest)[0]
+        self.assertIsNotNone(validated["implementation_obligation"])
+        self.assertEqual(
+            validated["expected"]["z3-tac"]["status"],
+            "unsupported",
+        )
+
     def test_red_rows_are_categorized_for_datatypes_and_hocore(self):
         datatype = v2_case(
             "datatype_red",
