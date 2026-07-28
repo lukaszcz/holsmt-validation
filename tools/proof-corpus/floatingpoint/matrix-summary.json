@@ -1,0 +1,5521 @@
+{
+  "metadata_only_cases": [
+    {
+      "description": "Float32 symbolic fp.add commutativity; payload excluded by task mandate because the drafting run was 891 MiB.",
+      "format": "Float32",
+      "id": "d12_add_commutativity_float32",
+      "measurement": "Phase 5 plan drafting, Z3 4.15.3",
+      "operator": "fp.add",
+      "proof_recorded": false,
+      "proof_size_mib": 891,
+      "solve_seconds": 65
+    }
+  ],
+  "schema": "holsmt-z3-fp-proof-corpus-matrix-v1",
+  "versions": [
+    {
+      "case_count": 44,
+      "cases": [
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_add",
+          "elapsed_seconds": 0.009276,
+          "format": "(3,5)",
+          "proof_bytes": 946,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_sub",
+          "elapsed_seconds": 0.009231,
+          "format": "(3,5)",
+          "proof_bytes": 1482,
+          "proof_steps": 20,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 5
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_mul",
+          "elapsed_seconds": 0.009588,
+          "format": "(3,5)",
+          "proof_bytes": 946,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_div",
+          "elapsed_seconds": 0.008902,
+          "format": "(3,5)",
+          "proof_bytes": 946,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_fma",
+          "elapsed_seconds": 0.010419,
+          "format": "(3,5)",
+          "proof_bytes": 975,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_sqrt",
+          "elapsed_seconds": 0.009349,
+          "format": "(3,5)",
+          "proof_bytes": 945,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_rem",
+          "elapsed_seconds": 0.009708,
+          "format": "(3,5)",
+          "proof_bytes": 945,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 4
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_round_to_integral_rna",
+          "elapsed_seconds": 0.009384,
+          "format": "(3,5)",
+          "proof_bytes": 978,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 1,
+          "bv_skolem_widths": [
+            1
+          ],
+          "case_id": "ground_min_signed_zero_range",
+          "elapsed_seconds": 0.00978,
+          "format": "(3,5)",
+          "proof_bytes": 1232,
+          "proof_steps": 24,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 1,
+          "bv_skolem_widths": [
+            1
+          ],
+          "case_id": "ground_max_signed_zero_range",
+          "elapsed_seconds": 0.008478,
+          "format": "(3,5)",
+          "proof_bytes": 1232,
+          "proof_steps": 24,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_real_to_fp_rna_tie",
+          "elapsed_seconds": 0.014542,
+          "format": "(3,5)",
+          "proof_bytes": 930,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_mixed_format_rna",
+          "elapsed_seconds": 0.009548,
+          "format": "(4,7)->(3,5)",
+          "proof_bytes": 972,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_mixed_format_chain",
+          "elapsed_seconds": 0.013046,
+          "format": "Real->(4,7)->(3,5)",
+          "proof_bytes": 1313,
+          "proof_steps": 18,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_to_fp_bitcast",
+          "elapsed_seconds": 0.010038,
+          "format": "(3,5)",
+          "proof_bytes": 561,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_to_fp_signed",
+          "elapsed_seconds": 0.008937,
+          "format": "(3,5)",
+          "proof_bytes": 753,
+          "proof_steps": 13,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_to_fp_unsigned",
+          "elapsed_seconds": 0.009825,
+          "format": "(3,5)",
+          "proof_bytes": 763,
+          "proof_steps": 13,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_to_ubv",
+          "elapsed_seconds": 0.009698,
+          "format": "(3,5)",
+          "proof_bytes": 763,
+          "proof_steps": 13,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_to_sbv",
+          "elapsed_seconds": 0.008662,
+          "format": "(3,5)",
+          "proof_bytes": 769,
+          "proof_steps": 13,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_to_real_ground",
+          "elapsed_seconds": 0.01372,
+          "format": "(3,5)",
+          "proof_bytes": 735,
+          "proof_steps": 13,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 32,
+          "bv_skolem_widths": [
+            32
+          ],
+          "case_id": "convert_to_real_symbolic_bridge",
+          "elapsed_seconds": 0.022441,
+          "format": "Float32",
+          "proof_bytes": 52626,
+          "proof_steps": 98,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 1,
+            "ground-evaluation": 2,
+            "literal-normalization": 1,
+            "symbolic-normalization": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "symm",
+            "th-lemma-arith",
+            "trans",
+            "trans*",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "nan_payload_equality",
+          "elapsed_seconds": 0.00972,
+          "format": "(5,11)",
+          "proof_bytes": 721,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2,
+            "literal-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "literal_positive_zero",
+          "elapsed_seconds": 0.01008,
+          "format": "(3,5)",
+          "proof_bytes": 721,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2,
+            "literal-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "literal_negative_zero",
+          "elapsed_seconds": 0.009017,
+          "format": "(3,5)",
+          "proof_bytes": 721,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2,
+            "literal-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "literal_positive_infinity",
+          "elapsed_seconds": 0.009625,
+          "format": "(3,5)",
+          "proof_bytes": 697,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2,
+            "literal-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "literal_negative_infinity",
+          "elapsed_seconds": 0.009832,
+          "format": "(3,5)",
+          "proof_bytes": 697,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2,
+            "literal-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "literal_nan",
+          "elapsed_seconds": 0.009316,
+          "format": "(3,5)",
+          "proof_bytes": 697,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2,
+            "literal-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 2,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_comparison_lt",
+          "elapsed_seconds": 0.011377,
+          "format": "(3,5)",
+          "proof_bytes": 24268,
+          "proof_steps": 449,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 2,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_comparison_gt",
+          "elapsed_seconds": 0.011185,
+          "format": "(3,5)",
+          "proof_bytes": 24448,
+          "proof_steps": 453,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 2,
+            "symbolic-normalization": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 2,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_comparison_leq",
+          "elapsed_seconds": 0.01192,
+          "format": "(3,5)",
+          "proof_bytes": 46601,
+          "proof_steps": 867,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 3,
+            "bit-decomposition": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_comparison_geq",
+          "elapsed_seconds": 0.012598,
+          "format": "(3,5)",
+          "proof_bytes": 55414,
+          "proof_steps": 1025,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 3,
+            "symbolic-normalization": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 2,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_comparison_eq",
+          "elapsed_seconds": 0.010555,
+          "format": "(3,5)",
+          "proof_bytes": 8444,
+          "proof_steps": 116,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 8,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_classification_normal_subnormal",
+          "elapsed_seconds": 0.009811,
+          "format": "(3,5)",
+          "proof_bytes": 3993,
+          "proof_steps": 64,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 1,
+          "bool_skolem_count": 8,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_classification_zero_normal",
+          "elapsed_seconds": 0.009613,
+          "format": "(3,5)",
+          "proof_bytes": 3597,
+          "proof_steps": 54,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_classification_infinite_normal",
+          "elapsed_seconds": 0.009677,
+          "format": "(3,5)",
+          "proof_bytes": 1027,
+          "proof_steps": 15,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 1,
+          "bool_skolem_count": 8,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_classification_nan_positive",
+          "elapsed_seconds": 0.010001,
+          "format": "(3,5)",
+          "proof_bytes": 3495,
+          "proof_steps": 54,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 8,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_classification_negative_positive",
+          "elapsed_seconds": 0.009233,
+          "format": "(3,5)",
+          "proof_bytes": 2168,
+          "proof_steps": 30,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 1,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_abs",
+          "elapsed_seconds": 0.009044,
+          "format": "(3,5)",
+          "proof_bytes": 896,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "symbolic_neg",
+          "elapsed_seconds": 0.009976,
+          "format": "(3,5)",
+          "proof_bytes": 469,
+          "proof_steps": 9,
+          "result": "unsat",
+          "rewrite_categories": {
+            "symbolic-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 1,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [
+            32
+          ],
+          "case_id": "arbitrary_format_float32",
+          "elapsed_seconds": 0.009921,
+          "format": "Float32",
+          "proof_bytes": 1402,
+          "proof_steps": 21,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 1,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [
+            64
+          ],
+          "case_id": "arbitrary_format_float64",
+          "elapsed_seconds": 0.010009,
+          "format": "Float64",
+          "proof_bytes": 1405,
+          "proof_steps": 21,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 1,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [
+            128
+          ],
+          "case_id": "arbitrary_format_float128",
+          "elapsed_seconds": 0.009606,
+          "format": "Float128",
+          "proof_bytes": 1418,
+          "proof_steps": 21,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 2,
+          "bool_skolem_count": 64,
+          "bv_skolem_widths": [
+            32
+          ],
+          "case_id": "scale_lt_asymmetry_float32",
+          "elapsed_seconds": 0.015442,
+          "format": "Float32",
+          "proof_bytes": 108091,
+          "proof_steps": 2080,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            16
+          ],
+          "case_id": "scale_mul_identity_float16",
+          "elapsed_seconds": 0.041642,
+          "format": "Float16",
+          "proof_bytes": 598882,
+          "proof_steps": 9422,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 1,
+            "symbolic-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "d12_add_commutativity_tiny",
+          "elapsed_seconds": 1.16208,
+          "format": "(3,5)",
+          "proof_bytes": 27557438,
+          "proof_steps": 429328,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 1,
+            "symbolic-normalization": 2
+          },
+          "rules": [
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        }
+      ],
+      "proof_count": 44,
+      "rule_gate_passed": true,
+      "rule_histogram": {
+        "and-elim": 46,
+        "asserted": 45,
+        "def-axiom": 7653,
+        "hypothesis": 2358,
+        "lemma": 8552,
+        "monotonicity": 194,
+        "mp": 172,
+        "not-or-elim": 61,
+        "rewrite": 432,
+        "symm": 2,
+        "th-lemma-arith": 1,
+        "trans": 185,
+        "trans*": 1,
+        "unit-resolution": 424782
+      },
+      "rules": [
+        "and-elim",
+        "asserted",
+        "def-axiom",
+        "hypothesis",
+        "lemma",
+        "monotonicity",
+        "mp",
+        "not-or-elim",
+        "rewrite",
+        "symm",
+        "th-lemma-arith",
+        "trans",
+        "trans*",
+        "unit-resolution"
+      ],
+      "th_lemma_fp_observed": false,
+      "total_proof_bytes": 28518522,
+      "version": "4.11.2"
+    },
+    {
+      "case_count": 44,
+      "cases": [
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_add",
+          "elapsed_seconds": 0.010289,
+          "format": "(3,5)",
+          "proof_bytes": 946,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_sub",
+          "elapsed_seconds": 0.01165,
+          "format": "(3,5)",
+          "proof_bytes": 1482,
+          "proof_steps": 20,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 5
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_mul",
+          "elapsed_seconds": 0.010294,
+          "format": "(3,5)",
+          "proof_bytes": 946,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_div",
+          "elapsed_seconds": 0.009854,
+          "format": "(3,5)",
+          "proof_bytes": 946,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_fma",
+          "elapsed_seconds": 0.010483,
+          "format": "(3,5)",
+          "proof_bytes": 975,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_sqrt",
+          "elapsed_seconds": 0.010151,
+          "format": "(3,5)",
+          "proof_bytes": 945,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_rem",
+          "elapsed_seconds": 0.01207,
+          "format": "(3,5)",
+          "proof_bytes": 945,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 4
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_round_to_integral_rna",
+          "elapsed_seconds": 0.01371,
+          "format": "(3,5)",
+          "proof_bytes": 978,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 1,
+          "bv_skolem_widths": [
+            1
+          ],
+          "case_id": "ground_min_signed_zero_range",
+          "elapsed_seconds": 0.01094,
+          "format": "(3,5)",
+          "proof_bytes": 1246,
+          "proof_steps": 23,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 1,
+          "bv_skolem_widths": [
+            1
+          ],
+          "case_id": "ground_max_signed_zero_range",
+          "elapsed_seconds": 0.010846,
+          "format": "(3,5)",
+          "proof_bytes": 1246,
+          "proof_steps": 23,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_real_to_fp_rna_tie",
+          "elapsed_seconds": 0.016607,
+          "format": "(3,5)",
+          "proof_bytes": 930,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_mixed_format_rna",
+          "elapsed_seconds": 0.010113,
+          "format": "(4,7)->(3,5)",
+          "proof_bytes": 972,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_mixed_format_chain",
+          "elapsed_seconds": 0.016337,
+          "format": "Real->(4,7)->(3,5)",
+          "proof_bytes": 1313,
+          "proof_steps": 18,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_to_fp_bitcast",
+          "elapsed_seconds": 0.010026,
+          "format": "(3,5)",
+          "proof_bytes": 561,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_to_fp_signed",
+          "elapsed_seconds": 0.010355,
+          "format": "(3,5)",
+          "proof_bytes": 753,
+          "proof_steps": 13,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_to_fp_unsigned",
+          "elapsed_seconds": 0.010921,
+          "format": "(3,5)",
+          "proof_bytes": 763,
+          "proof_steps": 13,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_to_ubv",
+          "elapsed_seconds": 0.009625,
+          "format": "(3,5)",
+          "proof_bytes": 763,
+          "proof_steps": 13,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_to_sbv",
+          "elapsed_seconds": 0.009752,
+          "format": "(3,5)",
+          "proof_bytes": 769,
+          "proof_steps": 13,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_to_real_ground",
+          "elapsed_seconds": 0.015564,
+          "format": "(3,5)",
+          "proof_bytes": 735,
+          "proof_steps": 13,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 32,
+          "bv_skolem_widths": [
+            32
+          ],
+          "case_id": "convert_to_real_symbolic_bridge",
+          "elapsed_seconds": 0.024356,
+          "format": "Float32",
+          "proof_bytes": 74643,
+          "proof_steps": 489,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 1,
+            "ground-evaluation": 2,
+            "literal-normalization": 1,
+            "symbolic-normalization": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "th-lemma-arith",
+            "trans",
+            "trans*",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "nan_payload_equality",
+          "elapsed_seconds": 0.009863,
+          "format": "(5,11)",
+          "proof_bytes": 721,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2,
+            "literal-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "literal_positive_zero",
+          "elapsed_seconds": 0.010918,
+          "format": "(3,5)",
+          "proof_bytes": 721,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2,
+            "literal-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "literal_negative_zero",
+          "elapsed_seconds": 0.012629,
+          "format": "(3,5)",
+          "proof_bytes": 721,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2,
+            "literal-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "literal_positive_infinity",
+          "elapsed_seconds": 0.009697,
+          "format": "(3,5)",
+          "proof_bytes": 697,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2,
+            "literal-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "literal_negative_infinity",
+          "elapsed_seconds": 0.009528,
+          "format": "(3,5)",
+          "proof_bytes": 697,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2,
+            "literal-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "literal_nan",
+          "elapsed_seconds": 0.009567,
+          "format": "(3,5)",
+          "proof_bytes": 697,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2,
+            "literal-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 2,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_comparison_lt",
+          "elapsed_seconds": 0.011925,
+          "format": "(3,5)",
+          "proof_bytes": 24268,
+          "proof_steps": 449,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 2,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_comparison_gt",
+          "elapsed_seconds": 0.011305,
+          "format": "(3,5)",
+          "proof_bytes": 24448,
+          "proof_steps": 453,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 2,
+            "symbolic-normalization": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 2,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_comparison_leq",
+          "elapsed_seconds": 0.01215,
+          "format": "(3,5)",
+          "proof_bytes": 42730,
+          "proof_steps": 790,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 3,
+            "bit-decomposition": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_comparison_geq",
+          "elapsed_seconds": 0.012293,
+          "format": "(3,5)",
+          "proof_bytes": 41962,
+          "proof_steps": 769,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 3,
+            "symbolic-normalization": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 2,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_comparison_eq",
+          "elapsed_seconds": 0.011717,
+          "format": "(3,5)",
+          "proof_bytes": 8444,
+          "proof_steps": 116,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 8,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_classification_normal_subnormal",
+          "elapsed_seconds": 0.011215,
+          "format": "(3,5)",
+          "proof_bytes": 3993,
+          "proof_steps": 64,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 1,
+          "bool_skolem_count": 8,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_classification_zero_normal",
+          "elapsed_seconds": 0.012369,
+          "format": "(3,5)",
+          "proof_bytes": 3597,
+          "proof_steps": 54,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_classification_infinite_normal",
+          "elapsed_seconds": 0.010366,
+          "format": "(3,5)",
+          "proof_bytes": 1027,
+          "proof_steps": 15,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 1,
+          "bool_skolem_count": 8,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_classification_nan_positive",
+          "elapsed_seconds": 0.010946,
+          "format": "(3,5)",
+          "proof_bytes": 3495,
+          "proof_steps": 54,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 8,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_classification_negative_positive",
+          "elapsed_seconds": 0.012057,
+          "format": "(3,5)",
+          "proof_bytes": 2168,
+          "proof_steps": 30,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 1,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_abs",
+          "elapsed_seconds": 0.011052,
+          "format": "(3,5)",
+          "proof_bytes": 896,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "symbolic_neg",
+          "elapsed_seconds": 0.009935,
+          "format": "(3,5)",
+          "proof_bytes": 469,
+          "proof_steps": 9,
+          "result": "unsat",
+          "rewrite_categories": {
+            "symbolic-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 1,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [
+            32
+          ],
+          "case_id": "arbitrary_format_float32",
+          "elapsed_seconds": 0.011043,
+          "format": "Float32",
+          "proof_bytes": 1402,
+          "proof_steps": 21,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 1,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [
+            64
+          ],
+          "case_id": "arbitrary_format_float64",
+          "elapsed_seconds": 0.010134,
+          "format": "Float64",
+          "proof_bytes": 1405,
+          "proof_steps": 21,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 1,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [
+            128
+          ],
+          "case_id": "arbitrary_format_float128",
+          "elapsed_seconds": 0.00934,
+          "format": "Float128",
+          "proof_bytes": 1418,
+          "proof_steps": 21,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 2,
+          "bool_skolem_count": 64,
+          "bv_skolem_widths": [
+            32
+          ],
+          "case_id": "scale_lt_asymmetry_float32",
+          "elapsed_seconds": 0.015875,
+          "format": "Float32",
+          "proof_bytes": 108071,
+          "proof_steps": 2080,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            16
+          ],
+          "case_id": "scale_mul_identity_float16",
+          "elapsed_seconds": 0.04409,
+          "format": "Float16",
+          "proof_bytes": 581864,
+          "proof_steps": 9337,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 1,
+            "symbolic-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "d12_add_commutativity_tiny",
+          "elapsed_seconds": 1.132932,
+          "format": "(3,5)",
+          "proof_bytes": 25992927,
+          "proof_steps": 412581,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 1,
+            "symbolic-normalization": 2
+          },
+          "rules": [
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        }
+      ],
+      "proof_count": 44,
+      "rule_gate_passed": true,
+      "rule_histogram": {
+        "and-elim": 46,
+        "asserted": 45,
+        "def-axiom": 7368,
+        "hypothesis": 2393,
+        "lemma": 8406,
+        "monotonicity": 527,
+        "mp": 170,
+        "not-or-elim": 63,
+        "rewrite": 559,
+        "th-lemma-arith": 1,
+        "trans": 226,
+        "trans*": 1,
+        "unit-resolution": 407903
+      },
+      "rules": [
+        "and-elim",
+        "asserted",
+        "def-axiom",
+        "hypothesis",
+        "lemma",
+        "monotonicity",
+        "mp",
+        "not-or-elim",
+        "rewrite",
+        "th-lemma-arith",
+        "trans",
+        "trans*",
+        "unit-resolution"
+      ],
+      "th_lemma_fp_observed": false,
+      "total_proof_bytes": 26941695,
+      "version": "4.12.4"
+    },
+    {
+      "case_count": 44,
+      "cases": [
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_add",
+          "elapsed_seconds": 0.010058,
+          "format": "(3,5)",
+          "proof_bytes": 946,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_sub",
+          "elapsed_seconds": 0.010004,
+          "format": "(3,5)",
+          "proof_bytes": 1482,
+          "proof_steps": 20,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 5
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_mul",
+          "elapsed_seconds": 0.0106,
+          "format": "(3,5)",
+          "proof_bytes": 946,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_div",
+          "elapsed_seconds": 0.009569,
+          "format": "(3,5)",
+          "proof_bytes": 946,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_fma",
+          "elapsed_seconds": 0.009865,
+          "format": "(3,5)",
+          "proof_bytes": 975,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_sqrt",
+          "elapsed_seconds": 0.010028,
+          "format": "(3,5)",
+          "proof_bytes": 945,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_rem",
+          "elapsed_seconds": 0.009617,
+          "format": "(3,5)",
+          "proof_bytes": 945,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 4
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_round_to_integral_rna",
+          "elapsed_seconds": 0.009786,
+          "format": "(3,5)",
+          "proof_bytes": 978,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 1,
+          "bv_skolem_widths": [
+            1
+          ],
+          "case_id": "ground_min_signed_zero_range",
+          "elapsed_seconds": 0.01018,
+          "format": "(3,5)",
+          "proof_bytes": 1246,
+          "proof_steps": 23,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 1,
+          "bv_skolem_widths": [
+            1
+          ],
+          "case_id": "ground_max_signed_zero_range",
+          "elapsed_seconds": 0.010034,
+          "format": "(3,5)",
+          "proof_bytes": 1246,
+          "proof_steps": 23,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_real_to_fp_rna_tie",
+          "elapsed_seconds": 0.015399,
+          "format": "(3,5)",
+          "proof_bytes": 930,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_mixed_format_rna",
+          "elapsed_seconds": 0.009669,
+          "format": "(4,7)->(3,5)",
+          "proof_bytes": 972,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_mixed_format_chain",
+          "elapsed_seconds": 0.01551,
+          "format": "Real->(4,7)->(3,5)",
+          "proof_bytes": 1313,
+          "proof_steps": 18,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_to_fp_bitcast",
+          "elapsed_seconds": 0.00999,
+          "format": "(3,5)",
+          "proof_bytes": 561,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_to_fp_signed",
+          "elapsed_seconds": 0.00974,
+          "format": "(3,5)",
+          "proof_bytes": 753,
+          "proof_steps": 13,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_to_fp_unsigned",
+          "elapsed_seconds": 0.009951,
+          "format": "(3,5)",
+          "proof_bytes": 763,
+          "proof_steps": 13,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_to_ubv",
+          "elapsed_seconds": 0.009802,
+          "format": "(3,5)",
+          "proof_bytes": 763,
+          "proof_steps": 13,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_to_sbv",
+          "elapsed_seconds": 0.009691,
+          "format": "(3,5)",
+          "proof_bytes": 769,
+          "proof_steps": 13,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_to_real_ground",
+          "elapsed_seconds": 0.015745,
+          "format": "(3,5)",
+          "proof_bytes": 735,
+          "proof_steps": 13,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 32,
+          "bv_skolem_widths": [
+            32
+          ],
+          "case_id": "convert_to_real_symbolic_bridge",
+          "elapsed_seconds": 0.024777,
+          "format": "Float32",
+          "proof_bytes": 74643,
+          "proof_steps": 489,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 1,
+            "ground-evaluation": 2,
+            "literal-normalization": 1,
+            "symbolic-normalization": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "th-lemma-arith",
+            "trans",
+            "trans*",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "nan_payload_equality",
+          "elapsed_seconds": 0.010118,
+          "format": "(5,11)",
+          "proof_bytes": 721,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2,
+            "literal-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "literal_positive_zero",
+          "elapsed_seconds": 0.010529,
+          "format": "(3,5)",
+          "proof_bytes": 721,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2,
+            "literal-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "literal_negative_zero",
+          "elapsed_seconds": 0.009498,
+          "format": "(3,5)",
+          "proof_bytes": 721,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2,
+            "literal-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "literal_positive_infinity",
+          "elapsed_seconds": 0.009386,
+          "format": "(3,5)",
+          "proof_bytes": 697,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2,
+            "literal-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "literal_negative_infinity",
+          "elapsed_seconds": 0.009695,
+          "format": "(3,5)",
+          "proof_bytes": 697,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2,
+            "literal-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "literal_nan",
+          "elapsed_seconds": 0.009404,
+          "format": "(3,5)",
+          "proof_bytes": 697,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2,
+            "literal-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 2,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_comparison_lt",
+          "elapsed_seconds": 0.012955,
+          "format": "(3,5)",
+          "proof_bytes": 24268,
+          "proof_steps": 449,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 2,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_comparison_gt",
+          "elapsed_seconds": 0.011579,
+          "format": "(3,5)",
+          "proof_bytes": 24448,
+          "proof_steps": 453,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 2,
+            "symbolic-normalization": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 2,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_comparison_leq",
+          "elapsed_seconds": 0.012923,
+          "format": "(3,5)",
+          "proof_bytes": 42730,
+          "proof_steps": 790,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 3,
+            "bit-decomposition": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_comparison_geq",
+          "elapsed_seconds": 0.013166,
+          "format": "(3,5)",
+          "proof_bytes": 41962,
+          "proof_steps": 769,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 3,
+            "symbolic-normalization": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 2,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_comparison_eq",
+          "elapsed_seconds": 0.011194,
+          "format": "(3,5)",
+          "proof_bytes": 8444,
+          "proof_steps": 116,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 8,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_classification_normal_subnormal",
+          "elapsed_seconds": 0.010549,
+          "format": "(3,5)",
+          "proof_bytes": 3993,
+          "proof_steps": 64,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 1,
+          "bool_skolem_count": 8,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_classification_zero_normal",
+          "elapsed_seconds": 0.010012,
+          "format": "(3,5)",
+          "proof_bytes": 3597,
+          "proof_steps": 54,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_classification_infinite_normal",
+          "elapsed_seconds": 0.009782,
+          "format": "(3,5)",
+          "proof_bytes": 1027,
+          "proof_steps": 15,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 1,
+          "bool_skolem_count": 8,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_classification_nan_positive",
+          "elapsed_seconds": 0.010231,
+          "format": "(3,5)",
+          "proof_bytes": 3495,
+          "proof_steps": 54,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 8,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_classification_negative_positive",
+          "elapsed_seconds": 0.010171,
+          "format": "(3,5)",
+          "proof_bytes": 2168,
+          "proof_steps": 30,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 1,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_abs",
+          "elapsed_seconds": 0.013874,
+          "format": "(3,5)",
+          "proof_bytes": 896,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "symbolic_neg",
+          "elapsed_seconds": 0.011315,
+          "format": "(3,5)",
+          "proof_bytes": 469,
+          "proof_steps": 9,
+          "result": "unsat",
+          "rewrite_categories": {
+            "symbolic-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 1,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [
+            32
+          ],
+          "case_id": "arbitrary_format_float32",
+          "elapsed_seconds": 0.010611,
+          "format": "Float32",
+          "proof_bytes": 1402,
+          "proof_steps": 21,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 1,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [
+            64
+          ],
+          "case_id": "arbitrary_format_float64",
+          "elapsed_seconds": 0.0141,
+          "format": "Float64",
+          "proof_bytes": 1405,
+          "proof_steps": 21,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 1,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [
+            128
+          ],
+          "case_id": "arbitrary_format_float128",
+          "elapsed_seconds": 0.010005,
+          "format": "Float128",
+          "proof_bytes": 1418,
+          "proof_steps": 21,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 2,
+          "bool_skolem_count": 64,
+          "bv_skolem_widths": [
+            32
+          ],
+          "case_id": "scale_lt_asymmetry_float32",
+          "elapsed_seconds": 0.016628,
+          "format": "Float32",
+          "proof_bytes": 108071,
+          "proof_steps": 2080,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            16
+          ],
+          "case_id": "scale_mul_identity_float16",
+          "elapsed_seconds": 0.041205,
+          "format": "Float16",
+          "proof_bytes": 581864,
+          "proof_steps": 9337,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 1,
+            "symbolic-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "d12_add_commutativity_tiny",
+          "elapsed_seconds": 1.113491,
+          "format": "(3,5)",
+          "proof_bytes": 25992927,
+          "proof_steps": 412581,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 1,
+            "symbolic-normalization": 2
+          },
+          "rules": [
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        }
+      ],
+      "proof_count": 44,
+      "rule_gate_passed": true,
+      "rule_histogram": {
+        "and-elim": 46,
+        "asserted": 45,
+        "def-axiom": 7368,
+        "hypothesis": 2393,
+        "lemma": 8406,
+        "monotonicity": 527,
+        "mp": 170,
+        "not-or-elim": 63,
+        "rewrite": 559,
+        "th-lemma-arith": 1,
+        "trans": 226,
+        "trans*": 1,
+        "unit-resolution": 407903
+      },
+      "rules": [
+        "and-elim",
+        "asserted",
+        "def-axiom",
+        "hypothesis",
+        "lemma",
+        "monotonicity",
+        "mp",
+        "not-or-elim",
+        "rewrite",
+        "th-lemma-arith",
+        "trans",
+        "trans*",
+        "unit-resolution"
+      ],
+      "th_lemma_fp_observed": false,
+      "total_proof_bytes": 26941695,
+      "version": "4.13.0"
+    },
+    {
+      "case_count": 44,
+      "cases": [
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_add",
+          "elapsed_seconds": 0.010362,
+          "format": "(3,5)",
+          "proof_bytes": 935,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_sub",
+          "elapsed_seconds": 0.010545,
+          "format": "(3,5)",
+          "proof_bytes": 1465,
+          "proof_steps": 20,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 5
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_mul",
+          "elapsed_seconds": 0.009805,
+          "format": "(3,5)",
+          "proof_bytes": 935,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_div",
+          "elapsed_seconds": 0.010716,
+          "format": "(3,5)",
+          "proof_bytes": 935,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_fma",
+          "elapsed_seconds": 0.010385,
+          "format": "(3,5)",
+          "proof_bytes": 964,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_sqrt",
+          "elapsed_seconds": 0.01109,
+          "format": "(3,5)",
+          "proof_bytes": 935,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_rem",
+          "elapsed_seconds": 0.0092,
+          "format": "(3,5)",
+          "proof_bytes": 934,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 4
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_round_to_integral_rna",
+          "elapsed_seconds": 0.009365,
+          "format": "(3,5)",
+          "proof_bytes": 968,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 1,
+          "bv_skolem_widths": [
+            1
+          ],
+          "case_id": "ground_min_signed_zero_range",
+          "elapsed_seconds": 0.010954,
+          "format": "(3,5)",
+          "proof_bytes": 1226,
+          "proof_steps": 23,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 1,
+          "bv_skolem_widths": [
+            1
+          ],
+          "case_id": "ground_max_signed_zero_range",
+          "elapsed_seconds": 0.010459,
+          "format": "(3,5)",
+          "proof_bytes": 1226,
+          "proof_steps": 23,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_real_to_fp_rna_tie",
+          "elapsed_seconds": 0.009243,
+          "format": "(3,5)",
+          "proof_bytes": 920,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_mixed_format_rna",
+          "elapsed_seconds": 0.010324,
+          "format": "(4,7)->(3,5)",
+          "proof_bytes": 962,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_mixed_format_chain",
+          "elapsed_seconds": 0.010667,
+          "format": "Real->(4,7)->(3,5)",
+          "proof_bytes": 1300,
+          "proof_steps": 18,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_to_fp_bitcast",
+          "elapsed_seconds": 0.009793,
+          "format": "(3,5)",
+          "proof_bytes": 554,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_to_fp_signed",
+          "elapsed_seconds": 0.011173,
+          "format": "(3,5)",
+          "proof_bytes": 744,
+          "proof_steps": 13,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_to_fp_unsigned",
+          "elapsed_seconds": 0.009393,
+          "format": "(3,5)",
+          "proof_bytes": 754,
+          "proof_steps": 13,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_to_ubv",
+          "elapsed_seconds": 0.010233,
+          "format": "(3,5)",
+          "proof_bytes": 755,
+          "proof_steps": 13,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_to_sbv",
+          "elapsed_seconds": 0.009676,
+          "format": "(3,5)",
+          "proof_bytes": 761,
+          "proof_steps": 13,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_to_real_ground",
+          "elapsed_seconds": 0.010768,
+          "format": "(3,5)",
+          "proof_bytes": 726,
+          "proof_steps": 13,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 32,
+          "bv_skolem_widths": [
+            32
+          ],
+          "case_id": "convert_to_real_symbolic_bridge",
+          "elapsed_seconds": 0.019218,
+          "format": "Float32",
+          "proof_bytes": 51555,
+          "proof_steps": 93,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 1,
+            "ground-evaluation": 2,
+            "literal-normalization": 1,
+            "symbolic-normalization": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "symm",
+            "th-lemma-arith",
+            "trans",
+            "trans*",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "nan_payload_equality",
+          "elapsed_seconds": 0.009778,
+          "format": "(5,11)",
+          "proof_bytes": 717,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2,
+            "literal-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "literal_positive_zero",
+          "elapsed_seconds": 0.009246,
+          "format": "(3,5)",
+          "proof_bytes": 717,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2,
+            "literal-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "literal_negative_zero",
+          "elapsed_seconds": 0.009065,
+          "format": "(3,5)",
+          "proof_bytes": 717,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2,
+            "literal-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "literal_positive_infinity",
+          "elapsed_seconds": 0.009556,
+          "format": "(3,5)",
+          "proof_bytes": 693,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2,
+            "literal-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "literal_negative_infinity",
+          "elapsed_seconds": 0.009073,
+          "format": "(3,5)",
+          "proof_bytes": 693,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2,
+            "literal-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "literal_nan",
+          "elapsed_seconds": 0.008877,
+          "format": "(3,5)",
+          "proof_bytes": 693,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2,
+            "literal-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 2,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_comparison_lt",
+          "elapsed_seconds": 0.012306,
+          "format": "(3,5)",
+          "proof_bytes": 23920,
+          "proof_steps": 449,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 2,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_comparison_gt",
+          "elapsed_seconds": 0.011147,
+          "format": "(3,5)",
+          "proof_bytes": 24098,
+          "proof_steps": 453,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 2,
+            "symbolic-normalization": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 2,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_comparison_leq",
+          "elapsed_seconds": 0.013602,
+          "format": "(3,5)",
+          "proof_bytes": 42115,
+          "proof_steps": 790,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 3,
+            "bit-decomposition": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_comparison_geq",
+          "elapsed_seconds": 0.011558,
+          "format": "(3,5)",
+          "proof_bytes": 41350,
+          "proof_steps": 769,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 3,
+            "symbolic-normalization": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 2,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_comparison_eq",
+          "elapsed_seconds": 0.011426,
+          "format": "(3,5)",
+          "proof_bytes": 8324,
+          "proof_steps": 116,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 8,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_classification_normal_subnormal",
+          "elapsed_seconds": 0.009354,
+          "format": "(3,5)",
+          "proof_bytes": 3932,
+          "proof_steps": 64,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 1,
+          "bool_skolem_count": 8,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_classification_zero_normal",
+          "elapsed_seconds": 0.010649,
+          "format": "(3,5)",
+          "proof_bytes": 3548,
+          "proof_steps": 54,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_classification_infinite_normal",
+          "elapsed_seconds": 0.009343,
+          "format": "(3,5)",
+          "proof_bytes": 1008,
+          "proof_steps": 15,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 1,
+          "bool_skolem_count": 8,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_classification_nan_positive",
+          "elapsed_seconds": 0.00983,
+          "format": "(3,5)",
+          "proof_bytes": 3444,
+          "proof_steps": 54,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 8,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_classification_negative_positive",
+          "elapsed_seconds": 0.009272,
+          "format": "(3,5)",
+          "proof_bytes": 2139,
+          "proof_steps": 30,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 1,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_abs",
+          "elapsed_seconds": 0.009109,
+          "format": "(3,5)",
+          "proof_bytes": 884,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "symbolic_neg",
+          "elapsed_seconds": 0.009145,
+          "format": "(3,5)",
+          "proof_bytes": 465,
+          "proof_steps": 9,
+          "result": "unsat",
+          "rewrite_categories": {
+            "symbolic-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 1,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [
+            32
+          ],
+          "case_id": "arbitrary_format_float32",
+          "elapsed_seconds": 0.009074,
+          "format": "Float32",
+          "proof_bytes": 1382,
+          "proof_steps": 21,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 1,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [
+            64
+          ],
+          "case_id": "arbitrary_format_float64",
+          "elapsed_seconds": 0.009028,
+          "format": "Float64",
+          "proof_bytes": 1385,
+          "proof_steps": 21,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 1,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [
+            128
+          ],
+          "case_id": "arbitrary_format_float128",
+          "elapsed_seconds": 0.009289,
+          "format": "Float128",
+          "proof_bytes": 1398,
+          "proof_steps": 21,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 2,
+          "bool_skolem_count": 64,
+          "bv_skolem_widths": [
+            32
+          ],
+          "case_id": "scale_lt_asymmetry_float32",
+          "elapsed_seconds": 0.015872,
+          "format": "Float32",
+          "proof_bytes": 106532,
+          "proof_steps": 2080,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            16
+          ],
+          "case_id": "scale_mul_identity_float16",
+          "elapsed_seconds": 0.047574,
+          "format": "Float16",
+          "proof_bytes": 575485,
+          "proof_steps": 9337,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 1,
+            "symbolic-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "d12_add_commutativity_tiny",
+          "elapsed_seconds": 1.118276,
+          "format": "(3,5)",
+          "proof_bytes": 25803339,
+          "proof_steps": 412581,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 1,
+            "symbolic-normalization": 2
+          },
+          "rules": [
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        }
+      ],
+      "proof_count": 44,
+      "rule_gate_passed": true,
+      "rule_histogram": {
+        "and-elim": 46,
+        "asserted": 45,
+        "def-axiom": 7368,
+        "hypothesis": 2393,
+        "lemma": 8406,
+        "monotonicity": 221,
+        "mp": 170,
+        "not-or-elim": 63,
+        "rewrite": 476,
+        "symm": 1,
+        "th-lemma-arith": 1,
+        "trans": 218,
+        "trans*": 1,
+        "unit-resolution": 407903
+      },
+      "rules": [
+        "and-elim",
+        "asserted",
+        "def-axiom",
+        "hypothesis",
+        "lemma",
+        "monotonicity",
+        "mp",
+        "not-or-elim",
+        "rewrite",
+        "symm",
+        "th-lemma-arith",
+        "trans",
+        "trans*",
+        "unit-resolution"
+      ],
+      "th_lemma_fp_observed": false,
+      "total_proof_bytes": 26718532,
+      "version": "4.14.1"
+    },
+    {
+      "case_count": 44,
+      "cases": [
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_add",
+          "elapsed_seconds": 0.010055,
+          "format": "(3,5)",
+          "proof_bytes": 935,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_sub",
+          "elapsed_seconds": 0.009296,
+          "format": "(3,5)",
+          "proof_bytes": 1465,
+          "proof_steps": 20,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 5
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_mul",
+          "elapsed_seconds": 0.008461,
+          "format": "(3,5)",
+          "proof_bytes": 935,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_div",
+          "elapsed_seconds": 0.009178,
+          "format": "(3,5)",
+          "proof_bytes": 935,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_fma",
+          "elapsed_seconds": 0.009279,
+          "format": "(3,5)",
+          "proof_bytes": 964,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_sqrt",
+          "elapsed_seconds": 0.009721,
+          "format": "(3,5)",
+          "proof_bytes": 935,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_rem",
+          "elapsed_seconds": 0.009037,
+          "format": "(3,5)",
+          "proof_bytes": 934,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 4
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "ground_round_to_integral_rna",
+          "elapsed_seconds": 0.00907,
+          "format": "(3,5)",
+          "proof_bytes": 968,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 1,
+          "bv_skolem_widths": [
+            1
+          ],
+          "case_id": "ground_min_signed_zero_range",
+          "elapsed_seconds": 0.009007,
+          "format": "(3,5)",
+          "proof_bytes": 1226,
+          "proof_steps": 23,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 1,
+          "bv_skolem_widths": [
+            1
+          ],
+          "case_id": "ground_max_signed_zero_range",
+          "elapsed_seconds": 0.009435,
+          "format": "(3,5)",
+          "proof_bytes": 1226,
+          "proof_steps": 23,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_real_to_fp_rna_tie",
+          "elapsed_seconds": 0.009438,
+          "format": "(3,5)",
+          "proof_bytes": 920,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_mixed_format_rna",
+          "elapsed_seconds": 0.008916,
+          "format": "(4,7)->(3,5)",
+          "proof_bytes": 962,
+          "proof_steps": 14,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_mixed_format_chain",
+          "elapsed_seconds": 0.009222,
+          "format": "Real->(4,7)->(3,5)",
+          "proof_bytes": 1300,
+          "proof_steps": 18,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 3
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_to_fp_bitcast",
+          "elapsed_seconds": 0.009187,
+          "format": "(3,5)",
+          "proof_bytes": 554,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_to_fp_signed",
+          "elapsed_seconds": 0.009313,
+          "format": "(3,5)",
+          "proof_bytes": 744,
+          "proof_steps": 13,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_to_fp_unsigned",
+          "elapsed_seconds": 0.009006,
+          "format": "(3,5)",
+          "proof_bytes": 754,
+          "proof_steps": 13,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_to_ubv",
+          "elapsed_seconds": 0.009976,
+          "format": "(3,5)",
+          "proof_bytes": 755,
+          "proof_steps": 13,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_to_sbv",
+          "elapsed_seconds": 0.008593,
+          "format": "(3,5)",
+          "proof_bytes": 761,
+          "proof_steps": 13,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "convert_to_real_ground",
+          "elapsed_seconds": 0.008572,
+          "format": "(3,5)",
+          "proof_bytes": 726,
+          "proof_steps": 13,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 32,
+          "bv_skolem_widths": [
+            32
+          ],
+          "case_id": "convert_to_real_symbolic_bridge",
+          "elapsed_seconds": 0.016697,
+          "format": "Float32",
+          "proof_bytes": 51555,
+          "proof_steps": 93,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 1,
+            "ground-evaluation": 2,
+            "literal-normalization": 1,
+            "symbolic-normalization": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "symm",
+            "th-lemma-arith",
+            "trans",
+            "trans*",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "nan_payload_equality",
+          "elapsed_seconds": 0.008847,
+          "format": "(5,11)",
+          "proof_bytes": 717,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2,
+            "literal-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "literal_positive_zero",
+          "elapsed_seconds": 0.00903,
+          "format": "(3,5)",
+          "proof_bytes": 717,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2,
+            "literal-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "literal_negative_zero",
+          "elapsed_seconds": 0.009357,
+          "format": "(3,5)",
+          "proof_bytes": 717,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2,
+            "literal-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "literal_positive_infinity",
+          "elapsed_seconds": 0.009473,
+          "format": "(3,5)",
+          "proof_bytes": 693,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2,
+            "literal-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "literal_negative_infinity",
+          "elapsed_seconds": 0.00906,
+          "format": "(3,5)",
+          "proof_bytes": 693,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2,
+            "literal-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "literal_nan",
+          "elapsed_seconds": 0.009458,
+          "format": "(3,5)",
+          "proof_bytes": 693,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "ground-evaluation": 2,
+            "literal-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 2,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_comparison_lt",
+          "elapsed_seconds": 0.010833,
+          "format": "(3,5)",
+          "proof_bytes": 23920,
+          "proof_steps": 449,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 2,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_comparison_gt",
+          "elapsed_seconds": 0.0107,
+          "format": "(3,5)",
+          "proof_bytes": 24098,
+          "proof_steps": 453,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 2,
+            "symbolic-normalization": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 2,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_comparison_leq",
+          "elapsed_seconds": 0.011361,
+          "format": "(3,5)",
+          "proof_bytes": 42115,
+          "proof_steps": 790,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 3,
+            "bit-decomposition": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_comparison_geq",
+          "elapsed_seconds": 0.01234,
+          "format": "(3,5)",
+          "proof_bytes": 41350,
+          "proof_steps": 769,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 3,
+            "symbolic-normalization": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 2,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_comparison_eq",
+          "elapsed_seconds": 0.01135,
+          "format": "(3,5)",
+          "proof_bytes": 8324,
+          "proof_steps": 116,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 8,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_classification_normal_subnormal",
+          "elapsed_seconds": 0.009341,
+          "format": "(3,5)",
+          "proof_bytes": 3932,
+          "proof_steps": 64,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 1,
+          "bool_skolem_count": 8,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_classification_zero_normal",
+          "elapsed_seconds": 0.010554,
+          "format": "(3,5)",
+          "proof_bytes": 3548,
+          "proof_steps": 54,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_classification_infinite_normal",
+          "elapsed_seconds": 0.009712,
+          "format": "(3,5)",
+          "proof_bytes": 1008,
+          "proof_steps": 15,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 1,
+          "bool_skolem_count": 8,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_classification_nan_positive",
+          "elapsed_seconds": 0.009824,
+          "format": "(3,5)",
+          "proof_bytes": 3444,
+          "proof_steps": 54,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 8,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_classification_negative_positive",
+          "elapsed_seconds": 0.009507,
+          "format": "(3,5)",
+          "proof_bytes": 2139,
+          "proof_steps": 30,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 1,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "symbolic_abs",
+          "elapsed_seconds": 0.008836,
+          "format": "(3,5)",
+          "proof_bytes": 884,
+          "proof_steps": 10,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [],
+          "case_id": "symbolic_neg",
+          "elapsed_seconds": 0.009074,
+          "format": "(3,5)",
+          "proof_bytes": 465,
+          "proof_steps": 9,
+          "result": "unsat",
+          "rewrite_categories": {
+            "symbolic-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 1,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [
+            32
+          ],
+          "case_id": "arbitrary_format_float32",
+          "elapsed_seconds": 0.009681,
+          "format": "Float32",
+          "proof_bytes": 1382,
+          "proof_steps": 21,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 1,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [
+            64
+          ],
+          "case_id": "arbitrary_format_float64",
+          "elapsed_seconds": 0.009344,
+          "format": "Float64",
+          "proof_bytes": 1385,
+          "proof_steps": 21,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 1,
+          "bool_skolem_count": 0,
+          "bv_skolem_widths": [
+            128
+          ],
+          "case_id": "arbitrary_format_float128",
+          "elapsed_seconds": 0.00996,
+          "format": "Float128",
+          "proof_bytes": 1398,
+          "proof_steps": 21,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 1
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans"
+          ]
+        },
+        {
+          "bit_decomposition_count": 2,
+          "bool_skolem_count": 64,
+          "bv_skolem_widths": [
+            32
+          ],
+          "case_id": "scale_lt_asymmetry_float32",
+          "elapsed_seconds": 0.015741,
+          "format": "Float32",
+          "proof_bytes": 106532,
+          "proof_steps": 2080,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 2,
+            "bit-decomposition": 2
+          },
+          "rules": [
+            "and-elim",
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            16
+          ],
+          "case_id": "scale_mul_identity_float16",
+          "elapsed_seconds": 0.041297,
+          "format": "Float16",
+          "proof_bytes": 575485,
+          "proof_steps": 9337,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 1,
+            "symbolic-normalization": 1
+          },
+          "rules": [
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        },
+        {
+          "bit_decomposition_count": 0,
+          "bool_skolem_count": 16,
+          "bv_skolem_widths": [
+            8
+          ],
+          "case_id": "d12_add_commutativity_tiny",
+          "elapsed_seconds": 1.167835,
+          "format": "(3,5)",
+          "proof_bytes": 25803339,
+          "proof_steps": 412581,
+          "result": "unsat",
+          "rewrite_categories": {
+            "atom-conversion": 1,
+            "symbolic-normalization": 2
+          },
+          "rules": [
+            "asserted",
+            "def-axiom",
+            "hypothesis",
+            "lemma",
+            "monotonicity",
+            "mp",
+            "not-or-elim",
+            "rewrite",
+            "trans",
+            "unit-resolution"
+          ]
+        }
+      ],
+      "proof_count": 44,
+      "rule_gate_passed": true,
+      "rule_histogram": {
+        "and-elim": 46,
+        "asserted": 45,
+        "def-axiom": 7368,
+        "hypothesis": 2393,
+        "lemma": 8406,
+        "monotonicity": 221,
+        "mp": 170,
+        "not-or-elim": 63,
+        "rewrite": 476,
+        "symm": 1,
+        "th-lemma-arith": 1,
+        "trans": 218,
+        "trans*": 1,
+        "unit-resolution": 407903
+      },
+      "rules": [
+        "and-elim",
+        "asserted",
+        "def-axiom",
+        "hypothesis",
+        "lemma",
+        "monotonicity",
+        "mp",
+        "not-or-elim",
+        "rewrite",
+        "symm",
+        "th-lemma-arith",
+        "trans",
+        "trans*",
+        "unit-resolution"
+      ],
+      "th_lemma_fp_observed": false,
+      "total_proof_bytes": 26718532,
+      "version": "4.15.3"
+    }
+  ]
+}

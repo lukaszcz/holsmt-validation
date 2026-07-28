@@ -41,8 +41,8 @@ Options:
   -h, --help            Show this help
 
 The report is written to OUT_DIR/report.json. Per-version stdout/stderr,
-general proof-corpus, string proof-corpus, and higher-order proof-shape
-outputs are kept under OUT_DIR/results/<version>/.
+general, string, FloatingPoint, and higher-order proof-corpus outputs
+are kept under OUT_DIR/results/<version>/.
 EOF
 }
 
@@ -145,13 +145,17 @@ candidate_assets() {
   case "$machine" in
     x86_64|amd64)
       printf '%s\n' \
+        "z3-${version}-x64-glibc-2.39.zip" \
         "z3-${version}-x64-glibc-2.35.zip" \
+        "z3-${version}-x64-glibc-2.34.zip" \
         "z3-${version}-x64-glibc-2.31.zip" \
         "z3-${version}-x64-ubuntu-20.04.zip"
       ;;
     aarch64|arm64)
       printf '%s\n' \
+        "z3-${version}-arm64-glibc-2.39.zip" \
         "z3-${version}-arm64-glibc-2.35.zip" \
+        "z3-${version}-arm64-glibc-2.34.zip" \
         "z3-${version}-arm64-glibc-2.31.zip" \
         "z3-${version}-arm64-ubuntu-20.04.zip"
       ;;
@@ -317,6 +321,27 @@ run_version() {
       "$result_dir/string-proof-corpus.stdout" 2>/dev/null)
     write_result "$result_json" "$version" "fail" "$z3_path" \
       "$z3_output" "string-proof-corpus" "$detail"
+    return 0
+  fi
+
+  if ! python3 "$script_dir/record_z3_proof_corpus.py" \
+      --z3 "$z3_path" \
+      --z3-version "$version" \
+      --out "$result_dir/fp-proof-corpus" \
+      --fp-corpus \
+      --expected-rules \
+        "$script_dir/proof-corpus/floatingpoint/expected_rules.json" \
+      --fail-on-unseen-rules \
+      --fail-on-unknown-rules \
+      --forbid-rule-occurrence th-lemma-fp \
+      --forbid-rule-occurrence th-lemma-fpa \
+      --forbid-rule-occurrence th-lemma-floating-point \
+      > "$result_dir/fp-proof-corpus.stdout" \
+      2> "$result_dir/fp-proof-corpus.stderr"; then
+    detail=$(tail -n 40 "$result_dir/fp-proof-corpus.stderr" \
+      "$result_dir/fp-proof-corpus.stdout" 2>/dev/null)
+    write_result "$result_json" "$version" "fail" "$z3_path" \
+      "$z3_output" "fp-proof-corpus" "$detail"
     return 0
   fi
 

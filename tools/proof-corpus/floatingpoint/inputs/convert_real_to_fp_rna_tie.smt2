@@ -1,0 +1,6 @@
+(set-option :produce-proofs true)
+(set-logic QF_FPLRA)
+(assert (not (= ((_ to_fp 3 5) RNA (/ 33.0 32.0)) (fp #b0 #b011 #b0001))))
+(check-sat)
+(get-proof)
+(exit)

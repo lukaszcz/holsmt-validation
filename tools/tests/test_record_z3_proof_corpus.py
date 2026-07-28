@@ -10,8 +10,10 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 
 from record_z3_proof_corpus import (
     DEFAULT_COMPLETE_CORPUS_MANIFEST,
+    DEFAULT_FP_CORPUS_MANIFEST,
     DEFAULT_STRING_CORPUS_MANIFEST,
     DEFAULT_SUPPORTED_VERSION_MANIFEST,
+    FP_REWRITE_OPERATORS,
     HO_PROOF_CORPUS_CASE_IDS,
     PARSE_ONLY_RULES,
     REPLAY_SUPPORTED_RULES,
@@ -25,6 +27,7 @@ from record_z3_proof_corpus import (
     expected_rules_for_version,
     extract_rule_report,
     inputs_from_complete_manifest,
+    inputs_from_fp_manifest,
     inputs_from_string_manifest,
     sha256_file,
     validation_relative_path,
@@ -267,6 +270,50 @@ class ProofRuleExtractionTests(unittest.TestCase):
         self.assertEqual(shape["char_bit_indices"], ["17"])
         self.assertIn('"A\\u{1f642}"', shape["string_literals"])
 
+    def test_deep_proof_is_parsed_without_recursion(self):
+        depth = 5000
+        proof = "(proof " + "(not " * depth + "false" + ")" * depth + ")"
+        report = extract_rule_report(proof)
+        self.assertEqual(report["malformed_fragments"], [])
+        self.assertGreaterEqual(
+            report["parsed_dag_summary"]["max_list_depth"], depth
+        )
+
+    def test_fp_shape_records_decomposition_and_atom_formula_root(self):
+        proof = """((declare-fun k!00 () (_ BitVec 8))
+(proof
+(let ((?s ((_ extract 7 7) k!00)))
+(let ((?e ((_ extract 6 4) k!00)))
+(let ((?m ((_ extract 3 0) k!00)))
+(let ((@d (rewrite (= x (fp ?s ?e ?m)))))
+(let (($x1 (fp.lt
+  (fp ((_ extract 7 7) k!00) ((_ extract 6 4) k!00)
+      ((_ extract 3 0) k!00))
+  (fp ((_ extract 7 7) k!00) ((_ extract 6 4) k!00)
+      ((_ extract 3 0) k!00)))))
+(rewrite (= $x1 false)))))))))
+"""
+        shape = extract_rule_report(proof)["fp_shape"]
+        self.assertEqual(shape["bv_skolems"], [{"name": "k!00", "width": 8}])
+        self.assertEqual(len(shape["bit_decompositions"]), 1)
+        self.assertIn(
+            "((_ extract 7 7) k!00)",
+            shape["bit_decompositions"][0]["expanded_formula"],
+        )
+        atoms = [
+            item for item in shape["rewrites"]
+            if item["category"] == "atom-conversion"
+        ]
+        self.assertEqual(atoms[0]["operators"], ["fp.lt"])
+        self.assertTrue(atoms[0]["formula_roots"])
+
+    def test_deep_rewrite_does_not_recurse_during_fp_extraction(self):
+        depth = 5000
+        conclusion = "(not " * depth + "false" + ")" * depth
+        report = extract_rule_report(f"(proof (rewrite {conclusion}))")
+        self.assertEqual(report["malformed_fragments"], [])
+        self.assertEqual(report["rule_histogram"], {"rewrite": 1})
+
     def test_malformed_fragment_is_recorded(self):
         report = extract_rule_report("(proof (asserted false)")
         self.assertEqual(report["rule_histogram"], {})
@@ -408,6 +455,48 @@ class ProofRuleExtractionTests(unittest.TestCase):
         self.assertEqual(report["replay_failures"][0]["proof_replay_status"], "not-run")
         self.assertEqual(report["oracle_failures"], [])
 
+    def test_requirement_report_rejects_forbidden_rule(self):
+        proof = extract_rule_report(
+            "(proof ((_ th-lemma fp) (asserted a) false))"
+        )
+        report = build_requirement_report(
+            [entry("fp.smt2", "4.15.3", proof)],
+            required_rules=[],
+            required_theory_subkinds=[],
+            require_replay_success=False,
+            require_no_oracles=False,
+            forbidden_rules=["th-lemma-fp"],
+        )
+        self.assertFalse(report["passed"])
+        self.assertEqual(
+            report["observed_forbidden_rule_occurrences"],
+            [{"rule": "th-lemma-fp", "count": 1}],
+        )
+
+    def test_requirement_report_rejects_missing_unsat_proof(self):
+        item = entry(
+            "fp.smt2",
+            "4.15.3",
+            extract_rule_report("(proof (asserted false))"),
+        )
+        item["solver"] = {"result": "unknown"}
+        item["z3"].update(  # type: ignore[union-attr]
+            {"exit_code": 0, "timed_out": False}
+        )
+        report = build_requirement_report(
+            [item],
+            required_rules=[],
+            required_theory_subkinds=[],
+            require_replay_success=False,
+            require_no_oracles=False,
+            require_unsat_proofs=True,
+        )
+        self.assertFalse(report["passed"])
+        self.assertEqual(
+            report["unsat_proof_failures"][0]["result"],
+            "unknown",
+        )
+
     def test_requirement_report_accepts_inferred_rule_occurrence(self):
         proof = extract_rule_report("(proof ((_ th-lemma arith) (asserted a) false))")
         item = entry("nonlinear.smt2", "4.13.0", proof)
@@ -466,6 +555,90 @@ class ProofRuleExtractionTests(unittest.TestCase):
         self.assertEqual(operators, set(STRING_OFFICIAL_OPERATORS))
         self.assertEqual(len(paths), len(manifest["cases"]))
         self.assertTrue(all(path.exists() for path in paths))
+
+    def test_checked_in_fp_manifest_covers_required_surface(self):
+        versions, paths = inputs_from_fp_manifest(DEFAULT_FP_CORPUS_MANIFEST)
+        manifest = json.loads(DEFAULT_FP_CORPUS_MANIFEST.read_text())
+        operators = {
+            operator
+            for item in manifest["cases"]
+            for operator in item["operators"]
+        }
+        classes = {
+            value
+            for item in manifest["cases"]
+            for value in item["classes"]
+        }
+        self.assertEqual(
+            versions,
+            {"4.11.2", "4.12.4", "4.13.0", "4.14.1", "4.15.3"},
+        )
+        self.assertEqual(operators, set(FP_REWRITE_OPERATORS))
+        self.assertTrue(set(manifest["required_classes"]) <= classes)
+        self.assertEqual(len(paths), len(manifest["cases"]))
+        self.assertTrue(all(path.exists() for path in paths))
+        metadata = manifest["metadata_only_cases"][0]
+        self.assertEqual(metadata["format"], "Float32")
+        self.assertFalse(metadata["proof_recorded"])
+
+    def test_checked_in_fp_recordings_are_complete_and_gated(self):
+        corpus_root = DEFAULT_FP_CORPUS_MANIFEST.parent
+        manifest = json.loads(DEFAULT_FP_CORPUS_MANIFEST.read_text())
+        expected_count = len(manifest["cases"])
+        forbidden = set(manifest["forbidden_rule_occurrences"])
+        for version in manifest["supported_z3_versions"]:
+            version_root = corpus_root / f"z3-{version}"
+            entries = [
+                json.loads(line)
+                for line in (version_root / "entries.jsonl")
+                .read_text()
+                .splitlines()
+            ]
+            summary = json.loads((version_root / "summary.json").read_text())
+            gate = json.loads((version_root / "rule-gate.json").read_text())
+            self.assertEqual(len(entries), expected_count)
+            self.assertTrue(
+                all(
+                    item["solver"]["result"] == "unsat"
+                    and item["proof"]["available"]
+                    and item["z3"]["exit_code"] == 0
+                    and not item["z3"]["timed_out"]
+                    for item in entries
+                )
+            )
+            self.assertEqual(build_summary(entries), summary)
+            self.assertTrue(gate["passed"])
+            self.assertEqual(gate["unseen_rules"], [])
+            self.assertEqual(gate["replay_unknown_rules"], [])
+            self.assertEqual(gate["malformed_fragments"], [])
+            self.assertFalse(forbidden & set(summary["discovered_rules"]))
+            self.assertEqual(
+                gate["requirements"][
+                    "observed_forbidden_rule_occurrences"
+                ],
+                [],
+            )
+            validation_root = corpus_root.parents[2]
+            for item in entries:
+                proof_path = validation_root / validation_relative_path(
+                    pathlib.Path(item["proof"]["raw_path"])
+                )
+                self.assertTrue(proof_path.is_file())
+                self.assertEqual(
+                    proof_path.stat().st_size,
+                    item["proof"]["raw_bytes"],
+                )
+
+        catalog = json.loads(
+            (corpus_root / "rewrite-catalog.json").read_text()
+        )
+        cataloged = set(catalog["operators"])
+        self.assertTrue(set(FP_REWRITE_OPERATORS) <= cataloged)
+        self.assertIn("$literal-normalization", cataloged)
+        self.assertEqual(
+            set(catalog["bit_decompositions"]),
+            set(manifest["supported_z3_versions"]),
+        )
 
     def test_checked_in_string_recordings_are_complete_and_gated(self):
         corpus_root = DEFAULT_STRING_CORPUS_MANIFEST.parent

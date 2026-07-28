@@ -15,6 +15,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import time
 from dataclasses import dataclass
 from typing import Iterable
 
@@ -22,6 +23,7 @@ from typing import Iterable
 SCHEMA = "holsmt-z3-proof-corpus-v1"
 MATRIX_SCHEMA = "holsmt-z3-proof-corpus-matrix-v1"
 STRING_CORPUS_SCHEMA = "holsmt-z3-string-proof-corpus-v1"
+FP_CORPUS_SCHEMA = "holsmt-z3-fp-proof-corpus-v1"
 RULE_CONTEXT_LIMIT = 3
 VALIDATION_ROOT = pathlib.Path(__file__).resolve().parent.parent
 DEFAULT_OUTPUT_DIR = VALIDATION_ROOT / "tools" / "proof-corpus" / "out"
@@ -38,6 +40,12 @@ DEFAULT_STRING_CORPUS_MANIFEST = (
     pathlib.Path(__file__).resolve().parent
     / "proof-corpus"
     / "strings"
+    / "manifest.json"
+)
+DEFAULT_FP_CORPUS_MANIFEST = (
+    pathlib.Path(__file__).resolve().parent
+    / "proof-corpus"
+    / "floatingpoint"
     / "manifest.json"
 )
 SUPPORTED_Z3_VERSIONS = ("4.12.4", "4.13.0")
@@ -60,6 +68,37 @@ STRING_DRAFTING_PROBES = (
     "re-comp",
     "replace-all-ground",
     "literal-escapes",
+)
+FP_REWRITE_OPERATORS = (
+    "fp.abs",
+    "fp.add",
+    "fp.div",
+    "fp.eq",
+    "fp.fma",
+    "fp.geq",
+    "fp.gt",
+    "fp.isInfinite",
+    "fp.isNaN",
+    "fp.isNegative",
+    "fp.isNormal",
+    "fp.isPositive",
+    "fp.isSubnormal",
+    "fp.isZero",
+    "fp.leq",
+    "fp.lt",
+    "fp.max",
+    "fp.min",
+    "fp.mul",
+    "fp.neg",
+    "fp.rem",
+    "fp.roundToIntegral",
+    "fp.sqrt",
+    "fp.sub",
+    "fp.to_real",
+    "fp.to_sbv",
+    "fp.to_ubv",
+    "to_fp",
+    "to_fp_unsigned",
 )
 STRING_OFFICIAL_OPERATORS = (
     "str.++",
@@ -320,8 +359,7 @@ def write_text(path: pathlib.Path, text: str) -> None:
     path.write_text(text, encoding="utf-8")
 
 
-def tokenize(text: str) -> list[Token]:
-    tokens: list[Token] = []
+def tokenize(text: str) -> Iterable[Token]:
     i = 0
     n = len(text)
     while i < n:
@@ -332,10 +370,10 @@ def tokenize(text: str) -> list[Token]:
             while i < n and text[i] != "\n":
                 i += 1
         elif c == "(":
-            tokens.append(Token("lparen", c, i, i + 1))
+            yield Token("lparen", c, i, i + 1)
             i += 1
         elif c == ")":
-            tokens.append(Token("rparen", c, i, i + 1))
+            yield Token("rparen", c, i, i + 1)
             i += 1
         elif c == '"':
             start = i
@@ -351,7 +389,7 @@ def tokenize(text: str) -> list[Token]:
                     i += 1
             else:
                 raise SexpParseError("unterminated SMT-LIB string", start)
-            tokens.append(Token("atom", text[start:i], start, i))
+            yield Token("atom", text[start:i], start, i)
         elif c == "|":
             start = i
             i += 1
@@ -368,41 +406,43 @@ def tokenize(text: str) -> list[Token]:
                     i += 1
             else:
                 raise SexpParseError("unterminated quoted symbol", start)
-            tokens.append(Token("atom", "".join(value), start, i))
+            yield Token("atom", "".join(value), start, i)
         else:
             start = i
             while i < n and not text[i].isspace() and text[i] not in "();":
                 i += 1
-            tokens.append(Token("atom", text[start:i], start, i))
-    return tokens
+            yield Token("atom", text[start:i], start, i)
 
 
 def parse_sexps(text: str) -> list[Node]:
-    tokens = tokenize(text)
-    index = 0
+    """Parse SMT-LIB without using the Python call stack.
 
-    def parse_one() -> Node:
-        nonlocal index
-        if index >= len(tokens):
-            raise SexpParseError("expected S-expression", len(text))
-        token = tokens[index]
-        index += 1
-        if token.kind == "atom":
-            return Atom(token.text, token.start, token.end)
-        if token.kind == "rparen":
-            raise SexpParseError("unexpected ')'", token.start)
-        items: list[Node] = []
-        while index < len(tokens) and tokens[index].kind != "rparen":
-            items.append(parse_one())
-        if index >= len(tokens):
-            raise SexpParseError("missing ')'", token.start)
-        end = tokens[index].end
-        index += 1
-        return ListNode(items, token.start, end)
+    fpa2bv proofs contain deeply nested SAT terms; the old recursive parser
+    overflowed on the required Float16 and tiny-format arithmetic probes.
+    """
 
-    nodes = []
-    while index < len(tokens):
-        nodes.append(parse_one())
+    nodes: list[Node] = []
+    stack: list[tuple[int, list[Node]]] = []
+    for token in tokenize(text):
+        if token.kind == "lparen":
+            stack.append((token.start, []))
+        elif token.kind == "atom":
+            node: Node = Atom(token.text, token.start, token.end)
+            if stack:
+                stack[-1][1].append(node)
+            else:
+                nodes.append(node)
+        else:
+            if not stack:
+                raise SexpParseError("unexpected ')'", token.start)
+            start, items = stack.pop()
+            node = ListNode(items, start, token.end)
+            if stack:
+                stack[-1][1].append(node)
+            else:
+                nodes.append(node)
+    if stack:
+        raise SexpParseError("missing ')'", stack[-1][0])
     return nodes
 
 
@@ -476,10 +516,12 @@ def parsed_dag_summary(nodes: list[Node]) -> dict[str, object]:
         "max_list_depth": 0,
     }
 
-    def visit(node: Node, depth: int) -> None:
+    work = [(node, 1) for node in reversed(nodes)]
+    while work:
+        node, depth = work.pop()
         if isinstance(node, Atom):
             summary["atom_count"] += 1
-            return
+            continue
         summary["list_node_count"] += 1
         summary["max_list_depth"] = max(int(summary["max_list_depth"]), depth)
         head = atom_text(node.items[0]) if node.items else None
@@ -491,11 +533,7 @@ def parsed_dag_summary(nodes: list[Node]) -> dict[str, object]:
                 for item in node.items[1].items
                 if isinstance(item, ListNode) and len(item.items) == 2
             )
-        for child in node.items:
-            visit(child, depth + 1)
-
-    for node in nodes:
-        visit(node, 1)
+        work.extend((child, depth + 1) for child in reversed(node.items))
     return summary
 
 
@@ -539,24 +577,25 @@ def extract_ho_shape_metadata(
         return result
 
     def contains_lambda_def_annotation(node: ListNode) -> bool:
-        atoms: list[str] = []
-
-        def collect(value: Node) -> None:
+        qid = False
+        lambda_def = False
+        work: list[Node] = [node]
+        while work and not (qid and lambda_def):
+            value = work.pop()
             if isinstance(value, Atom):
-                atoms.append(value.text)
+                qid = qid or value.text == ":qid"
+                lambda_def = lambda_def or value.text == ":lambda-def"
             else:
-                for child in value.items:
-                    collect(child)
+                work.extend(value.items)
+        return qid and lambda_def
 
-        collect(node)
-        return ":qid" in atoms and ":lambda-def" in atoms
-
-    def visit(node: Node, parent_head: str | None) -> None:
-        nonlocal lambda_count, lambda_def_count, proof_bind_count
+    work = [(node, None) for node in reversed(nodes)]
+    while work:
+        node, parent_head = work.pop()
         if isinstance(node, Atom):
             if re.fullmatch(r"z3name![0-9]+", node.text):
                 named_lambdas.add(node.text)
-            return
+            continue
         head = normalize_rule_head(node.items[0]) if node.items else None
         if head == "lambda":
             lambda_count += 1
@@ -569,11 +608,7 @@ def extract_ho_shape_metadata(
             proof_bind_count += 1
             proof_binds.append(location(node, exact=True))
             bind_consumers[parent_head or "<root>"] += 1
-        for child in node.items:
-            visit(child, head)
-
-    for node in nodes:
-        visit(node, None)
+        work.extend((child, head) for child in reversed(node.items))
 
     return {
         "lambda_term_count": lambda_count,
@@ -610,13 +645,15 @@ def extract_string_shape_metadata(nodes: list[Node]) -> dict[str, object]:
         "seq.unit",
     }
 
-    def visit(node: Node) -> None:
+    work = list(reversed(nodes))
+    while work:
+        node = work.pop()
         if isinstance(node, Atom):
             if node.text in tracked_atoms:
                 symbol_counts[node.text] += 1
             if node.text.startswith('"'):
                 string_literal_counts[node.text] += 1
-            return
+            continue
 
         if len(node.items) >= 2:
             first = atom_text(node.items[0])
@@ -641,11 +678,7 @@ def extract_string_shape_metadata(nodes: list[Node]) -> dict[str, object]:
                     index = atom_text(node.items[-1])
                     if index is not None:
                         char_bit_indices.add(index)
-        for child in node.items:
-            visit(child)
-
-    for node in nodes:
-        visit(node)
+        work.extend(reversed(node.items))
 
     return {
         "symbols": dict(sorted(symbol_counts.items())),
@@ -654,6 +687,232 @@ def extract_string_shape_metadata(nodes: list[Node]) -> dict[str, object]:
         "char_literals": dict(sorted(char_literal_counts.items())),
         "char_bit_indices": sorted(char_bit_indices, key=version_sort_key),
         "string_literals": dict(sorted(string_literal_counts.items())),
+    }
+
+
+def extract_fp_shape_metadata(
+    proof_text: str,
+    nodes: list[Node],
+) -> dict[str, object]:
+    """Pin fpa2bv rewrite payloads without duplicating large formulas."""
+
+    fp_variables = set(
+        re.findall(
+            r"\(declare-fun\s+([^\s()]+)\s+\(\)\s+"
+            r"(?:Float(?:16|32|64|128)|\(_\s+FloatingPoint\s+"
+            r"[0-9]+\s+[0-9]+\))\)",
+            proof_text,
+        )
+    )
+    bv_skolems = [
+        {"name": name, "width": int(width)}
+        for name, width in re.findall(
+            r"\(declare-fun\s+(k![0-9]+)\s+\(\)\s+"
+            r"\(_\s+BitVec\s+([0-9]+)\)\)",
+            proof_text,
+        )
+    ]
+    bool_skolems = re.findall(
+        r"\(declare-fun\s+(k![0-9]+)\s+\(\)\s+Bool\)",
+        proof_text,
+    )
+    operator_pattern = re.compile(
+        r"\bfp\.(?:abs|add|div|eq|fma|geq|gt|isInfinite|isNaN|"
+        r"isNegative|isNormal|isPositive|isSubnormal|isZero|leq|lt|"
+        r"max|min|mul|neg|rem|roundToIntegral|sqrt|sub|to_real)\b|"
+        r"\(_\s+(?:fp\.to_[us]bv|to_fp|to_fp_unsigned)\b"
+    )
+    special_pattern = re.compile(
+        r"\(_\s+(?:NaN|[+-](?:oo|zero))\s+[0-9]+\s+[0-9]+\)"
+    )
+    triple_pattern = re.compile(
+        r"\(fp\s+#b([01]+)\s+#b([01]+)\s+#b([01]+)\)"
+    )
+    bv_triple_pattern = re.compile(
+        r"\(fp\s+\(_\s+bv[0-9]+\s+1\)\s+"
+        r"\(_\s+bv[0-9]+\s+([0-9]+)\)\s+"
+        r"\(_\s+bv[0-9]+\s+([0-9]+)\)\)"
+    )
+
+    bindings: dict[str, Node] = {}
+    binding_work = list(reversed(nodes))
+    while binding_work:
+        binding_node = binding_work.pop()
+        if isinstance(binding_node, Atom):
+            continue
+        binding_work.extend(reversed(binding_node.items))
+        if (
+            binding_node.items
+            and atom_text(binding_node.items[0]) == "let"
+            and len(binding_node.items) >= 2
+            and isinstance(binding_node.items[1], ListNode)
+        ):
+            for binding in binding_node.items[1].items:
+                if isinstance(binding, ListNode) and len(binding.items) == 2:
+                    name = atom_text(binding.items[0])
+                    if name is not None:
+                        bindings[name] = binding.items[1]
+
+    def related_text(formula: str) -> tuple[str, list[dict[str, object]]]:
+        pieces = [formula]
+        roots: list[dict[str, object]] = []
+        pending = re.findall(r"[?$]x[0-9]+", formula)
+        seen: set[str] = set()
+        while pending and len(seen) < 256:
+            name = pending.pop()
+            if name in seen or name not in bindings:
+                continue
+            seen.add(name)
+            value = bindings[name]
+            raw = proof_text[value.start:value.end]
+            pieces.append(raw)
+            pending.extend(re.findall(r"[?$]x[0-9]+", raw))
+            encoded = raw.encode("utf-8")
+            roots.append(
+                {
+                    "name": name,
+                    "start_offset": value.start,
+                    "end_offset": value.end,
+                    "formula_bytes": len(encoded),
+                    "formula_sha256": sha256_bytes(encoded),
+                }
+            )
+        return "\n".join(pieces), roots
+
+    def expand_decomposition(node: Node, formula: str) -> str:
+        """Expand the three shallow extract bindings in (= x (fp ...))."""
+
+        if not isinstance(node, ListNode) or len(node.items) != 3:
+            return formula
+        rhs = node.items[2]
+        if (
+            atom_text(node.items[0]) != "="
+            or not isinstance(rhs, ListNode)
+            or len(rhs.items) != 4
+            or atom_text(rhs.items[0]) != "fp"
+        ):
+            return formula
+
+        def field_text(field: Node) -> str:
+            if isinstance(field, Atom) and field.text in bindings:
+                value = bindings[field.text]
+                return proof_text[value.start:value.end]
+            return proof_text[field.start:field.end]
+
+        lhs = proof_text[node.items[1].start:node.items[1].end]
+        fields = " ".join(field_text(field) for field in rhs.items[1:])
+        return f"(= {lhs} (fp {fields}))"
+
+    rewrites: list[dict[str, object]] = []
+    decompositions: list[dict[str, object]] = []
+    work = list(reversed(nodes))
+    while work:
+        node = work.pop()
+        if isinstance(node, Atom):
+            continue
+        work.extend(reversed(node.items))
+        if not node.items or normalize_rule_head(node.items[0]) != "rewrite":
+            continue
+        conclusion = node.items[-1]
+        formula = proof_text[conclusion.start:conclusion.end]
+        searchable, formula_roots = related_text(formula)
+        operators = sorted(
+            {
+                match.group(0).replace("(_ ", "").strip()
+                for match in operator_pattern.finditer(searchable)
+            }
+        )
+        has_special = special_pattern.search(searchable) is not None
+        has_fp_triple = (
+            triple_pattern.search(searchable) is not None
+            or bv_triple_pattern.search(searchable) is not None
+        )
+        has_skolem = re.search(r"\bk![0-9]+\b", searchable) is not None
+        expanded = expand_decomposition(conclusion, formula)
+        decomposition = re.search(
+            r"\(=\s+([^\s()]+)\s+\(fp\s+"
+            r"\(\(_\s+extract\s+[0-9]+\s+[0-9]+\)\s+(k![0-9]+)\)",
+            expanded,
+        )
+        if decomposition is not None:
+            category = "bit-decomposition"
+        elif has_skolem and operators:
+            category = "atom-conversion"
+        elif has_special and has_fp_triple:
+            category = "literal-normalization"
+        elif operators and (
+            any(
+                re.search(
+                    rf"(?<![A-Za-z0-9_!?$]){re.escape(name)}"
+                    rf"(?![A-Za-z0-9_!?$])",
+                    searchable,
+                )
+                is not None
+                for name in fp_variables
+            )
+            or re.search(
+                r"(?<![A-Za-z0-9_!?$])(?:x|y|z)"
+                r"(?![A-Za-z0-9_!?$])",
+                searchable,
+            )
+            is not None
+        ):
+            category = "symbolic-normalization"
+        elif operators or has_fp_triple or has_special:
+            category = "ground-evaluation"
+        else:
+            continue
+
+        formats = {
+            f"({len(exponent)},{len(significand) + 1})"
+            for _, exponent, significand in triple_pattern.findall(searchable)
+        }
+        formats.update(
+            f"({exponent},{int(significand) + 1})"
+            for exponent, significand in bv_triple_pattern.findall(searchable)
+        )
+        formats.update(
+            f"({eb},{sb})"
+            for eb, sb in re.findall(
+                r"\(_\s+(?:NaN|[+-](?:oo|zero))\s+"
+                r"([0-9]+)\s+([0-9]+)\)",
+                searchable,
+            )
+        )
+        encoded = formula.encode("utf-8")
+        item: dict[str, object] = {
+            "category": category,
+            "operators": operators,
+            "formats": sorted(formats),
+            "start_offset": conclusion.start,
+            "end_offset": conclusion.end,
+            "formula_bytes": len(encoded),
+            "formula_sha256": sha256_bytes(encoded),
+            "formula_roots": formula_roots,
+        }
+        if len(formula) <= 8192:
+            item["formula"] = formula
+        else:
+            item["formula_prefix"] = formula[:4096]
+            item["formula_suffix"] = formula[-4096:]
+        rewrites.append(item)
+        if category == "bit-decomposition":
+            decomposition_item = {
+                "variable": decomposition.group(1),
+                "skolem": decomposition.group(2),
+                **item,
+            }
+            if len(expanded) <= 8192:
+                decomposition_item["expanded_formula"] = expanded
+            decompositions.append(decomposition_item)
+
+    return {
+        "bv_skolems": bv_skolems,
+        "bool_skolem_count": len(bool_skolems),
+        "bool_skolems": bool_skolems[:64],
+        "bool_skolems_truncated": len(bool_skolems) > 64,
+        "bit_decompositions": decompositions,
+        "rewrites": rewrites,
     }
 
 
@@ -710,12 +969,21 @@ def extract_rule_report(proof_text: str) -> dict[str, object]:
                 "char_bit_indices": [],
                 "string_literals": {},
             },
+            "fp_shape": {
+                "bv_skolems": [],
+                "bool_skolem_count": 0,
+                "bool_skolems": [],
+                "bool_skolems_truncated": False,
+                "bit_decompositions": [],
+                "rewrites": [],
+            },
             "unknown_rules": [],
             "malformed_fragments": malformed,
         }
     dag_summary = parsed_dag_summary(nodes)
     ho_shape = extract_ho_shape_metadata(proof_text, nodes)
     string_shape = extract_string_shape_metadata(nodes)
+    fp_shape = extract_fp_shape_metadata(proof_text, nodes)
 
     def context_item(node: ListNode) -> dict[str, object]:
         loc = line_col(proof_text, node.start)
@@ -735,143 +1003,166 @@ def extract_rule_report(proof_text: str) -> dict[str, object]:
             return
         unknown_contexts[rule].append(context_item(node))
 
-    def visit(node: Node, proof_expected: bool) -> None:
-        if isinstance(node, Atom):
-            return
-        if not node.items:
-            if proof_expected:
-                malformed.append(
-                    malformed_item(proof_text, "empty proof fragment", node.start, node.end)
-                )
-            return
-
-        head_name = normalize_rule_head(node.items[0])
-
-        if head_name == "proof":
-            for child in node.items[1:]:
-                visit(child, True)
-            return
-
-        if not proof_expected:
-            for child in node.items:
-                visit(child, False)
-            return
-
-        if head_name == "let":
-            if len(node.items) < 3:
-                malformed.append(
-                    malformed_item(proof_text, "malformed proof let", node.start, node.end)
-                )
-                return
-            bindings = node.items[1]
-            if isinstance(bindings, ListNode):
-                for binding in bindings.items:
-                    if isinstance(binding, ListNode) and len(binding.items) == 2:
-                        bound_name = atom_text(binding.items[0])
-                        if bound_name is not None and bound_name.startswith("@x"):
-                            visit(binding.items[1], True)
-                    else:
-                        malformed.append(
-                            malformed_item(
-                                proof_text,
-                                "malformed proof let binding",
-                                binding.start,
-                                binding.end,
-                            )
+    def scan(initial: list[tuple[Node, bool]]) -> None:
+        work = list(reversed(initial))
+        while work:
+            node, proof_expected = work.pop()
+            if isinstance(node, Atom):
+                continue
+            if not node.items:
+                if proof_expected:
+                    malformed.append(
+                        malformed_item(
+                            proof_text,
+                            "empty proof fragment",
+                            node.start,
+                            node.end,
                         )
-            else:
-                malformed.append(
-                    malformed_item(
-                        proof_text,
-                        "proof let bindings are not a list",
-                        bindings.start,
-                        bindings.end,
                     )
+                continue
+
+            head_name = normalize_rule_head(node.items[0])
+            if head_name == "proof":
+                work.extend(
+                    (child, True) for child in reversed(node.items[1:])
                 )
-            for body in node.items[2:]:
-                visit(body, True)
-            return
-
-        if head_name == "!":
-            if len(node.items) >= 2:
-                visit(node.items[1], True)
-            else:
-                malformed.append(
-                    malformed_item(proof_text, "malformed annotated proof", node.start, node.end)
+                continue
+            if not proof_expected:
+                work.extend(
+                    (child, False) for child in reversed(node.items)
                 )
-            return
-
-        if head_name is None:
-            malformed.append(
-                malformed_item(proof_text, "proof rule head is not a symbol", node.start, node.end)
-            )
-            return
-
-        histogram[head_name] += 1
-        record_rule_context(head_name, node)
-        th_metadata = th_lemma_metadata_from_head(node.items[0])
-        if th_metadata is not None:
-            th_metadata = {
-                **th_metadata,
-                "line": line_col(proof_text, node.start)["line"],
-                "column": line_col(proof_text, node.start)["column"],
-                "context": context_for(proof_text, node.start, node.end),
-            }
-            theory_lemma_metadata.append(th_metadata)
-            key = str(th_metadata["key"])
-            theory_lemma_histogram[key] += 1
-        if head_name not in KNOWN_RULES:
-            record_unknown(head_name, node)
-
-        premise_kind = RULE_PREMISE_KIND.get(head_name, "unknown")
-        args = node.items[1:]
-        if premise_kind == "zero":
-            return
-        if premise_kind == "one":
-            if len(args) < 1:
+                continue
+            if head_name == "let":
+                if len(node.items) < 3:
+                    malformed.append(
+                        malformed_item(
+                            proof_text,
+                            "malformed proof let",
+                            node.start,
+                            node.end,
+                        )
+                    )
+                    continue
+                bindings = node.items[1]
+                if isinstance(bindings, ListNode):
+                    for binding in reversed(bindings.items):
+                        if (
+                            isinstance(binding, ListNode)
+                            and len(binding.items) == 2
+                        ):
+                            bound_name = atom_text(binding.items[0])
+                            if (
+                                bound_name is not None
+                                and bound_name.startswith("@x")
+                            ):
+                                work.append((binding.items[1], True))
+                        else:
+                            malformed.append(
+                                malformed_item(
+                                    proof_text,
+                                    "malformed proof let binding",
+                                    binding.start,
+                                    binding.end,
+                                )
+                            )
+                else:
+                    malformed.append(
+                        malformed_item(
+                            proof_text,
+                            "proof let bindings are not a list",
+                            bindings.start,
+                            bindings.end,
+                        )
+                    )
+                work.extend(
+                    (body, True) for body in reversed(node.items[2:])
+                )
+                continue
+            if head_name == "!":
+                if len(node.items) >= 2:
+                    work.append((node.items[1], True))
+                else:
+                    malformed.append(
+                        malformed_item(
+                            proof_text,
+                            "malformed annotated proof",
+                            node.start,
+                            node.end,
+                        )
+                    )
+                continue
+            if head_name is None:
                 malformed.append(
                     malformed_item(
                         proof_text,
-                        f"proof rule '{head_name}' is missing its premise",
+                        "proof rule head is not a symbol",
                         node.start,
                         node.end,
                     )
                 )
-            else:
-                visit(args[0], True)
-        elif premise_kind == "two":
-            if len(args) < 2:
-                malformed.append(
-                    malformed_item(
-                        proof_text,
-                        f"proof rule '{head_name}' is missing a premise",
-                        node.start,
-                        node.end,
-                    )
-                )
-            for child in args[:2]:
-                visit(child, True)
-        elif premise_kind == "list":
-            if len(args) < 1:
-                malformed.append(
-                    malformed_item(
-                        proof_text,
-                        f"proof rule '{head_name}' is missing a conclusion",
-                        node.start,
-                        node.end,
-                    )
-                )
-            for child in args[:-1]:
-                visit(child, True)
-        else:
-            for child in args[:-1]:
-                visit(child, True)
+                continue
 
-    for node in nodes:
-        visit(node, False)
+            histogram[head_name] += 1
+            record_rule_context(head_name, node)
+            th_metadata = th_lemma_metadata_from_head(node.items[0])
+            if th_metadata is not None:
+                th_metadata = {
+                    **th_metadata,
+                    "line": line_col(proof_text, node.start)["line"],
+                    "column": line_col(proof_text, node.start)["column"],
+                    "context": context_for(
+                        proof_text, node.start, node.end
+                    ),
+                }
+                theory_lemma_metadata.append(th_metadata)
+                theory_lemma_histogram[str(th_metadata["key"])] += 1
+            if head_name not in KNOWN_RULES:
+                record_unknown(head_name, node)
 
+            premise_kind = RULE_PREMISE_KIND.get(head_name, "unknown")
+            args = node.items[1:]
+            premises: list[Node] = []
+            if premise_kind == "one":
+                if args:
+                    premises = args[:1]
+                else:
+                    malformed.append(
+                        malformed_item(
+                            proof_text,
+                            f"proof rule '{head_name}' is missing its premise",
+                            node.start,
+                            node.end,
+                        )
+                    )
+            elif premise_kind == "two":
+                premises = args[:2]
+                if len(args) < 2:
+                    malformed.append(
+                        malformed_item(
+                            proof_text,
+                            f"proof rule '{head_name}' is missing a premise",
+                            node.start,
+                            node.end,
+                        )
+                    )
+            elif premise_kind == "list":
+                premises = args[:-1]
+                if not args:
+                    malformed.append(
+                        malformed_item(
+                            proof_text,
+                            f"proof rule '{head_name}' is missing a conclusion",
+                            node.start,
+                            node.end,
+                        )
+                    )
+            elif premise_kind != "zero":
+                premises = args[:-1]
+            work.extend((child, True) for child in reversed(premises))
+
+    scan([(node, False) for node in nodes])
     if not histogram and len(nodes) == 1:
-        visit(nodes[0], True)
+        scan([(nodes[0], True)])
     dag_summary["proof_rule_application_count"] = sum(histogram.values())
     dag_summary["distinct_rule_count"] = len(histogram)
 
@@ -892,6 +1183,7 @@ def extract_rule_report(proof_text: str) -> dict[str, object]:
         "theory_lemma_metadata": theory_lemma_metadata,
         "ho_shape": ho_shape,
         "string_shape": string_shape,
+        "fp_shape": fp_shape,
         "unknown_rules": unknown_rules,
         "malformed_fragments": malformed,
     }
@@ -1017,6 +1309,7 @@ def record_one(
     stderr = ""
     timed_out = False
     exit_code: int | None = None
+    started = time.monotonic()
     try:
         completed = subprocess.run(
             command,
@@ -1037,6 +1330,7 @@ def record_one(
         stdout = exc.stdout or ""
         stderr = exc.stderr or ""
     finally:
+        elapsed_seconds = time.monotonic() - started
         if tempdir is not None:
             tempdir.cleanup()
 
@@ -1082,6 +1376,14 @@ def record_one(
             "char_bit_indices": [],
             "string_literals": {},
         },
+        "fp_shape": {
+            "bv_skolems": [],
+            "bool_skolem_count": 0,
+            "bool_skolems": [],
+            "bool_skolems_truncated": False,
+            "bit_decompositions": [],
+            "rewrites": [],
+        },
         "unknown_rules": [],
         "malformed_fragments": [],
     }
@@ -1110,6 +1412,9 @@ def record_one(
             "timed_out": timed_out,
             "stdout_path": str(stdout_path),
             "stderr_path": str(stderr_path),
+            "elapsed_seconds": round(elapsed_seconds, 6),
+            "stdout_bytes": len(stdout.encode("utf-8")),
+            "stderr_bytes": len(stderr.encode("utf-8")),
         },
         "solver": {
             "result": solver_result,
@@ -1119,6 +1424,7 @@ def record_one(
             "available": bool(proof_text.strip()),
             "raw_path": proof_path,
             "raw_sha256": proof_hash,
+            "raw_bytes": len(proof_text.encode("utf-8")),
             **proof_report,
             "inferred_rule_histogram": inferred_rules,
         },
@@ -1496,6 +1802,88 @@ def inputs_from_string_manifest(
     return set(versions), inputs
 
 
+def inputs_from_fp_manifest(
+    manifest_path: pathlib.Path,
+) -> tuple[set[str], list[pathlib.Path]]:
+    manifest = load_json(manifest_path)
+    if not isinstance(manifest, dict):
+        raise ValueError("FP corpus manifest root must be an object")
+    if manifest.get("schema") != FP_CORPUS_SCHEMA:
+        raise ValueError(f"FP corpus manifest schema must be {FP_CORPUS_SCHEMA}")
+    versions = manifest.get("supported_z3_versions", [])
+    if not isinstance(versions, list) or not all(
+        isinstance(item, str) for item in versions
+    ):
+        raise ValueError(
+            "FP corpus manifest supported_z3_versions must be a string list"
+        )
+    if sorted(versions) != sorted(COMPLETE_CORPUS_Z3_VERSIONS):
+        raise ValueError(
+            "FP corpus manifest supported_z3_versions mismatch: expected "
+            + ", ".join(COMPLETE_CORPUS_Z3_VERSIONS)
+        )
+    cases = manifest.get("cases", [])
+    if not isinstance(cases, list) or not cases:
+        raise ValueError("FP corpus manifest cases must be a non-empty list")
+    inputs: list[pathlib.Path] = []
+    operators: set[str] = set()
+    classes: set[str] = set()
+    for index, item in enumerate(cases, 1):
+        if not isinstance(item, dict):
+            raise ValueError(f"FP corpus case {index} must be an object")
+        path_value = item.get("path")
+        if not isinstance(path_value, str) or not path_value:
+            raise ValueError(f"FP corpus case {index} is missing path")
+        path = resolve_manifest_path(manifest_path, path_value)
+        if not path.is_file():
+            raise ValueError(f"FP corpus input does not exist: {path_value}")
+        inputs.append(path)
+        case_operators = item.get("operators", [])
+        case_classes = item.get("classes", [])
+        if not isinstance(case_operators, list) or not all(
+            isinstance(operator, str) for operator in case_operators
+        ):
+            raise ValueError(
+                f"FP corpus case {index} operators must be a string list"
+            )
+        if not isinstance(case_classes, list) or not all(
+            isinstance(value, str) for value in case_classes
+        ):
+            raise ValueError(
+                f"FP corpus case {index} classes must be a string list"
+            )
+        operators.update(case_operators)
+        classes.update(case_classes)
+    missing_operators = sorted(set(FP_REWRITE_OPERATORS) - operators)
+    extra_operators = sorted(operators - set(FP_REWRITE_OPERATORS))
+    required_classes = manifest.get("required_classes", [])
+    if not isinstance(required_classes, list) or not all(
+        isinstance(value, str) for value in required_classes
+    ):
+        raise ValueError("FP corpus required_classes must be a string list")
+    missing_classes = sorted(set(required_classes) - classes)
+    if missing_operators or extra_operators or missing_classes:
+        raise ValueError(
+            "FP corpus coverage mismatch: missing operators "
+            + (", ".join(missing_operators) or "<none>")
+            + "; extra operators "
+            + (", ".join(extra_operators) or "<none>")
+            + "; missing classes "
+            + (", ".join(missing_classes) or "<none>")
+        )
+    metadata = manifest.get("metadata_only_cases", [])
+    if not isinstance(metadata, list) or not any(
+        isinstance(item, dict)
+        and item.get("id") == "d12_add_commutativity_float32"
+        and item.get("proof_recorded") is False
+        for item in metadata
+    ):
+        raise ValueError(
+            "FP corpus must pin the metadata-only Float32 fp.add exemplar"
+        )
+    return set(versions), inputs
+
+
 def classify_ho_shape(entry: dict[str, object]) -> str:
     proof = entry.get("proof", {})
     shape = proof.get("ho_shape", {}) if isinstance(proof, dict) else {}
@@ -1836,6 +2224,8 @@ def build_requirement_report(
     required_theory_subkinds: Iterable[str],
     require_replay_success: bool,
     require_no_oracles: bool,
+    forbidden_rules: Iterable[str] = (),
+    require_unsat_proofs: bool = False,
 ) -> dict[str, object]:
     entries = list(entries)
     aggregate_rules: collections.Counter[str] = collections.Counter()
@@ -1850,6 +2240,11 @@ def build_requirement_report(
         for rule in sorted(set(required_rules))
         if aggregate_rules.get(rule, 0) <= 0
     ]
+    forbidden_occurrences = [
+        {"rule": rule, "count": aggregate_rules[rule]}
+        for rule in sorted(set(forbidden_rules))
+        if aggregate_rules.get(rule, 0) > 0
+    ]
     missing_subkinds = [
         {"theory_subkind": item}
         for item in sorted(set(required_theory_subkinds))
@@ -1858,6 +2253,43 @@ def build_requirement_report(
             for observed, count in aggregate_subkinds.items()
         )
     ]
+
+    unsat_proof_failures: list[dict[str, object]] = []
+    if require_unsat_proofs:
+        for entry in entries:
+            solver = entry.get("solver", {})
+            proof = entry.get("proof", {})
+            z3 = entry.get("z3", {})
+            result = solver.get("result") if isinstance(solver, dict) else None
+            available = (
+                proof.get("available") if isinstance(proof, dict) else None
+            )
+            exit_code = z3.get("exit_code") if isinstance(z3, dict) else None
+            timed_out = z3.get("timed_out") if isinstance(z3, dict) else None
+            if (
+                result != "unsat"
+                or available is not True
+                or exit_code != 0
+                or timed_out is not False
+            ):
+                unsat_proof_failures.append(
+                    {
+                        "input": (
+                            entry.get("input", {}).get("path")
+                            if isinstance(entry.get("input"), dict)
+                            else None
+                        ),
+                        "z3_version": (
+                            z3.get("version")
+                            if isinstance(z3, dict)
+                            else None
+                        ),
+                        "result": result,
+                        "proof_available": available,
+                        "exit_code": exit_code,
+                        "timed_out": timed_out,
+                    }
+                )
 
     replay_failures: list[dict[str, object]] = []
     if require_replay_success:
@@ -1888,13 +2320,24 @@ def build_requirement_report(
     return {
         "required_rule_occurrences": sorted(set(required_rules)),
         "required_theory_subkinds": sorted(set(required_theory_subkinds)),
+        "forbidden_rule_occurrences": sorted(set(forbidden_rules)),
         "require_replay_success": require_replay_success,
+        "require_unsat_proofs": require_unsat_proofs,
         "require_no_oracles": require_no_oracles,
         "missing_rule_occurrences": missing_rules,
         "missing_theory_subkinds": missing_subkinds,
+        "observed_forbidden_rule_occurrences": forbidden_occurrences,
+        "unsat_proof_failures": unsat_proof_failures,
         "replay_failures": replay_failures,
         "oracle_failures": oracle_failures,
-        "passed": not missing_rules and not missing_subkinds and not replay_failures and not oracle_failures,
+        "passed": (
+            not missing_rules
+            and not missing_subkinds
+            and not forbidden_occurrences
+            and not unsat_proof_failures
+            and not replay_failures
+            and not oracle_failures
+        ),
     }
 
 
@@ -2284,6 +2727,16 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         ),
     )
     parser.add_argument(
+        "--fp-corpus",
+        nargs="?",
+        const=DEFAULT_FP_CORPUS_MANIFEST,
+        type=pathlib.Path,
+        help=(
+            "record the Phase 5 FloatingPoint corpus; an optional argument "
+            "selects a non-default manifest"
+        ),
+    )
+    parser.add_argument(
         "--case-id",
         action="append",
         default=[],
@@ -2305,11 +2758,26 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         help="return nonzero unless the recorded corpus contains RULE",
     )
     parser.add_argument(
+        "--forbid-rule-occurrence",
+        action="append",
+        default=[],
+        metavar="RULE",
+        help="return nonzero if the recorded corpus contains RULE",
+    )
+    parser.add_argument(
         "--require-theory-subkind",
         action="append",
         default=[],
         metavar="THEORY:SUBKIND",
         help="return nonzero unless a th-lemma with THEORY:SUBKIND metadata is recorded",
+    )
+    parser.add_argument(
+        "--require-unsat-proofs",
+        action="store_true",
+        help=(
+            "return nonzero unless every solver run produced an unsat proof "
+            "without timeout or Z3 failure"
+        ),
     )
     parser.add_argument(
         "--require-replay-success",
@@ -2327,17 +2795,24 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         help="write minimized input/command/stdout/stderr/proof repros for failing proof cases",
     )
     args = parser.parse_args(argv)
+    if args.fp_corpus is not None:
+        args.require_unsat_proofs = True
     if args.validate_corpus_manifest is not None:
         return args
     if args.ho_corpus and args.complete_corpus_manifest is None:
         args.complete_corpus_manifest = DEFAULT_COMPLETE_CORPUS_MANIFEST
-    if (
-        args.string_corpus is not None
-        and args.complete_corpus_manifest is not None
-    ):
+    corpus_selectors = sum(
+        value is not None
+        for value in (
+            args.string_corpus,
+            args.fp_corpus,
+            args.complete_corpus_manifest,
+        )
+    )
+    if corpus_selectors > 1:
         parser.error(
-            "--string-corpus cannot be combined with "
-            "--complete-corpus-manifest"
+            "--string-corpus, --fp-corpus, and "
+            "--complete-corpus-manifest are mutually exclusive"
         )
     if args.case_id and args.complete_corpus_manifest is None:
         parser.error("--case-id requires --complete-corpus-manifest")
@@ -2348,10 +2823,11 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         not args.inputs
         and args.complete_corpus_manifest is None
         and args.string_corpus is None
+        and args.fp_corpus is None
     ):
         parser.error(
-            "SMT-LIB input files, --complete-corpus-manifest, or "
-            "--string-corpus is required"
+            "SMT-LIB input files, --complete-corpus-manifest, "
+            "--string-corpus, or --fp-corpus is required"
         )
     if args.fail_on_unseen_rules and args.expected_rules is None:
         parser.error("--fail-on-unseen-rules requires --expected-rules")
@@ -2437,6 +2913,22 @@ def main(argv: list[str]) -> int:
                 return 2
             if not args.inputs:
                 args.inputs = [str(path) for path in inputs]
+        elif args.fp_corpus is not None:
+            supported_versions, inputs = inputs_from_fp_manifest(
+                args.fp_corpus
+            )
+            if (
+                args.z3_version is not None
+                and args.z3_version not in supported_versions
+            ):
+                print(
+                    f"selected Z3 version {args.z3_version} is not listed in "
+                    f"{args.fp_corpus}",
+                    file=sys.stderr,
+                )
+                return 2
+            if not args.inputs:
+                args.inputs = [str(path) for path in inputs]
     except (OSError, json.JSONDecodeError, ValueError) as exc:
         print(f"proof corpus manifest error: {exc}", file=sys.stderr)
         return 2
@@ -2506,7 +2998,9 @@ def main(argv: list[str]) -> int:
 
     has_requirements = bool(
         args.require_rule_occurrence
+        or args.forbid_rule_occurrence
         or args.require_theory_subkind
+        or args.require_unsat_proofs
         or args.require_replay_success
         or args.require_no_oracles
     )
@@ -2521,6 +3015,8 @@ def main(argv: list[str]) -> int:
         required_theory_subkinds=args.require_theory_subkind,
         require_replay_success=args.require_replay_success,
         require_no_oracles=args.require_no_oracles,
+        forbidden_rules=args.forbid_rule_occurrence,
+        require_unsat_proofs=args.require_unsat_proofs,
     )
     if has_requirements:
         gate_report["requirements"] = requirement_report

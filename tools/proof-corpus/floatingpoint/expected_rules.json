@@ -1,0 +1,19 @@
+{
+  "default": [
+    "and-elim",
+    "asserted",
+    "def-axiom",
+    "hypothesis",
+    "lemma",
+    "monotonicity",
+    "mp",
+    "not-or-elim",
+    "rewrite",
+    "symm",
+    "th-lemma-arith",
+    "trans",
+    "trans*",
+    "unit-resolution"
+  ],
+  "versions": {}
+}

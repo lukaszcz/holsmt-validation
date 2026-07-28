@@ -1,0 +1,623 @@
+{
+  "cases": [
+    {
+      "classes": [
+        "ground-arithmetic"
+      ],
+      "description": "Ground evaluation of fp.add.",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "ground_add",
+      "operators": [
+        "fp.add"
+      ],
+      "path": "inputs/ground_add.smt2"
+    },
+    {
+      "classes": [
+        "ground-arithmetic"
+      ],
+      "description": "Ground evaluation of fp.sub.",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "ground_sub",
+      "operators": [
+        "fp.sub"
+      ],
+      "path": "inputs/ground_sub.smt2"
+    },
+    {
+      "classes": [
+        "ground-arithmetic"
+      ],
+      "description": "Ground evaluation of fp.mul.",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "ground_mul",
+      "operators": [
+        "fp.mul"
+      ],
+      "path": "inputs/ground_mul.smt2"
+    },
+    {
+      "classes": [
+        "ground-arithmetic"
+      ],
+      "description": "Ground evaluation of fp.div.",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "ground_div",
+      "operators": [
+        "fp.div"
+      ],
+      "path": "inputs/ground_div.smt2"
+    },
+    {
+      "classes": [
+        "ground-arithmetic"
+      ],
+      "description": "Ground evaluation of fp.fma.",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "ground_fma",
+      "operators": [
+        "fp.fma"
+      ],
+      "path": "inputs/ground_fma.smt2"
+    },
+    {
+      "classes": [
+        "ground-arithmetic"
+      ],
+      "description": "Ground evaluation of fp.sqrt.",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "ground_sqrt",
+      "operators": [
+        "fp.sqrt"
+      ],
+      "path": "inputs/ground_sqrt.smt2"
+    },
+    {
+      "classes": [
+        "ground-rem-round-to-integral"
+      ],
+      "description": "Ground fp.rem evaluation.",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "ground_rem",
+      "operators": [
+        "fp.rem"
+      ],
+      "path": "inputs/ground_rem.smt2"
+    },
+    {
+      "classes": [
+        "ground-rem-round-to-integral",
+        "conversion-rna"
+      ],
+      "description": "RNA tie-away ground roundToIntegral (-2.5 to -3).",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "ground_round_to_integral_rna",
+      "operators": [
+        "fp.roundToIntegral"
+      ],
+      "path": "inputs/ground_round_to_integral_rna.smt2"
+    },
+    {
+      "classes": [
+        "ground-arithmetic"
+      ],
+      "description": "The underspecified fp.min signed-zero result remains one operand.",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "ground_min_signed_zero_range",
+      "operators": [
+        "fp.min"
+      ],
+      "path": "inputs/ground_min_signed_zero_range.smt2"
+    },
+    {
+      "classes": [
+        "ground-arithmetic"
+      ],
+      "description": "The underspecified fp.max signed-zero result remains one operand.",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "ground_max_signed_zero_range",
+      "operators": [
+        "fp.max"
+      ],
+      "path": "inputs/ground_max_signed_zero_range.smt2"
+    },
+    {
+      "classes": [
+        "conversion-rna"
+      ],
+      "description": "RNA real-to-FP midpoint conversion.",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "convert_real_to_fp_rna_tie",
+      "operators": [
+        "to_fp"
+      ],
+      "path": "inputs/convert_real_to_fp_rna_tie.smt2"
+    },
+    {
+      "classes": [
+        "conversion-rna",
+        "conversion-mixed-format"
+      ],
+      "description": "RNA conversion from (4,7) to (3,5).",
+      "expected_result": "unsat",
+      "format": "(4,7)->(3,5)",
+      "id": "convert_mixed_format_rna",
+      "operators": [
+        "to_fp"
+      ],
+      "path": "inputs/convert_mixed_format_rna.smt2"
+    },
+    {
+      "classes": [
+        "conversion-rna",
+        "conversion-mixed-format"
+      ],
+      "description": "Ground real-to-(4,7)-to-(3,5) conversion chain.",
+      "expected_result": "unsat",
+      "format": "Real->(4,7)->(3,5)",
+      "id": "convert_mixed_format_chain",
+      "operators": [
+        "to_fp"
+      ],
+      "path": "inputs/convert_mixed_format_chain.smt2"
+    },
+    {
+      "classes": [
+        "conversion-bv"
+      ],
+      "description": "Bit-vector bitcast to FP.",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "convert_to_fp_bitcast",
+      "operators": [
+        "to_fp"
+      ],
+      "path": "inputs/convert_to_fp_bitcast.smt2"
+    },
+    {
+      "classes": [
+        "conversion-bv"
+      ],
+      "description": "Signed bit-vector to FP.",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "convert_to_fp_signed",
+      "operators": [
+        "to_fp"
+      ],
+      "path": "inputs/convert_to_fp_signed.smt2"
+    },
+    {
+      "classes": [
+        "conversion-bv"
+      ],
+      "description": "Unsigned bit-vector to FP.",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "convert_to_fp_unsigned",
+      "operators": [
+        "to_fp_unsigned"
+      ],
+      "path": "inputs/convert_to_fp_unsigned.smt2"
+    },
+    {
+      "classes": [
+        "conversion-bv"
+      ],
+      "description": "FP to unsigned bit-vector.",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "convert_to_ubv",
+      "operators": [
+        "fp.to_ubv"
+      ],
+      "path": "inputs/convert_to_ubv.smt2"
+    },
+    {
+      "classes": [
+        "conversion-bv"
+      ],
+      "description": "FP to signed bit-vector.",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "convert_to_sbv",
+      "operators": [
+        "fp.to_sbv"
+      ],
+      "path": "inputs/convert_to_sbv.smt2"
+    },
+    {
+      "classes": [
+        "to-real-qf-fplra"
+      ],
+      "description": "Ground fp.to_real evaluation.",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "convert_to_real_ground",
+      "operators": [
+        "fp.to_real"
+      ],
+      "path": "inputs/convert_to_real_ground.smt2"
+    },
+    {
+      "classes": [
+        "to-real-qf-fplra"
+      ],
+      "description": "Symbolic fp.to_real bridge to real arithmetic.",
+      "expected_result": "unsat",
+      "format": "Float32",
+      "id": "convert_to_real_symbolic_bridge",
+      "operators": [
+        "fp.to_real"
+      ],
+      "path": "inputs/convert_to_real_symbolic_bridge.smt2"
+    },
+    {
+      "classes": [
+        "nan-payload-equality"
+      ],
+      "description": "SMT equality identifies a noncanonical NaN payload with NaN.",
+      "expected_result": "unsat",
+      "format": "(5,11)",
+      "id": "nan_payload_equality",
+      "operators": [],
+      "path": "inputs/nan_payload_equality.smt2"
+    },
+    {
+      "classes": [
+        "literal-normalization"
+      ],
+      "description": "Normalize (_ +zero 3 5) to an fp triple.",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "literal_positive_zero",
+      "operators": [],
+      "path": "inputs/literal_positive_zero.smt2"
+    },
+    {
+      "classes": [
+        "literal-normalization"
+      ],
+      "description": "Normalize (_ -zero 3 5) to an fp triple.",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "literal_negative_zero",
+      "operators": [],
+      "path": "inputs/literal_negative_zero.smt2"
+    },
+    {
+      "classes": [
+        "literal-normalization"
+      ],
+      "description": "Normalize (_ +oo 3 5) to an fp triple.",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "literal_positive_infinity",
+      "operators": [],
+      "path": "inputs/literal_positive_infinity.smt2"
+    },
+    {
+      "classes": [
+        "literal-normalization"
+      ],
+      "description": "Normalize (_ -oo 3 5) to an fp triple.",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "literal_negative_infinity",
+      "operators": [],
+      "path": "inputs/literal_negative_infinity.smt2"
+    },
+    {
+      "classes": [
+        "literal-normalization"
+      ],
+      "description": "Normalize (_ NaN 3 5) to an fp triple.",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "literal_nan",
+      "operators": [],
+      "path": "inputs/literal_nan.smt2"
+    },
+    {
+      "classes": [
+        "symbolic-comparison"
+      ],
+      "description": "Small-format symbolic fp.lt atom conversion.",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "symbolic_comparison_lt",
+      "operators": [
+        "fp.lt"
+      ],
+      "path": "inputs/symbolic_comparison_lt.smt2"
+    },
+    {
+      "classes": [
+        "symbolic-comparison"
+      ],
+      "description": "Small-format symbolic fp.gt atom conversion.",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "symbolic_comparison_gt",
+      "operators": [
+        "fp.gt"
+      ],
+      "path": "inputs/symbolic_comparison_gt.smt2"
+    },
+    {
+      "classes": [
+        "symbolic-comparison"
+      ],
+      "description": "Small-format symbolic fp.leq atom conversion.",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "symbolic_comparison_leq",
+      "operators": [
+        "fp.leq",
+        "fp.eq"
+      ],
+      "path": "inputs/symbolic_comparison_leq.smt2"
+    },
+    {
+      "classes": [
+        "symbolic-comparison"
+      ],
+      "description": "Small-format symbolic fp.geq atom conversion.",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "symbolic_comparison_geq",
+      "operators": [
+        "fp.geq",
+        "fp.eq"
+      ],
+      "path": "inputs/symbolic_comparison_geq.smt2"
+    },
+    {
+      "classes": [
+        "symbolic-comparison"
+      ],
+      "description": "Small-format symbolic fp.eq atom conversion.",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "symbolic_comparison_eq",
+      "operators": [
+        "fp.eq",
+        "fp.leq"
+      ],
+      "path": "inputs/symbolic_comparison_eq.smt2"
+    },
+    {
+      "classes": [
+        "symbolic-classification"
+      ],
+      "description": "Small-format incompatible classification predicates.",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "symbolic_classification_normal_subnormal",
+      "operators": [
+        "fp.isNormal",
+        "fp.isSubnormal"
+      ],
+      "path": "inputs/symbolic_classification_normal_subnormal.smt2"
+    },
+    {
+      "classes": [
+        "symbolic-classification"
+      ],
+      "description": "Small-format incompatible classification predicates.",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "symbolic_classification_zero_normal",
+      "operators": [
+        "fp.isZero",
+        "fp.isNormal"
+      ],
+      "path": "inputs/symbolic_classification_zero_normal.smt2"
+    },
+    {
+      "classes": [
+        "symbolic-classification"
+      ],
+      "description": "Small-format incompatible classification predicates.",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "symbolic_classification_infinite_normal",
+      "operators": [
+        "fp.isInfinite",
+        "fp.isNormal"
+      ],
+      "path": "inputs/symbolic_classification_infinite_normal.smt2"
+    },
+    {
+      "classes": [
+        "symbolic-classification"
+      ],
+      "description": "Small-format incompatible classification predicates.",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "symbolic_classification_nan_positive",
+      "operators": [
+        "fp.isNaN",
+        "fp.isPositive"
+      ],
+      "path": "inputs/symbolic_classification_nan_positive.smt2"
+    },
+    {
+      "classes": [
+        "symbolic-classification"
+      ],
+      "description": "Small-format incompatible classification predicates.",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "symbolic_classification_negative_positive",
+      "operators": [
+        "fp.isNegative",
+        "fp.isPositive"
+      ],
+      "path": "inputs/symbolic_classification_negative_positive.smt2"
+    },
+    {
+      "classes": [
+        "symbolic-abs-neg"
+      ],
+      "description": "Absolute value is never negative.",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "symbolic_abs",
+      "operators": [
+        "fp.abs",
+        "fp.isNegative"
+      ],
+      "path": "inputs/symbolic_abs.smt2"
+    },
+    {
+      "classes": [
+        "symbolic-abs-neg"
+      ],
+      "description": "Double negation, including canonical SMT NaN equality.",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "symbolic_neg",
+      "operators": [
+        "fp.neg"
+      ],
+      "path": "inputs/symbolic_neg.smt2"
+    },
+    {
+      "classes": [
+        "arbitrary-format"
+      ],
+      "description": "Cheap bit-decomposition probe on Float32.",
+      "expected_result": "unsat",
+      "format": "Float32",
+      "id": "arbitrary_format_float32",
+      "operators": [
+        "fp.isNormal",
+        "fp.lt",
+        "fp.abs"
+      ],
+      "path": "inputs/arbitrary_format_float32.smt2"
+    },
+    {
+      "classes": [
+        "arbitrary-format"
+      ],
+      "description": "Cheap bit-decomposition probe on Float64.",
+      "expected_result": "unsat",
+      "format": "Float64",
+      "id": "arbitrary_format_float64",
+      "operators": [
+        "fp.isNormal",
+        "fp.lt",
+        "fp.abs"
+      ],
+      "path": "inputs/arbitrary_format_float64.smt2"
+    },
+    {
+      "classes": [
+        "arbitrary-format"
+      ],
+      "description": "Cheap bit-decomposition probe on Float128.",
+      "expected_result": "unsat",
+      "format": "Float128",
+      "id": "arbitrary_format_float128",
+      "operators": [
+        "fp.isNormal",
+        "fp.lt",
+        "fp.abs"
+      ],
+      "path": "inputs/arbitrary_format_float128.smt2"
+    },
+    {
+      "classes": [
+        "symbolic-comparison"
+      ],
+      "description": "Float32 comparison scale probe.",
+      "expected_result": "unsat",
+      "format": "Float32",
+      "id": "scale_lt_asymmetry_float32",
+      "operators": [
+        "fp.lt"
+      ],
+      "path": "inputs/scale_lt_asymmetry_float32.smt2"
+    },
+    {
+      "classes": [
+        "ground-arithmetic"
+      ],
+      "description": "Float16 symbolic multiplication scale probe.",
+      "expected_result": "unsat",
+      "format": "Float16",
+      "id": "scale_mul_identity_float16",
+      "operators": [
+        "fp.mul"
+      ],
+      "path": "inputs/scale_mul_identity_float16.smt2"
+    },
+    {
+      "classes": [
+        "d12-tiny-add"
+      ],
+      "description": "D12 exemplar: symbolic add only on the tiny (3,5) format.",
+      "expected_result": "unsat",
+      "format": "(3,5)",
+      "id": "d12_add_commutativity_tiny",
+      "operators": [
+        "fp.add"
+      ],
+      "path": "inputs/d12_add_commutativity_tiny.smt2"
+    }
+  ],
+  "description": "Phase 5 fpa2bv rewrite corpus across every supported Z3 4.x.",
+  "forbidden_rule_occurrences": [
+    "th-lemma-fp",
+    "th-lemma-fpa",
+    "th-lemma-floating-point"
+  ],
+  "metadata_only_cases": [
+    {
+      "description": "Float32 symbolic fp.add commutativity; payload excluded by task mandate because the drafting run was 891 MiB.",
+      "format": "Float32",
+      "id": "d12_add_commutativity_float32",
+      "measurement": "Phase 5 plan drafting, Z3 4.15.3",
+      "operator": "fp.add",
+      "proof_recorded": false,
+      "proof_size_mib": 891,
+      "solve_seconds": 65
+    }
+  ],
+  "required_classes": [
+    "ground-arithmetic",
+    "ground-rem-round-to-integral",
+    "conversion-rna",
+    "conversion-mixed-format",
+    "conversion-bv",
+    "to-real-qf-fplra",
+    "symbolic-comparison",
+    "symbolic-classification",
+    "symbolic-abs-neg",
+    "nan-payload-equality",
+    "literal-normalization",
+    "arbitrary-format",
+    "d12-tiny-add"
+  ],
+  "schema": "holsmt-z3-fp-proof-corpus-v1",
+  "supported_z3_versions": [
+    "4.11.2",
+    "4.12.4",
+    "4.13.0",
+    "4.14.1",
+    "4.15.3"
+  ]
+}

@@ -1,0 +1,6 @@
+(set-option :produce-proofs true)
+(set-logic QF_FP)
+(assert (not (= (_ NaN 3 5) (fp #b0 #b111 #b0001))))
+(check-sat)
+(get-proof)
+(exit)
