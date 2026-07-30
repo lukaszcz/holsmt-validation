@@ -1,0 +1,5 @@
+(set-option :produce-proofs true)
+(set-logic ABVFP)
+(assert false)
+(check-sat)
+(get-proof)

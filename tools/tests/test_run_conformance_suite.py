@@ -207,7 +207,13 @@ class ConformanceSuiteTests(unittest.TestCase):
         cases = conformance.default_cases(None)
         represented = {case.logic for case in cases}
         self.assertFalse(set(conformance.OFFICIAL_LOGICS) - represented)
-        self.assertEqual(len(conformance.OFFICIAL_LOGICS), 73)
+        self.assertEqual(len(conformance.OFFICIAL_LOGICS), 86)
+        self.assertEqual(conformance.COMPATIBILITY_LOGICS, ["QF_FPBV"])
+        self.assertFalse(
+            set(conformance.COMPATIBILITY_LOGICS)
+            & set(conformance.OFFICIAL_LOGICS)
+        )
+        self.assertFalse(set(conformance.COMPATIBILITY_LOGICS) - represented)
         self.assertEqual(
             set(conformance.HO_EXTENSION_LOGICS),
             {
@@ -396,7 +402,11 @@ class ConformanceSuiteTests(unittest.TestCase):
         self.assertEqual(
             set(conformance.THEORY_PENDING_LOGICS),
             {
-                "QF_FP", "QF_FPBV", "QF_BVFP", "QF_UFFP", "QF_UFBVFP",
+                "FP", "FPLRA", "BVFP", "BVFPLRA", "UFFP", "UFBVFP",
+                "ABVFP", "ABVFPLRA", "AUFBVFP",
+                "QF_FP", "QF_FPLRA", "QF_FPBV", "QF_BVFP",
+                "QF_BVFPLRA", "QF_UFFP", "QF_UFBVFP", "QF_ABVFP",
+                "QF_ABVFPLRA", "QF_AUFBVFP",
             },
         )
 

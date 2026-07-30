@@ -5569,6 +5569,510 @@
       }
     },
     {
+      "id": "logic:ABVFP:boundary",
+      "file": "cases/logics/logic_abvfp_boundary.smt2",
+      "logic": "ABVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:boundary",
+        "logic:ABVFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: ABVFP"
+      }
+    },
+    {
+      "id": "logic:ABVFP:fragment-violation",
+      "file": "cases/logics/logic_abvfp_fragment_violation.smt2",
+      "logic": "ABVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:fragment-violation",
+        "logic:ABVFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "fail",
+          "diagnostic": "integer atom is outside bit-vector logic fragment ABVFP",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "fail",
+          "diagnostic": "integer atom is outside bit-vector logic fragment ABVFP",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: ABVFP"
+      }
+    },
+    {
+      "id": "logic:ABVFP:malformed",
+      "file": "cases/logics/logic_abvfp_malformed.smt2",
+      "logic": "ABVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:malformed",
+        "logic:ABVFP"
+      ],
+      "modes": [
+        "parser-only"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "fail",
+          "diagnostic": "missing ')'",
+          "failure_phase": "parser"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: ABVFP"
+      }
+    },
+    {
+      "id": "logic:ABVFP:sat",
+      "file": "cases/logics/logic_abvfp_sat.smt2",
+      "logic": "ABVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:sat",
+        "logic:ABVFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: ABVFP"
+      }
+    },
+    {
+      "id": "logic:ABVFP:type-error",
+      "file": "cases/logics/logic_abvfp_type_error.smt2",
+      "logic": "ABVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:type-error",
+        "logic:ABVFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "fail",
+          "diagnostic": "function arity mismatch",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "fail",
+          "diagnostic": "function arity mismatch",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: ABVFP"
+      }
+    },
+    {
+      "id": "logic:ABVFP:unsat-proof",
+      "file": "cases/logics/logic_abvfp_unsat_proof.smt2",
+      "logic": "ABVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:unsat-proof",
+        "logic:ABVFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "pass"
+        },
+        "proof-replay": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: ABVFP"
+      }
+    },
+    {
+      "id": "logic:ABVFPLRA:boundary",
+      "file": "cases/logics/logic_abvfplra_boundary.smt2",
+      "logic": "ABVFPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:boundary",
+        "logic:ABVFPLRA"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: ABVFPLRA"
+      }
+    },
+    {
+      "id": "logic:ABVFPLRA:fragment-violation",
+      "file": "cases/logics/logic_abvfplra_fragment_violation.smt2",
+      "logic": "ABVFPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:fragment-violation",
+        "logic:ABVFPLRA"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "fail",
+          "diagnostic": "nonlinear arithmetic product is outside logic fragment ABVFPLRA",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "fail",
+          "diagnostic": "nonlinear arithmetic product is outside logic fragment ABVFPLRA",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: ABVFPLRA"
+      }
+    },
+    {
+      "id": "logic:ABVFPLRA:malformed",
+      "file": "cases/logics/logic_abvfplra_malformed.smt2",
+      "logic": "ABVFPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:malformed",
+        "logic:ABVFPLRA"
+      ],
+      "modes": [
+        "parser-only"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "fail",
+          "diagnostic": "missing ')'",
+          "failure_phase": "parser"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: ABVFPLRA"
+      }
+    },
+    {
+      "id": "logic:ABVFPLRA:sat",
+      "file": "cases/logics/logic_abvfplra_sat.smt2",
+      "logic": "ABVFPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:sat",
+        "logic:ABVFPLRA"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: ABVFPLRA"
+      }
+    },
+    {
+      "id": "logic:ABVFPLRA:type-error",
+      "file": "cases/logics/logic_abvfplra_type_error.smt2",
+      "logic": "ABVFPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:type-error",
+        "logic:ABVFPLRA"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "fail",
+          "diagnostic": "function arity mismatch",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "fail",
+          "diagnostic": "function arity mismatch",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: ABVFPLRA"
+      }
+    },
+    {
+      "id": "logic:ABVFPLRA:unsat-proof",
+      "file": "cases/logics/logic_abvfplra_unsat_proof.smt2",
+      "logic": "ABVFPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:unsat-proof",
+        "logic:ABVFPLRA"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "pass"
+        },
+        "proof-replay": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: ABVFPLRA"
+      }
+    },
+    {
       "id": "logic:ALIA:boundary",
       "file": "cases/logics/logic_alia_boundary.smt2",
       "logic": "ALIA",
@@ -7859,6 +8363,258 @@
       }
     },
     {
+      "id": "logic:AUFBVFP:boundary",
+      "file": "cases/logics/logic_aufbvfp_boundary.smt2",
+      "logic": "AUFBVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:boundary",
+        "logic:AUFBVFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: AUFBVFP"
+      }
+    },
+    {
+      "id": "logic:AUFBVFP:fragment-violation",
+      "file": "cases/logics/logic_aufbvfp_fragment_violation.smt2",
+      "logic": "AUFBVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:fragment-violation",
+        "logic:AUFBVFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "fail",
+          "diagnostic": "integer atom is outside bit-vector logic fragment AUFBVFP",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "fail",
+          "diagnostic": "integer atom is outside bit-vector logic fragment AUFBVFP",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: AUFBVFP"
+      }
+    },
+    {
+      "id": "logic:AUFBVFP:malformed",
+      "file": "cases/logics/logic_aufbvfp_malformed.smt2",
+      "logic": "AUFBVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:malformed",
+        "logic:AUFBVFP"
+      ],
+      "modes": [
+        "parser-only"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "fail",
+          "diagnostic": "missing ')'",
+          "failure_phase": "parser"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: AUFBVFP"
+      }
+    },
+    {
+      "id": "logic:AUFBVFP:sat",
+      "file": "cases/logics/logic_aufbvfp_sat.smt2",
+      "logic": "AUFBVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:sat",
+        "logic:AUFBVFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: AUFBVFP"
+      }
+    },
+    {
+      "id": "logic:AUFBVFP:type-error",
+      "file": "cases/logics/logic_aufbvfp_type_error.smt2",
+      "logic": "AUFBVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:type-error",
+        "logic:AUFBVFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "fail",
+          "diagnostic": "function arity mismatch",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "fail",
+          "diagnostic": "function arity mismatch",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: AUFBVFP"
+      }
+    },
+    {
+      "id": "logic:AUFBVFP:unsat-proof",
+      "file": "cases/logics/logic_aufbvfp_unsat_proof.smt2",
+      "logic": "AUFBVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:unsat-proof",
+        "logic:AUFBVFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "pass"
+        },
+        "proof-replay": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: AUFBVFP"
+      }
+    },
+    {
       "id": "logic:AUFDTLIA:boundary",
       "file": "cases/logics/logic_aufdtlia_boundary.smt2",
       "logic": "AUFDTLIA",
@@ -9859,6 +10615,1014 @@
       }
     },
     {
+      "id": "logic:BVFP:boundary",
+      "file": "cases/logics/logic_bvfp_boundary.smt2",
+      "logic": "BVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:boundary",
+        "logic:BVFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: BVFP"
+      }
+    },
+    {
+      "id": "logic:BVFP:fragment-violation",
+      "file": "cases/logics/logic_bvfp_fragment_violation.smt2",
+      "logic": "BVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:fragment-violation",
+        "logic:BVFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "fail",
+          "diagnostic": "integer atom is outside bit-vector logic fragment BVFP",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "fail",
+          "diagnostic": "integer atom is outside bit-vector logic fragment BVFP",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: BVFP"
+      }
+    },
+    {
+      "id": "logic:BVFP:malformed",
+      "file": "cases/logics/logic_bvfp_malformed.smt2",
+      "logic": "BVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:malformed",
+        "logic:BVFP"
+      ],
+      "modes": [
+        "parser-only"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "fail",
+          "diagnostic": "missing ')'",
+          "failure_phase": "parser"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: BVFP"
+      }
+    },
+    {
+      "id": "logic:BVFP:sat",
+      "file": "cases/logics/logic_bvfp_sat.smt2",
+      "logic": "BVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:sat",
+        "logic:BVFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: BVFP"
+      }
+    },
+    {
+      "id": "logic:BVFP:type-error",
+      "file": "cases/logics/logic_bvfp_type_error.smt2",
+      "logic": "BVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:type-error",
+        "logic:BVFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "fail",
+          "diagnostic": "function arity mismatch",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "fail",
+          "diagnostic": "function arity mismatch",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: BVFP"
+      }
+    },
+    {
+      "id": "logic:BVFP:unsat-proof",
+      "file": "cases/logics/logic_bvfp_unsat_proof.smt2",
+      "logic": "BVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:unsat-proof",
+        "logic:BVFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "pass"
+        },
+        "proof-replay": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: BVFP"
+      }
+    },
+    {
+      "id": "logic:BVFPLRA:boundary",
+      "file": "cases/logics/logic_bvfplra_boundary.smt2",
+      "logic": "BVFPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:boundary",
+        "logic:BVFPLRA"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: BVFPLRA"
+      }
+    },
+    {
+      "id": "logic:BVFPLRA:fragment-violation",
+      "file": "cases/logics/logic_bvfplra_fragment_violation.smt2",
+      "logic": "BVFPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:fragment-violation",
+        "logic:BVFPLRA"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "fail",
+          "diagnostic": "nonlinear arithmetic product is outside logic fragment BVFPLRA",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "fail",
+          "diagnostic": "nonlinear arithmetic product is outside logic fragment BVFPLRA",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: BVFPLRA"
+      }
+    },
+    {
+      "id": "logic:BVFPLRA:malformed",
+      "file": "cases/logics/logic_bvfplra_malformed.smt2",
+      "logic": "BVFPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:malformed",
+        "logic:BVFPLRA"
+      ],
+      "modes": [
+        "parser-only"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "fail",
+          "diagnostic": "missing ')'",
+          "failure_phase": "parser"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: BVFPLRA"
+      }
+    },
+    {
+      "id": "logic:BVFPLRA:sat",
+      "file": "cases/logics/logic_bvfplra_sat.smt2",
+      "logic": "BVFPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:sat",
+        "logic:BVFPLRA"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: BVFPLRA"
+      }
+    },
+    {
+      "id": "logic:BVFPLRA:type-error",
+      "file": "cases/logics/logic_bvfplra_type_error.smt2",
+      "logic": "BVFPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:type-error",
+        "logic:BVFPLRA"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "fail",
+          "diagnostic": "function arity mismatch",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "fail",
+          "diagnostic": "function arity mismatch",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: BVFPLRA"
+      }
+    },
+    {
+      "id": "logic:BVFPLRA:unsat-proof",
+      "file": "cases/logics/logic_bvfplra_unsat_proof.smt2",
+      "logic": "BVFPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:unsat-proof",
+        "logic:BVFPLRA"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "pass"
+        },
+        "proof-replay": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: BVFPLRA"
+      }
+    },
+    {
+      "id": "logic:FP:boundary",
+      "file": "cases/logics/logic_fp_boundary.smt2",
+      "logic": "FP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:boundary",
+        "logic:FP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: FP"
+      }
+    },
+    {
+      "id": "logic:FP:fragment-violation",
+      "file": "cases/logics/logic_fp_fragment_violation.smt2",
+      "logic": "FP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:fragment-violation",
+        "logic:FP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "fail",
+          "diagnostic": "integer atom is outside bit-vector logic fragment FP",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "fail",
+          "diagnostic": "integer atom is outside bit-vector logic fragment FP",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: FP"
+      }
+    },
+    {
+      "id": "logic:FP:malformed",
+      "file": "cases/logics/logic_fp_malformed.smt2",
+      "logic": "FP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:malformed",
+        "logic:FP"
+      ],
+      "modes": [
+        "parser-only"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "fail",
+          "diagnostic": "missing ')'",
+          "failure_phase": "parser"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: FP"
+      }
+    },
+    {
+      "id": "logic:FP:sat",
+      "file": "cases/logics/logic_fp_sat.smt2",
+      "logic": "FP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:sat",
+        "logic:FP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: FP"
+      }
+    },
+    {
+      "id": "logic:FP:type-error",
+      "file": "cases/logics/logic_fp_type_error.smt2",
+      "logic": "FP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:type-error",
+        "logic:FP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "fail",
+          "diagnostic": "function arity mismatch",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "fail",
+          "diagnostic": "function arity mismatch",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: FP"
+      }
+    },
+    {
+      "id": "logic:FP:unsat-proof",
+      "file": "cases/logics/logic_fp_unsat_proof.smt2",
+      "logic": "FP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:unsat-proof",
+        "logic:FP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "pass"
+        },
+        "proof-replay": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: FP"
+      }
+    },
+    {
+      "id": "logic:FPLRA:boundary",
+      "file": "cases/logics/logic_fplra_boundary.smt2",
+      "logic": "FPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:boundary",
+        "logic:FPLRA"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: FPLRA"
+      }
+    },
+    {
+      "id": "logic:FPLRA:fragment-violation",
+      "file": "cases/logics/logic_fplra_fragment_violation.smt2",
+      "logic": "FPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:fragment-violation",
+        "logic:FPLRA"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "fail",
+          "diagnostic": "nonlinear arithmetic product is outside logic fragment FPLRA",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "fail",
+          "diagnostic": "nonlinear arithmetic product is outside logic fragment FPLRA",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: FPLRA"
+      }
+    },
+    {
+      "id": "logic:FPLRA:malformed",
+      "file": "cases/logics/logic_fplra_malformed.smt2",
+      "logic": "FPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:malformed",
+        "logic:FPLRA"
+      ],
+      "modes": [
+        "parser-only"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "fail",
+          "diagnostic": "missing ')'",
+          "failure_phase": "parser"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: FPLRA"
+      }
+    },
+    {
+      "id": "logic:FPLRA:sat",
+      "file": "cases/logics/logic_fplra_sat.smt2",
+      "logic": "FPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:sat",
+        "logic:FPLRA"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: FPLRA"
+      }
+    },
+    {
+      "id": "logic:FPLRA:type-error",
+      "file": "cases/logics/logic_fplra_type_error.smt2",
+      "logic": "FPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:type-error",
+        "logic:FPLRA"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "fail",
+          "diagnostic": "function arity mismatch",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "fail",
+          "diagnostic": "function arity mismatch",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: FPLRA"
+      }
+    },
+    {
+      "id": "logic:FPLRA:unsat-proof",
+      "file": "cases/logics/logic_fplra_unsat_proof.smt2",
+      "logic": "FPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:unsat-proof",
+        "logic:FPLRA"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "pass"
+        },
+        "proof-replay": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: FPLRA"
+      }
+    },
+    {
       "id": "logic:LIA:boundary",
       "file": "cases/logics/logic_lia_boundary.smt2",
       "logic": "LIA",
@@ -11231,6 +12995,510 @@
       }
     },
     {
+      "id": "logic:QF_ABVFP:boundary",
+      "file": "cases/logics/logic_qf_abvfp_boundary.smt2",
+      "logic": "QF_ABVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:boundary",
+        "logic:QF_ABVFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: QF_ABVFP"
+      }
+    },
+    {
+      "id": "logic:QF_ABVFP:fragment-violation",
+      "file": "cases/logics/logic_qf_abvfp_fragment_violation.smt2",
+      "logic": "QF_ABVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:fragment-violation",
+        "logic:QF_ABVFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "fail",
+          "diagnostic": "quantified formula is outside logic fragment QF_ABVFP",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "fail",
+          "diagnostic": "quantified formula is outside logic fragment QF_ABVFP",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: QF_ABVFP"
+      }
+    },
+    {
+      "id": "logic:QF_ABVFP:malformed",
+      "file": "cases/logics/logic_qf_abvfp_malformed.smt2",
+      "logic": "QF_ABVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:malformed",
+        "logic:QF_ABVFP"
+      ],
+      "modes": [
+        "parser-only"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "fail",
+          "diagnostic": "missing ')'",
+          "failure_phase": "parser"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: QF_ABVFP"
+      }
+    },
+    {
+      "id": "logic:QF_ABVFP:sat",
+      "file": "cases/logics/logic_qf_abvfp_sat.smt2",
+      "logic": "QF_ABVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:sat",
+        "logic:QF_ABVFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: QF_ABVFP"
+      }
+    },
+    {
+      "id": "logic:QF_ABVFP:type-error",
+      "file": "cases/logics/logic_qf_abvfp_type_error.smt2",
+      "logic": "QF_ABVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:type-error",
+        "logic:QF_ABVFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "fail",
+          "diagnostic": "function arity mismatch",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "fail",
+          "diagnostic": "function arity mismatch",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: QF_ABVFP"
+      }
+    },
+    {
+      "id": "logic:QF_ABVFP:unsat-proof",
+      "file": "cases/logics/logic_qf_abvfp_unsat_proof.smt2",
+      "logic": "QF_ABVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:unsat-proof",
+        "logic:QF_ABVFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "pass"
+        },
+        "proof-replay": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: QF_ABVFP"
+      }
+    },
+    {
+      "id": "logic:QF_ABVFPLRA:boundary",
+      "file": "cases/logics/logic_qf_abvfplra_boundary.smt2",
+      "logic": "QF_ABVFPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:boundary",
+        "logic:QF_ABVFPLRA"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: QF_ABVFPLRA"
+      }
+    },
+    {
+      "id": "logic:QF_ABVFPLRA:fragment-violation",
+      "file": "cases/logics/logic_qf_abvfplra_fragment_violation.smt2",
+      "logic": "QF_ABVFPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:fragment-violation",
+        "logic:QF_ABVFPLRA"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "fail",
+          "diagnostic": "quantified formula is outside logic fragment QF_ABVFPLRA",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "fail",
+          "diagnostic": "quantified formula is outside logic fragment QF_ABVFPLRA",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: QF_ABVFPLRA"
+      }
+    },
+    {
+      "id": "logic:QF_ABVFPLRA:malformed",
+      "file": "cases/logics/logic_qf_abvfplra_malformed.smt2",
+      "logic": "QF_ABVFPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:malformed",
+        "logic:QF_ABVFPLRA"
+      ],
+      "modes": [
+        "parser-only"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "fail",
+          "diagnostic": "missing ')'",
+          "failure_phase": "parser"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: QF_ABVFPLRA"
+      }
+    },
+    {
+      "id": "logic:QF_ABVFPLRA:sat",
+      "file": "cases/logics/logic_qf_abvfplra_sat.smt2",
+      "logic": "QF_ABVFPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:sat",
+        "logic:QF_ABVFPLRA"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: QF_ABVFPLRA"
+      }
+    },
+    {
+      "id": "logic:QF_ABVFPLRA:type-error",
+      "file": "cases/logics/logic_qf_abvfplra_type_error.smt2",
+      "logic": "QF_ABVFPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:type-error",
+        "logic:QF_ABVFPLRA"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "fail",
+          "diagnostic": "function arity mismatch",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "fail",
+          "diagnostic": "function arity mismatch",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: QF_ABVFPLRA"
+      }
+    },
+    {
+      "id": "logic:QF_ABVFPLRA:unsat-proof",
+      "file": "cases/logics/logic_qf_abvfplra_unsat_proof.smt2",
+      "logic": "QF_ABVFPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:unsat-proof",
+        "logic:QF_ABVFPLRA"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "pass"
+        },
+        "proof-replay": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: QF_ABVFPLRA"
+      }
+    },
+    {
       "id": "logic:QF_ALIA:boundary",
       "file": "cases/logics/logic_qf_alia_boundary.smt2",
       "logic": "QF_ALIA",
@@ -12512,6 +14780,258 @@
       "source": {
         "kind": "SMT-LIB-logic",
         "reference": "SMT-LIB 2.7 logic packet: QF_AUFBV"
+      }
+    },
+    {
+      "id": "logic:QF_AUFBVFP:boundary",
+      "file": "cases/logics/logic_qf_aufbvfp_boundary.smt2",
+      "logic": "QF_AUFBVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:boundary",
+        "logic:QF_AUFBVFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: QF_AUFBVFP"
+      }
+    },
+    {
+      "id": "logic:QF_AUFBVFP:fragment-violation",
+      "file": "cases/logics/logic_qf_aufbvfp_fragment_violation.smt2",
+      "logic": "QF_AUFBVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:fragment-violation",
+        "logic:QF_AUFBVFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "fail",
+          "diagnostic": "quantified formula is outside logic fragment QF_AUFBVFP",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "fail",
+          "diagnostic": "quantified formula is outside logic fragment QF_AUFBVFP",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: QF_AUFBVFP"
+      }
+    },
+    {
+      "id": "logic:QF_AUFBVFP:malformed",
+      "file": "cases/logics/logic_qf_aufbvfp_malformed.smt2",
+      "logic": "QF_AUFBVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:malformed",
+        "logic:QF_AUFBVFP"
+      ],
+      "modes": [
+        "parser-only"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "fail",
+          "diagnostic": "missing ')'",
+          "failure_phase": "parser"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: QF_AUFBVFP"
+      }
+    },
+    {
+      "id": "logic:QF_AUFBVFP:sat",
+      "file": "cases/logics/logic_qf_aufbvfp_sat.smt2",
+      "logic": "QF_AUFBVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:sat",
+        "logic:QF_AUFBVFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: QF_AUFBVFP"
+      }
+    },
+    {
+      "id": "logic:QF_AUFBVFP:type-error",
+      "file": "cases/logics/logic_qf_aufbvfp_type_error.smt2",
+      "logic": "QF_AUFBVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:type-error",
+        "logic:QF_AUFBVFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "fail",
+          "diagnostic": "function arity mismatch",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "fail",
+          "diagnostic": "function arity mismatch",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: QF_AUFBVFP"
+      }
+    },
+    {
+      "id": "logic:QF_AUFBVFP:unsat-proof",
+      "file": "cases/logics/logic_qf_aufbvfp_unsat_proof.smt2",
+      "logic": "QF_AUFBVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:unsat-proof",
+        "logic:QF_AUFBVFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "pass"
+        },
+        "proof-replay": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: QF_AUFBVFP"
       }
     },
     {
@@ -14389,6 +16909,258 @@
       }
     },
     {
+      "id": "logic:QF_BVFPLRA:boundary",
+      "file": "cases/logics/logic_qf_bvfplra_boundary.smt2",
+      "logic": "QF_BVFPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:boundary",
+        "logic:QF_BVFPLRA"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: QF_BVFPLRA"
+      }
+    },
+    {
+      "id": "logic:QF_BVFPLRA:fragment-violation",
+      "file": "cases/logics/logic_qf_bvfplra_fragment_violation.smt2",
+      "logic": "QF_BVFPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:fragment-violation",
+        "logic:QF_BVFPLRA"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "fail",
+          "diagnostic": "quantified formula is outside logic fragment QF_BVFPLRA",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "fail",
+          "diagnostic": "quantified formula is outside logic fragment QF_BVFPLRA",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: QF_BVFPLRA"
+      }
+    },
+    {
+      "id": "logic:QF_BVFPLRA:malformed",
+      "file": "cases/logics/logic_qf_bvfplra_malformed.smt2",
+      "logic": "QF_BVFPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:malformed",
+        "logic:QF_BVFPLRA"
+      ],
+      "modes": [
+        "parser-only"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "fail",
+          "diagnostic": "missing ')'",
+          "failure_phase": "parser"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: QF_BVFPLRA"
+      }
+    },
+    {
+      "id": "logic:QF_BVFPLRA:sat",
+      "file": "cases/logics/logic_qf_bvfplra_sat.smt2",
+      "logic": "QF_BVFPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:sat",
+        "logic:QF_BVFPLRA"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: QF_BVFPLRA"
+      }
+    },
+    {
+      "id": "logic:QF_BVFPLRA:type-error",
+      "file": "cases/logics/logic_qf_bvfplra_type_error.smt2",
+      "logic": "QF_BVFPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:type-error",
+        "logic:QF_BVFPLRA"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "fail",
+          "diagnostic": "function arity mismatch",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "fail",
+          "diagnostic": "function arity mismatch",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: QF_BVFPLRA"
+      }
+    },
+    {
+      "id": "logic:QF_BVFPLRA:unsat-proof",
+      "file": "cases/logics/logic_qf_bvfplra_unsat_proof.smt2",
+      "logic": "QF_BVFPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:unsat-proof",
+        "logic:QF_BVFPLRA"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "pass"
+        },
+        "proof-replay": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: QF_BVFPLRA"
+      }
+    },
+    {
       "id": "logic:QF_DT:boundary",
       "file": "cases/logics/logic_qf_dt_boundary.smt2",
       "logic": "QF_DT",
@@ -15198,6 +17970,258 @@
       "source": {
         "kind": "SMT-LIB-logic",
         "reference": "SMT-LIB 2.7 logic packet: QF_FPBV"
+      }
+    },
+    {
+      "id": "logic:QF_FPLRA:boundary",
+      "file": "cases/logics/logic_qf_fplra_boundary.smt2",
+      "logic": "QF_FPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:boundary",
+        "logic:QF_FPLRA"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: QF_FPLRA"
+      }
+    },
+    {
+      "id": "logic:QF_FPLRA:fragment-violation",
+      "file": "cases/logics/logic_qf_fplra_fragment_violation.smt2",
+      "logic": "QF_FPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:fragment-violation",
+        "logic:QF_FPLRA"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "fail",
+          "diagnostic": "quantified formula is outside logic fragment QF_FPLRA",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "fail",
+          "diagnostic": "quantified formula is outside logic fragment QF_FPLRA",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: QF_FPLRA"
+      }
+    },
+    {
+      "id": "logic:QF_FPLRA:malformed",
+      "file": "cases/logics/logic_qf_fplra_malformed.smt2",
+      "logic": "QF_FPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:malformed",
+        "logic:QF_FPLRA"
+      ],
+      "modes": [
+        "parser-only"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "fail",
+          "diagnostic": "missing ')'",
+          "failure_phase": "parser"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: QF_FPLRA"
+      }
+    },
+    {
+      "id": "logic:QF_FPLRA:sat",
+      "file": "cases/logics/logic_qf_fplra_sat.smt2",
+      "logic": "QF_FPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:sat",
+        "logic:QF_FPLRA"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: QF_FPLRA"
+      }
+    },
+    {
+      "id": "logic:QF_FPLRA:type-error",
+      "file": "cases/logics/logic_qf_fplra_type_error.smt2",
+      "logic": "QF_FPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:type-error",
+        "logic:QF_FPLRA"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "fail",
+          "diagnostic": "function arity mismatch",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "fail",
+          "diagnostic": "function arity mismatch",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: QF_FPLRA"
+      }
+    },
+    {
+      "id": "logic:QF_FPLRA:unsat-proof",
+      "file": "cases/logics/logic_qf_fplra_unsat_proof.smt2",
+      "logic": "QF_FPLRA",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:unsat-proof",
+        "logic:QF_FPLRA"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "pass"
+        },
+        "proof-replay": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: QF_FPLRA"
       }
     },
     {
@@ -22789,6 +25813,258 @@
       }
     },
     {
+      "id": "logic:UFBVFP:boundary",
+      "file": "cases/logics/logic_ufbvfp_boundary.smt2",
+      "logic": "UFBVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:boundary",
+        "logic:UFBVFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: UFBVFP"
+      }
+    },
+    {
+      "id": "logic:UFBVFP:fragment-violation",
+      "file": "cases/logics/logic_ufbvfp_fragment_violation.smt2",
+      "logic": "UFBVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:fragment-violation",
+        "logic:UFBVFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "fail",
+          "diagnostic": "integer atom is outside bit-vector logic fragment UFBVFP",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "fail",
+          "diagnostic": "integer atom is outside bit-vector logic fragment UFBVFP",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: UFBVFP"
+      }
+    },
+    {
+      "id": "logic:UFBVFP:malformed",
+      "file": "cases/logics/logic_ufbvfp_malformed.smt2",
+      "logic": "UFBVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:malformed",
+        "logic:UFBVFP"
+      ],
+      "modes": [
+        "parser-only"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "fail",
+          "diagnostic": "missing ')'",
+          "failure_phase": "parser"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: UFBVFP"
+      }
+    },
+    {
+      "id": "logic:UFBVFP:sat",
+      "file": "cases/logics/logic_ufbvfp_sat.smt2",
+      "logic": "UFBVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:sat",
+        "logic:UFBVFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: UFBVFP"
+      }
+    },
+    {
+      "id": "logic:UFBVFP:type-error",
+      "file": "cases/logics/logic_ufbvfp_type_error.smt2",
+      "logic": "UFBVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:type-error",
+        "logic:UFBVFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "fail",
+          "diagnostic": "function arity mismatch",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "fail",
+          "diagnostic": "function arity mismatch",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: UFBVFP"
+      }
+    },
+    {
+      "id": "logic:UFBVFP:unsat-proof",
+      "file": "cases/logics/logic_ufbvfp_unsat_proof.smt2",
+      "logic": "UFBVFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:unsat-proof",
+        "logic:UFBVFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "pass"
+        },
+        "proof-replay": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: UFBVFP"
+      }
+    },
+    {
       "id": "logic:UFDT:boundary",
       "file": "cases/logics/logic_ufdt_boundary.smt2",
       "logic": "UFDT",
@@ -24266,6 +27542,258 @@
       "source": {
         "kind": "SMT-LIB-logic",
         "reference": "SMT-LIB 2.7 logic packet: UFDTNIRA"
+      }
+    },
+    {
+      "id": "logic:UFFP:boundary",
+      "file": "cases/logics/logic_uffp_boundary.smt2",
+      "logic": "UFFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:boundary",
+        "logic:UFFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: UFFP"
+      }
+    },
+    {
+      "id": "logic:UFFP:fragment-violation",
+      "file": "cases/logics/logic_uffp_fragment_violation.smt2",
+      "logic": "UFFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:fragment-violation",
+        "logic:UFFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "fail",
+          "diagnostic": "integer atom is outside bit-vector logic fragment UFFP",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "fail",
+          "diagnostic": "integer atom is outside bit-vector logic fragment UFFP",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: UFFP"
+      }
+    },
+    {
+      "id": "logic:UFFP:malformed",
+      "file": "cases/logics/logic_uffp_malformed.smt2",
+      "logic": "UFFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:malformed",
+        "logic:UFFP"
+      ],
+      "modes": [
+        "parser-only"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "fail",
+          "diagnostic": "missing ')'",
+          "failure_phase": "parser"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: UFFP"
+      }
+    },
+    {
+      "id": "logic:UFFP:sat",
+      "file": "cases/logics/logic_uffp_sat.smt2",
+      "logic": "UFFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:sat",
+        "logic:UFFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: UFFP"
+      }
+    },
+    {
+      "id": "logic:UFFP:type-error",
+      "file": "cases/logics/logic_uffp_type_error.smt2",
+      "logic": "UFFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:type-error",
+        "logic:UFFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "fail",
+          "diagnostic": "function arity mismatch",
+          "failure_phase": "typecheck"
+        },
+        "z3-tac": {
+          "status": "fail",
+          "diagnostic": "function arity mismatch",
+          "failure_phase": "typecheck"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: UFFP"
+      }
+    },
+    {
+      "id": "logic:UFFP:unsat-proof",
+      "file": "cases/logics/logic_uffp_unsat_proof.smt2",
+      "logic": "UFFP",
+      "standard": "SMT-LIB-2.7",
+      "class": "logic",
+      "features": [
+        "logic-case:unsat-proof",
+        "logic:UFFP"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        },
+        "proof-parse": {
+          "status": "pass"
+        },
+        "proof-replay": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "SMT-LIB-logic",
+        "reference": "SMT-LIB 2.7 logic packet: UFFP"
       }
     },
     {
@@ -46033,9 +49561,7 @@
           "status": "pass"
         },
         "typecheck-only": {
-          "status": "red",
-          "diagnostic": "unknown logic QF_FPLRA",
-          "failure_phase": "typecheck"
+          "status": "pass"
         },
         "z3-oracle": {
           "status": "pass"
@@ -46052,8 +49578,8 @@
         },
         "z3-tac": {
           "status": "red",
-          "diagnostic": "unknown logic QF_FPLRA",
-          "failure_phase": "typecheck",
+          "diagnostic": "FloatingPoint proof replay is incomplete",
+          "failure_phase": "proof-replay",
           "theorem_shape": "closed theorem without oracle tags"
         }
       },
@@ -46114,9 +49640,7 @@
           "status": "pass"
         },
         "typecheck-only": {
-          "status": "red",
-          "diagnostic": "unknown logic QF_FPLRA",
-          "failure_phase": "typecheck"
+          "status": "pass"
         },
         "z3-oracle": {
           "status": "pass"
@@ -46133,8 +49657,8 @@
         },
         "z3-tac": {
           "status": "red",
-          "diagnostic": "unknown logic QF_FPLRA",
-          "failure_phase": "typecheck",
+          "diagnostic": "FloatingPoint proof replay is incomplete",
+          "failure_phase": "proof-replay",
           "theorem_shape": "closed theorem without oracle tags"
         }
       },
@@ -59337,9 +62861,7 @@
           "status": "pass"
         },
         "typecheck-only": {
-          "status": "red",
-          "diagnostic": "unknown logic QF_FPLRA",
-          "failure_phase": "typecheck"
+          "status": "pass"
         },
         "z3-oracle": {
           "status": "pass"
@@ -59356,8 +62878,8 @@
         },
         "z3-tac": {
           "status": "red",
-          "diagnostic": "unknown logic QF_FPLRA",
-          "failure_phase": "typecheck",
+          "diagnostic": "FloatingPoint proof replay is incomplete",
+          "failure_phase": "proof-replay",
           "theorem_shape": "closed theorem without oracle tags"
         }
       },

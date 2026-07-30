@@ -3957,15 +3957,15 @@ def fp_scripted_expected(
         "proof-replay",
         "z3-tac",
     )
-    hol_diagnostic = (
-        "unknown logic QF_FPLRA"
-        if qf_fplra
-        else "native FloatingPoint front-end support is incomplete"
-    )
+    hol_diagnostic = "native FloatingPoint front-end support is incomplete"
     return modes, {
         "parser-only": expected_result("pass"),
-        "typecheck-only": expected_result(
-            "red", diagnostic=hol_diagnostic, failure_phase="typecheck"
+        "typecheck-only": (
+            expected_result("pass")
+            if qf_fplra
+            else expected_result(
+                "red", diagnostic=hol_diagnostic, failure_phase="typecheck"
+            )
         ),
         "z3-oracle": expected_result("pass"),
         "proof-parse": expected_result(
@@ -3980,8 +3980,11 @@ def fp_scripted_expected(
         ),
         "z3-tac": expected_result(
             "red",
-            diagnostic=hol_diagnostic,
-            failure_phase="typecheck" if qf_fplra else "proof-replay",
+            diagnostic=(
+                "FloatingPoint proof replay is incomplete"
+                if qf_fplra else hol_diagnostic
+            ),
+            failure_phase="proof-replay",
             theorem_shape="closed theorem without oracle tags",
         ),
     }

@@ -81,6 +81,8 @@ CLASSIFICATION_TOOL_UNAVAILABLE = "tool-unavailable"
 # This mirrors SmtLib_Logics.sml.  ALL is HolSmt's aggregate pseudo-logic, not
 # an official SMT-LIB logic, so it is tracked separately in reports.
 OFFICIAL_LOGICS = [
+    "ABVFP",
+    "ABVFPLRA",
     "ALIA",
     "ALIRA",
     "ANIA",
@@ -89,6 +91,7 @@ OFFICIAL_LOGICS = [
     "AUFBVDTLIA",
     "AUFBVDTNIA",
     "AUFBVDTNIRA",
+    "AUFBVFP",
     "AUFDTLIA",
     "AUFDTLIRA",
     "AUFDTNIRA",
@@ -96,16 +99,23 @@ OFFICIAL_LOGICS = [
     "AUFLIRA",
     "AUFNIRA",
     "BV",
+    "BVFP",
+    "BVFPLRA",
+    "FP",
+    "FPLRA",
     "LIA",
     "LRA",
     "NIA",
     "NRA",
     "QF_ABV",
+    "QF_ABVFP",
+    "QF_ABVFPLRA",
     "QF_ALIA",
     "QF_ALRA",
     "QF_ANIA",
     "QF_ANRA",
     "QF_AUFBV",
+    "QF_AUFBVFP",
     "QF_AUFLIA",
     "QF_AUFLIRA",
     "QF_AUFNIA",
@@ -113,9 +123,10 @@ OFFICIAL_LOGICS = [
     "QF_AX",
     "QF_BV",
     "QF_BVFP",
+    "QF_BVFPLRA",
     "QF_DT",
     "QF_FP",
-    "QF_FPBV",
+    "QF_FPLRA",
     "QF_IDL",
     "QF_LIA",
     "QF_LIRA",
@@ -144,17 +155,24 @@ OFFICIAL_LOGICS = [
     "UF",
     "UFBV",
     "UFBVDT",
+    "UFBVFP",
     "UFDT",
     "UFDTLIA",
     "UFDTLIRA",
     "UFDTNIA",
     "UFDTNIRA",
+    "UFFP",
     "UFIDL",
     "UFLIA",
     "UFLRA",
     "UFNIA",
     "UFNRA",
 ]
+
+# Historical SMT benchmark corpora use QF_FPBV for the official QF_BVFP
+# packet.  HolSmt keeps accepting that non-official spelling, but does not
+# count it as an official SMT-LIB logic.
+COMPATIBILITY_LOGICS = ["QF_FPBV"]
 
 # cvc5-convention HO-Core logics are an extension band.  Keep them separate
 # from the official SMT-LIB logic inventory so official coverage counts remain
@@ -172,7 +190,10 @@ HO_EXTENSION_LOGICS = [
     "HO_QF_AUFLIA",
 ]
 
-HOLSMT_LOGICS = ["ALL", *OFFICIAL_LOGICS, *HO_EXTENSION_LOGICS]
+HOLSMT_LOGICS = [
+    "ALL", *OFFICIAL_LOGICS, *COMPATIBILITY_LOGICS,
+    *HO_EXTENSION_LOGICS,
+]
 
 # Official logics whose theories HolSmt does not yet translate to HOL or replay
 # in the checked Z3_TAC path: the FloatingPoint (QF_FP) family. Per
@@ -182,7 +203,11 @@ HOLSMT_LOGICS = ["ALL", *OFFICIAL_LOGICS, *HO_EXTENSION_LOGICS]
 # `theory-pending`, so the deferral is an explicit, categorized case row rather
 # than a silent omission or an unexpected failure.
 THEORY_PENDING_LOGICS = frozenset({
-    "QF_FP", "QF_FPBV", "QF_BVFP", "QF_UFFP", "QF_UFBVFP",  # FloatingPoint
+    "FP", "FPLRA", "BVFP", "BVFPLRA", "UFFP", "UFBVFP",
+    "ABVFP", "ABVFPLRA", "AUFBVFP",
+    "QF_FP", "QF_FPLRA", "QF_FPBV", "QF_BVFP", "QF_BVFPLRA",
+    "QF_UFFP", "QF_UFBVFP", "QF_ABVFP", "QF_ABVFPLRA",
+    "QF_AUFBVFP",
 })
 
 # Modes a theory-pending logic can exercise today.

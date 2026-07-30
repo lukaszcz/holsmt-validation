@@ -649,9 +649,10 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
             expected = case.entry["expected"]
             self.assertEqual(expected["parser-only"]["status"], "pass")
             self.assertEqual(expected["z3-oracle"]["status"], "pass")
-            self.assertEqual(expected["typecheck-only"]["status"], "red")
-            self.assertIn("unknown logic QF_FPLRA",
-                          expected["typecheck-only"]["diagnostic"])
+            self.assertEqual(expected["typecheck-only"]["status"], "pass")
+            self.assertEqual(expected["z3-tac"]["status"], "red")
+            self.assertIn("FloatingPoint proof replay is incomplete",
+                          expected["z3-tac"]["diagnostic"])
 
     def test_floatingpoint_sat_pins_and_divergence_guards(self):
         cases = {
