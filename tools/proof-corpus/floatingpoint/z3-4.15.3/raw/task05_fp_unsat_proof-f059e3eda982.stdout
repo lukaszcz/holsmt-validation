@@ -1,0 +1,9 @@
+unsat
+((set-logic QF_FP)
+(proof
+(let ((@x35 (monotonicity (rewrite (= (fp (_ bv1 1) (_ bv31 5) (_ bv1 10)) (_ NaN 5 11))) (rewrite (= (_ NaN 5 11) (_ NaN 5 11))) (= (= (fp (_ bv1 1) (_ bv31 5) (_ bv1 10)) (_ NaN 5 11)) (= (_ NaN 5 11) (_ NaN 5 11))))))
+(let ((@x39 (trans @x35 (rewrite (= (= (_ NaN 5 11) (_ NaN 5 11)) true)) (= (= (fp (_ bv1 1) (_ bv31 5) (_ bv1 10)) (_ NaN 5 11)) true))))
+(let ((@x42 (monotonicity @x39 (= (not (= (fp (_ bv1 1) (_ bv31 5) (_ bv1 10)) (_ NaN 5 11))) (not true)))))
+(let ((@x46 (trans @x42 (rewrite (= (not true) false)) (= (not (= (fp (_ bv1 1) (_ bv31 5) (_ bv1 10)) (_ NaN 5 11))) false))))
+(mp (asserted (not (= (fp (_ bv1 1) (_ bv31 5) (_ bv1 10)) (_ NaN 5 11)))) @x46 false)))))))
+

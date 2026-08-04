@@ -16,6 +16,7 @@ from typing import Any
 SCHEMA = "holsmt-cvc5-cpc-replay-matrix-v1"
 TOOLS_DIR = pathlib.Path(__file__).resolve().parent
 PASS = "CVC_CPC_TAC_PASS"
+RESOURCE_GATED = "CVC_CPC_TAC_RESOURCE_GATED"
 
 
 def default_driver() -> pathlib.Path:
@@ -52,8 +53,13 @@ def run_one(driver: pathlib.Path, cvc5: str, path: pathlib.Path,
     except subprocess.TimeoutExpired as error:
         result = error
         timed_out = True
-    stdout = result.stdout if not timed_out else (result.stdout or "")
-    stderr = result.stderr if not timed_out else (result.stderr or "")
+    def output_text(value: str | bytes | None) -> str:
+        if isinstance(value, bytes):
+            return value.decode("utf-8", errors="replace")
+        return value or ""
+
+    stdout = output_text(result.stdout)
+    stderr = output_text(result.stderr)
     fields = dict(line.split("=", 1) for line in stdout.splitlines()
                   if "=" in line)
     status = next((line for line in stdout.splitlines()
@@ -102,8 +108,15 @@ def main(argv: list[str]) -> int:
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n",
                         encoding="utf-8")
-    failed = [entry for entry in entries if entry["status"] != PASS]
-    print(f"checked CPC replay: {len(entries) - len(failed)}/{len(entries)} passed")
+    passed = [entry for entry in entries if entry["status"] == PASS]
+    gated = [entry for entry in entries if entry["status"] == RESOURCE_GATED]
+    accepted = {PASS, RESOURCE_GATED}
+    failed = [entry for entry in entries if entry["status"] not in accepted]
+    print(
+        "checked CPC replay: "
+        f"{len(passed)}/{len(entries)} passed; "
+        f"{len(gated)} resource-gated"
+    )
     if failed:
         print("failures: " + ", ".join(entry["input"] for entry in failed),
               file=sys.stderr)

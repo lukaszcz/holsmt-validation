@@ -18,7 +18,7 @@ on:
   workflow_dispatch:
 
 env:
-  HOLSMT_SOURCE_REF: a3008a44b556c6b29367b52f8869205cb3370cf6
+  HOLSMT_SOURCE_REF: 80b9215bcfb69e4232791bc8897d6ef2c756afde
   HOLSMT_ROOT: ${{ github.workspace }}/hol-source
   HOLSMT_VALIDATION_DIR: ${{ github.workspace }}
 
@@ -76,6 +76,40 @@ jobs:
               --benchmark-dir \
                 /validation/tools/external-benchmarks/curated-small/strings \
               --out /tmp/holsmt-curated-strings'
+
+      - name: Run curated FloatingPoint solver slice
+        run: |
+          docker run --rm \
+            -e HOLSMT_ROOT=/ML/HOL \
+            -e HOLSMT_VALIDATION_DIR=/validation \
+            -v "$PWD:/validation:ro" \
+            holsmt-external:ci \
+            sh -lc 'python3 /validation/tools/run_conformance_suite.py \
+              --no-default-suite \
+              --benchmark-dir \
+                /validation/tools/external-benchmarks/curated-small/floatingpoint \
+              --mode parser-only \
+              --mode typecheck-only \
+              --mode z3-oracle \
+              --mode z3-tac \
+              --out /tmp/holsmt-curated-floatingpoint'
+
+      - name: Run curated FloatingPoint checked proofs
+        run: |
+          docker run --rm \
+            -e HOLSMT_ROOT=/ML/HOL \
+            -e HOLSMT_VALIDATION_DIR=/validation \
+            -v "$PWD:/validation:ro" \
+            holsmt-external:ci \
+            sh -lc 'python3 /validation/tools/run_conformance_suite.py \
+              --no-default-suite \
+              --benchmark-dir \
+                /validation/tools/external-benchmarks/curated-small/floatingpoint/z3test_qf_fp_infinity_unsat_proof.smt2 \
+              --benchmark-dir \
+                /validation/tools/external-benchmarks/curated-small/floatingpoint/z3test_qf_bvfp_signed_one_unsat_proof.smt2 \
+              --mode proof-parse \
+              --mode proof-replay \
+              --out /tmp/holsmt-curated-floatingpoint-proofs'
 
       - name: Run curated higher-order cvc5 oracle slice
         run: |

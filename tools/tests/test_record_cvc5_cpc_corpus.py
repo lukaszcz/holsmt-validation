@@ -49,12 +49,16 @@ class CpcCorpusRecorderTests(unittest.TestCase):
                     input_path,
                     10,
                     pathlib.Path(tmp) / "raw",
+                    ["--fp-exp"],
                 )
 
         command = run.call_args.args[0]
         self.assertIn("--proof-print-conclusion", command)
+        self.assertIn("--fp-exp", command)
         self.assertTrue(entry["proof_print_conclusion"])
         self.assertEqual(entry["inventory"]["explicit_conclusions"], 1)
+        self.assertEqual(entry["proof_bytes"], 33)
+        self.assertFalse(entry["d12_proof_size_gate"])
 
 
 if __name__ == "__main__":

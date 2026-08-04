@@ -1,0 +1,5 @@
+(set-option :produce-proofs true)
+(set-logic QF_BVFP)
+(assert (not (= ((_ fp.to_sbv 4) RTZ (fp #b1 #b100 #b1000)) #b1101)))
+(check-sat)
+(get-proof)

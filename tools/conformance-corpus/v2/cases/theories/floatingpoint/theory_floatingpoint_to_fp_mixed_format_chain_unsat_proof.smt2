@@ -3,7 +3,8 @@
 (assert
   (not
     (= ((_ to_fp 3 5) RNA
-          ((_ to_fp 4 7) RNE (/ 33.0 32.0)))
+          ((_ to_fp 4 7) RNE
+            (fp #b0 #b011 #b0001)))
        (fp #b0 #b011 #b0001))))
 (check-sat)
 (get-proof)

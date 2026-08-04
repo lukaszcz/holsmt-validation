@@ -1,0 +1,14 @@
+((set-logic QF_FP)
+(proof
+(let ((?x25 (fp (_ bv0 1) (_ bv3 3) (_ bv0 4))))
+(let ((?x27 (fp (_ bv0 1) (_ bv4 3) (_ bv0 4))))
+(let ((?x28 (fp.min ?x25 ?x27)))
+(let (($x29 (= ?x28 ?x25)))
+(let (($x30 (not $x29)))
+(let ((@x34 (rewrite (= ?x25 (fp #b0 #b011 #x0)))))
+(let ((@x40 (monotonicity @x34 (rewrite (= ?x27 (fp #b0 #b100 #x0))) (= ?x28 (fp.min (fp #b0 #b011 #x0) (fp #b0 #b100 #x0))))))
+(let ((@x44 (trans @x40 (rewrite (= (fp.min (fp #b0 #b011 #x0) (fp #b0 #b100 #x0)) (fp #b0 #b011 #x0))) (= ?x28 (fp #b0 #b011 #x0)))))
+(let ((@x51 (trans (monotonicity @x44 @x34 (= $x29 (= (fp #b0 #b011 #x0) (fp #b0 #b011 #x0)))) (rewrite (= (= (fp #b0 #b011 #x0) (fp #b0 #b011 #x0)) true)) (= $x29 true))))
+(let ((@x58 (trans (monotonicity @x51 (= $x30 (not true))) (rewrite (= (not true) false)) (= $x30 false))))
+(mp (asserted $x30) @x58 false)))))))))))))
+

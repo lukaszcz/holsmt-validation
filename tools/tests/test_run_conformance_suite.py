@@ -299,6 +299,45 @@ class ConformanceSuiteTests(unittest.TestCase):
             self.assertEqual(item["artifact"]["solver_result"], "sat")
             self.assertEqual(item["artifact"]["expected_solver_result"], "unsat")
 
+    def test_cvc5_oracle_enables_experimental_fp_engine(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            bench = root / "bench"
+            bench.mkdir()
+            (bench / "fp.smt2").write_text(
+                textwrap.dedent(
+                    """\
+                    ; holsmt-expected: {"cvc5-oracle": {"status": "pass"}}
+                    (set-info :status sat)
+                    (set-logic QF_FP)
+                    (assert true)
+                    (check-sat)
+                    """
+                ),
+                encoding="utf-8",
+            )
+            out_dir = root / "out"
+            code = conformance.main(
+                [
+                    "--out",
+                    str(out_dir),
+                    "--no-default-suite",
+                    "--benchmark-dir",
+                    str(bench),
+                    "--mode",
+                    conformance.MODE_CVC5_ORACLE,
+                    "--cvc5",
+                    str(make_fake_cvc5(root)),
+                ]
+            )
+
+            self.assertEqual(code, 0)
+            report = json.loads(
+                (out_dir / "conformance.json").read_text(encoding="utf-8")
+            )
+            command = report["results"][0]["artifact"]["command_line"]
+            self.assertIn("--fp-exp", command)
+
     def test_missing_cvc5_is_an_explicit_tool_unavailable_skip(self):
         with tempfile.TemporaryDirectory() as tmp:
             out_dir = pathlib.Path(tmp) / "out"
@@ -391,24 +430,18 @@ class ConformanceSuiteTests(unittest.TestCase):
             self.assertNotIn("theory-pending", proof.tags, logic)
             self.assertNotIn("theory-pending", oracle.tags, logic)
 
-        # FloatingPoint stays limited to the syntactic modes, marked (not
-        # dropped) so the deferral is a categorized case row.
-        for logic in conformance.THEORY_PENDING_LOGICS:
-            for kind in ("proof", "oracle"):
-                case = smoke_cases[(logic, kind)]
-                self.assertEqual(case.modes, conformance.SYNTACTIC_MODES, logic)
-                self.assertIn("theory-pending", case.tags, logic)
-        # The deferred set is exactly the FloatingPoint logics.
-        self.assertEqual(
-            set(conformance.THEORY_PENDING_LOGICS),
-            {
-                "FP", "FPLRA", "BVFP", "BVFPLRA", "UFFP", "UFBVFP",
-                "ABVFP", "ABVFPLRA", "AUFBVFP",
-                "QF_FP", "QF_FPLRA", "QF_FPBV", "QF_BVFP",
-                "QF_BVFPLRA", "QF_UFFP", "QF_UFBVFP", "QF_ABVFP",
-                "QF_ABVFPLRA", "QF_AUFBVFP",
-            },
-        )
+        # FloatingPoint is no longer a syntactic-only family: every accepted
+        # packet exercises the same solver and checked-replay modes.
+        fp_logics = [
+            logic for logic in conformance.HOLSMT_LOGICS if "FP" in logic
+        ]
+        for logic in fp_logics:
+            proof = smoke_cases[(logic, "proof")]
+            oracle = smoke_cases[(logic, "oracle")]
+            self.assertEqual(proof.modes, tuple(conformance.DEFAULT_MODES), logic)
+            self.assertEqual(oracle.modes, conformance.SAT_SMOKE_MODES, logic)
+            self.assertNotIn("theory-pending", proof.tags, logic)
+            self.assertNotIn("theory-pending", oracle.tags, logic)
 
     def test_widened_default_suite_runs_solver_and_proof_modes(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -451,24 +484,13 @@ class ConformanceSuiteTests(unittest.TestCase):
             )
             self.assertEqual(report["conformance_status_counts"][conformance.FAIL], 0)
             summary = report["summary"]["by_logic_mode"]
-            for logic in ("QF_UF", "QF_BV", "LRA", "QF_DT"):
+            for logic in ("QF_UF", "QF_BV", "LRA", "QF_FP", "QF_DT"):
                 self.assertGreater(
                     summary[logic][conformance.MODE_Z3_ORACLE][conformance.PASS], 0, logic
                 )
                 self.assertGreater(
                     summary[logic][conformance.MODE_PROOF_REPLAY][conformance.PASS], 0, logic
                 )
-            # FloatingPoint stays out of the solver/proof modes entirely.
-            fp = summary["QF_FP"]
-            for mode in (
-                conformance.MODE_Z3_ORACLE,
-                conformance.MODE_PROOF_PARSE,
-                conformance.MODE_PROOF_REPLAY,
-            ):
-                self.assertEqual(fp[mode][conformance.PASS], 0)
-                self.assertEqual(fp[mode][conformance.FAIL], 0)
-                self.assertEqual(fp[mode][conformance.UNSUPPORTED], 0)
-
     def test_versioned_corpus_covers_core_uf_and_arithmetic_families(self):
         cases = conformance.corpus_cases([conformance.DEFAULT_CORPUS_DIR], None)
         by_name = {case.name: case for case in cases}

@@ -1,0 +1,9 @@
+unsat
+((set-logic QF_FP)
+(proof
+(let ((@x36 (monotonicity (rewrite (= (_ -zero 3 5) (_ -zero 3 5))) (rewrite (= (fp (_ bv1 1) (_ bv0 3) (_ bv0 4)) (_ -zero 3 5))) (= (= (_ -zero 3 5) (fp (_ bv1 1) (_ bv0 3) (_ bv0 4))) (= (_ -zero 3 5) (_ -zero 3 5))))))
+ (let ((@x40 (trans @x36 (rewrite (= (= (_ -zero 3 5) (_ -zero 3 5)) true)) (= (= (_ -zero 3 5) (fp (_ bv1 1) (_ bv0 3) (_ bv0 4))) true))))
+ (let ((@x43 (monotonicity @x40 (= (not (= (_ -zero 3 5) (fp (_ bv1 1) (_ bv0 3) (_ bv0 4)))) (not true)))))
+ (let ((@x47 (trans @x43 (rewrite (= (not true) false)) (= (not (= (_ -zero 3 5) (fp (_ bv1 1) (_ bv0 3) (_ bv0 4)))) false))))
+ (mp (asserted (not (= (_ -zero 3 5) (fp (_ bv1 1) (_ bv0 3) (_ bv0 4))))) @x47 false)))))))
+

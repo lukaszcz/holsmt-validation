@@ -1,0 +1,20 @@
+(
+(define @t1 () (/ 3/1 2/1))
+(define @t2 () (fp.to_real (fp #b0 #b011 #b1000)))
+(define @t3 () (= @t2 @t1))
+(define @t4 () (not @t3))
+(define @t5 () (not true))
+(define @t6 () (= 3/2 3/2))
+(assume @p1 @t4)
+(step @p2 (= @t5 false) :rule evaluate :args (@t5))
+(step @p3 (= @t6 true) :rule evaluate :args (@t6))
+(step @p4 (= @t1 3/2) :rule evaluate :args (@t1))
+; WARNING: add trust step for TRUST_THEORY_REWRITE
+; trust TRUST_THEORY_REWRITE
+(step @p5 (= @t2 3/2) :rule trust :premises () :args ((= @t2 3/2)))
+(step @p6 (= @t3 @t6) :rule cong :premises (@p5 @p4) :args (@t3))
+(step @p7 (= @t3 true) :rule trans :premises (@p6 @p3))
+(step @p8 (= @t4 @t5) :rule cong :premises (@p7) :args (@t4))
+(step @p9 (= @t4 false) :rule trans :premises (@p8 @p2))
+(step @p10 false :rule eq_resolve :premises (@p1 @p9))
+)

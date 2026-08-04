@@ -282,12 +282,70 @@ class ProofCompletenessAuditTests(unittest.TestCase):
         self.assertEqual(missing, [])
         self.assertTrue(report["summary"]["passed"], report["issues"])
 
+    def test_fpa2bv_shapes_rekey_th_lemma_fp_occurrence(self):
+        tmp, proof_source, unittest_source, manifest_path, summary_path = (
+            self.build_fixture(manifest={"schema_version": "2", "cases": []})
+        )
+        self.addCleanup(tmp.cleanup)
+        fp_summary = pathlib.Path(tmp.name) / "fp-matrix.json"
+        versions = []
+        for version in sorted(audit.SUPPORTED_Z3_VERSIONS):
+            versions.append(
+                {
+                    "version": version,
+                    "proof_count": 3,
+                    "rule_gate_passed": True,
+                    "th_lemma_fp_observed": False,
+                    "cases": [
+                        {
+                            "rewrite_categories": {
+                                "atom-conversion": 1,
+                                "bit-decomposition": 1,
+                                "ground-evaluation": 1,
+                            }
+                        }
+                    ],
+                }
+            )
+        write_json(
+            fp_summary,
+            {
+                "schema": "holsmt-z3-fp-proof-corpus-matrix-v1",
+                "versions": versions,
+            },
+        )
+
+        report = audit.build_report(
+            proof_source=proof_source,
+            unittest_source=unittest_source,
+            manifest_path=manifest_path,
+            proof_summary_path=summary_path,
+            fp_proof_summary_path=fp_summary,
+        )
+
+        fp_issues = [
+            issue
+            for issue in report["issues"]
+            if issue["subject"] == "th-lemma-fp"
+            and issue["code"] in {
+                "missing_th_lemma_red_obligation",
+                "missing_real_proof_occurrence",
+            }
+        ]
+        self.assertEqual(fp_issues, [])
+        self.assertEqual(report["summary"]["rekeyed_real_proof_rule_count"], 1)
+        occurrence = report["rekeyed_real_proof_occurrences"][0]
+        self.assertEqual(occurrence["rule"], "th-lemma-fp")
+        self.assertFalse(occurrence["th_lemma_fp_observed"])
+        self.assertEqual(occurrence["proof_count"], 15)
+
     def test_checked_in_sources_have_synthetic_mapping_for_every_registry_rule(self):
         report = audit.build_report(
             proof_source=audit.DEFAULT_PROOF_SOURCE,
             unittest_source=audit.DEFAULT_UNITTEST_SOURCE,
             manifest_path=audit.DEFAULT_MANIFEST,
             proof_summary_path=audit.DEFAULT_PROOF_SUMMARY,
+            fp_proof_summary_path=audit.DEFAULT_FP_PROOF_SUMMARY,
         )
         self.assertFalse(
             [issue for issue in report["issues"] if issue["code"] == "missing_synthetic_replay_test"],

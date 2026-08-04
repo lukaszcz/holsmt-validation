@@ -1,0 +1,17 @@
+((set-logic QF_FP)
+(declare-fun k!00 () (_ BitVec 8))
+(proof
+(let (($x50 (and (= ((_ extract 6 4) k!00) (_ bv7 3)) (not (= ((_ extract 3 0) k!00) (_ bv0 4))))))
+ (let (($x52 (and (not $x50) false)))
+ (let ((?x30 ((_ extract 3 0) k!00)))
+ (let ((?x29 ((_ extract 6 4) k!00)))
+ (let ((?x37 (fp (_ bv0 1) ?x29 ?x30)))
+ (let (($x42 (fp.isNegative ?x37)))
+ (let ((@x36 (monotonicity (rewrite (= x (fp ((_ extract 7 7) k!00) ?x29 ?x30))) (= (fp.abs x) (fp.abs (fp ((_ extract 7 7) k!00) ?x29 ?x30))))))
+ (let ((@x41 (trans @x36 (rewrite (= (fp.abs (fp ((_ extract 7 7) k!00) ?x29 ?x30)) ?x37)) (= (fp.abs x) ?x37))))
+ (let ((@x56 (trans (monotonicity @x41 (= (fp.isNegative (fp.abs x)) $x42)) (rewrite (= $x42 $x52)) (= (fp.isNegative (fp.abs x)) $x52))))
+ (let ((?x24 (fp.abs x)))
+ (let (($x25 (fp.isNegative ?x24)))
+ (let ((@x26 (asserted $x25)))
+ (and-elim (mp @x26 @x56 $x52) false)))))))))))))))
+

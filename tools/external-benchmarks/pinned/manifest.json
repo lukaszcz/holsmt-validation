@@ -10,7 +10,8 @@
     "QF_S",
     "QF_SLIA",
     "QF_DT",
-    "QF_UFDT"
+    "QF_UFDT",
+    "QF_FP"
   ],
   "entries": [
     {
@@ -1243,6 +1244,170 @@
         }
       },
       "implementation_obligation": null
+    },
+    {
+      "id": "external-benchmark:z3test-qf-fp-nan-sat",
+      "source_id": "z3test-fp-curated",
+      "source_url": "https://raw.githubusercontent.com/Z3Prover/z3test/3929b6717d78478179234afe79c860fd8712b7be/regressions/smt2/fp-nan.smt2",
+      "commit_or_release": "3929b6717d78478179234afe79c860fd8712b7be",
+      "source_path": "z3test_qf_fp_nan_sat.smt2",
+      "sha256": "c0d033a2d3110a84ae563d22ed03a8396101b5d8e2f9e156022b96915961087b",
+      "target_file": "cases/external/z3test_qf_fp_nan_sat.smt2",
+      "logic_family": "QF_FP",
+      "logic": "QF_FP",
+      "standard": "SMT-LIB-2.7",
+      "source_reference": "Z3 z3test fp-nan.smt2 curated QF_FP SAT case",
+      "features": [
+        "external-source:z3test",
+        "external-logic-family:QF_FP",
+        "external-family:floatingpoint",
+        "external-status:sat",
+        "solver-result:sat",
+        "floatingpoint:nan"
+      ],
+      "expected_modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "z3-tac"
+      ],
+      "expected_status": {
+        "parser-only": {"status": "pass"},
+        "typecheck-only": {"status": "pass"},
+        "z3-oracle": {"status": "pass"},
+        "z3-tac": {"status": "pass"}
+      },
+      "implementation_obligation": null,
+      "version_sensitivity": false
+    },
+    {
+      "id": "external-benchmark:z3test-qf-fp-infinity-unsat-proof",
+      "source_id": "z3test-fp-curated",
+      "source_url": "https://raw.githubusercontent.com/Z3Prover/z3test/3929b6717d78478179234afe79c860fd8712b7be/regressions/smt2/fp-conversions-3.smt2",
+      "commit_or_release": "3929b6717d78478179234afe79c860fd8712b7be",
+      "source_path": "z3test_qf_fp_infinity_unsat_proof.smt2",
+      "sha256": "6c5e9b1f679409b728a6ee97cf2e2b2aa393a71a26de6a218c19b7e20a376ffd",
+      "target_file": "cases/external/z3test_qf_fp_infinity_unsat_proof.smt2",
+      "logic_family": "QF_FP",
+      "logic": "QF_FP",
+      "standard": "SMT-LIB-2.7",
+      "source_reference": "Z3 z3test fp-conversions-3.smt2 curated QF_FP UNSAT proof",
+      "features": [
+        "external-source:z3test",
+        "external-logic-family:QF_FP",
+        "external-family:floatingpoint",
+        "external-status:unsat-proof",
+        "solver-result:unsat",
+        "floatingpoint:infinity",
+        "floatingpoint:ground-proof"
+      ],
+      "expected_modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "expected_status": {
+        "parser-only": {"status": "pass"},
+        "typecheck-only": {"status": "pass"},
+        "z3-oracle": {"status": "pass"},
+        "proof-parse": {"status": "pass"},
+        "proof-replay": {"status": "pass"},
+        "z3-tac": {"status": "pass"}
+      },
+      "implementation_obligation": null,
+      "d12_proof_bytes": {
+        "4.11.2": 697,
+        "4.12.4": 697,
+        "4.13.0": 697,
+        "4.14.1": 693,
+        "4.15.3": 693
+      },
+      "version_sensitivity": false
+    },
+    {
+      "id": "external-benchmark:z3test-qf-bvfp-signed-one-sat",
+      "source_id": "z3test-fp-curated",
+      "source_url": "https://raw.githubusercontent.com/Z3Prover/z3test/3929b6717d78478179234afe79c860fd8712b7be/regressions/smt2/fp-conversions-13.smt2",
+      "commit_or_release": "3929b6717d78478179234afe79c860fd8712b7be",
+      "source_path": "z3test_qf_bvfp_signed_one_sat.smt2",
+      "sha256": "9339ccab2ec269e95d70b77bbd1893f79796ddc7041006e614342031ac30ca6d",
+      "target_file": "cases/external/z3test_qf_bvfp_signed_one_sat.smt2",
+      "logic_family": "QF_FP",
+      "logic": "QF_BVFP",
+      "standard": "SMT-LIB-2.7",
+      "source_reference": "Z3 z3test fp-conversions-13.smt2 curated QF_BVFP SAT case",
+      "features": [
+        "external-source:z3test",
+        "external-logic-family:QF_FP",
+        "external-family:floatingpoint",
+        "external-status:sat",
+        "solver-result:sat",
+        "floatingpoint:bv-conversion"
+      ],
+      "expected_modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "z3-tac"
+      ],
+      "expected_status": {
+        "parser-only": {"status": "pass"},
+        "typecheck-only": {"status": "pass"},
+        "z3-oracle": {"status": "pass"},
+        "z3-tac": {"status": "pass"}
+      },
+      "implementation_obligation": null,
+      "version_sensitivity": false
+    },
+    {
+      "id": "external-benchmark:z3test-qf-bvfp-signed-one-unsat-proof",
+      "source_id": "z3test-fp-curated",
+      "source_url": "https://raw.githubusercontent.com/Z3Prover/z3test/3929b6717d78478179234afe79c860fd8712b7be/regressions/smt2/fp-conversions-13.smt2",
+      "commit_or_release": "3929b6717d78478179234afe79c860fd8712b7be",
+      "source_path": "z3test_qf_bvfp_signed_one_unsat_proof.smt2",
+      "sha256": "200ad4360efee04e3d87ccfabee6e740f6f396fed0fe1f313a6794b6e636637f",
+      "target_file": "cases/external/z3test_qf_bvfp_signed_one_unsat_proof.smt2",
+      "logic_family": "QF_FP",
+      "logic": "QF_BVFP",
+      "standard": "SMT-LIB-2.7",
+      "source_reference": "Z3 z3test fp-conversions-13.smt2 curated QF_BVFP UNSAT proof",
+      "features": [
+        "external-source:z3test",
+        "external-logic-family:QF_FP",
+        "external-family:floatingpoint",
+        "external-status:unsat-proof",
+        "solver-result:unsat",
+        "floatingpoint:signed-bv-conversion",
+        "floatingpoint:ground-proof"
+      ],
+      "expected_modes": [
+        "parser-only",
+        "typecheck-only",
+        "z3-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
+      ],
+      "expected_status": {
+        "parser-only": {"status": "pass"},
+        "typecheck-only": {"status": "pass"},
+        "z3-oracle": {"status": "pass"},
+        "proof-parse": {"status": "pass"},
+        "proof-replay": {"status": "pass"},
+        "z3-tac": {"status": "pass"}
+      },
+      "implementation_obligation": null,
+      "d12_proof_bytes": {
+        "4.11.2": 737,
+        "4.12.4": 737,
+        "4.13.0": 737,
+        "4.14.1": 728,
+        "4.15.3": 728
+      },
+      "version_sensitivity": false
     },
     {
       "id": "external-benchmark:z3-upstream-horn3-fixedpoint",

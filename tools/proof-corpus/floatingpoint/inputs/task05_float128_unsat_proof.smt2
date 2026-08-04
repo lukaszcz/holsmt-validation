@@ -1,0 +1,5 @@
+(set-option :produce-proofs true)
+(set-logic QF_FP)
+(assert (not (fp.isZero (as (_ +zero 15 113) Float128))))
+(check-sat)
+(get-proof)

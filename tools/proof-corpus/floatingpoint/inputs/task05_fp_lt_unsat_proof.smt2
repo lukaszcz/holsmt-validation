@@ -1,0 +1,7 @@
+(set-option :produce-proofs true)
+(set-logic QF_FP)
+(declare-const x (_ FloatingPoint 3 5))
+(declare-const y (_ FloatingPoint 3 5))
+(assert (and (fp.lt x y) (fp.lt y x)))
+(check-sat)
+(get-proof)

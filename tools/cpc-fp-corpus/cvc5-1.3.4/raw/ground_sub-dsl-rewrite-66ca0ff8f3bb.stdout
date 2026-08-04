@@ -1,0 +1,63 @@
+unsat
+(
+(define @t1 () (fp.sub roundNearestTiesToEven (fp #b0 #b100 #b0000) (fp #b0 #b011 #b0000)))
+(define @t2 () (= @t1 (fp #b0 #b011 #b0000)))
+(define @t3 () (not @t2))
+(define @t4 () (not true))
+(define @t5 () (= (fp #b0 #b011 #b0000) (fp #b0 #b011 #b0000)))
+(define @t6 () (fp.add roundNearestTiesToEven (fp #b0 #b100 #b0000) (fp #b1 #b011 #b0000)))
+(define @t7 () (fp.neg (fp #b0 #b011 #b0000)))
+(define @t8 () (fp.add roundNearestTiesToEven (fp #b0 #b100 #b0000) @t7))
+(assume @p1 @t3)
+(step @p2 (= @t4 false) :rule evaluate :args (@t4))
+(step @p3 (= @t5 true) :rule eq-refl :args ((fp #b0 #b011 #b0000)))
+(step @p4 @t5 :rule refl :args ((fp #b0 #b011 #b0000)))
+; WARNING: add trust step for TRUST_THEORY_REWRITE
+; trust TRUST_THEORY_REWRITE
+(step @p5 (= @t6 (fp #b0 #b011 #b0000)) :rule trust :premises () :args ((= @t6 (fp #b0 #b011 #b0000))))
+; trust TRUST_THEORY_REWRITE
+(step @p6 (= @t7 (fp #b1 #b011 #b0000)) :rule trust :premises () :args ((= @t7 (fp #b1 #b011 #b0000))))
+(step @p7 (= (fp #b0 #b100 #b0000) (fp #b0 #b100 #b0000)) :rule refl :args ((fp #b0 #b100 #b0000)))
+(step @p8 (= roundNearestTiesToEven roundNearestTiesToEven) :rule refl :args (roundNearestTiesToEven))
+(step @p9 (= @t8 @t6) :rule cong :premises (@p8 @p7 @p6) :args (@t8))
+(step @p10 (= @t8 (fp #b0 #b011 #b0000)) :rule trans :premises (@p9 @p5))
+; trust TRUST_THEORY_REWRITE
+(step @p11 (= @t1 @t8) :rule trust :premises () :args ((= @t1 @t8)))
+(step @p12 @t2 :rule trans :premises (@p11 @p10))
+(step @p13 (= @t2 @t5) :rule cong :premises (@p12 @p4) :args (@t2))
+(step @p14 (= @t2 true) :rule trans :premises (@p13 @p3))
+(step @p15 (= @t3 @t4) :rule cong :premises (@p14) :args (@t3))
+(step @p16 (= @t3 false) :rule trans :premises (@p15 @p2))
+(step @p17 false :rule eq_resolve :premises (@p1 @p16))
+)
+(
+(define @t1 () (fp.sub roundNearestTiesToEven (fp #b0 #b100 #b0000) (fp #b0 #b011 #b0000)))
+(define @t2 () (= @t1 (fp #b0 #b011 #b0000)))
+(define @t3 () (not @t2))
+(define @t4 () (not true))
+(define @t5 () (= (fp #b0 #b011 #b0000) (fp #b0 #b011 #b0000)))
+(define @t6 () (fp.add roundNearestTiesToEven (fp #b0 #b100 #b0000) (fp #b1 #b011 #b0000)))
+(define @t7 () (fp.neg (fp #b0 #b011 #b0000)))
+(define @t8 () (fp.add roundNearestTiesToEven (fp #b0 #b100 #b0000) @t7))
+(assume @p1 @t3)
+(step @p2 (= @t4 false) :rule evaluate :args (@t4))
+(step @p3 (= @t5 true) :rule eq-refl :args ((fp #b0 #b011 #b0000)))
+(step @p4 @t5 :rule refl :args ((fp #b0 #b011 #b0000)))
+; WARNING: add trust step for TRUST_THEORY_REWRITE
+; trust TRUST_THEORY_REWRITE
+(step @p5 (= @t6 (fp #b0 #b011 #b0000)) :rule trust :premises () :args ((= @t6 (fp #b0 #b011 #b0000))))
+; trust TRUST_THEORY_REWRITE
+(step @p6 (= @t7 (fp #b1 #b011 #b0000)) :rule trust :premises () :args ((= @t7 (fp #b1 #b011 #b0000))))
+(step @p7 (= (fp #b0 #b100 #b0000) (fp #b0 #b100 #b0000)) :rule refl :args ((fp #b0 #b100 #b0000)))
+(step @p8 (= roundNearestTiesToEven roundNearestTiesToEven) :rule refl :args (roundNearestTiesToEven))
+(step @p9 (= @t8 @t6) :rule cong :premises (@p8 @p7 @p6) :args (@t8))
+(step @p10 (= @t8 (fp #b0 #b011 #b0000)) :rule trans :premises (@p9 @p5))
+; trust TRUST_THEORY_REWRITE
+(step @p11 (= @t1 @t8) :rule trust :premises () :args ((= @t1 @t8)))
+(step @p12 @t2 :rule trans :premises (@p11 @p10))
+(step @p13 (= @t2 @t5) :rule cong :premises (@p12 @p4) :args (@t2))
+(step @p14 (= @t2 true) :rule trans :premises (@p13 @p3))
+(step @p15 (= @t3 @t4) :rule cong :premises (@p14) :args (@t3))
+(step @p16 (= @t3 false) :rule trans :premises (@p15 @p2))
+(step @p17 false :rule eq_resolve :premises (@p1 @p16))
+)

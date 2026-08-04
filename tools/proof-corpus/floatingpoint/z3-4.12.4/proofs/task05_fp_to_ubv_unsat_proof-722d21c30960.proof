@@ -1,0 +1,12 @@
+((set-logic QF_BVFP)
+(proof
+(let ((?x26 (fp (_ bv0 1) (_ bv4 3) (_ bv8 4))))
+ (let ((?x27 ((_ fp.to_ubv 4) roundTowardZero ?x26)))
+ (let (($x29 (= ?x27 (_ bv3 4))))
+ (let (($x30 (not $x29)))
+ (let ((@x39 (monotonicity (rewrite (= roundTowardZero roundTowardZero)) (rewrite (= ?x26 (fp #b0 #b100 #x8))) (= ?x27 ((_ fp.to_ubv 4) roundTowardZero (fp #b0 #b100 #x8))))))
+ (let ((@x42 (trans @x39 (rewrite (= ((_ fp.to_ubv 4) roundTowardZero (fp #b0 #b100 #x8)) (_ bv3 4))) $x29)))
+ (let ((@x49 (trans (monotonicity @x42 (= $x29 (= (_ bv3 4) (_ bv3 4)))) (rewrite (= (= (_ bv3 4) (_ bv3 4)) true)) (= $x29 true))))
+ (let ((@x56 (trans (monotonicity @x49 (= $x30 (not true))) (rewrite (= (not true) false)) (= $x30 false))))
+ (mp (asserted $x30) @x56 false)))))))))))
+

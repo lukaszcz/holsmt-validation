@@ -377,6 +377,7 @@ run_step audit-complete-conformance audit python3 "$script_dir/audit_complete_co
 run_step audit-proof-completeness audit python3 "$script_dir/audit_proof_completeness.py" \
   --manifest "$v2_manifest" \
   --proof-summary "$script_dir/proof-corpus/complete/summary.json" \
+  --fp-proof-summary "$script_dir/proof-corpus/floatingpoint/matrix-summary.json" \
   --format json \
   --json-output "$report_dir/audits/proof-completeness-audit.json"
 

@@ -1828,6 +1828,7 @@ def inputs_from_fp_manifest(
     inputs: list[pathlib.Path] = []
     operators: set[str] = set()
     classes: set[str] = set()
+    linked_sources: dict[str, dict[str, object]] = {}
     for index, item in enumerate(cases, 1):
         if not isinstance(item, dict):
             raise ValueError(f"FP corpus case {index} must be an object")
@@ -1854,6 +1855,17 @@ def inputs_from_fp_manifest(
             )
         operators.update(case_operators)
         classes.update(case_classes)
+        source_case_id = item.get("source_case_id")
+        if source_case_id is not None:
+            if not isinstance(source_case_id, str) or not source_case_id:
+                raise ValueError(
+                    f"FP corpus case {index} source_case_id must be a string"
+                )
+            if source_case_id in linked_sources:
+                raise ValueError(
+                    f"FP corpus source case is linked twice: {source_case_id}"
+                )
+            linked_sources[source_case_id] = item
     missing_operators = sorted(set(FP_REWRITE_OPERATORS) - operators)
     extra_operators = sorted(operators - set(FP_REWRITE_OPERATORS))
     required_classes = manifest.get("required_classes", [])
@@ -1871,6 +1883,53 @@ def inputs_from_fp_manifest(
             + "; missing classes "
             + (", ".join(missing_classes) or "<none>")
         )
+    coverage = manifest.get("source_case_coverage")
+    if not isinstance(coverage, dict):
+        raise ValueError("FP corpus source_case_coverage must be an object")
+    task05 = coverage.get("task05_reworked_scripts")
+    task06 = coverage.get("task06_recorded_specials")
+    task06_metadata = coverage.get("task06_metadata_only")
+    if not isinstance(task05, list) or len(task05) != 51:
+        raise ValueError(
+            "FP corpus must link all 51 TASK_05 reworked proof scripts"
+        )
+    if not isinstance(task06, list) or len(task06) != 14:
+        raise ValueError(
+            "FP corpus must record the 14 within-budget TASK_06 UNSAT scripts"
+        )
+    expected_metadata = [
+        "theory:FloatingPoint:d12-fp-add-commutativity-float32"
+    ]
+    if task06_metadata != expected_metadata:
+        raise ValueError(
+            "FP corpus must keep only the TASK_06 Float32 D12 proof as "
+            "metadata-only"
+        )
+    expected_sources = set(task05) | set(task06)
+    if len(expected_sources) != 65 or set(linked_sources) != expected_sources:
+        raise ValueError(
+            "FP corpus linked source cases do not match TASK_05/TASK_06 "
+            "coverage"
+        )
+    conformance_root = manifest_path.resolve().parents[2] / (
+        "conformance-corpus"
+    ) / "v2"
+    for source_case_id, item in linked_sources.items():
+        source_file = item.get("source_case_file")
+        source_sha256 = item.get("source_sha256")
+        if not isinstance(source_file, str) or not source_file:
+            raise ValueError(
+                f"FP corpus {source_case_id} has no source_case_file"
+            )
+        source_path = conformance_root / source_file
+        if not source_path.is_file():
+            raise ValueError(
+                f"FP corpus source case file does not exist: {source_file}"
+            )
+        if source_sha256 != sha256_file(source_path):
+            raise ValueError(
+                f"FP corpus source hash mismatch for {source_case_id}"
+            )
     metadata = manifest.get("metadata_only_cases", [])
     if not isinstance(metadata, list) or not any(
         isinstance(item, dict)

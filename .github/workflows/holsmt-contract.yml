@@ -16,7 +16,7 @@ on:
   workflow_dispatch:
 
 env:
-  HOLSMT_SOURCE_REF: 62b66d6e522792777742871d916d4d61df2817f1
+  HOLSMT_SOURCE_REF: 80b9215bcfb69e4232791bc8897d6ef2c756afde
   HOLSMT_ROOT: ${{ github.workspace }}/hol-source
   HOLSMT_VALIDATION_DIR: ${{ github.workspace }}
 

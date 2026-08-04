@@ -24,6 +24,34 @@ HOL-normal forms.
 | --- | --- | --- | --- |
 | 1.3.4 | 52 D2/D5 queries; 48 proofs; 2,130 steps | 3 `string_*` rules, 24 string RARE rewrites, 0 `trust`; `str` not observed | 17/38 normalized ground inputs replay; remaining certificate blockers are named below |
 
+| cvc5 version | FloatingPoint corpus | CPC FP export | Checked status |
+| --- | --- | --- | --- |
+| 1.3.4 | 44 queries, `--fp-exp`, 3,591,281 proof bytes | 22,118 steps, 50 rules, 88 `trust` (0.40%), 0 proof-size gates | 28 replay; 1 D12 gate; 13 `trust` obligations; 2 parse-time obligations |
+
+The FP inventory is frozen at `dsl-rewrite` granularity.  All 42 observed
+`ProofRule` names and all eight observed `RareRewrite` names are registered.
+The FP-specific additions are checked handlers for `equiv_elim1`,
+`bool-eq-true`, `bool-xor-comm`, `bool-xor-false`, and `bool-xor-true`;
+the live matrix additionally required `bool-impl-true1`.  The `trust`
+handler routes FP conclusions through `SmtFpProve` with no oracle fallback.
+
+| FP obligation | Cases | 1.3.4 status |
+| --- | ---: | --- |
+| `trust`: cvc5 private `@fp.*` bit decomposition | 11 | parsed as free HOL bit-vectors; the missing relationship to the source FP term is rejected with `rule=trust; theory=fp` |
+| `trust`: underspecified `fp.min_total` / `fp.max_total` | 2 | parsed as free HOL functions; the missing public/private operator bridge is rejected with `rule=trust; theory=fp` |
+| CPC scale-certificate parsing | 2 | 0.75 MB / 1.31 MB proofs exceed both the 60 s matrix timeout and a 180 s audit timeout; tracked performance obligations |
+| `trust`: symbolic add circuit residue | 1 | `CVC_CPC_TAC_RESOURCE_GATED`; D12 term-size diagnostic, 200001 observed / 200000 maximum |
+
+The 28 checked cases cover arbitrary formats, every ground arithmetic
+operator, all five FP literals and NaN payload equality, mixed-format and
+Real/BV conversions, and symbolic negation/to-real normalization.  Every
+successful theorem is kernel checked; the driver and selftests run
+`Library.check_oracle_tags`.
+
+The explicitly labeled `cvc5-oracle` conformance band has 38/38 passing FP
+logic rows (SAT and UNSAT for each of 19 accepted FP-bearing logics).  Those
+rows record solver answers only and do not create HOL theorems.
+
 | Namespace | CPC name | 1.3.4 status |
 | --- | --- | --- |
 | ProofRule | `str` | registered; no corpus occurrence |
@@ -101,8 +129,13 @@ application, lambda export, the CPC inventory, and checked replay together.
 For the string row, use `tools/cpc-string-corpus/README.md`, compare all named
 rows above, run the checked `thm_CVCp` selftest band, and run the
 `cvc5-oracle` conformance mode as an explicitly labeled solver-result check.
+For the FP row, use `tools/cpc-fp-corpus/README.md`.  A version bump must
+recapture with `--solver-arg=--fp-exp`, compare both rule namespaces, trust
+density, and proof sizes against the 16 MB pre-parse gate, then rerun the
+44-case checked matrix and the labeled FP `cvc5-oracle` conformance rows.
 
-Only promote a new version after every matrix entry reports
-`CVC_CPC_TAC_PASS` and the corresponding version is added to the CPC rule
-registry. Unknown rules or a known rule from an unregistered cvc5 version are
-version-gated replay obligations, not candidates for unchecked fallback.
+Only promote a new version after every matrix entry is a checked pass, an
+enumerated D12 resource gate, or a named certificate-shape obligation in this
+file, and after the version is added to the CPC rule registry.  Unknown rules
+or an unregistered dialect are version-gated replay obligations, not
+candidates for unchecked fallback.

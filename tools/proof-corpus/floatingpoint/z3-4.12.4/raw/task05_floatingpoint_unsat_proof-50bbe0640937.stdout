@@ -1,0 +1,9 @@
+unsat
+((set-logic QF_FP)
+(proof
+(let (($x24 (fp.isZero (_ +zero 3 5))))
+ (let (($x31 (= $x24 true)))
+ (let ((@x33 (trans (monotonicity (rewrite (= (_ +zero 3 5) (_ +zero 3 5))) (= $x24 $x24)) (rewrite $x31) $x31)))
+ (let ((@x40 (trans (monotonicity @x33 (= (not $x24) (not true))) (rewrite (= (not true) false)) (= (not $x24) false))))
+ (mp (asserted (not $x24)) @x40 false)))))))
+

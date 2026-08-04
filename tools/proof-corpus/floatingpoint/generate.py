@@ -3,12 +3,15 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import pathlib
+import re
 from dataclasses import dataclass
 
 
 ROOT = pathlib.Path(__file__).resolve().parent
+CONFORMANCE_ROOT = ROOT.parents[1] / "conformance-corpus" / "v2"
 VERSIONS = ["4.11.2", "4.12.4", "4.13.0", "4.14.1", "4.15.3"]
 REQUIRED_CLASSES = [
     "ground-arithmetic",
@@ -24,6 +27,8 @@ REQUIRED_CLASSES = [
     "literal-normalization",
     "arbitrary-format",
     "d12-tiny-add",
+    "task05-reworked-script",
+    "task06-special",
 ]
 
 
@@ -36,6 +41,10 @@ class Case:
     operators: tuple[str, ...]
     classes: tuple[str, ...]
     format: str
+    source_text: str | None = None
+    source_case_id: str | None = None
+    source_case_file: str | None = None
+    source_sha256: str | None = None
 
 
 def case(
@@ -311,6 +320,113 @@ CASES.extend(
         ),
     ]
 )
+
+
+def corpus_slug(prefix: str, case_id: str) -> str:
+    suffix = case_id.removeprefix("theory:FloatingPoint:")
+    return prefix + "_" + re.sub(r"[^a-z0-9]+", "_", suffix.lower()).strip("_")
+
+
+def proof_enabled_source(text: str) -> str:
+    if ":produce-proofs" not in text:
+        text = "(set-option :produce-proofs true)\n" + text
+    if "(get-proof)" not in text:
+        marker = "(exit)"
+        if marker in text:
+            text = text.replace(marker, "(get-proof)\n(exit)", 1)
+        else:
+            text = text.rstrip() + "\n(get-proof)\n(exit)\n"
+    return text
+
+
+def source_linked_cases() -> tuple[list[Case], dict[str, list[str]]]:
+    manifest = json.loads((CONFORMANCE_ROOT / "manifest.json").read_text())
+    rows = [
+        item
+        for item in manifest["cases"]
+        if isinstance(item, dict)
+        and str(item.get("id", "")).startswith("theory:FloatingPoint:")
+    ]
+    task05 = sorted(
+        [
+            item
+            for item in rows
+            if "theory-behavior:semantic-fp-proof"
+            in item.get("features", [])
+        ],
+        key=lambda item: item["id"],
+    )
+    task06_all = sorted(
+        [
+            item
+            for item in rows
+            if "/floatingpoint/" in str(item.get("file", ""))
+            and "theory-case:unsat-proof" in item.get("features", [])
+        ],
+        key=lambda item: item["id"],
+    )
+    if len(task05) != 51:
+        raise RuntimeError(
+            f"expected 51 TASK_05 semantic FP proof rows, found {len(task05)}"
+        )
+    if len(task06_all) != 15:
+        raise RuntimeError(
+            f"expected 15 TASK_06 FP UNSAT rows, found {len(task06_all)}"
+        )
+
+    float32_id = (
+        "theory:FloatingPoint:d12-fp-add-commutativity-float32"
+    )
+    task06 = [item for item in task06_all if item["id"] != float32_id]
+    linked: list[Case] = []
+    for origin, prefix, items in (
+        ("TASK_05", "task05", task05),
+        ("TASK_06", "task06", task06),
+    ):
+        for item in items:
+            source_file = str(item["file"])
+            source_path = CONFORMANCE_ROOT / source_file
+            source = source_path.read_text()
+            shape = next(
+                (
+                    feature.removeprefix("fp-proof-shape:")
+                    for feature in item.get("features", [])
+                    if feature.startswith("fp-proof-shape:")
+                ),
+                "semantic-fp-proof",
+            )
+            linked.append(
+                Case(
+                    corpus_slug(prefix, str(item["id"])),
+                    str(item["logic"]),
+                    "",
+                    f"{origin} conformance proof: {item['id']}.",
+                    (),
+                    (
+                        "task05-reworked-script"
+                        if origin == "TASK_05"
+                        else "task06-special",
+                        shape,
+                    ),
+                    f"v2/{item['logic']}",
+                    source_text=proof_enabled_source(source),
+                    source_case_id=str(item["id"]),
+                    source_case_file=source_file,
+                    source_sha256=hashlib.sha256(
+                        source.encode("utf-8")
+                    ).hexdigest(),
+                )
+            )
+    coverage = {
+        "task05_reworked_scripts": [str(item["id"]) for item in task05],
+        "task06_recorded_specials": [str(item["id"]) for item in task06],
+        "task06_metadata_only": [float32_id],
+    }
+    return linked, coverage
+
+
+SOURCE_LINKED_CASES, SOURCE_CASE_COVERAGE = source_linked_cases()
+CASES.extend(SOURCE_LINKED_CASES)
 for name, sort in (("float32", "Float32"), ("float64", "Float64"), ("float128", "Float128")):
     CASES.append(
         case(
@@ -375,7 +491,9 @@ def write_case(item: Case) -> pathlib.Path:
     path = ROOT / "inputs" / f"{item.case_id}.smt2"
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(
-        f"""(set-option :produce-proofs true)
+        item.source_text
+        if item.source_text is not None
+        else f"""(set-option :produce-proofs true)
 (set-logic {item.logic})
 {item.body}
 (check-sat)
@@ -400,6 +518,15 @@ def main() -> None:
                 "operators": list(item.operators),
                 "classes": list(item.classes),
                 "format": item.format,
+                **(
+                    {
+                        "source_case_id": item.source_case_id,
+                        "source_case_file": item.source_case_file,
+                        "source_sha256": item.source_sha256,
+                    }
+                    if item.source_case_id is not None
+                    else {}
+                ),
             }
         )
     manifest = {
@@ -409,6 +536,7 @@ def main() -> None:
         ),
         "supported_z3_versions": VERSIONS,
         "required_classes": REQUIRED_CLASSES,
+        "source_case_coverage": SOURCE_CASE_COVERAGE,
         "forbidden_rule_occurrences": [
             "th-lemma-fp",
             "th-lemma-fpa",
@@ -428,6 +556,22 @@ def main() -> None:
                 "proof_size_mib": 891,
                 "solve_seconds": 65,
                 "measurement": "Phase 5 plan drafting, Z3 4.15.3",
+            },
+            {
+                "id": "task06_d12_fp_add_commutativity_float32",
+                "source_case_id": (
+                    "theory:FloatingPoint:"
+                    "d12-fp-add-commutativity-float32"
+                ),
+                "description": (
+                    "TASK_06 Float32 one-variable fp.add exemplar; payload "
+                    "excluded because it exceeds the D12 proof-size gate."
+                ),
+                "format": "Float32",
+                "operator": "fp.add",
+                "proof_recorded": False,
+                "proof_size_bytes": 93660186,
+                "measurement": "TASK_06 direct Z3 4.11.2 run",
             }
         ],
     }

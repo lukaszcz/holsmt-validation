@@ -1,0 +1,8 @@
+(set-option :produce-proofs true)
+(set-logic QF_FPLRA)
+(assert
+  (not (= (fp.to_real (fp #b0 #b011 #b1000))
+          (/ 3.0 2.0))))
+(check-sat)
+(get-proof)
+(exit)

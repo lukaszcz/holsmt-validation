@@ -9,6 +9,7 @@ import pathlib
 
 
 ROOT = pathlib.Path(__file__).resolve().parent
+D12_PROOF_SIZE_LIMIT = 16 * 1024 * 1024
 
 
 def relative(value: str) -> str:
@@ -27,6 +28,7 @@ def main() -> None:
         "schema": "holsmt-z3-fp-proof-corpus-matrix-v1",
         "versions": [],
         "metadata_only_cases": manifest["metadata_only_cases"],
+        "source_case_coverage": manifest["source_case_coverage"],
     }
     catalog: dict[str, object] = {
         "schema": "holsmt-z3-fp-rewrite-catalog-v1",
@@ -56,6 +58,15 @@ def main() -> None:
             rows.append(
                 {
                     "case_id": case_id,
+                    **(
+                        {
+                            "source_case_id": metadata["source_case_id"],
+                            "source_case_file": metadata["source_case_file"],
+                            "source_sha256": metadata["source_sha256"],
+                        }
+                        if "source_case_id" in metadata
+                        else {}
+                    ),
                     "format": metadata["format"],
                     "result": entry["solver"]["result"],
                     "elapsed_seconds": entry["z3"]["elapsed_seconds"],
@@ -117,12 +128,22 @@ def main() -> None:
                 for item in shape["bit_decompositions"]
             )
         gate = json.loads((version_root / "rule-gate.json").read_text())
+        source_rows = [row for row in rows if "source_case_id" in row]
         matrix["versions"].append(
             {
                 "version": version,
                 "case_count": len(rows),
                 "proof_count": sum(row["result"] == "unsat" for row in rows),
                 "total_proof_bytes": sum(row["proof_bytes"] for row in rows),
+                "source_linked_proof_count": len(source_rows),
+                "max_source_linked_proof_bytes": max(
+                    row["proof_bytes"] for row in source_rows
+                ),
+                "source_linked_over_d12_budget": sorted(
+                    row["source_case_id"]
+                    for row in source_rows
+                    if row["proof_bytes"] > D12_PROOF_SIZE_LIMIT
+                ),
                 "rules": sorted(aggregate_rules),
                 "rule_histogram": dict(sorted(aggregate_rules.items())),
                 "th_lemma_fp_observed": any(
@@ -137,6 +158,63 @@ def main() -> None:
                 "cases": rows,
             }
         )
+    by_source: dict[str, list[dict[str, object]]] = collections.defaultdict(
+        list
+    )
+    for version_row in matrix["versions"]:
+        version = version_row["version"]
+        for row in version_row["cases"]:
+            source_case_id = row.get("source_case_id")
+            if source_case_id is not None:
+                by_source[source_case_id].append(
+                    {
+                        "version": version,
+                        "rewrite_categories": row["rewrite_categories"],
+                        "rules": row["rules"],
+                    }
+                )
+    category_drift = sorted(
+        source_case_id
+        for source_case_id, rows in by_source.items()
+        if len(
+            {
+                json.dumps(row["rewrite_categories"], sort_keys=True)
+                for row in rows
+            }
+        )
+        > 1
+    )
+    rule_drift = sorted(
+        source_case_id
+        for source_case_id, rows in by_source.items()
+        if len({tuple(row["rules"]) for row in rows}) > 1
+    )
+    supported_rule_drift = {
+        "theory:FloatingPoint:fp-to-real-symbolic-bridge-unsat-proof"
+    }
+    matrix_widening_required = bool(
+        category_drift or set(rule_drift) - supported_rule_drift
+    )
+    matrix["version_stability"] = {
+        "checked_versions": versions,
+        "d12_proof_size_limit_bytes": D12_PROOF_SIZE_LIMIT,
+        "source_case_count": len(by_source),
+        "rewrite_category_drift_cases": category_drift,
+        "rule_set_drift_cases": rule_drift,
+        "selftest_matrix_widening_required": matrix_widening_required,
+        "reason": (
+            "Version-sensitive rewrite or unsupported rule-set drift requires "
+            "widening the holsmt-z3-selftest matrix."
+            if matrix_widening_required
+            else (
+                "All TASK_05/TASK_06 source-linked cases have identical "
+                "rewrite categories across Z3 4.11.2-4.15.3. The only "
+                "rule-set drift is the already-supported symm rule in the "
+                "symbolic fp.to_real bridge, so the two-version "
+                "holsmt-z3-selftest matrix remains sufficient."
+            )
+        ),
+    }
     catalog["operators"] = dict(sorted(operator_catalog.items()))
     catalog["bit_decompositions"] = dict(sorted(decomposition_catalog.items()))
     (ROOT / "matrix-summary.json").write_text(

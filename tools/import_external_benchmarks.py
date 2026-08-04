@@ -22,14 +22,19 @@ HO_CURATED_ROOT = TOOLS_DIR / "external-benchmarks" / "ho"
 STRING_CURATED_ROOT = (
     TOOLS_DIR / "external-benchmarks" / "curated-small" / "strings"
 )
+FP_CURATED_ROOT = (
+    TOOLS_DIR / "external-benchmarks" / "curated-small" / "floatingpoint"
+)
 MANIFEST_SCHEMA_VERSION = "2"
 PINNED_SCHEMA_VERSION = "holsmt-external-benchmarks-pinned-v1"
 LOCK_SCHEMA_VERSION = "holsmt-external-benchmark-sources-lock-v1"
 HO_CURATED_SOURCE_ID = "smt-lib-ho-curated"
 STRING_CURATED_SOURCE_ID = "smt-lib-strings-curated"
+FP_CURATED_SOURCE_ID = "z3test-fp-curated"
 LOCAL_CURATED_ROOTS = {
     HO_CURATED_SOURCE_ID: HO_CURATED_ROOT,
     STRING_CURATED_SOURCE_ID: STRING_CURATED_ROOT,
+    FP_CURATED_SOURCE_ID: FP_CURATED_ROOT,
 }
 SUPPORTED_Z3_VERSIONS = (
     "4.11.2",
@@ -434,6 +439,13 @@ def merge_v2_manifest(existing: Mapping[str, object], imported_cases: Sequence[d
         if case.get("class") == "external-benchmark":
             source = case.get("source")
             obligation = case.get("implementation_obligation")
+            if (
+                isinstance(source, dict)
+                and str(source.get("notes", "")).startswith(
+                    "pinned source_path="
+                )
+            ):
+                continue
             if (
                 isinstance(source, dict)
                 and str(source.get("reference", "")).startswith("pinned reduced QF_UF benchmark smoke")

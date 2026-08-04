@@ -34,6 +34,12 @@ copies add per-mode expectations, and the UNSAT cases request proofs before
 exiting.  Their payload hashes and exact upstream archive paths are pinned in
 `pinned/manifest.json`.
 
+The `curated-small/floatingpoint/` slice pins four small Z3 `z3test` cases at
+commit `3929b6717d78478179234afe79c860fd8712b7be`. It covers QF_FP and
+QF_BVFP, SAT and UNSAT, NaN/infinity, and bit-vector conversions. The two
+UNSAT cases request proofs; their five-version payloads are at most 737 bytes,
+well below the 16 MiB D12 pre-gate.
+
 `pinned/manifest.json` is the reduced mandatory checked-in slice.  Refresh it
 with:
 

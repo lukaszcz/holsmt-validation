@@ -1,0 +1,5 @@
+(set-option :produce-proofs true)
+(set-logic QF_FP)
+(assert (not (= (fp.mul RNE (fp #b0 #b100 #b0000) (fp #b0 #b100 #b0000)) (fp #b0 #b101 #b0000))))
+(check-sat)
+(get-proof)

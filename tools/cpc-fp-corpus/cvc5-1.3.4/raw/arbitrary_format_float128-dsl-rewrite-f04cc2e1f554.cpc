@@ -1,0 +1,11 @@
+(
+(declare-const x (_ FloatingPoint 15 113))
+(define @t1 () (fp.abs x))
+(define @t2 () (fp.lt @t1 @t1))
+(assume @p1 (fp.isNormal x))
+(assume @p2 @t2)
+; WARNING: add trust step for TRUST_THEORY_REWRITE
+; trust TRUST_THEORY_REWRITE
+(step @p3 (= @t2 false) :rule trust :premises () :args ((= @t2 false)))
+(step @p4 false :rule eq_resolve :premises (@p2 @p3))
+)

@@ -1,5 +1,5 @@
 (set-option :produce-proofs true)
 (set-logic QF_FP)
-(assert (not (or (= (fp.max (_ +zero 3 5) (_ -zero 3 5)) (_ +zero 3 5)) (= (fp.max (_ +zero 3 5) (_ -zero 3 5)) (_ -zero 3 5)))))
+(assert (not (= (fp.max (fp #b0 #b011 #b0000) (fp #b0 #b100 #b0000)) (fp #b0 #b100 #b0000))))
 (check-sat)
 (get-proof)

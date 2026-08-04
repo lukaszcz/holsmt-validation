@@ -4005,17 +4005,11 @@
       "positive_tests": [
         {
           "kind": "source",
-          "path": "tools/conformance-corpus/v1/manifest.json",
-          "match": "qf_fp_advanced_typecheck"
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:FloatingPoint"
         }
       ],
-      "negative_tests": [
-        {
-          "kind": "source",
-          "path": "src/HolSmt/Unittest.sml",
-          "match": "z3_th_lemma_advanced_unsupported_diagnostic"
-        }
-      ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
@@ -4024,7 +4018,7 @@
           "match": "structure FloatingPoint"
         }
       ],
-      "notes": "Covers FP aliases, indexed sorts, rounding modes, special values, arithmetic, comparisons, conversions, and exact th-lemma replay diagnostics."
+      "notes": "The complete v2 corpus covers FP aliases, indexed sorts, rounding modes, special values, arithmetic, comparisons, conversions, and semantic regressions."
     },
     {
       "section": "theories",
@@ -4034,17 +4028,24 @@
         "translated",
         "solved"
       ],
-      "expected_status": "parse_only",
-      "positive_tests": [],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:FloatingPoint:fp.add:unsat-proof"
+        }
+      ],
       "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
-          "kind": "manual",
-          "description": "FloatingPoint has parser/typechecker evidence only; solver and HOL translation completeness are not claimed."
+          "kind": "source",
+          "path": "src/HolSmt/SmtLib.sml",
+          "match": "smtfp"
         }
       ],
-      "notes": "Conservative parse/typecheck embedding."
+      "notes": "FloatingPoint terms translate to native smtfloatTheory operations and run through solver modes."
     },
     {
       "section": "theories",
@@ -4053,24 +4054,29 @@
       "phases": [
         "reconstructed"
       ],
-      "expected_status": "unsupported_diagnostic",
-      "positive_tests": [],
-      "negative_tests": [
+      "expected_status": "implemented",
+      "positive_tests": [
         {
           "kind": "source",
           "path": "src/HolSmt/Unittest.sml",
-          "match": "theory=fp"
+          "match": "z3_fp_th_lemma_defensive_route_success"
+        },
+        {
+          "kind": "source",
+          "path": "tools/proof-corpus/floatingpoint/matrix-summary.json",
+          "match": "bit-decomposition"
         }
       ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
           "kind": "source",
-          "path": "src/HolSmt/Z3_ProofReplay.sml",
-          "match": "proof-format limitation"
+          "path": "src/HolSmt/SmtFpProve.sml",
+          "match": "fp_prove_with_decompositions_and_arith"
         }
       ],
-      "notes": "Advanced FP th-lemma replay fails explicitly instead of falling through."
+      "notes": "SmtFpProve checks the observed fpa2bv rewrite and bit-decomposition proof shapes."
     },
     {
       "section": "theories",
@@ -4422,17 +4428,11 @@
       "positive_tests": [
         {
           "kind": "source",
-          "path": "tools/conformance-corpus/v1/manifest.json",
-          "match": "qf_fp_advanced_typecheck"
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "logic:QF_FP:unsat-proof"
         }
       ],
-      "negative_tests": [
-        {
-          "kind": "source",
-          "path": "src/HolSmt/Unittest.sml",
-          "match": "theory=fp"
-        }
-      ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
@@ -4441,7 +4441,7 @@
           "match": "structure FP_Core"
         }
       ],
-      "notes": "Floating-point logic parser/typechecker evidence plus exact advanced th-lemma diagnostics."
+      "notes": "Floating-point logic packets are exercised by complete generated cases across the solver and checked replay modes."
     },
     {
       "section": "logics",
@@ -4458,10 +4458,10 @@
       "artifacts": [
         {
           "kind": "manual",
-          "description": "Floating-point logic row is parser/typechecker coverage; full solver and HOL translation completeness are not claimed."
+          "description": "Logic rows retain conservative parser-fragment claims; operational solver and replay coverage is recorded separately."
         }
       ],
-      "notes": "Conservative parse/typecheck embedding."
+      "notes": "Conservative parser-fragment claim with full operational mode coverage."
     },
     {
       "section": "logics",
@@ -4470,24 +4470,24 @@
       "phases": [
         "reconstructed"
       ],
-      "expected_status": "unsupported_diagnostic",
-      "positive_tests": [],
-      "negative_tests": [
+      "expected_status": "implemented",
+      "positive_tests": [
         {
           "kind": "source",
-          "path": "src/HolSmt/Unittest.sml",
-          "match": "theory=fp"
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "logic:QF_FP:unsat-proof"
         }
       ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
           "kind": "source",
-          "path": "src/HolSmt/Z3_ProofReplay.sml",
-          "match": "proof-format limitation"
+          "path": "tools/proof-corpus/floatingpoint/matrix-summary.json",
+          "match": "ground-evaluation"
         }
       ],
-      "notes": "Floating-point proof replay is explicitly gated."
+      "notes": "Floating-point logic proofs replay through the checked fpa2bv pipeline."
     },
     {
       "section": "logics",
@@ -4675,16 +4675,10 @@
         {
           "kind": "source",
           "path": "src/HolSmt/Unittest.sml",
-          "match": "z3_th_lemma_advanced_unsupported_diagnostic"
+          "match": "z3_fp_th_lemma_defensive_route_success"
         }
       ],
-      "negative_tests": [
-        {
-          "kind": "source",
-          "path": "src/HolSmt/Unittest.sml",
-          "match": "proof-format limitation"
-        }
-      ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
@@ -4693,7 +4687,7 @@
           "match": "th-lemma-fp"
         }
       ],
-      "notes": "Floating-point th-lemma labels are parsed and retain an explicit diagnostic."
+      "notes": "Floating-point th-lemma aliases are parsed and routed to the defensive checked SmtFpProve handler."
     },
     {
       "section": "z3_proof_rules",
@@ -4722,24 +4716,29 @@
       "phases": [
         "reconstructed"
       ],
-      "expected_status": "unsupported_diagnostic",
-      "positive_tests": [],
-      "negative_tests": [
+      "expected_status": "implemented",
+      "positive_tests": [
         {
           "kind": "source",
           "path": "src/HolSmt/Unittest.sml",
-          "match": "proof-format limitation"
+          "match": "z3_fp_th_lemma_defensive_route_success"
+        },
+        {
+          "kind": "source",
+          "path": "tools/proof-corpus/floatingpoint/matrix-summary.json",
+          "match": "th_lemma_fp_observed"
         }
       ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
           "kind": "source",
           "path": "src/HolSmt/Z3_ProofReplay.sml",
-          "match": "z3_th_lemma_advanced_unsupported"
+          "match": "z3_th_lemma_fp"
         }
       ],
-      "notes": "Floating-point th-lemma replay remains an explicit unsupported diagnostic."
+      "notes": "No supported version emits th-lemma-fp; its occurrence obligation is re-keyed to the recorded fpa2bv rewrite shapes."
     },
     {
       "section": "soundness_audit",
@@ -4753,17 +4752,11 @@
       "positive_tests": [
         {
           "kind": "source",
-          "path": "tools/conformance-corpus/v1/manifest.json",
-          "match": "qf_fp_advanced_typecheck"
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:FloatingPoint:nan-payload-equality-unsat-proof"
         }
       ],
-      "negative_tests": [
-        {
-          "kind": "source",
-          "path": "src/HolSmt/Unittest.sml",
-          "match": "theory=fp"
-        }
-      ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
@@ -4772,7 +4765,7 @@
           "match": "fp.isNaN"
         }
       ],
-      "notes": "FP semantic edge cases are parser/typechecker evidence with replay diagnostics."
+      "notes": "Semantic v2 cases cover canonical NaN equality, infinities, signed zeros, RNA, and conversions."
     },
     {
       "section": "soundness_audit",
@@ -4782,17 +4775,24 @@
         "translated",
         "solved"
       ],
-      "expected_status": "parse_only",
-      "positive_tests": [],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:FloatingPoint:rna-ground-add-unsat-proof"
+        }
+      ],
       "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
-          "kind": "manual",
-          "description": "FP semantic edge cases remain parser/typechecker evidence until checked proof certificates expose IEEE semantics."
+          "kind": "source",
+          "path": "src/HolSmt/smtfloatScript.sml",
+          "match": "smtfp_nan"
         }
       ],
-      "notes": "Conservative parse/typecheck embedding."
+      "notes": "Native smtfloatTheory semantics are used by translation and solver execution."
     },
     {
       "section": "soundness_audit",
@@ -4801,24 +4801,24 @@
       "phases": [
         "reconstructed"
       ],
-      "expected_status": "unsupported_diagnostic",
-      "positive_tests": [],
-      "negative_tests": [
+      "expected_status": "implemented",
+      "positive_tests": [
         {
           "kind": "source",
-          "path": "src/HolSmt/Unittest.sml",
-          "match": "theory=fp"
+          "path": "tools/proof-corpus/floatingpoint/matrix-summary.json",
+          "match": "literal-normalization"
         }
       ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
           "kind": "source",
-          "path": "src/HolSmt/Z3_ProofReplay.sml",
-          "match": "proof-format limitation"
+          "path": "src/HolSmt/SmtFpProve.sml",
+          "match": "ground_eval_prove"
         }
       ],
-      "notes": "FP replay remains explicitly gated."
+      "notes": "Ground semantics and observed fpa2bv proof shapes replay through checked SmtFpProve rungs."
     },
     {
       "section": "soundness_audit",
@@ -4853,7 +4853,7 @@
         {
           "kind": "source",
           "path": "src/HolSmt/SmtLib.sml",
-          "match": "HOL strings: string type, STRCAT, isPREFIX, string_lt, string_le"
+          "match": "HOL strings: str_inj images of STRCAT, isPREFIX, string_lt"
         }
       ],
       "notes": "HOL strings inject into smtstringTheory with discharged transfer obligations and replay enabled."

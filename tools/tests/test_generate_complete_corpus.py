@@ -142,6 +142,14 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
                     case["expected"]["proof-replay"]["proof_rule_histogram"],
                     {rule: 1},
                 )
+            if case["id"] == "proof-rule:th-lemma-fp":
+                self.assertIsNone(case["implementation_obligation"])
+                self.assertIn(
+                    "proof-rule-behavior:checked-replay",
+                    case["features"],
+                )
+                for mode in ("proof-parse", "proof-replay", "z3-tac"):
+                    self.assertEqual(case["expected"][mode]["status"], "pass")
             if (
                 case["id"].startswith("proof-rule:th-lemma-")
                 and case["id"] != "proof-rule:th-lemma-basic"
@@ -482,6 +490,18 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
                 if "logic-case:sat" in case["features"]
             ][0]
             self.assertEqual(sat["expected"]["z3-tac"]["status"], "pass")
+            has_fp = generator.logic_has_floatingpoint(logic)
+            for oracle_case in (sat, unsat):
+                self.assertEqual(
+                    "cvc5-oracle" in oracle_case["modes"],
+                    has_fp,
+                    oracle_case["id"],
+                )
+                self.assertEqual(
+                    "cvc5-oracle" in oracle_case["expected"],
+                    has_fp,
+                    oracle_case["id"],
+                )
 
     def test_logics_manifest_documents_extension_exclusions(self):
         inventory = generator.logics_manifest()
@@ -525,7 +545,7 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
                         diagnostic,
                     )
 
-    def test_floatingpoint_unsat_rows_are_semantic_and_red_first(self):
+    def test_floatingpoint_unsat_rows_are_semantic_and_reconstructed(self):
         symbols = {
             symbol.slug: symbol
             for symbol in generator.FLOATINGPOINT_THEORY_SYMBOLS
@@ -538,7 +558,6 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
             "fp.neg",
             "fp.leq",
             "fp.lt",
-            "fp.geq",
             "fp.gt",
             "fp.eq",
             "fp.isnormal",
@@ -578,6 +597,18 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
                           case.entry["features"])
             self.assertIn(f"fp-proof-shape:{shape.shape}",
                           case.entry["features"])
+            proof_id = "task05_" + generator.slug(
+                slug + ":unsat-proof"
+            )
+            self.assertIn(
+                f"proof-corpus-evidence:{proof_id}",
+                case.entry["features"],
+            )
+            self.assertEqual(
+                case.entry["source"]["notes"],
+                "Proof occurrence: tools/proof-corpus/floatingpoint/"
+                f"manifest.json#{proof_id}",
+            )
             self.assertEqual(case.entry["expected"]["parser-only"]["status"],
                              "pass")
             for mode in (
@@ -588,15 +619,11 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
                 "z3-tac",
             ):
                 self.assertEqual(case.entry["expected"][mode]["status"],
-                                 "red", (case_id, mode))
+                                 "pass", (case_id, mode))
             obligation = case.entry["implementation_obligation"]
-            self.assertIsNotNone(obligation)
-            self.assertEqual(
-                obligation["feature"],
-                f"theory-symbol:FloatingPoint:{slug}:unsat-proof",
-            )
+            self.assertIsNone(obligation)
 
-    def test_floatingpoint_red_first_semantic_families(self):
+    def test_floatingpoint_semantic_families_are_reconstructed(self):
         generated = {
             case.entry["id"]: case
             for case in generator.theory_cases()
@@ -620,6 +647,39 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
             generator.RESOURCE_GATE_FEATURE: 2,
         }
         new_cases = [generated[case_id] for case_id in new_ids]
+        proof_cases = [
+            case for case in new_cases
+            if "theory-case:unsat-proof" in case.entry["features"]
+        ]
+        self.assertEqual(len(proof_cases), 15)
+        evidence_links = []
+        metadata_links = []
+        for case in proof_cases:
+            links = [
+                feature
+                for feature in case.entry["features"]
+                if feature.startswith("proof-corpus-")
+            ]
+            self.assertEqual(len(links), 1, case.entry["id"])
+            link = links[0]
+            proof_id = link.split(":", 1)[1]
+            self.assertEqual(
+                case.entry["source"]["notes"],
+                "Proof occurrence: tools/proof-corpus/floatingpoint/"
+                f"manifest.json#{proof_id}",
+            )
+            if link.startswith("proof-corpus-evidence:"):
+                evidence_links.append(link)
+            else:
+                metadata_links.append(link)
+        self.assertEqual(len(evidence_links), 14)
+        self.assertEqual(
+            metadata_links,
+            [
+                "proof-corpus-metadata:"
+                "task06_d12_fp_add_commutativity_float32"
+            ],
+        )
         for feature, count in family_features.items():
             self.assertEqual(
                 sum(feature in case.entry["features"] for case in new_cases),
@@ -634,13 +694,7 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
                 for result in case.entry["expected"].values()
             )
         ]
-        self.assertTrue(red_cases)
-        for case in red_cases:
-            self.assertIsNotNone(case.entry["implementation_obligation"])
-            self.assertEqual(case.entry["expected"]["parser-only"]["status"],
-                             "pass")
-            self.assertEqual(case.entry["expected"]["z3-oracle"]["status"],
-                             "pass")
+        self.assertEqual(red_cases, [])
 
         qf_fplra = [case for case in new_cases
                     if case.entry["logic"] == "QF_FPLRA"]
@@ -650,9 +704,7 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
             self.assertEqual(expected["parser-only"]["status"], "pass")
             self.assertEqual(expected["z3-oracle"]["status"], "pass")
             self.assertEqual(expected["typecheck-only"]["status"], "pass")
-            self.assertEqual(expected["z3-tac"]["status"], "red")
-            self.assertIn("FloatingPoint proof replay is incomplete",
-                          expected["z3-tac"]["diagnostic"])
+            self.assertEqual(expected["z3-tac"]["status"], "pass")
 
     def test_floatingpoint_sat_pins_and_divergence_guards(self):
         cases = {

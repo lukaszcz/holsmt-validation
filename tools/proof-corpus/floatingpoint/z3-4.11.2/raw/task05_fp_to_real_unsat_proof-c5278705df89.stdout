@@ -1,0 +1,14 @@
+unsat
+((set-logic QF_FPLRA)
+(proof
+(let ((?x30 (/ 3.0 2.0)))
+ (let ((?x26 (fp (_ bv0 1) (_ bv3 3) (_ bv8 4))))
+ (let ((?x27 (fp.to_real ?x26)))
+ (let (($x31 (= ?x27 ?x30)))
+ (let (($x32 (not $x31)))
+ (let ((@x39 (monotonicity (rewrite (= ?x26 (fp #b0 #b011 #x8))) (= ?x27 (fp.to_real (fp #b0 #b011 #x8))))))
+ (let ((@x44 (trans @x39 (rewrite (= (fp.to_real (fp #b0 #b011 #x8)) (/ 3.0 2.0))) (= ?x27 (/ 3.0 2.0)))))
+ (let ((@x49 (monotonicity @x44 (rewrite (= ?x30 (/ 3.0 2.0))) (= $x31 (= (/ 3.0 2.0) (/ 3.0 2.0))))))
+ (let ((@x57 (monotonicity (trans @x49 (rewrite (= (= (/ 3.0 2.0) (/ 3.0 2.0)) true)) (= $x31 true)) (= $x32 (not true)))))
+ (mp (asserted $x32) (trans @x57 (rewrite (= (not true) false)) (= $x32 false)) false))))))))))))
+

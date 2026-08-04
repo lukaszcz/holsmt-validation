@@ -1,0 +1,9 @@
+unsat
+((set-logic QF_FP)
+(proof
+(let ((@x32 (monotonicity (rewrite (= (fp.neg (fp.neg x)) x)) (= (= (fp.neg (fp.neg x)) x) (= x x)))))
+ (let ((@x36 (trans @x32 (rewrite (= (= x x) true)) (= (= (fp.neg (fp.neg x)) x) true))))
+ (let ((@x39 (monotonicity @x36 (= (not (= (fp.neg (fp.neg x)) x)) (not true)))))
+ (let ((@x43 (trans @x39 (rewrite (= (not true) false)) (= (not (= (fp.neg (fp.neg x)) x)) false))))
+ (mp (asserted (not (= (fp.neg (fp.neg x)) x))) @x43 false)))))))
+

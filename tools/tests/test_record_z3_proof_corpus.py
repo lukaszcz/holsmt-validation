@@ -581,6 +581,32 @@ class ProofRuleExtractionTests(unittest.TestCase):
         self.assertEqual(metadata["format"], "Float32")
         self.assertFalse(metadata["proof_recorded"])
 
+        coverage = manifest["source_case_coverage"]
+        self.assertEqual(len(coverage["task05_reworked_scripts"]), 51)
+        self.assertEqual(len(coverage["task06_recorded_specials"]), 14)
+        self.assertEqual(
+            coverage["task06_metadata_only"],
+            [
+                "theory:FloatingPoint:"
+                "d12-fp-add-commutativity-float32"
+            ],
+        )
+        linked = {
+            item["source_case_id"]: item
+            for item in manifest["cases"]
+            if "source_case_id" in item
+        }
+        expected = set(coverage["task05_reworked_scripts"]) | set(
+            coverage["task06_recorded_specials"]
+        )
+        self.assertEqual(set(linked), expected)
+        conformance_root = DEFAULT_FP_CORPUS_MANIFEST.parents[2] / (
+            "conformance-corpus"
+        ) / "v2"
+        for item in linked.values():
+            source_path = conformance_root / item["source_case_file"]
+            self.assertEqual(item["source_sha256"], sha256_file(source_path))
+
     def test_checked_in_fp_recordings_are_complete_and_gated(self):
         corpus_root = DEFAULT_FP_CORPUS_MANIFEST.parent
         manifest = json.loads(DEFAULT_FP_CORPUS_MANIFEST.read_text())
@@ -632,6 +658,31 @@ class ProofRuleExtractionTests(unittest.TestCase):
         catalog = json.loads(
             (corpus_root / "rewrite-catalog.json").read_text()
         )
+        matrix = json.loads(
+            (corpus_root / "matrix-summary.json").read_text()
+        )
+        stability = matrix["version_stability"]
+        self.assertEqual(stability["source_case_count"], 65)
+        self.assertEqual(stability["rewrite_category_drift_cases"], [])
+        self.assertEqual(
+            stability["rule_set_drift_cases"],
+            [
+                "theory:FloatingPoint:"
+                "fp-to-real-symbolic-bridge-unsat-proof"
+            ],
+        )
+        self.assertFalse(stability["selftest_matrix_widening_required"])
+        self.assertEqual(
+            stability["d12_proof_size_limit_bytes"],
+            16 * 1024 * 1024,
+        )
+        for version in matrix["versions"]:
+            self.assertEqual(version["source_linked_proof_count"], 65)
+            self.assertLessEqual(
+                version["max_source_linked_proof_bytes"],
+                stability["d12_proof_size_limit_bytes"],
+            )
+            self.assertEqual(version["source_linked_over_d12_budget"], [])
         cataloged = set(catalog["operators"])
         self.assertTrue(set(FP_REWRITE_OPERATORS) <= cataloged)
         self.assertIn("$literal-normalization", cataloged)

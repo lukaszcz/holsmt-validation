@@ -1,0 +1,14 @@
+((set-logic QF_FP)
+(proof
+(let ((?x29 (fp (_ bv0 1) (_ bv4 3) (_ bv0 4))))
+(let ((?x26 (fp (_ bv0 1) (_ bv4 3) (_ bv4 4))))
+(let ((?x27 (fp.roundToIntegral roundTowardNegative ?x26)))
+(let (($x30 (= ?x27 ?x29)))
+(let (($x31 (not $x30)))
+(let ((@x43 (rewrite (= (fp.roundToIntegral roundTowardNegative (fp #b0 #b100 #x4)) (fp #b0 #b100 #x0)))))
+(let ((@x40 (monotonicity (rewrite (= roundTowardNegative roundTowardNegative)) (rewrite (= ?x26 (fp #b0 #b100 #x4))) (= ?x27 (fp.roundToIntegral roundTowardNegative (fp #b0 #b100 #x4))))))
+(let ((@x50 (monotonicity (trans @x40 @x43 (= ?x27 (fp #b0 #b100 #x0))) (rewrite (= ?x29 (fp #b0 #b100 #x0))) (= $x30 (= (fp #b0 #b100 #x0) (fp #b0 #b100 #x0))))))
+(let ((@x54 (trans @x50 (rewrite (= (= (fp #b0 #b100 #x0) (fp #b0 #b100 #x0)) true)) (= $x30 true))))
+(let ((@x61 (trans (monotonicity @x54 (= $x31 (not true))) (rewrite (= (not true) false)) (= $x31 false))))
+(mp (asserted $x31) @x61 false)))))))))))))
+

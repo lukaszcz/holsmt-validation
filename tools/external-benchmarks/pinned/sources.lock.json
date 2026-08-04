@@ -30,6 +30,13 @@
       "pin_type": "git-commit"
     },
     {
+      "id": "z3test-fp-curated",
+      "kind": "z3test-floatingpoint-curated-selection",
+      "url": "https://github.com/Z3Prover/z3test",
+      "pin": "3929b6717d78478179234afe79c860fd8712b7be",
+      "pin_type": "git-commit"
+    },
+    {
       "id": "curated-reduced",
       "kind": "holsmt-curated-reduced-cases",
       "url": "https://hol-theorem-prover.org/holsmt/external-benchmarks/curated-reduced",

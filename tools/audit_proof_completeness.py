@@ -26,6 +26,9 @@ DEFAULT_PROOF_SOURCE = ROOT / "src" / "HolSmt" / "Z3_Proof.sml"
 DEFAULT_UNITTEST_SOURCE = ROOT / "src" / "HolSmt" / "Unittest.sml"
 DEFAULT_MANIFEST = TOOLS_DIR / "conformance-corpus" / "v2" / "manifest.json"
 DEFAULT_PROOF_SUMMARY = TOOLS_DIR / "proof-corpus" / "complete" / "summary.json"
+DEFAULT_FP_PROOF_SUMMARY = (
+    TOOLS_DIR / "proof-corpus" / "floatingpoint" / "matrix-summary.json"
+)
 DEFAULT_COVERAGE_REPORT = TOOLS_DIR / "coverage" / "smtlib_coverage.json"
 
 SCHEMA = "holsmt-proof-completeness-audit-v1"
@@ -59,6 +62,20 @@ TH_LEMMA_OBLIGATION_RULES = {
     "th-lemma-string",
     "th-lemma-regexp",
     "th-lemma-datatype",
+}
+
+SUPPORTED_Z3_VERSIONS = {
+    "4.11.2",
+    "4.12.4",
+    "4.13.0",
+    "4.14.1",
+    "4.15.3",
+}
+FP_REKEYED_RULE = "th-lemma-fp"
+FP_REWRITE_CATEGORIES = {
+    "atom-conversion",
+    "bit-decomposition",
+    "ground-evaluation",
 }
 
 
@@ -330,6 +347,81 @@ def real_proof_occurrences(path: Path | None) -> set[str]:
     return rules
 
 
+def fp_rekeyed_occurrence(path: Path | None) -> dict[str, object] | None:
+    """Validate the real fpa2bv evidence replacing th-lemma-fp occurrence.
+
+    Supported Z3 versions do not emit a floating-point th-lemma label.  The
+    executable occurrence obligation is therefore keyed to the proof shapes
+    they do emit: fpa2bv atom conversion, ground evaluation, and variable
+    bit-decomposition rewrites.
+    """
+    if path is None or not path.exists():
+        return None
+    summary = load_json(path)
+    require(isinstance(summary, dict), f"{path} root must be an object")
+    require(
+        summary.get("schema") == "holsmt-z3-fp-proof-corpus-matrix-v1",
+        f"{path} has an unsupported FloatingPoint matrix schema",
+    )
+    raw_versions = summary.get("versions")
+    require(isinstance(raw_versions, list), f"{path} versions must be a list")
+    versions: set[str] = set()
+    categories: set[str] = set()
+    proof_count = 0
+    for index, item in enumerate(raw_versions, 1):
+        require(isinstance(item, dict), f"{path} version {index} must be an object")
+        version = item.get("version")
+        require(isinstance(version, str), f"{path} version {index} has no version")
+        versions.add(version)
+        require(
+            item.get("rule_gate_passed") is True,
+            f"{path} {version} did not pass its proof-rule gate",
+        )
+        require(
+            item.get("th_lemma_fp_observed") is False,
+            f"{path} {version} unexpectedly observed th-lemma-fp",
+        )
+        count = item.get("proof_count")
+        require(
+            isinstance(count, int) and count > 0,
+            f"{path} {version} has no recorded FloatingPoint proofs",
+        )
+        proof_count += count
+        cases = item.get("cases")
+        require(isinstance(cases, list), f"{path} {version} cases must be a list")
+        version_categories: set[str] = set()
+        for case in cases:
+            if not isinstance(case, dict):
+                continue
+            rewrites = case.get("rewrite_categories")
+            if isinstance(rewrites, dict):
+                version_categories.update(
+                    name
+                    for name, occurrences in rewrites.items()
+                    if isinstance(name, str)
+                    and isinstance(occurrences, int)
+                    and occurrences > 0
+                )
+        require(
+            FP_REWRITE_CATEGORIES <= version_categories,
+            f"{path} {version} lacks required fpa2bv rewrite categories",
+        )
+        categories.update(version_categories)
+    require(
+        versions == SUPPORTED_Z3_VERSIONS,
+        f"{path} FloatingPoint versions do not match the supported Z3 matrix",
+    )
+    return {
+        "rule": FP_REKEYED_RULE,
+        "evidence": "fpa2bv rewrites and bit-decomposition",
+        "proof_summary": str(path),
+        "versions": sorted(versions),
+        "proof_count": proof_count,
+        "rewrite_categories": sorted(categories),
+        "th_lemma_fp_observed": False,
+    }
+
+
 def synthetic_coverage_names(rule: ProofRule) -> set[str]:
     names = set(rule.names)
     if rule.replay_handler == "mp_eq":
@@ -348,6 +440,7 @@ def audit(
     manifest_features: set[str],
     manifest_red_features: set[str],
     real_rules: set[str],
+    rekeyed_rules: set[str],
     manifest_rows: dict[str, dict[str, object]],
     coverage_rows: dict[str, dict[str, object]],
 ) -> list[Issue]:
@@ -406,6 +499,7 @@ def audit(
             rule in th_lemma_classes
             and rule not in manifest_red_features
             and rule not in real_rules
+            and rule not in rekeyed_rules
         ):
             issues.append(
                 Issue(
@@ -433,7 +527,11 @@ def audit(
             )
 
     for rule in rules:
-        if rule.name not in real_rules and set(rule.aliases).isdisjoint(real_rules):
+        if (
+            rule.name not in real_rules
+            and rule.name not in rekeyed_rules
+            and set(rule.aliases).isdisjoint(real_rules)
+        ):
             manifest_row = manifest_rows.get(rule.name, {})
             coverage_row = coverage_rows.get(rule.name, {})
             implementation_files = manifest_row.get("implementation_files", [])
@@ -476,6 +574,7 @@ def build_report(
     unittest_source: Path,
     manifest_path: Path | None,
     proof_summary_path: Path | None,
+    fp_proof_summary_path: Path | None = None,
     coverage_report_path: Path | None = DEFAULT_COVERAGE_REPORT,
 ) -> dict[str, object]:
     rules = parse_proof_rules(proof_source)
@@ -486,6 +585,8 @@ def build_report(
     manifest_rows = manifest_proof_rule_rows(manifest_path)
     coverage_rows = coverage_proof_rule_rows(coverage_report_path)
     real_rules = real_proof_occurrences(proof_summary_path)
+    fp_occurrence = fp_rekeyed_occurrence(fp_proof_summary_path)
+    rekeyed_rules = {FP_REKEYED_RULE} if fp_occurrence is not None else set()
     issues = audit(
         rules,
         th_lemma_classes,
@@ -493,6 +594,7 @@ def build_report(
         manifest_features,
         manifest_red_features,
         real_rules,
+        rekeyed_rules,
         manifest_rows,
         coverage_rows,
     )
@@ -509,6 +611,11 @@ def build_report(
             "unittest_source": str(unittest_source),
             "manifest": str(manifest_path) if manifest_path is not None else None,
             "proof_summary": str(proof_summary_path) if proof_summary_path is not None else None,
+            "fp_proof_summary": (
+                str(fp_proof_summary_path)
+                if fp_proof_summary_path is not None
+                else None
+            ),
             "coverage_report": str(coverage_report_path) if coverage_report_path is not None else None,
         },
         "summary": {
@@ -518,6 +625,7 @@ def build_report(
             "manifest_proof_rule_count": len(manifest_features),
             "coverage_proof_rule_count": len(coverage_rows),
             "real_proof_rule_count": len(real_rules),
+            "rekeyed_real_proof_rule_count": len(rekeyed_rules),
             "issue_count": len(issues),
             "blocking_issue_count": len(blocking_issues),
             "red_obligation_count": len(red_obligations),
@@ -538,6 +646,9 @@ def build_report(
         "manifest_proof_rules": sorted(manifest_features),
         "coverage_proof_rules": sorted(coverage_rows),
         "real_proof_rules": sorted(real_rules),
+        "rekeyed_real_proof_occurrences": (
+            [fp_occurrence] if fp_occurrence is not None else []
+        ),
         "issues": [issue.to_json() for issue in issues],
     }
 
@@ -552,6 +663,7 @@ def print_text_summary(report: dict[str, object]) -> None:
     print(f"manifest proof-rule rows: {summary['manifest_proof_rule_count']}")
     print(f"coverage proof-rule rows: {summary['coverage_proof_rule_count']}")
     print(f"real proof rules: {summary['real_proof_rule_count']}")
+    print(f"re-keyed real proof rules: {summary['rekeyed_real_proof_rule_count']}")
     print(f"issues: {summary['issue_count']}")
     print(f"blocking issues: {summary['blocking_issue_count']}")
     print(f"red obligations: {summary['red_obligation_count']}")
@@ -576,9 +688,19 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--unittest-source", type=Path, default=DEFAULT_UNITTEST_SOURCE)
     parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
     parser.add_argument("--proof-summary", type=Path, default=DEFAULT_PROOF_SUMMARY)
+    parser.add_argument(
+        "--fp-proof-summary",
+        type=Path,
+        default=DEFAULT_FP_PROOF_SUMMARY,
+    )
     parser.add_argument("--coverage-report", type=Path, default=DEFAULT_COVERAGE_REPORT)
     parser.add_argument("--no-manifest", action="store_true", help="skip v2 manifest checks")
     parser.add_argument("--no-proof-summary", action="store_true", help="skip real proof-corpus occurrence checks")
+    parser.add_argument(
+        "--no-fp-proof-summary",
+        action="store_true",
+        help="skip re-keyed FloatingPoint fpa2bv occurrence evidence",
+    )
     parser.add_argument("--no-coverage-report", action="store_true", help="skip generated coverage report checks")
     parser.add_argument(
         "--fail-on-red-obligations",
@@ -599,6 +721,9 @@ def main(argv: list[str]) -> int:
     args = parse_args(argv)
     manifest_path = None if args.no_manifest else args.manifest
     proof_summary_path = None if args.no_proof_summary else args.proof_summary
+    fp_proof_summary_path = (
+        None if args.no_fp_proof_summary else args.fp_proof_summary
+    )
     coverage_report_path = None if args.no_coverage_report else args.coverage_report
     try:
         report = build_report(
@@ -606,6 +731,7 @@ def main(argv: list[str]) -> int:
             unittest_source=args.unittest_source,
             manifest_path=manifest_path,
             proof_summary_path=proof_summary_path,
+            fp_proof_summary_path=fp_proof_summary_path,
             coverage_report_path=coverage_report_path,
         )
     except (OSError, json.JSONDecodeError, AuditError) as exc:

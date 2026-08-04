@@ -195,24 +195,6 @@ HOLSMT_LOGICS = [
     *HO_EXTENSION_LOGICS,
 ]
 
-# Official logics whose theories HolSmt does not yet translate to HOL or replay
-# in the checked Z3_TAC path: the FloatingPoint (QF_FP) family. Per
-# PLAN_full_smtlib.md Phase 0 (0.3), these stay limited to the syntactic modes
-# until their dedicated phase lands. The generated default cases keep them to
-# MODE_PARSER/MODE_TYPECHECK and tag them
-# `theory-pending`, so the deferral is an explicit, categorized case row rather
-# than a silent omission or an unexpected failure.
-THEORY_PENDING_LOGICS = frozenset({
-    "FP", "FPLRA", "BVFP", "BVFPLRA", "UFFP", "UFBVFP",
-    "ABVFP", "ABVFPLRA", "AUFBVFP",
-    "QF_FP", "QF_FPLRA", "QF_FPBV", "QF_BVFP", "QF_BVFPLRA",
-    "QF_UFFP", "QF_UFBVFP", "QF_ABVFP", "QF_ABVFPLRA",
-    "QF_AUFBVFP",
-})
-
-# Modes a theory-pending logic can exercise today.
-SYNTACTIC_MODES = (MODE_PARSER, MODE_TYPECHECK)
-
 # Modes applicable to a satisfiable smoke goal: it has no proof to parse or
 # replay and checked Z3_TAC rejects a satisfiable goal, so only parse, typecheck
 # and the Z3 oracle apply (mirrors the *_sat cases in conformance-corpus/v1).
@@ -475,11 +457,6 @@ def logic_smoke_case(logic: str, unsat: bool) -> Case:
             diagnostic_substring="unsupported logic",
         )
         expected[MODE_CVC5_ORACLE] = ExpectedOutcome(status=PASS)
-    elif logic in THEORY_PENDING_LOGICS:
-        # Solver/proof/checked-tactic modes are deferred for FloatingPoint;
-        # run only the syntactic modes it already supports.
-        modes = SYNTACTIC_MODES
-        tags.append("theory-pending")
     elif unsat:
         # A refutable goal exercises every mode: parse, typecheck, Z3 oracle,
         # proof parse/replay and the checked Z3_TAC tactic.
@@ -1222,7 +1199,8 @@ def run_cvc5_oracle(
     timeout: int,
     version: str,
 ) -> dict[str, object]:
-    command = [cvc5, str(input_path)]
+    fp_options = ["--fp-exp"] if "FP" in case.logic else []
+    command = [cvc5, *fp_options, str(input_path)]
     if not executable_available(cvc5):
         return result(
             case,

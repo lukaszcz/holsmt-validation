@@ -1,0 +1,22 @@
+(
+(declare-const y (_ FloatingPoint 3 5))
+(declare-const x (_ FloatingPoint 3 5))
+(define @t1 () (fp.add roundNearestTiesToEven y x))
+(define @t2 () (fp.add roundNearestTiesToEven x y))
+(define @t3 () (= @t2 @t1))
+(define @t4 () (not @t3))
+(define @t5 () (not true))
+(define @t6 () (= @t2 @t2))
+(assume @p1 @t4)
+(step @p2 (= @t5 false) :rule evaluate :args (@t5))
+(step @p3 (= @t6 true) :rule eq-refl :args (@t2))
+; WARNING: add trust step for TRUST_THEORY_REWRITE
+; trust TRUST_THEORY_REWRITE
+(step @p4 (= @t1 @t2) :rule trust :premises () :args ((= @t1 @t2)))
+(step @p5 @t6 :rule refl :args (@t2))
+(step @p6 (= @t3 @t6) :rule cong :premises (@p5 @p4) :args (@t3))
+(step @p7 (= @t3 true) :rule trans :premises (@p6 @p3))
+(step @p8 (= @t4 @t5) :rule cong :premises (@p7) :args (@t4))
+(step @p9 (= @t4 false) :rule trans :premises (@p8 @p2))
+(step @p10 false :rule eq_resolve :premises (@p1 @p9))
+)

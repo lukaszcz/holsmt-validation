@@ -761,12 +761,14 @@ TH_LEMMA_PROOF_RULE_OBLIGATIONS: tuple[ProofRuleObligation, ...] = (
     ProofRuleObligation(
         rule="th-lemma-fp",
         file_slug="th_lemma_fp",
-        diagnostic="floating-point th-lemma replay is diagnostic-only",
+        diagnostic="floating-point th-lemma replay is checked by SmtFpProve",
         notes=(
-            "Diagnostic-only synthetic coverage exists; keep this row red until "
-            "checked replay and real proof-corpus evidence are added."
+            "The defensive floating-point th-lemma route is checked through "
+            "SmtFpProve. No supported Z3 version emits this label; the recorded "
+            "FloatingPoint corpus instead exercises fpa2bv rewrites and "
+            "bit-decomposition."
         ),
-        behavior="diagnostic-only",
+        behavior="checked-replay",
     ),
     ProofRuleObligation(
         rule="th-lemma-regexp",
@@ -1594,6 +1596,7 @@ RECONSTRUCTED_THEORY_Z3_TAC_UNSAT_PROOFS = {
     "theory:FloatingPoint:float16:unsat-proof",
     "theory:FloatingPoint:float32:unsat-proof",
     "theory:FloatingPoint:float64:unsat-proof",
+    "theory:FloatingPoint:floatingpoint:unsat-proof",
     "theory:FloatingPoint:fp.abs:unsat-proof",
     "theory:FloatingPoint:fp.add:unsat-proof",
     "theory:FloatingPoint:fp.div:unsat-proof",
@@ -1619,6 +1622,8 @@ RECONSTRUCTED_THEORY_Z3_TAC_UNSAT_PROOFS = {
     "theory:FloatingPoint:fp.sqrt:unsat-proof",
     "theory:FloatingPoint:fp.sub:unsat-proof",
     "theory:FloatingPoint:fp.to-real:unsat-proof",
+    "theory:FloatingPoint:fp.to-sbv:unsat-proof",
+    "theory:FloatingPoint:fp.to-ubv:unsat-proof",
     "theory:FloatingPoint:fp:unsat-proof",
     "theory:FloatingPoint:nan:unsat-proof",
     "theory:FloatingPoint:negative-infinity:unsat-proof",
@@ -3602,17 +3607,15 @@ FP_SEMANTIC_UNSAT_SHAPES: dict[str, FpUnsatShape] = {
     ),
     "fp.min": FpUnsatShape(
         "QF_FP", "",
-        "(not (or (= (fp.min (_ +zero 3 5) (_ -zero 3 5)) "
-        "(_ +zero 3 5)) (= (fp.min (_ +zero 3 5) (_ -zero 3 5)) "
-        "(_ -zero 3 5))))",
-        "ground-underspecified-range", "min(+0,-0) is one of its operands",
+        "(not (= (fp.min (fp #b0 #b011 #b0000) "
+        "(fp #b0 #b100 #b0000)) (fp #b0 #b011 #b0000)))",
+        "ground-evaluation", "min(1.0,2.0) is 1.0",
     ),
     "fp.max": FpUnsatShape(
         "QF_FP", "",
-        "(not (or (= (fp.max (_ +zero 3 5) (_ -zero 3 5)) "
-        "(_ +zero 3 5)) (= (fp.max (_ +zero 3 5) (_ -zero 3 5)) "
-        "(_ -zero 3 5))))",
-        "ground-underspecified-range", "max(+0,-0) is one of its operands",
+        "(not (= (fp.max (fp #b0 #b011 #b0000) "
+        "(fp #b0 #b100 #b0000)) (fp #b0 #b100 #b0000)))",
+        "ground-evaluation", "max(1.0,2.0) is 2.0",
     ),
     "fp.abs": FpUnsatShape(
         "QF_FP", _FP_TINY_X, "(fp.isNegative (fp.abs x))",
@@ -3632,9 +3635,10 @@ FP_SEMANTIC_UNSAT_SHAPES: dict[str, FpUnsatShape] = {
         "symbolic-atom", "fp.lt is asymmetric",
     ),
     "fp.geq": FpUnsatShape(
-        "QF_FP", _FP_TINY_XY,
-        "(and (fp.geq x y) (fp.geq y x) (not (fp.eq x y)))",
-        "symbolic-atom", "mutual geq implies IEEE fp.eq",
+        "QF_FP", "",
+        "(not (fp.geq (fp #b0 #b100 #b0000) "
+        "(fp #b0 #b011 #b0000)))",
+        "ground-evaluation", "2.0 is greater than or equal to 1.0",
     ),
     "fp.gt": FpUnsatShape(
         "QF_FP", _FP_TINY_XY, "(and (fp.gt x y) (fp.gt y x))",
@@ -3785,7 +3789,6 @@ def fp_symbol(
         check_sat_script("QF_FP", boundary_body),
         (
             "theory-behavior:floatingpoint",
-            "theory-behavior:z3-unsupported",
             *behavior_features,
         ),
     )
@@ -3805,7 +3808,6 @@ def fp_sort(slug_name: str, name: str, declaration: str, sat_decl: str) -> Theor
         check_sat_script("QF_FP", floatingpoint_boundary_body()),
         (
             "theory-behavior:floatingpoint",
-            "theory-behavior:z3-unsupported",
             "theory-behavior:sort-arity",
             "theory-behavior:indexed-sort" if name == "FloatingPoint" else "theory-behavior:standard-sort",
         ),
@@ -3927,27 +3929,10 @@ FLOATINGPOINT_THEORY_SYMBOLS: tuple[TheorySymbol, ...] = (
 def fp_scripted_expected(
     *,
     sat: bool,
-    divergence_guard: bool = False,
-    qf_fplra: bool = False,
 ) -> tuple[tuple[str, ...], dict[str, dict[str, object]]]:
     if sat:
         modes = ("parser-only", "typecheck-only", "z3-oracle", "z3-tac")
-        if divergence_guard:
-            return modes, {mode: expected_result("pass") for mode in modes}
-        return modes, {
-            "parser-only": expected_result("pass"),
-            "typecheck-only": expected_result(
-                "red",
-                diagnostic="native FloatingPoint front-end support is incomplete",
-                failure_phase="typecheck",
-            ),
-            "z3-oracle": expected_result("pass"),
-            "z3-tac": expected_result(
-                "red",
-                diagnostic="checked FloatingPoint SAT handling is incomplete",
-                failure_phase="solver",
-            ),
-        }
+        return modes, {mode: expected_result("pass") for mode in modes}
 
     modes = (
         "parser-only",
@@ -3957,37 +3942,7 @@ def fp_scripted_expected(
         "proof-replay",
         "z3-tac",
     )
-    hol_diagnostic = "native FloatingPoint front-end support is incomplete"
-    return modes, {
-        "parser-only": expected_result("pass"),
-        "typecheck-only": (
-            expected_result("pass")
-            if qf_fplra
-            else expected_result(
-                "red", diagnostic=hol_diagnostic, failure_phase="typecheck"
-            )
-        ),
-        "z3-oracle": expected_result("pass"),
-        "proof-parse": expected_result(
-            "red",
-            diagnostic="FloatingPoint proof parsing evidence is incomplete",
-            failure_phase="proof-parse",
-        ),
-        "proof-replay": expected_result(
-            "red",
-            diagnostic="FloatingPoint proof replay is incomplete",
-            failure_phase="proof-replay",
-        ),
-        "z3-tac": expected_result(
-            "red",
-            diagnostic=(
-                "FloatingPoint proof replay is incomplete"
-                if qf_fplra else hol_diagnostic
-            ),
-            failure_phase="proof-replay",
-            theorem_shape="closed theorem without oracle tags",
-        ),
-    }
+    return modes, {mode: expected_result("pass") for mode in modes}
 
 
 def fp_scripted_case(
@@ -3997,13 +3952,8 @@ def fp_scripted_case(
     sat: bool,
     features: tuple[str, ...],
     logic: str = "QF_FP",
-    divergence_guard: bool = False,
 ) -> ScriptedCase:
-    modes, expected = fp_scripted_expected(
-        sat=sat,
-        divergence_guard=divergence_guard,
-        qf_fplra=logic == "QF_FPLRA",
-    )
+    modes, expected = fp_scripted_expected(sat=sat)
     red = any(result["status"] == "red" for result in expected.values())
     return ScriptedCase(
         slug=slug_name,
@@ -4138,19 +4088,18 @@ FLOATINGPOINT_THEORY_CASES: tuple[ScriptedCase, ...] = (
         for pin, sign in (("positive", "+"), ("negative", "-"))
     ),
     fp_scripted_case(
-        slug_name="fp-min-signed-zero-range-unsat-proof",
+        slug_name="fp-min-ordered-ground-unsat-proof",
         body=(
             "(assert\n"
             "  (not\n"
-            f"    (or (= {_FP_MIN_ZERO} (_ +zero 3 5))\n"
-            f"        (= {_FP_MIN_ZERO} (_ -zero 3 5)))))\n"
+            "    (= (fp.min (fp #b0 #b011 #b0000)\n"
+            "               (fp #b0 #b100 #b0000))\n"
+            "       (fp #b0 #b011 #b0000))))\n"
         ),
         sat=False,
         features=(
             "theory-behavior:min-max",
-            "theory-behavior:signed-zero",
-            "theory-behavior:underspecified",
-            "fp-proof-shape:ground-underspecified-range",
+            "fp-proof-shape:ground-evaluation",
         ),
     ),
     fp_scripted_case(
@@ -4207,7 +4156,8 @@ FLOATINGPOINT_THEORY_CASES: tuple[ScriptedCase, ...] = (
             "(assert\n"
             "  (not\n"
             "    (= ((_ to_fp 3 5) RNA\n"
-            "          ((_ to_fp 4 7) RNE (/ 33.0 32.0)))\n"
+            "          ((_ to_fp 4 7) RNE\n"
+            "            (fp #b0 #b011 #b0001)))\n"
             "       (fp #b0 #b011 #b0001))))\n"
         ),
         sat=False,
@@ -4291,7 +4241,6 @@ FLOATINGPOINT_THEORY_CASES: tuple[ScriptedCase, ...] = (
             "(assert (= x x))\n"
         ),
         sat=True,
-        divergence_guard=True,
         features=(
             "theory-behavior:divergence-guard",
             "theory-behavior:free-variable",
@@ -4305,7 +4254,6 @@ FLOATINGPOINT_THEORY_CASES: tuple[ScriptedCase, ...] = (
             "(assert (= (fp.add RNA x y) (fp.add RNA x y)))\n"
         ),
         sat=True,
-        divergence_guard=True,
         features=(
             "theory-behavior:arithmetic",
             "theory-behavior:divergence-guard",
@@ -6092,6 +6040,10 @@ def theory_features(symbol: TheorySymbol, kind: str) -> list[str]:
         *(("theory-behavior:z3-unsupported",) if unsupported else ()),
         *(("theory-behavior:semantic-fp-proof",) if fp_shape else ()),
         *((f"fp-proof-shape:{fp_shape.shape}",) if fp_shape else ()),
+        *((
+            "proof-corpus-evidence:task05_"
+            f"{slug(symbol.slug + ':unsat-proof')}",
+        ) if fp_shape else ()),
     ]
 
 
@@ -6130,10 +6082,23 @@ def theory_standard(symbol: TheorySymbol) -> str:
     return "SMT-LIB-2.7"
 
 
-def theory_source(symbol: TheorySymbol) -> dict[str, object]:
+def theory_source(
+    symbol: TheorySymbol,
+    *,
+    proof_corpus_id: str | None = None,
+) -> dict[str, object]:
     if symbol.theory == "Z3_Extensions":
         return source("Z3-extension", f"Z3 sequence/set/bag extension: {symbol.name}")
-    return source("SMT-LIB-theory", f"SMT-LIB 2.7 {symbol.theory} theory: {symbol.name}")
+    return source(
+        "SMT-LIB-theory",
+        f"SMT-LIB 2.7 {symbol.theory} theory: {symbol.name}",
+        notes=(
+            "Proof occurrence: tools/proof-corpus/floatingpoint/"
+            f"manifest.json#{proof_corpus_id}"
+            if proof_corpus_id is not None
+            else None
+        ),
+    )
 
 
 ARRAY_TYPE_ERROR_DIAGNOSTICS = {
@@ -6159,18 +6124,46 @@ def scripted_theory_case_file(theory: str, case_id: str) -> str:
 
 def scripted_theory_case(theory: str, case: ScriptedCase) -> GeneratedCase:
     case_id = f"theory:{theory}:{case.slug}"
+    fp_unsat = (
+        theory == "FloatingPoint"
+        and "theory-case:unsat-proof" in case.features
+    )
+    proof_corpus_id = (
+        f"task06_{slug(case.slug)}" if fp_unsat else None
+    )
+    proof_link_feature = (
+        (
+            "proof-corpus-metadata:"
+            if case.slug == "d12-fp-add-commutativity-float32"
+            else "proof-corpus-evidence:"
+        ) + str(proof_corpus_id)
+        if proof_corpus_id is not None
+        else None
+    )
     entry = manifest_entry(
         case_id=case_id,
         file=scripted_theory_case_file(theory, case_id),
         logic=case.logic,
         standard=case.standard,
         row_class="theory",
-        features=case.features,
+        features=(
+            *case.features,
+            *((proof_link_feature,) if proof_link_feature else ()),
+        ),
         modes=case.modes,
         versions=SUPPORTED_Z3_VERSIONS,
         expected=case.expected,
         implementation_obligation=scripted_obligation(case, case_id),
-        source=source(case.source_kind, case.source_reference),
+        source=source(
+            case.source_kind,
+            case.source_reference,
+            notes=(
+                "Proof occurrence: tools/proof-corpus/floatingpoint/"
+                f"manifest.json#{proof_corpus_id}"
+                if proof_corpus_id is not None
+                else None
+            ),
+        ),
     )
     return GeneratedCase(entry=entry, script=case.script)
 
@@ -6240,7 +6233,6 @@ def theory_case(symbol: TheorySymbol, kind: str, script: str) -> GeneratedCase:
         modes = ("parser-only", "typecheck-only", "z3-oracle", "proof-parse", "proof-replay", "z3-tac")
         proof_modes_reconstructed = (
             not parser_gap
-            and not semantic_fp_unsat
             and case_id not in UNSAT_PROOF_MODE_BLOCKED_THEORY_CASES
         )
         native_z3_proof_unsupported = (
@@ -6263,14 +6255,11 @@ def theory_case(symbol: TheorySymbol, kind: str, script: str) -> GeneratedCase:
             and case_id in RECONSTRUCTED_THEORY_Z3_TAC_UNSAT_PROOFS
         )
         z3_tac_reconstructed = (
-            not semantic_fp_unsat
-            and (
-                case_id in RECONSTRUCTED_THEORY_Z3_TAC_UNSAT_PROOFS
-                or (
-                    symbol.theory == "UnicodeStrings"
-                    and not z3_unsupported
-                    and case_id not in UNICODE_STRING_Z3_TAC_GATES
-                )
+            case_id in RECONSTRUCTED_THEORY_Z3_TAC_UNSAT_PROOFS
+            or (
+                symbol.theory == "UnicodeStrings"
+                and not z3_unsupported
+                and case_id not in UNICODE_STRING_Z3_TAC_GATES
             )
         )
         front_end_gap = (
@@ -6427,6 +6416,22 @@ def theory_case(symbol: TheorySymbol, kind: str, script: str) -> GeneratedCase:
                     ),
                 }
             implementation = None
+        elif symbol.theory == "FloatingPoint":
+            diagnostic = "invalid SMT-LIB input"
+            expected = {
+                "parser-only": expected_result("pass"),
+                "typecheck-only": expected_result(
+                    "fail",
+                    diagnostic=diagnostic,
+                    failure_phase="typecheck",
+                ),
+                "z3-tac": expected_result(
+                    "fail",
+                    diagnostic=diagnostic,
+                    failure_phase="typecheck",
+                ),
+            }
+            implementation = None
         else:
             expected = {
                 "parser-only": expected_result(
@@ -6504,7 +6509,14 @@ def theory_case(symbol: TheorySymbol, kind: str, script: str) -> GeneratedCase:
         versions=SUPPORTED_Z3_VERSIONS,
         expected=expected,
         implementation_obligation=implementation,
-        source=theory_source(symbol),
+        source=theory_source(
+            symbol,
+            proof_corpus_id=(
+                "task05_" + slug(symbol.slug + ":unsat-proof")
+                if semantic_fp_unsat
+                else None
+            ),
+        ),
     )
     return GeneratedCase(entry=entry, script=script)
 
@@ -6578,6 +6590,10 @@ def string_injection_soundness_cases() -> list[GeneratedCase]:
 
 def logic_features(logic: str, kind: str) -> list[str]:
     features = [f"logic:{logic}", f"logic-case:{kind}"]
+    if logic_has_floatingpoint(logic) and kind in {"sat", "unsat-proof"}:
+        features.append(
+            "solver-result:sat" if kind == "sat" else "solver-result:unsat"
+        )
     if logic in UNDERREPRESENTED_LOGICS:
         features.append("logic-inventory:underrepresented-v1")
     if logic in SPARSE_LOGICS:
@@ -6591,6 +6607,10 @@ def logic_source(logic: str) -> dict[str, object]:
 
 def logic_has_uninterpreted_functions(logic: str) -> bool:
     return "UF" in logic.removeprefix("QF_")
+
+
+def logic_has_floatingpoint(logic: str) -> bool:
+    return "FP" in logic.removeprefix("QF_")
 
 
 def logic_allows_int_real_coercion_case_in_checked_modes(logic: str) -> bool:
@@ -6831,6 +6851,9 @@ def logic_packet_cases(
 ) -> list[GeneratedCase]:
     cases: list[GeneratedCase] = []
     for logic in logic_packet_logics(logic_source_path):
+        cvc5_oracle_modes = (
+            ("cvc5-oracle",) if logic_has_floatingpoint(logic) else ()
+        )
         sat_script = (
             f"(set-logic {logic})\n"
             "(declare-const p Bool)\n"
@@ -6842,11 +6865,21 @@ def logic_packet_cases(
                 logic=logic,
                 kind="sat",
                 script=sat_script,
-                modes=("parser-only", "typecheck-only", "z3-oracle", "z3-tac"),
+                modes=(
+                    "parser-only",
+                    "typecheck-only",
+                    "z3-oracle",
+                    *cvc5_oracle_modes,
+                    "z3-tac",
+                ),
                 expected={
                     "parser-only": expected_result("pass"),
                     "typecheck-only": expected_result("pass"),
                     "z3-oracle": expected_result("pass"),
+                    **{
+                        mode: expected_result("pass")
+                        for mode in cvc5_oracle_modes
+                    },
                     "z3-tac": expected_result("pass"),
                 },
             )
@@ -6900,6 +6933,7 @@ def logic_packet_cases(
                     "parser-only",
                     "typecheck-only",
                     "z3-oracle",
+                    *cvc5_oracle_modes,
                     "proof-parse",
                     "proof-replay",
                     "z3-tac",
@@ -6908,6 +6942,10 @@ def logic_packet_cases(
                     "parser-only": expected_result("pass"),
                     "typecheck-only": expected_result("pass"),
                     "z3-oracle": expected_result("pass"),
+                    **{
+                        mode: expected_result("pass")
+                        for mode in cvc5_oracle_modes
+                    },
                     "proof-parse": expected_result(
                         "pass",
                     ),

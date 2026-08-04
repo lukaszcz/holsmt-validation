@@ -1294,22 +1294,26 @@
       "item": "FloatingPoint",
       "class": "SMT-LIB 2.7",
       "parsed": "implemented",
-      "translated": "parse_only",
-      "solved": "parse_only",
-      "reconstructed": "unsupported_diagnostic",
+      "translated": "implemented",
+      "solved": "implemented",
+      "reconstructed": "implemented",
       "tested": "implemented",
-      "evidence": "SmtLib_Theories.FloatingPoint records RoundingMode, indexed FloatingPoint sorts, Float16/32/64/128 aliases, rounding modes, special values, arithmetic, predicates, and conversion symbols; conformance case qf_fp_advanced_typecheck covers representative parser/typecheck behavior; Z3_Proof.TH_LEMMA_ADVANCED gates fp/fpa th-lemma replay with a versioned proof-format diagnostic.",
-      "notes": "Floating-point support is a conservative parse/typecheck embedding with abstract HOL terms. Solver and HOL translation completeness are not claimed for this row. Z3 th-lemma replay is explicitly unsupported until Z3 emits enough checked certificate evidence for IEEE operations, NaN, infinity, and rounding-mode lemmas.",
+      "evidence": "The complete FloatingPoint corpus covers every official FP sort, rounding mode, special value, arithmetic operation, predicate, and conversion through parsing, native smtfloatTheory translation, solver execution, proof parsing, checked replay, and Z3_TAC. The recorded Z3 matrix covers fpa2bv ground evaluation, atom conversion, and bit-decomposition shapes.",
+      "notes": "All generated FloatingPoint rows pass or are one of the two explicit D12 resource gates. The gates are enumerated separately and never counted as red.",
       "test_ids": [
-        "source:tools/conformance-corpus/v1/manifest.json#qf_fp_advanced_typecheck"
+        "source:tools/conformance-corpus/v2/manifest.json#theory:FloatingPoint",
+        "source:tools/conformance-corpus/v2/manifest.json#theory:FloatingPoint:fp.add:unsat-proof",
+        "source:src/HolSmt/Unittest.sml#z3_fp_th_lemma_defensive_route_success",
+        "source:tools/proof-corpus/floatingpoint/matrix-summary.json#bit-decomposition"
       ],
       "last_verified_by": "coverage_manifest.json",
-      "diagnostic_test_ids": [
-        "source:src/HolSmt/Unittest.sml#theory=fp"
-      ],
-      "current_status": "unsupported_diagnostic",
-      "complete_test_ids": [],
-      "red_obligation_ids": [
+      "diagnostic_test_ids": [],
+      "current_status": "implemented",
+      "complete_test_ids": [
+        "theory:FloatingPoint:d12-fp-add-commutativity-float32",
+        "theory:FloatingPoint:d12-fp-add-commutativity-tiny-3-5",
+        "theory:FloatingPoint:divergence-fp-add-reflexive-sat",
+        "theory:FloatingPoint:divergence-free-variable-reflexive-sat",
         "theory:FloatingPoint:float128:boundary",
         "theory:FloatingPoint:float128:sat",
         "theory:FloatingPoint:float128:type-error",
@@ -1330,6 +1334,13 @@
         "theory:FloatingPoint:floatingpoint:sat",
         "theory:FloatingPoint:floatingpoint:type-error",
         "theory:FloatingPoint:floatingpoint:unsat-proof",
+        "theory:FloatingPoint:fp-max-signed-zero-negative-pin-sat",
+        "theory:FloatingPoint:fp-max-signed-zero-positive-pin-sat",
+        "theory:FloatingPoint:fp-min-ordered-ground-unsat-proof",
+        "theory:FloatingPoint:fp-min-signed-zero-negative-pin-sat",
+        "theory:FloatingPoint:fp-min-signed-zero-positive-pin-sat",
+        "theory:FloatingPoint:fp-to-real-ground-unsat-proof",
+        "theory:FloatingPoint:fp-to-real-symbolic-bridge-unsat-proof",
         "theory:FloatingPoint:fp.abs:boundary",
         "theory:FloatingPoint:fp.abs:sat",
         "theory:FloatingPoint:fp.abs:type-error",
@@ -1442,6 +1453,8 @@
         "theory:FloatingPoint:fp:sat",
         "theory:FloatingPoint:fp:type-error",
         "theory:FloatingPoint:fp:unsat-proof",
+        "theory:FloatingPoint:nan-payload-equality-sat",
+        "theory:FloatingPoint:nan-payload-equality-unsat-proof",
         "theory:FloatingPoint:nan:boundary",
         "theory:FloatingPoint:nan:sat",
         "theory:FloatingPoint:nan:type-error",
@@ -1462,6 +1475,8 @@
         "theory:FloatingPoint:positive-zero:sat",
         "theory:FloatingPoint:positive-zero:type-error",
         "theory:FloatingPoint:positive-zero:unsat-proof",
+        "theory:FloatingPoint:rna-ground-add-unsat-proof",
+        "theory:FloatingPoint:rna-round-to-integral-unsat-proof",
         "theory:FloatingPoint:rna:boundary",
         "theory:FloatingPoint:rna:sat",
         "theory:FloatingPoint:rna:type-error",
@@ -1506,6 +1521,13 @@
         "theory:FloatingPoint:rtz:sat",
         "theory:FloatingPoint:rtz:type-error",
         "theory:FloatingPoint:rtz:unsat-proof",
+        "theory:FloatingPoint:symbolic-comparison-eq-unsat-proof",
+        "theory:FloatingPoint:symbolic-comparison-geq-unsat-proof",
+        "theory:FloatingPoint:symbolic-comparison-gt-unsat-proof",
+        "theory:FloatingPoint:symbolic-comparison-leq-unsat-proof",
+        "theory:FloatingPoint:symbolic-comparison-lt-unsat-proof",
+        "theory:FloatingPoint:to-fp-mixed-format-chain-unsat-proof",
+        "theory:FloatingPoint:to-fp-mixed-format-rna-unsat-proof",
         "theory:FloatingPoint:to-fp-unsigned:boundary",
         "theory:FloatingPoint:to-fp-unsigned:sat",
         "theory:FloatingPoint:to-fp-unsigned:type-error",
@@ -1515,7 +1537,12 @@
         "theory:FloatingPoint:to-fp:type-error",
         "theory:FloatingPoint:to-fp:unsat-proof"
       ],
-      "complete_required_status": "red"
+      "red_obligation_ids": [],
+      "complete_required_status": "reconstructed",
+      "resource_gated_ids": [
+        "theory:FloatingPoint:d12-fp-add-commutativity-float32",
+        "theory:FloatingPoint:d12-fp-add-commutativity-tiny-3-5"
+      ]
     },
     {
       "item": "Strings and regular expressions",
@@ -2364,18 +2391,16 @@
       "parsed": "implemented",
       "translated": "parse_only",
       "solved": "parse_only",
-      "reconstructed": "unsupported_diagnostic",
+      "reconstructed": "implemented",
       "tested": "implemented",
-      "evidence": "SmtLib_Logics.FP_Core combines Core, Ints, Reals, Fixed_Size_BitVectors, and FloatingPoint dictionaries; conformance case qf_fp_advanced_typecheck checks representative indexed floating-point signatures; advanced th-lemma raw replay tests cover floating-point unsupported diagnostics.",
-      "notes": "Floating-point logics are parse/typecheck embeddings. Parser does not enforce logic fragment restrictions, and proof replay gates floating-point theory lemmas with versioned proof-format diagnostics.",
+      "evidence": "SmtLib_Logics.FP_Core combines Core, Ints, Reals, Fixed_Size_BitVectors, and FloatingPoint dictionaries; the generated FP logic packets exercise parser, typechecker, Z3 oracle, proof parser, checked replay, and Z3_TAC modes.",
+      "notes": "Floating-point logics retain conservative parser-fragment claims while their unsatisfiable proof cases replay through the checked fpa2bv pipeline.",
       "test_ids": [
-        "source:tools/conformance-corpus/v1/manifest.json#qf_fp_advanced_typecheck"
+        "source:tools/conformance-corpus/v2/manifest.json#logic:QF_FP:unsat-proof"
       ],
       "last_verified_by": "coverage_manifest.json",
-      "diagnostic_test_ids": [
-        "source:src/HolSmt/Unittest.sml#theory=fp"
-      ],
-      "current_status": "unsupported_diagnostic",
+      "diagnostic_test_ids": [],
+      "current_status": "parse_only",
       "complete_test_ids": [
         "logic:QF_BVFP:boundary",
         "logic:QF_BVFP:fragment-violation",
@@ -3078,23 +3103,22 @@
       "parsed": "implemented",
       "translated": "not_applicable",
       "solved": "not_applicable",
-      "reconstructed": "unsupported_diagnostic",
+      "reconstructed": "implemented",
       "tested": "implemented",
-      "evidence": "Z3 floating-point th-lemma labels are parsed and classified, with an explicit replay diagnostic.",
-      "notes": "Floating-point theory replay remains tracked for Phase 5.",
+      "evidence": "Z3_Proof and Z3_ProofParser classify every floating-point th-lemma alias; Z3_ProofReplay routes the defensive family through checked SmtFpProve replay. The recorded FloatingPoint matrix exercises the fpa2bv rewrites emitted in practice.",
+      "notes": "No supported Z3 version emits th-lemma-fp. Its real-occurrence obligation is re-keyed to recorded fpa2bv ground-evaluation, atom-conversion, and bit-decomposition shapes across all five supported versions.",
       "test_ids": [
-        "source:src/HolSmt/Unittest.sml#z3_th_lemma_advanced_unsupported_diagnostic"
+        "source:src/HolSmt/Unittest.sml#z3_fp_th_lemma_defensive_route_success",
+        "source:tools/proof-corpus/floatingpoint/matrix-summary.json#th_lemma_fp_observed"
       ],
       "last_verified_by": "coverage_manifest.json",
-      "diagnostic_test_ids": [
-        "source:src/HolSmt/Unittest.sml#proof-format limitation"
-      ],
-      "current_status": "unsupported_diagnostic",
-      "complete_test_ids": [],
-      "red_obligation_ids": [
+      "diagnostic_test_ids": [],
+      "current_status": "implemented",
+      "complete_test_ids": [
         "proof-rule:th-lemma-fp"
       ],
-      "complete_required_status": "red"
+      "red_obligation_ids": [],
+      "complete_required_status": "reconstructed"
     },
     {
       "item": "unit-resolution",
@@ -3899,22 +3923,25 @@
       "item": "Floating-point NaN, infinity and rounding-mode semantics",
       "class": "SMT-LIB 2.7",
       "parsed": "implemented",
-      "translated": "parse_only",
-      "solved": "parse_only",
-      "reconstructed": "unsupported_diagnostic",
+      "translated": "implemented",
+      "solved": "implemented",
+      "reconstructed": "implemented",
       "tested": "implemented",
-      "evidence": "SmtLib_Theories.FloatingPoint records indexed FP sorts and rounding modes; conformance case qf_fp_advanced_typecheck covers NaN, infinities, signed zeros, rounding modes, arithmetic, comparisons, and conversions at parser/typecheck level; Z3_ProofReplay reports unsupported fp/fpa th-lemma diagnostics.",
-      "notes": "FloatingPoint remains a parse/typecheck embedding until proof certificates expose checkable IEEE evidence for NaN, infinities and rounding.",
+      "evidence": "smtfloatTheory provides the canonical-NaN carrier and native definitions for IEEE special values and all five rounding modes. Semantic v2 rows cover NaN payload equality, infinities, signed zero, RNA arithmetic and conversions, with checked ground evaluation and fpa2bv replay evidence.",
+      "notes": "The complete semantic rows pass through checked replay; the two symbolic add-commutativity exemplars remain explicit D12 resource gates rather than red obligations.",
       "test_ids": [
-        "source:tools/conformance-corpus/v1/manifest.json#qf_fp_advanced_typecheck"
+        "source:tools/conformance-corpus/v2/manifest.json#theory:FloatingPoint:nan-payload-equality-unsat-proof",
+        "source:tools/conformance-corpus/v2/manifest.json#theory:FloatingPoint:rna-ground-add-unsat-proof",
+        "source:tools/proof-corpus/floatingpoint/matrix-summary.json#literal-normalization"
       ],
       "last_verified_by": "coverage_manifest.json",
-      "diagnostic_test_ids": [
-        "source:src/HolSmt/Unittest.sml#theory=fp"
-      ],
-      "current_status": "unsupported_diagnostic",
-      "complete_test_ids": [],
-      "red_obligation_ids": [
+      "diagnostic_test_ids": [],
+      "current_status": "implemented",
+      "complete_test_ids": [
+        "theory:FloatingPoint:d12-fp-add-commutativity-float32",
+        "theory:FloatingPoint:d12-fp-add-commutativity-tiny-3-5",
+        "theory:FloatingPoint:divergence-fp-add-reflexive-sat",
+        "theory:FloatingPoint:divergence-free-variable-reflexive-sat",
         "theory:FloatingPoint:float128:boundary",
         "theory:FloatingPoint:float128:sat",
         "theory:FloatingPoint:float128:type-error",
@@ -3935,6 +3962,13 @@
         "theory:FloatingPoint:floatingpoint:sat",
         "theory:FloatingPoint:floatingpoint:type-error",
         "theory:FloatingPoint:floatingpoint:unsat-proof",
+        "theory:FloatingPoint:fp-max-signed-zero-negative-pin-sat",
+        "theory:FloatingPoint:fp-max-signed-zero-positive-pin-sat",
+        "theory:FloatingPoint:fp-min-ordered-ground-unsat-proof",
+        "theory:FloatingPoint:fp-min-signed-zero-negative-pin-sat",
+        "theory:FloatingPoint:fp-min-signed-zero-positive-pin-sat",
+        "theory:FloatingPoint:fp-to-real-ground-unsat-proof",
+        "theory:FloatingPoint:fp-to-real-symbolic-bridge-unsat-proof",
         "theory:FloatingPoint:fp.abs:boundary",
         "theory:FloatingPoint:fp.abs:sat",
         "theory:FloatingPoint:fp.abs:type-error",
@@ -4047,6 +4081,8 @@
         "theory:FloatingPoint:fp:sat",
         "theory:FloatingPoint:fp:type-error",
         "theory:FloatingPoint:fp:unsat-proof",
+        "theory:FloatingPoint:nan-payload-equality-sat",
+        "theory:FloatingPoint:nan-payload-equality-unsat-proof",
         "theory:FloatingPoint:nan:boundary",
         "theory:FloatingPoint:nan:sat",
         "theory:FloatingPoint:nan:type-error",
@@ -4067,6 +4103,8 @@
         "theory:FloatingPoint:positive-zero:sat",
         "theory:FloatingPoint:positive-zero:type-error",
         "theory:FloatingPoint:positive-zero:unsat-proof",
+        "theory:FloatingPoint:rna-ground-add-unsat-proof",
+        "theory:FloatingPoint:rna-round-to-integral-unsat-proof",
         "theory:FloatingPoint:rna:boundary",
         "theory:FloatingPoint:rna:sat",
         "theory:FloatingPoint:rna:type-error",
@@ -4111,6 +4149,13 @@
         "theory:FloatingPoint:rtz:sat",
         "theory:FloatingPoint:rtz:type-error",
         "theory:FloatingPoint:rtz:unsat-proof",
+        "theory:FloatingPoint:symbolic-comparison-eq-unsat-proof",
+        "theory:FloatingPoint:symbolic-comparison-geq-unsat-proof",
+        "theory:FloatingPoint:symbolic-comparison-gt-unsat-proof",
+        "theory:FloatingPoint:symbolic-comparison-leq-unsat-proof",
+        "theory:FloatingPoint:symbolic-comparison-lt-unsat-proof",
+        "theory:FloatingPoint:to-fp-mixed-format-chain-unsat-proof",
+        "theory:FloatingPoint:to-fp-mixed-format-rna-unsat-proof",
         "theory:FloatingPoint:to-fp-unsigned:boundary",
         "theory:FloatingPoint:to-fp-unsigned:sat",
         "theory:FloatingPoint:to-fp-unsigned:type-error",
@@ -4120,7 +4165,12 @@
         "theory:FloatingPoint:to-fp:type-error",
         "theory:FloatingPoint:to-fp:unsat-proof"
       ],
-      "complete_required_status": "red"
+      "red_obligation_ids": [],
+      "complete_required_status": "reconstructed",
+      "resource_gated_ids": [
+        "theory:FloatingPoint:d12-fp-add-commutativity-float32",
+        "theory:FloatingPoint:d12-fp-add-commutativity-tiny-3-5"
+      ]
     },
     {
       "item": "HOL strings versus SMT-LIB UnicodeStrings and regex",

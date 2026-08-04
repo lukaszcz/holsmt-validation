@@ -496,6 +496,981 @@
     },
     {
       "classes": [
+        "task05-reworked-script",
+        "ground-sort-special"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:float128:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_float128_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_float128_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_float128_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:float128:unsat-proof",
+      "source_sha256": "ffb54555c2956e859266fbd03fd609b9a9b01c0468f18799160e69fd0f874531"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "ground-sort-special"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:float16:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_float16_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_float16_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_float16_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:float16:unsat-proof",
+      "source_sha256": "874e009853dfeab85cc3b2c0f3aabf92c118bae28a2f2e4268a7f1263c9e5bd8"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "ground-sort-special"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:float32:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_float32_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_float32_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_float32_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:float32:unsat-proof",
+      "source_sha256": "4d952523ce8e28da180b2623d4e481b841b7cff01f38a2a3b9c3ae15e039bb38"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "ground-sort-special"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:float64:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_float64_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_float64_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_float64_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:float64:unsat-proof",
+      "source_sha256": "4663522e600a238cc9b5968c7c239a5bb7431c95710f69f9bb06823ab087f13c"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "ground-sort-special"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:floatingpoint:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_floatingpoint_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_floatingpoint_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_floatingpoint_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:floatingpoint:unsat-proof",
+      "source_sha256": "50bbe064093767283bc16df5756e918d984aa6c85586953ba2e3b6b6d48408f1"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "symbolic-atom"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:fp.abs:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_fp_abs_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_fp_abs_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_fp_abs_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:fp.abs:unsat-proof",
+      "source_sha256": "4a910cde0446ad65fd4e79d2715e99f2a692af8ee1231a650452b58c7a496b76"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "ground-evaluation"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:fp.add:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_fp_add_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_fp_add_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_fp_add_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:fp.add:unsat-proof",
+      "source_sha256": "e4d4094bf49bb21c53a32102b5659216e5ede34c8ee47c55aedd852a90b6dcc3"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "ground-evaluation"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:fp.div:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_fp_div_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_fp_div_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_fp_div_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:fp.div:unsat-proof",
+      "source_sha256": "a19692e4d63b04d6e3fbf0c33311526decd4b8d6c10e4b4ac179f5640f796a46"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "symbolic-atom"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:fp.eq:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_fp_eq_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_fp_eq_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_fp_eq_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:fp.eq:unsat-proof",
+      "source_sha256": "32cd7df6e0db4918a228472110d5212a33f16d7c4d7d4418bc19aa5cf5d9b7bd"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "ground-evaluation"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:fp.fma:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_fp_fma_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_fp_fma_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_fp_fma_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:fp.fma:unsat-proof",
+      "source_sha256": "d40fce720f0b5983919e818e50c46ea2f99af037a25098a8e7fb439d118725c3"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "ground-evaluation"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:fp.geq:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_fp_geq_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_fp_geq_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_fp_geq_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:fp.geq:unsat-proof",
+      "source_sha256": "2666e0380c48ac4c60a2ee510ba54845303749b0655fa852e50a1d491c8b8c9b"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "symbolic-atom"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:fp.gt:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_fp_gt_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_fp_gt_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_fp_gt_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:fp.gt:unsat-proof",
+      "source_sha256": "567cb3b11231e991bb15fad73045413cbf48769aca5bd4d37064fb90d010e5af"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "symbolic-atom"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:fp.isinfinite:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_fp_isinfinite_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_fp_isinfinite_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_fp_isinfinite_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:fp.isinfinite:unsat-proof",
+      "source_sha256": "d7a4d2efbc8bbc95965e8cb0cc5f40a6ebd7835b84125b8374e9c036a4613d8e"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "symbolic-atom"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:fp.isnan:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_fp_isnan_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_fp_isnan_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_fp_isnan_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:fp.isnan:unsat-proof",
+      "source_sha256": "b182505a3024b7b93e9a4c4a9196f4d2afd98072624bf18fef3eb47716e3f137"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "symbolic-atom"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:fp.isnegative:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_fp_isnegative_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_fp_isnegative_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_fp_isnegative_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:fp.isnegative:unsat-proof",
+      "source_sha256": "69032ecfb5ffa45f350654e9fc7c439f4160d80b4cea69186bbaf600b45d6497"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "symbolic-atom"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:fp.isnormal:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_fp_isnormal_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_fp_isnormal_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_fp_isnormal_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:fp.isnormal:unsat-proof",
+      "source_sha256": "ee491d07f31991692439474afed0f92304ef4041575468cbc3b4d2400c1d5a9f"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "symbolic-atom"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:fp.ispositive:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_fp_ispositive_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_fp_ispositive_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_fp_ispositive_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:fp.ispositive:unsat-proof",
+      "source_sha256": "517da760e8af46195859b3cbbc2937266521a842041af40042777a2f70558da7"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "symbolic-atom"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:fp.issubnormal:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_fp_issubnormal_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_fp_issubnormal_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_fp_issubnormal_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:fp.issubnormal:unsat-proof",
+      "source_sha256": "6931b9b11bc1c89865ff88693d484e8e19fc5fb94b02eff924e8430128774628"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "symbolic-atom"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:fp.iszero:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_fp_iszero_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_fp_iszero_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_fp_iszero_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:fp.iszero:unsat-proof",
+      "source_sha256": "1a97bf37e7c4b0ebecfcb753e9da43841cf9989cc0dcf4c8221e63a032fdeb09"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "symbolic-atom"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:fp.leq:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_fp_leq_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_fp_leq_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_fp_leq_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:fp.leq:unsat-proof",
+      "source_sha256": "ed93d512d687b5b27908f4ae386fa91bab239e71f783101e1de3a675d93846fe"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "symbolic-atom"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:fp.lt:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_fp_lt_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_fp_lt_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_fp_lt_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:fp.lt:unsat-proof",
+      "source_sha256": "bac3547f115d6a332ccee351e8caa8e560f385a255a5ec443d12f713e0329c19"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "ground-evaluation"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:fp.max:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_fp_max_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_fp_max_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_fp_max_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:fp.max:unsat-proof",
+      "source_sha256": "b1a3787acaf317e61615e83a46b625295975db3407def87b42760e78a3f1db93"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "ground-evaluation"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:fp.min:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_fp_min_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_fp_min_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_fp_min_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:fp.min:unsat-proof",
+      "source_sha256": "1823ed97a27492c0b3701cb51c2491d70f21ca2b1e109833f38acce6a26fc032"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "ground-evaluation"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:fp.mul:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_fp_mul_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_fp_mul_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_fp_mul_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:fp.mul:unsat-proof",
+      "source_sha256": "a321c3e42c769d6ba9509ececab3b3976d43e4d6433c084c13274c07b6393563"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "symbolic-normalization"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:fp.neg:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_fp_neg_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_fp_neg_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_fp_neg_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:fp.neg:unsat-proof",
+      "source_sha256": "701adfdaf7978660257401705a88ff5e7c0880a835a9e22384c39da2f3f42d03"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "ground-evaluation"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:fp.rem:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_fp_rem_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_fp_rem_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_fp_rem_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:fp.rem:unsat-proof",
+      "source_sha256": "5c14a6197ccd795536c6fa7bb6afea93c5669f3e8d093768c0a89eadf056daa2"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "ground-evaluation"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:fp.roundtointegral:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_fp_roundtointegral_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_fp_roundtointegral_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_fp_roundtointegral_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:fp.roundtointegral:unsat-proof",
+      "source_sha256": "3b76aacee964f139d9870de969aaee8d3e86b48162de21338bbd78d26b39e0d8"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "ground-evaluation"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:fp.sqrt:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_fp_sqrt_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_fp_sqrt_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_fp_sqrt_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:fp.sqrt:unsat-proof",
+      "source_sha256": "37ed74cdb4de08c063c008fb9f5527857a560e25f3e85c2eeadbe5a91b6e4702"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "ground-evaluation"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:fp.sub:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_fp_sub_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_fp_sub_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_fp_sub_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:fp.sub:unsat-proof",
+      "source_sha256": "20191da734ea3ff30790d7647b4acadc9075d153214109777c4da9a3ffb237b1"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "ground-conversion"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:fp.to-real:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FPLRA",
+      "id": "task05_fp_to_real_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_fp_to_real_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_fp_to_real_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:fp.to-real:unsat-proof",
+      "source_sha256": "c5278705df893bb02dfbbc2aa46ab53780f449992726f157ae9ac5c8388a4ae4"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "ground-conversion"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:fp.to-sbv:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_BVFP",
+      "id": "task05_fp_to_sbv_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_fp_to_sbv_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_fp_to_sbv_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:fp.to-sbv:unsat-proof",
+      "source_sha256": "9aa68dd866e007ac09d54b39fe0b9d982398bc43257fbf2c4e00f838bf894eb2"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "ground-conversion"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:fp.to-ubv:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_BVFP",
+      "id": "task05_fp_to_ubv_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_fp_to_ubv_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_fp_to_ubv_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:fp.to-ubv:unsat-proof",
+      "source_sha256": "722d21c3096012f147537ed88df69cee52da0c637a8dddb14206db0f1c91eec6"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "nan-canonical-equality"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:fp:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_fp_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_fp_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_fp_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:fp:unsat-proof",
+      "source_sha256": "f059e3eda9828e44990402f01f362db65256081cbc16400897610ed9a3fe14ac"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "nan-canonical-equality"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:nan:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_nan_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_nan_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_nan_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:nan:unsat-proof",
+      "source_sha256": "c4691b618c3a22afd63b60d177a2da96f8f8f2ef9bda80375e24d1d6c7797d72"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "literal-normalization"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:negative-infinity:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_negative_infinity_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_negative_infinity_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_negative_infinity_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:negative-infinity:unsat-proof",
+      "source_sha256": "61cf8db7821dee43fa744c62f2ae638738c12fac4bdffae6948b9480f6baa8af"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "literal-normalization"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:negative-zero:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_negative_zero_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_negative_zero_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_negative_zero_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:negative-zero:unsat-proof",
+      "source_sha256": "ac76bc8b77daf9e9d0d55dacc1c1bfba49c4845ae6403cb6f1f7bd589dabb3bf"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "literal-normalization"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:positive-infinity:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_positive_infinity_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_positive_infinity_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_positive_infinity_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:positive-infinity:unsat-proof",
+      "source_sha256": "3af88019c6f46914b61911f6f6cfb2003c287e4ea427deef464a72c06bcd84f7"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "literal-normalization"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:positive-zero:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_positive_zero_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_positive_zero_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_positive_zero_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:positive-zero:unsat-proof",
+      "source_sha256": "51a8952fd261d3e517afdbabac482b75e2412779cc9090905ac0fac7a1d3182f"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "ground-rounding"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:rna:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_rna_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_rna_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_rna_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:rna:unsat-proof",
+      "source_sha256": "df4cc8f0bd26d7e6d4ff79ac534c0d54d66b326ba60cfa996c220789a2b051d5"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "ground-rounding"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:rne:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_rne_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_rne_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_rne_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:rne:unsat-proof",
+      "source_sha256": "e0df37f7ae2f442ab7c59cca632b3296fb9e8cfaffcf0a79158a84f22014b08d"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "ground-sort-rounding"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:roundingmode:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_roundingmode_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_roundingmode_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_roundingmode_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:roundingmode:unsat-proof",
+      "source_sha256": "ffe41a25278bc41f6ad7d51a7fc189abe663b72b8a82d6e89ce9d4e2fa685b23"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "ground-rounding"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:roundnearesttiestoaway:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_roundnearesttiestoaway_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_roundnearesttiestoaway_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_roundnearesttiestoaway_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:roundnearesttiestoaway:unsat-proof",
+      "source_sha256": "e0266b9b195a9ed313008d8fcbb5229e295bf678e32f279c5db2edbfde9d6b25"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "ground-rounding"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:roundnearesttiestoeven:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_roundnearesttiestoeven_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_roundnearesttiestoeven_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_roundnearesttiestoeven_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:roundnearesttiestoeven:unsat-proof",
+      "source_sha256": "48e086be5ad6cac57deae22621f85cdb734b7cdf31e7c0168c1f47b1ff0ee3a5"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "ground-rounding"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:roundtowardnegative:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_roundtowardnegative_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_roundtowardnegative_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_roundtowardnegative_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:roundtowardnegative:unsat-proof",
+      "source_sha256": "365aef349415ff051ed8e7fcaeee802783b55a2d814050f003ce46a368f62f83"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "ground-rounding"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:roundtowardpositive:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_roundtowardpositive_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_roundtowardpositive_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_roundtowardpositive_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:roundtowardpositive:unsat-proof",
+      "source_sha256": "32dc386bef4240746665ab99b5d426b8c7453ab41c8bd9cdd8c156122bf262e4"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "ground-rounding"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:roundtowardzero:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_roundtowardzero_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_roundtowardzero_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_roundtowardzero_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:roundtowardzero:unsat-proof",
+      "source_sha256": "61a10bb0ad99c6a19493ba7a9b371b56352cae5bc4b4e6f54a62deaace759e48"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "ground-rounding"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:rtn:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_rtn_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_rtn_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_rtn_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:rtn:unsat-proof",
+      "source_sha256": "5e42c708f216601c0631c7a2b71a95fb1969ed2a058cfc03dc2662ffdf9ccae0"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "ground-rounding"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:rtp:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_rtp_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_rtp_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_rtp_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:rtp:unsat-proof",
+      "source_sha256": "2dfbb748444da233f4dd0ea0703c3c0e7a17e0adffc5420d04e688e6c8ab78bc"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "ground-rounding"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:rtz:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task05_rtz_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_rtz_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_rtz_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:rtz:unsat-proof",
+      "source_sha256": "0be86cf3ca04fb28b5a422db1facabc553b197afe3999d129f87149c7c083e00"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "ground-conversion"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:to-fp-unsigned:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_BVFP",
+      "id": "task05_to_fp_unsigned_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_to_fp_unsigned_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_to_fp_unsigned_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:to-fp-unsigned:unsat-proof",
+      "source_sha256": "7606ff1e74e86eea174862d77255286c53b0303dda8aa1a843494e2e83b5e747"
+    },
+    {
+      "classes": [
+        "task05-reworked-script",
+        "ground-conversion"
+      ],
+      "description": "TASK_05 conformance proof: theory:FloatingPoint:to-fp:unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_BVFP",
+      "id": "task05_to_fp_unsat_proof",
+      "operators": [],
+      "path": "inputs/task05_to_fp_unsat_proof.smt2",
+      "source_case_file": "cases/theories/theory_floatingpoint_to_fp_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:to-fp:unsat-proof",
+      "source_sha256": "6d6701313189d73c3bfa1a8f1173b68b244fc7d38e6e41732158b374f572be3d"
+    },
+    {
+      "classes": [
+        "task06-special",
+        "semantic-fp-proof"
+      ],
+      "description": "TASK_06 conformance proof: theory:FloatingPoint:d12-fp-add-commutativity-tiny-3-5.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task06_d12_fp_add_commutativity_tiny_3_5",
+      "operators": [],
+      "path": "inputs/task06_d12_fp_add_commutativity_tiny_3_5.smt2",
+      "source_case_file": "cases/theories/floatingpoint/theory_floatingpoint_d12_fp_add_commutativity_tiny_3_5.smt2",
+      "source_case_id": "theory:FloatingPoint:d12-fp-add-commutativity-tiny-3-5",
+      "source_sha256": "d2762456578f0267e6de35aa1e1b0ea00e1cb1f2a8fbd45749a95af4766d2176"
+    },
+    {
+      "classes": [
+        "task06-special",
+        "ground-evaluation"
+      ],
+      "description": "TASK_06 conformance proof: theory:FloatingPoint:fp-min-ordered-ground-unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task06_fp_min_ordered_ground_unsat_proof",
+      "operators": [],
+      "path": "inputs/task06_fp_min_ordered_ground_unsat_proof.smt2",
+      "source_case_file": "cases/theories/floatingpoint/theory_floatingpoint_fp_min_ordered_ground_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:fp-min-ordered-ground-unsat-proof",
+      "source_sha256": "59aa766b8afd11fbc79fe0978613bbac29259af875092e40a389a56c3523a679"
+    },
+    {
+      "classes": [
+        "task06-special",
+        "ground-conversion"
+      ],
+      "description": "TASK_06 conformance proof: theory:FloatingPoint:fp-to-real-ground-unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FPLRA",
+      "id": "task06_fp_to_real_ground_unsat_proof",
+      "operators": [],
+      "path": "inputs/task06_fp_to_real_ground_unsat_proof.smt2",
+      "source_case_file": "cases/theories/floatingpoint/theory_floatingpoint_fp_to_real_ground_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:fp-to-real-ground-unsat-proof",
+      "source_sha256": "1687afa88a416f13d15732fdca66c448fd1013ddb3d8aa8f2f687f55690fafd6"
+    },
+    {
+      "classes": [
+        "task06-special",
+        "symbolic-atom"
+      ],
+      "description": "TASK_06 conformance proof: theory:FloatingPoint:fp-to-real-symbolic-bridge-unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FPLRA",
+      "id": "task06_fp_to_real_symbolic_bridge_unsat_proof",
+      "operators": [],
+      "path": "inputs/task06_fp_to_real_symbolic_bridge_unsat_proof.smt2",
+      "source_case_file": "cases/theories/floatingpoint/theory_floatingpoint_fp_to_real_symbolic_bridge_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:fp-to-real-symbolic-bridge-unsat-proof",
+      "source_sha256": "634bbd084c3e62b981170195435a447ef7926bba94a5b4d9610781f07740cd01"
+    },
+    {
+      "classes": [
+        "task06-special",
+        "semantic-fp-proof"
+      ],
+      "description": "TASK_06 conformance proof: theory:FloatingPoint:nan-payload-equality-unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task06_nan_payload_equality_unsat_proof",
+      "operators": [],
+      "path": "inputs/task06_nan_payload_equality_unsat_proof.smt2",
+      "source_case_file": "cases/theories/floatingpoint/theory_floatingpoint_nan_payload_equality_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:nan-payload-equality-unsat-proof",
+      "source_sha256": "ae21e2a37126482fd7f61aa60a2a617f0472f30a8033fc83169b63aa3723b035"
+    },
+    {
+      "classes": [
+        "task06-special",
+        "ground-evaluation"
+      ],
+      "description": "TASK_06 conformance proof: theory:FloatingPoint:rna-ground-add-unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task06_rna_ground_add_unsat_proof",
+      "operators": [],
+      "path": "inputs/task06_rna_ground_add_unsat_proof.smt2",
+      "source_case_file": "cases/theories/floatingpoint/theory_floatingpoint_rna_ground_add_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:rna-ground-add-unsat-proof",
+      "source_sha256": "720292a0e2e902e64b6fad4f009dcdba5681fa031a87266bb8dad68490c660d9"
+    },
+    {
+      "classes": [
+        "task06-special",
+        "ground-evaluation"
+      ],
+      "description": "TASK_06 conformance proof: theory:FloatingPoint:rna-round-to-integral-unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task06_rna_round_to_integral_unsat_proof",
+      "operators": [],
+      "path": "inputs/task06_rna_round_to_integral_unsat_proof.smt2",
+      "source_case_file": "cases/theories/floatingpoint/theory_floatingpoint_rna_round_to_integral_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:rna-round-to-integral-unsat-proof",
+      "source_sha256": "b3a0e92ad1315368922bd0903f74ae061962a6da3cdca4d31d61cf53e49f2f6b"
+    },
+    {
+      "classes": [
+        "task06-special",
+        "symbolic-atom"
+      ],
+      "description": "TASK_06 conformance proof: theory:FloatingPoint:symbolic-comparison-eq-unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task06_symbolic_comparison_eq_unsat_proof",
+      "operators": [],
+      "path": "inputs/task06_symbolic_comparison_eq_unsat_proof.smt2",
+      "source_case_file": "cases/theories/floatingpoint/theory_floatingpoint_symbolic_comparison_eq_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:symbolic-comparison-eq-unsat-proof",
+      "source_sha256": "eb8a01cf59b6ff0ccb68660bab29ab634f0ec57d537e8fb290be5305991cfc09"
+    },
+    {
+      "classes": [
+        "task06-special",
+        "symbolic-atom"
+      ],
+      "description": "TASK_06 conformance proof: theory:FloatingPoint:symbolic-comparison-geq-unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task06_symbolic_comparison_geq_unsat_proof",
+      "operators": [],
+      "path": "inputs/task06_symbolic_comparison_geq_unsat_proof.smt2",
+      "source_case_file": "cases/theories/floatingpoint/theory_floatingpoint_symbolic_comparison_geq_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:symbolic-comparison-geq-unsat-proof",
+      "source_sha256": "c0e325ff3b5e94de608d5ef2e2e07aee5a7067c909638969ff31f6b3bbbff21d"
+    },
+    {
+      "classes": [
+        "task06-special",
+        "symbolic-atom"
+      ],
+      "description": "TASK_06 conformance proof: theory:FloatingPoint:symbolic-comparison-gt-unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task06_symbolic_comparison_gt_unsat_proof",
+      "operators": [],
+      "path": "inputs/task06_symbolic_comparison_gt_unsat_proof.smt2",
+      "source_case_file": "cases/theories/floatingpoint/theory_floatingpoint_symbolic_comparison_gt_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:symbolic-comparison-gt-unsat-proof",
+      "source_sha256": "25680e90a0cb34c8678578eab3d2b190c107bf8f0ce701afc98046c4df0224e2"
+    },
+    {
+      "classes": [
+        "task06-special",
+        "symbolic-atom"
+      ],
+      "description": "TASK_06 conformance proof: theory:FloatingPoint:symbolic-comparison-leq-unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task06_symbolic_comparison_leq_unsat_proof",
+      "operators": [],
+      "path": "inputs/task06_symbolic_comparison_leq_unsat_proof.smt2",
+      "source_case_file": "cases/theories/floatingpoint/theory_floatingpoint_symbolic_comparison_leq_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:symbolic-comparison-leq-unsat-proof",
+      "source_sha256": "277b63118762f9744576fabe84fa745b655df5fb74a08cef482270506fb1b39f"
+    },
+    {
+      "classes": [
+        "task06-special",
+        "symbolic-atom"
+      ],
+      "description": "TASK_06 conformance proof: theory:FloatingPoint:symbolic-comparison-lt-unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task06_symbolic_comparison_lt_unsat_proof",
+      "operators": [],
+      "path": "inputs/task06_symbolic_comparison_lt_unsat_proof.smt2",
+      "source_case_file": "cases/theories/floatingpoint/theory_floatingpoint_symbolic_comparison_lt_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:symbolic-comparison-lt-unsat-proof",
+      "source_sha256": "79faaf5f2982fa2f8ca5b0dc3aa5125b135db555527b575a8ef6f1f5ff8e6ee5"
+    },
+    {
+      "classes": [
+        "task06-special",
+        "ground-conversion"
+      ],
+      "description": "TASK_06 conformance proof: theory:FloatingPoint:to-fp-mixed-format-chain-unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FPLRA",
+      "id": "task06_to_fp_mixed_format_chain_unsat_proof",
+      "operators": [],
+      "path": "inputs/task06_to_fp_mixed_format_chain_unsat_proof.smt2",
+      "source_case_file": "cases/theories/floatingpoint/theory_floatingpoint_to_fp_mixed_format_chain_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:to-fp-mixed-format-chain-unsat-proof",
+      "source_sha256": "8b3a93a4d52729aedea8a2ed0891da1f1979c02f32bf83537fa25e5e751052e1"
+    },
+    {
+      "classes": [
+        "task06-special",
+        "ground-conversion"
+      ],
+      "description": "TASK_06 conformance proof: theory:FloatingPoint:to-fp-mixed-format-rna-unsat-proof.",
+      "expected_result": "unsat",
+      "format": "v2/QF_FP",
+      "id": "task06_to_fp_mixed_format_rna_unsat_proof",
+      "operators": [],
+      "path": "inputs/task06_to_fp_mixed_format_rna_unsat_proof.smt2",
+      "source_case_file": "cases/theories/floatingpoint/theory_floatingpoint_to_fp_mixed_format_rna_unsat_proof.smt2",
+      "source_case_id": "theory:FloatingPoint:to-fp-mixed-format-rna-unsat-proof",
+      "source_sha256": "5fc8dfb25a6827d2e366fbde7412958866d883f7ba5a7666a339e19525170f93"
+    },
+    {
+      "classes": [
         "arbitrary-format"
       ],
       "description": "Cheap bit-decomposition probe on Float32.",
@@ -595,6 +1570,16 @@
       "proof_recorded": false,
       "proof_size_mib": 891,
       "solve_seconds": 65
+    },
+    {
+      "description": "TASK_06 Float32 one-variable fp.add exemplar; payload excluded because it exceeds the D12 proof-size gate.",
+      "format": "Float32",
+      "id": "task06_d12_fp_add_commutativity_float32",
+      "measurement": "TASK_06 direct Z3 4.11.2 run",
+      "operator": "fp.add",
+      "proof_recorded": false,
+      "proof_size_bytes": 93660186,
+      "source_case_id": "theory:FloatingPoint:d12-fp-add-commutativity-float32"
     }
   ],
   "required_classes": [
@@ -610,9 +1595,85 @@
     "nan-payload-equality",
     "literal-normalization",
     "arbitrary-format",
-    "d12-tiny-add"
+    "d12-tiny-add",
+    "task05-reworked-script",
+    "task06-special"
   ],
   "schema": "holsmt-z3-fp-proof-corpus-v1",
+  "source_case_coverage": {
+    "task05_reworked_scripts": [
+      "theory:FloatingPoint:float128:unsat-proof",
+      "theory:FloatingPoint:float16:unsat-proof",
+      "theory:FloatingPoint:float32:unsat-proof",
+      "theory:FloatingPoint:float64:unsat-proof",
+      "theory:FloatingPoint:floatingpoint:unsat-proof",
+      "theory:FloatingPoint:fp.abs:unsat-proof",
+      "theory:FloatingPoint:fp.add:unsat-proof",
+      "theory:FloatingPoint:fp.div:unsat-proof",
+      "theory:FloatingPoint:fp.eq:unsat-proof",
+      "theory:FloatingPoint:fp.fma:unsat-proof",
+      "theory:FloatingPoint:fp.geq:unsat-proof",
+      "theory:FloatingPoint:fp.gt:unsat-proof",
+      "theory:FloatingPoint:fp.isinfinite:unsat-proof",
+      "theory:FloatingPoint:fp.isnan:unsat-proof",
+      "theory:FloatingPoint:fp.isnegative:unsat-proof",
+      "theory:FloatingPoint:fp.isnormal:unsat-proof",
+      "theory:FloatingPoint:fp.ispositive:unsat-proof",
+      "theory:FloatingPoint:fp.issubnormal:unsat-proof",
+      "theory:FloatingPoint:fp.iszero:unsat-proof",
+      "theory:FloatingPoint:fp.leq:unsat-proof",
+      "theory:FloatingPoint:fp.lt:unsat-proof",
+      "theory:FloatingPoint:fp.max:unsat-proof",
+      "theory:FloatingPoint:fp.min:unsat-proof",
+      "theory:FloatingPoint:fp.mul:unsat-proof",
+      "theory:FloatingPoint:fp.neg:unsat-proof",
+      "theory:FloatingPoint:fp.rem:unsat-proof",
+      "theory:FloatingPoint:fp.roundtointegral:unsat-proof",
+      "theory:FloatingPoint:fp.sqrt:unsat-proof",
+      "theory:FloatingPoint:fp.sub:unsat-proof",
+      "theory:FloatingPoint:fp.to-real:unsat-proof",
+      "theory:FloatingPoint:fp.to-sbv:unsat-proof",
+      "theory:FloatingPoint:fp.to-ubv:unsat-proof",
+      "theory:FloatingPoint:fp:unsat-proof",
+      "theory:FloatingPoint:nan:unsat-proof",
+      "theory:FloatingPoint:negative-infinity:unsat-proof",
+      "theory:FloatingPoint:negative-zero:unsat-proof",
+      "theory:FloatingPoint:positive-infinity:unsat-proof",
+      "theory:FloatingPoint:positive-zero:unsat-proof",
+      "theory:FloatingPoint:rna:unsat-proof",
+      "theory:FloatingPoint:rne:unsat-proof",
+      "theory:FloatingPoint:roundingmode:unsat-proof",
+      "theory:FloatingPoint:roundnearesttiestoaway:unsat-proof",
+      "theory:FloatingPoint:roundnearesttiestoeven:unsat-proof",
+      "theory:FloatingPoint:roundtowardnegative:unsat-proof",
+      "theory:FloatingPoint:roundtowardpositive:unsat-proof",
+      "theory:FloatingPoint:roundtowardzero:unsat-proof",
+      "theory:FloatingPoint:rtn:unsat-proof",
+      "theory:FloatingPoint:rtp:unsat-proof",
+      "theory:FloatingPoint:rtz:unsat-proof",
+      "theory:FloatingPoint:to-fp-unsigned:unsat-proof",
+      "theory:FloatingPoint:to-fp:unsat-proof"
+    ],
+    "task06_metadata_only": [
+      "theory:FloatingPoint:d12-fp-add-commutativity-float32"
+    ],
+    "task06_recorded_specials": [
+      "theory:FloatingPoint:d12-fp-add-commutativity-tiny-3-5",
+      "theory:FloatingPoint:fp-min-ordered-ground-unsat-proof",
+      "theory:FloatingPoint:fp-to-real-ground-unsat-proof",
+      "theory:FloatingPoint:fp-to-real-symbolic-bridge-unsat-proof",
+      "theory:FloatingPoint:nan-payload-equality-unsat-proof",
+      "theory:FloatingPoint:rna-ground-add-unsat-proof",
+      "theory:FloatingPoint:rna-round-to-integral-unsat-proof",
+      "theory:FloatingPoint:symbolic-comparison-eq-unsat-proof",
+      "theory:FloatingPoint:symbolic-comparison-geq-unsat-proof",
+      "theory:FloatingPoint:symbolic-comparison-gt-unsat-proof",
+      "theory:FloatingPoint:symbolic-comparison-leq-unsat-proof",
+      "theory:FloatingPoint:symbolic-comparison-lt-unsat-proof",
+      "theory:FloatingPoint:to-fp-mixed-format-chain-unsat-proof",
+      "theory:FloatingPoint:to-fp-mixed-format-rna-unsat-proof"
+    ]
+  },
   "supported_z3_versions": [
     "4.11.2",
     "4.12.4",

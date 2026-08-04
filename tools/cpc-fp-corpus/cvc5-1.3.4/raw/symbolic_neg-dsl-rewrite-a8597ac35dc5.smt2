@@ -1,0 +1,7 @@
+(set-option :produce-proofs true)
+(set-logic QF_FP)
+(declare-const x (_ FloatingPoint 3 5))
+(assert (not (= (fp.neg (fp.neg x)) x)))
+(check-sat)
+(get-proof)
+(exit)

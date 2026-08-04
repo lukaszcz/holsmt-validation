@@ -13,6 +13,10 @@
       "reason": "covered by curated-small/bitvectors/qf_bv_xor_zero.smt2",
       "source": "curated-small"
     },
+    "QF_FP": {
+      "reason": "covered by the pinned curated-small/floatingpoint slice",
+      "source": "z3test-fp-curated"
+    },
     "QF_DT": {
       "reason": "covered by curated-small/datatypes/qf_dt_color.smt2",
       "source": "curated-small"

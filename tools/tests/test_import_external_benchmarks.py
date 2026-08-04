@@ -177,6 +177,37 @@ class ExternalBenchmarkImporterTests(unittest.TestCase):
             path.read_bytes(),
         )
 
+    def test_fp_family_is_pinned_and_within_d12_budget(self):
+        data = importer.load_json(importer.DEFAULT_PINNED_MANIFEST)
+        entries = [
+            entry
+            for entry in data["entries"]
+            if entry.get("logic_family") == "QF_FP"
+        ]
+
+        self.assertEqual(len(entries), 4)
+        self.assertEqual(
+            {entry["logic"] for entry in entries},
+            {"QF_FP", "QF_BVFP"},
+        )
+        statuses = {
+            feature
+            for entry in entries
+            for feature in entry["features"]
+            if feature.startswith("external-status:")
+        }
+        self.assertEqual(
+            statuses,
+            {"external-status:sat", "external-status:unsat-proof"},
+        )
+        for entry in entries:
+            pinned = importer.PinnedEntry(entry)
+            content = importer.read_pinned_content(pinned)
+            importer.verify_sha256(pinned, content)
+            self.assertFalse(entry["version_sensitivity"])
+            for proof_bytes in entry.get("d12_proof_bytes", {}).values():
+                self.assertLessEqual(proof_bytes, 16 * 1024 * 1024)
+
     def test_import_verifies_hash_and_links_case_into_v2_manifest(self):
         content = "(set-logic QF_UF)\n(check-sat)\n"
         with tempfile.TemporaryDirectory() as tmp:
@@ -213,6 +244,25 @@ class ExternalBenchmarkImporterTests(unittest.TestCase):
             self.assertEqual(case["class"], "external-benchmark")
             self.assertEqual(case["file"], "cases/external/fixture_qf_uf_sat.smt2")
             self.assertEqual(case["source"]["url"], "https://example.invalid/fixture/qf_uf_sat.smt2")
+
+    def test_merge_removes_pinned_rows_absent_from_current_manifest(self):
+        stale = {
+            "id": "external-benchmark:stale",
+            "class": "external-benchmark",
+            "source": {
+                "notes": "pinned source_path=stale.smt2; pin=old"
+            },
+        }
+        retained = {
+            "id": "external-benchmark:generated",
+            "class": "external-benchmark",
+            "source": {"notes": "generated independently"},
+        }
+        merged = importer.merge_v2_manifest(
+            {"schema_version": "2", "cases": [stale, retained]},
+            [],
+        )
+        self.assertEqual(merged["cases"], [retained])
 
     def test_hash_mismatch_fails_before_writing_case(self):
         content = "(set-logic QF_UF)\n(check-sat)\n"

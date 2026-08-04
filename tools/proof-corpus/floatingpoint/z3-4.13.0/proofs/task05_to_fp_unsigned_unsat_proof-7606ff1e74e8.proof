@@ -1,0 +1,13 @@
+((set-logic QF_BVFP)
+(proof
+(let ((?x28 (fp (_ bv0 1) (_ bv6 3) (_ bv10 4))))
+ (let ((?x25 ((_ to_fp_unsigned 3 5) roundNearestTiesToEven (_ bv13 4))))
+ (let (($x29 (= ?x25 ?x28)))
+ (let (($x30 (not $x29)))
+ (let (($x37 (= ?x25 (fp #b0 #b110 #xa))))
+ (let ((@x35 (monotonicity (rewrite (= roundNearestTiesToEven roundNearestTiesToEven)) (= ?x25 ?x25))))
+ (let ((@x44 (monotonicity (trans @x35 (rewrite $x37) $x37) (rewrite (= ?x28 (fp #b0 #b110 #xa))) (= $x29 (= (fp #b0 #b110 #xa) (fp #b0 #b110 #xa))))))
+ (let ((@x48 (trans @x44 (rewrite (= (= (fp #b0 #b110 #xa) (fp #b0 #b110 #xa)) true)) (= $x29 true))))
+ (let ((@x55 (trans (monotonicity @x48 (= $x30 (not true))) (rewrite (= (not true) false)) (= $x30 false))))
+ (mp (asserted $x30) @x55 false))))))))))))
+

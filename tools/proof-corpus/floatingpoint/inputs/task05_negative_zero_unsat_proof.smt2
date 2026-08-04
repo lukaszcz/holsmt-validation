@@ -1,0 +1,5 @@
+(set-option :produce-proofs true)
+(set-logic QF_FP)
+(assert (not (= (_ -zero 3 5) (fp #b1 #b000 #b0000))))
+(check-sat)
+(get-proof)

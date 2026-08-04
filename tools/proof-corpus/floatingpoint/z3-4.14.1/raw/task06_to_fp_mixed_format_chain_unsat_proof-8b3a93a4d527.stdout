@@ -1,0 +1,17 @@
+unsat
+((set-logic QF_FPLRA)
+(proof
+(let ((?x27 (fp (_ bv0 1) (_ bv3 3) (_ bv1 4))))
+(let ((?x28 ((_ to_fp 4 7) roundNearestTiesToEven ?x27)))
+(let ((?x29 ((_ to_fp 3 5) roundNearestTiesToAway ?x28)))
+(let (($x30 (= ?x29 ?x27)))
+(let (($x31 (not $x30)))
+(let ((@x39 (rewrite (= ?x27 (fp #b0 #b011 #x1)))))
+(let ((@x42 (monotonicity (rewrite (= roundNearestTiesToEven roundNearestTiesToEven)) @x39 (= ?x28 ((_ to_fp 4 7) roundNearestTiesToEven (fp #b0 #b011 #x1))))))
+(let ((@x47 (trans @x42 (rewrite (= ((_ to_fp 4 7) roundNearestTiesToEven (fp #b0 #b011 #x1)) (fp #b0 #x7 #b000100))) (= ?x28 (fp #b0 #x7 #b000100)))))
+(let ((@x50 (monotonicity (rewrite (= roundNearestTiesToAway roundNearestTiesToAway)) @x47 (= ?x29 ((_ to_fp 3 5) roundNearestTiesToAway (fp #b0 #x7 #b000100))))))
+(let ((@x54 (trans @x50 (rewrite (= ((_ to_fp 3 5) roundNearestTiesToAway (fp #b0 #x7 #b000100)) (fp #b0 #b011 #x1))) (= ?x29 (fp #b0 #b011 #x1)))))
+(let ((@x61 (trans (monotonicity @x54 @x39 (= $x30 (= (fp #b0 #b011 #x1) (fp #b0 #b011 #x1)))) (rewrite (= (= (fp #b0 #b011 #x1) (fp #b0 #b011 #x1)) true)) (= $x30 true))))
+(let ((@x68 (trans (monotonicity @x61 (= $x31 (not true))) (rewrite (= (not true) false)) (= $x31 false))))
+(mp (asserted $x31) @x68 false)))))))))))))))
+

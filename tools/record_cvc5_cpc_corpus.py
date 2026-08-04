@@ -27,6 +27,7 @@ GRANULARITIES = (
     "macro", "rewrite", "theory-rewrite", "dsl-rewrite",
     "dsl-rewrite-strict",
 )
+MAX_PROOF_BYTES = 16 * 1024 * 1024
 
 
 def cvc5_version(executable: str) -> str:
@@ -111,9 +112,10 @@ def inventory(proof: str) -> dict[str, Any]:
 
 
 def run_one(executable: str, granularity: str, path: pathlib.Path,
-            timeout: int, raw_dir: pathlib.Path) -> dict[str, Any]:
+            timeout: int, raw_dir: pathlib.Path,
+            solver_args: list[str] | None = None) -> dict[str, Any]:
     command = [
-        executable, "--produce-proofs", "--dump-proofs",
+        executable, *(solver_args or []), "--produce-proofs", "--dump-proofs",
         "--proof-format-mode=cpc", f"--proof-granularity={granularity}",
         "--proof-print-conclusion", "--lang", "smt2", str(path),
     ]
@@ -141,6 +143,7 @@ def run_one(executable: str, granularity: str, path: pathlib.Path,
         (raw_dir / f"{stem}.cpc").write_text(proofs[0], encoding="utf-8")
     first_result = next((line for line in stdout.splitlines()
                          if line in {"sat", "unsat", "unknown"}), "<none>")
+    proof_bytes = len(proofs[0].encode("utf-8")) if proofs else 0
     return {
         "input": str(path),
         "raw_stem": stem,
@@ -151,6 +154,8 @@ def run_one(executable: str, granularity: str, path: pathlib.Path,
         "timed_out": timed_out,
         "solver_result": first_result,
         "proof_copies": len(proofs),
+        "proof_bytes": proof_bytes,
+        "d12_proof_size_gate": proof_bytes > MAX_PROOF_BYTES,
         "inventory": inventory(proofs[0]) if proofs else None,
     }
 
@@ -163,13 +168,14 @@ def render_markdown(report: dict[str, Any]) -> str:
         f"- cvc5: `{report['cvc5']['version']}` (`{report['cvc5']['executable']}`)",
         f"- Captures: {len(report['entries'])}",
         "",
-        "| Granularity | Queries | Proof steps | `trust` steps | Unique rules |",
-        "| --- | ---: | ---: | ---: | ---: |",
+        "| Granularity | Queries | Proof bytes | Proof steps | `trust` steps | D12 gates | Unique rules |",
+        "| --- | ---: | ---: | ---: | ---: | ---: | ---: |",
     ]
     for granularity, data in report["granularities"].items():
         lines.append(
-            f"| `{granularity}` | {data['entries']} | {data['proof_steps']} | "
-            f"{data['trust_steps']} | {len(data['rules'])} |"
+            f"| `{granularity}` | {data['entries']} | {data['proof_bytes']} | "
+            f"{data['proof_steps']} | {data['trust_steps']} | "
+            f"{data['d12_proof_size_gates']} | {len(data['rules'])} |"
         )
     lines.extend(["", "## Frozen rule inventory", ""])
     for granularity, data in report["granularities"].items():
@@ -187,27 +193,38 @@ def main(argv: list[str]) -> int:
     parser.add_argument("--out", type=pathlib.Path,
                         default=TOOLS_DIR / "cpc-corpus-out")
     parser.add_argument("--timeout", type=int, default=30)
+    parser.add_argument(
+        "--solver-arg", action="append", default=[],
+        help="extra cvc5 argument (repeatable; use --solver-arg=--fp-exp)",
+    )
     parser.add_argument("--granularity", action="append", choices=GRANULARITIES)
     args = parser.parse_args(argv)
     granularities = args.granularity or list(GRANULARITIES)
     out = args.out.resolve()
     raw = out / "raw"
-    entries = [run_one(args.cvc5, granularity, path, args.timeout, raw)
+    entries = [run_one(args.cvc5, granularity, path, args.timeout, raw,
+                       args.solver_arg)
                for granularity in granularities for path in args.inputs]
     by_granularity: dict[str, dict[str, Any]] = {}
     for granularity in granularities:
         selected = [entry for entry in entries if entry["granularity"] == granularity]
         rules: collections.Counter[str] = collections.Counter()
         proof_size = 0
+        proof_bytes = 0
         trust_steps = 0
+        proof_size_gates = 0
         for entry in selected:
             data = entry["inventory"]
             if data:
                 rules.update(data["rules"])
                 proof_size += data["step_count"]
                 trust_steps += data["trust_steps"]
+            proof_bytes += entry["proof_bytes"]
+            proof_size_gates += int(entry["d12_proof_size_gate"])
         by_granularity[granularity] = {
             "entries": len(selected), "proof_steps": proof_size,
+            "proof_bytes": proof_bytes,
+            "d12_proof_size_gates": proof_size_gates,
             "trust_steps": trust_steps,
             "rules": dict(sorted(rules.items())),
         }
