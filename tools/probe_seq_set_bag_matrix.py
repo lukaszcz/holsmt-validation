@@ -17,8 +17,6 @@ import re
 import shutil
 import subprocess
 import sys
-import tempfile
-import time
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
@@ -279,12 +277,10 @@ def invoke(executable: str, solver: str, smt: str, timeout: float,
         command += ["-smt2", str(input_path)]
     else:
         command += ["--lang", "smt2.6", "--sets-exp", str(input_path)]
-    started = time.monotonic()
     try:
         proc = subprocess.run(command, text=True, encoding="utf-8",
                               errors="replace", capture_output=True,
                               timeout=timeout, check=False)
-        elapsed = time.monotonic() - started
         output = proc.stdout + proc.stderr
         rejected = bool(re.search(r"error|invalid|unsupported|parse error",
                                   output, re.IGNORECASE))
@@ -292,14 +288,13 @@ def invoke(executable: str, solver: str, smt: str, timeout: float,
                                               proc.stdout) if x), None)
         acceptance = "rejected" if rejected else "accepted"
         return {"command": command, "input": {"path": str(input_path),
-                "sha256": digest, "text": smt}, "elapsed_seconds": round(elapsed, 6),
+                "sha256": digest, "text": smt},
                 "exit_code": proc.returncode, "timed_out": False,
                 "stdout": proc.stdout, "stderr": proc.stderr,
                 "acceptance": acceptance, "solver_result": result}
     except subprocess.TimeoutExpired as exc:
-        elapsed = time.monotonic() - started
         return {"command": command, "input": {"path": str(input_path),
-                "sha256": digest, "text": smt}, "elapsed_seconds": round(elapsed, 6),
+                "sha256": digest, "text": smt},
                 "exit_code": None, "timed_out": True,
                 "stdout": (exc.stdout or "") if isinstance(exc.stdout, str) else "",
                 "stderr": (exc.stderr or "") if isinstance(exc.stderr, str) else "",
