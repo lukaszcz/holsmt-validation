@@ -57,7 +57,6 @@ row-level coverage evidence.  Benchmark runs may support a row, but they must
 not replace the manifest's required positive tests, exact unsupported
 diagnostics, parse-only justifications, or proof-version evidence.
 
-Default CI should run `curated-small` in parser mode.  Scheduled or manual CI
-can point `HOLSMT_LARGE_BENCHMARK_DIR`, `HOLSMT_Z3_PROOF_DIR`, and
-`HOLSMT_REGRESSION_DIR` at larger local checkouts without downloading them
-during ordinary tests.
+Run `curated-small` locally in parser mode for the routine check.  Larger local
+checkouts can be supplied explicitly as benchmark, Z3 proof, and regression
+directories when broader validation is required.

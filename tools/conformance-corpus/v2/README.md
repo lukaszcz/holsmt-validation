@@ -143,15 +143,8 @@ The main runner does not provide a bypass for complete conformance.  Existing
 HolSmt test failures and complete-suite red obligations are collected in the
 same invocation, then the script exits nonzero if any mandatory step failed.
 
-The `holsmt-contract` GitHub Actions workflow also contains the required
-`holsmt-complete-conformance` job.  That job runs
-`tools/run_complete_smtlib_conformance.sh` in the HOL/Z3 CI image,
-prints the primary report paths on failure, and uploads the
-`holsmt-complete-conformance` artifact containing the full report directory.
-The aggregate `enforced-contract-gate` depends on that job and rejects any red
-or failed complete-conformance result rather than bypassing it.
-It is intentionally expected to be red while v2 manifest rows still carry
-implementation obligations; CI artifact retention is diagnostic only and must
-not be treated as a waiver.  COMPLETE SMT-LIB conformance is claimable only
-when this job is green and `complete-conformance.json` reports no red
-obligations, no unexpected regressions, and no infrastructure errors.
+Complete conformance is a local release-validation gate.  Run
+`tools/run_complete_smtlib_conformance.sh` explicitly and retain its report
+directory as evidence.  COMPLETE SMT-LIB conformance is claimable only when
+`complete-conformance.json` reports no red obligations, no unexpected
+regressions, and no infrastructure errors.

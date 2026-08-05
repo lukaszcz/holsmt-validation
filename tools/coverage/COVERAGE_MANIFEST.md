@@ -35,7 +35,6 @@ The audit understands `source`, `conformance_result`, `proof_rule`,
 `proof_version`, and `manual` evidence kinds. Source evidence checks that the
 path exists and, when `match` is present, that the text appears in the file.
 Conformance and proof evidence is checked only when report paths are supplied
-with `--conformance-report` or `--proof-report`. The `holsmt-contract` CI
-workflow uploads conformance summaries from the parser, Z3 oracle/proof,
-typecheck-only, and checked `Z3_TAC` slices, then runs a final enforced manifest
-audit against those summaries.
+with `--conformance-report` or `--proof-report`. For release validation, pass
+the locally generated parser, Z3 oracle/proof, typecheck-only, and checked
+`Z3_TAC` reports to the enforcing audit.
