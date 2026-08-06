@@ -1,0 +1,7 @@
+(set-option :produce-proofs true)
+(set-logic ALL)
+(declare-const zs (Set Int))
+(declare-const zt (Set Int))
+(assert (and (select (union (store zs 7 true) zt) 7) (not (select (union (store zs 7 true) zt) 7))))
+(check-sat)
+(get-proof)

@@ -1,0 +1,5 @@
+(set-option :produce-proofs true)
+(set-logic ALL)
+(assert (and (select ((as const (Set Int)) true) 7) (not (select ((as const (Set Int)) true) 7))))
+(check-sat)
+(get-proof)

@@ -54,7 +54,8 @@
           "enum": [
             "SMT-LIB-2.7",
             "SMT-LIB-3",
-            "Z3-extension"
+            "Z3-extension",
+            "Solver-extension"
           ]
         },
         "class": {
@@ -91,6 +92,25 @@
           },
           "minItems": 1,
           "uniqueItems": true
+        },
+        "solver_availability": {
+          "type": "object",
+          "additionalProperties": false,
+          "minProperties": 1,
+          "properties": {
+            "z3": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/z3_version" },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "cvc5": {
+              "type": "array",
+              "items": { "const": "1.3.4" },
+              "minItems": 1,
+              "maxItems": 1
+            }
+          }
         },
         "expected": {
           "type": "object",
@@ -428,6 +448,7 @@
             "SMT-LIB-theory",
             "SMT-LIB-logic",
             "Z3-extension",
+            "Solver-extension",
             "Z3-proof",
             "external-benchmark",
             "HolSmt-internal"

@@ -1,0 +1,7 @@
+(set-option :produce-proofs true)
+(set-logic ALL)
+(declare-const zs (Set Int))
+(declare-const zt (Set Int))
+(assert (and (subset ((as const (Set Int)) false) zs) (not (subset ((as const (Set Int)) false) zs))))
+(check-sat)
+(get-proof)

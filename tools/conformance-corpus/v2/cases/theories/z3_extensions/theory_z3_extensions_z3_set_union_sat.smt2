@@ -1,0 +1,5 @@
+(set-logic ALL)
+(declare-const zs (Set Int))
+(declare-const zt (Set Int))
+(assert (select (union (store zs 7 true) zt) 7))
+(check-sat)

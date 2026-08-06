@@ -1,0 +1,5 @@
+(set-logic ALL)
+(declare-const zs (Set Int))
+(declare-const zt (Set Int))
+(assert (and (subset ((as const (Set Int)) false) zs) (= 1 true)))
+(check-sat)

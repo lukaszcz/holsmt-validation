@@ -1,4 +1,5 @@
 (set-logic ALL)
 (declare-const x (Set Int))
-(assert (= x x))
+(declare-const y (Set Int))
+(assert (distinct x y))
 (check-sat)

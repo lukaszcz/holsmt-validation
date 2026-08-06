@@ -29,7 +29,7 @@ SUPPORTED_Z3_VERSIONS = (
     "4.15.3",
 )
 
-STANDARDS = ("SMT-LIB-2.7", "SMT-LIB-3", "Z3-extension")
+STANDARDS = ("SMT-LIB-2.7", "SMT-LIB-3", "Z3-extension", "Solver-extension")
 CASE_CLASSES = (
     "command",
     "theory",
@@ -65,6 +65,7 @@ SOURCE_KINDS = (
     "SMT-LIB-theory",
     "SMT-LIB-logic",
     "Z3-extension",
+    "Solver-extension",
     "Z3-proof",
     "external-benchmark",
     "HolSmt-internal",
@@ -207,6 +208,14 @@ class CommandGroup:
 
 
 @dataclass(frozen=True)
+class SolverAvailability:
+    """Solver/version cells accepted by the frozen Phase-6 matrix."""
+
+    z3_versions: tuple[str, ...] = ()
+    cvc5_versions: tuple[str, ...] = ()
+
+
+@dataclass(frozen=True)
 class TheorySymbol:
     theory: str
     slug: str
@@ -219,6 +228,7 @@ class TheorySymbol:
     type_error_script: str
     boundary_script: str
     behavior_features: tuple[str, ...] = ()
+    availability: SolverAvailability | None = None
 
 
 @dataclass(frozen=True)
@@ -431,6 +441,7 @@ def manifest_entry(
     expected: Mapping[str, Mapping[str, object]],
     implementation_obligation: Mapping[str, object] | None,
     source: Mapping[str, object],
+    solver_availability: Mapping[str, Sequence[str]] | None = None,
 ) -> dict[str, object]:
     case_id = require_string(case_id, "id")
     if re.match(r"^[A-Za-z0-9][A-Za-z0-9_.:-]*$", case_id) is None:
@@ -503,7 +514,21 @@ def manifest_entry(
     if not red_modes and implementation_obligation is not None:
         raise GeneratorError("implementation_obligation must be null when no expected result is red")
 
-    return {
+    availability = {
+        solver: list(versions)
+        for solver, versions in (solver_availability or {}).items()
+    }
+    if set(availability) - {"z3", "cvc5"}:
+        raise GeneratorError("solver availability has an unknown solver")
+    for solver, solver_versions in availability.items():
+        require_string_list(solver_versions, f"solver_availability[{solver}]")
+        if solver == "z3":
+            for version in solver_versions:
+                require_choice(version, "Z3 availability version", SUPPORTED_Z3_VERSIONS)
+        elif solver_versions != ["1.3.4"]:
+            raise GeneratorError("cvc5 availability is pinned at 1.3.4")
+
+    entry = {
         "id": case_id,
         "file": file,
         "logic": require_string(logic, "logic"),
@@ -516,6 +541,9 @@ def manifest_entry(
         "implementation_obligation": dict(implementation_obligation) if implementation_obligation is not None else None,
         "source": dict(source),
     }
+    if availability:
+        entry["solver_availability"] = availability
+    return entry
 
 
 def red_sample(
@@ -4868,7 +4896,7 @@ def extension_sort(slug_name: str, name: str, declaration: str, sat_decl: str) -
     )
 
 
-Z3_EXTENSION_THEORY_SYMBOLS: tuple[TheorySymbol, ...] = (
+LEGACY_Z3_EXTENSION_THEORY_SYMBOLS: tuple[TheorySymbol, ...] = (
     extension_sort("seq", "Seq", "(Seq Element)", "(declare-const x (Seq Int))"),
     extension_sort("set", "Set", "(Set Element)", "(declare-const x (Set Int))"),
     extension_sort("bag", "Bag", "(Bag Element)", "(declare-const x (Bag Int))"),
@@ -4887,6 +4915,266 @@ Z3_EXTENSION_THEORY_SYMBOLS: tuple[TheorySymbol, ...] = (
     extension_symbol("bag.inter-min", "bag.inter_min", ("(bag.inter_min (Bag A) (Bag A) (Bag A) :left-assoc)",), "(bag.inter_min b c)", "Bag", ("theory-behavior:bag", "theory-behavior:left-associative", "theory-behavior:intersection"), sat_declarations="(declare-const b (Bag Int))\n(declare-const c (Bag Int))\n"),
     extension_symbol("bag.difference-subtract", "bag.difference_subtract", ("(bag.difference_subtract (Bag A) (Bag A) (Bag A))",), "(bag.difference_subtract b c)", "Bag", ("theory-behavior:bag", "theory-behavior:difference"), sat_declarations="(declare-const b (Bag Int))\n(declare-const c (Bag Int))\n"),
     extension_symbol("bag.count", "bag.count", ("(bag.count A (Bag A) Int)",), "(bag.count 1 b)", "Int", ("theory-behavior:bag", "theory-behavior:count"), sat_declarations="(declare-const b (Bag Int))\n"),
+)
+
+
+Z3_ALL = SolverAvailability(z3_versions=SUPPORTED_Z3_VERSIONS)
+CVC5_134 = SolverAvailability(cvc5_versions=("1.3.4",))
+SHARED = SolverAvailability(
+    z3_versions=SUPPORTED_Z3_VERSIONS,
+    cvc5_versions=("1.3.4",),
+)
+
+
+def solver_extension_symbol(
+    slug_name: str,
+    name: str,
+    logic: str,
+    declarations: tuple[str, ...],
+    assertion: str,
+    sat_declarations: str,
+    availability: SolverAvailability,
+    behavior_features: tuple[str, ...],
+    *,
+    kind: str = "term",
+    boundary_assertion: str | None = None,
+) -> TheorySymbol:
+    """Make one four-variant row from a frozen solver-matrix entry.
+
+    The SAT and UNSAT scripts use a concrete law, rather than an equality of a
+    term with itself.  This makes solver-oracle rows evidence for the operator.
+    """
+    body = extension_body(assertion, sat_declarations)
+    if boundary_assertion is None and name == "bag.count":
+        boundary_assertion = "(>= (bag.count 7 (bag 7 2)) 0)"
+    boundary = extension_body(
+        boundary_assertion if boundary_assertion is not None else assertion,
+        sat_declarations,
+    )
+    type_error = extension_body(
+        f"(and {assertion} (= 1 true))", sat_declarations
+    )
+    return TheorySymbol(
+        "Z3_Extensions",
+        slug_name,
+        kind,
+        name,
+        logic,
+        declarations,
+        check_sat_script(logic, body),
+        proof_script(
+            logic,
+            extension_body(f"(and {assertion} (not {assertion}))", sat_declarations),
+        ),
+        check_sat_script(logic, type_error),
+        check_sat_script(logic, boundary),
+        (
+            "theory-behavior:solver-extension",
+            "theory-behavior:translation-gap",
+            "theory-behavior:proof-gap",
+            *behavior_features,
+        ),
+        availability,
+    )
+
+
+Z3_SET_DECLARATIONS = "(declare-const zs (Set Int))\n(declare-const zt (Set Int))\n"
+CVC5_SET_DECLARATIONS = (
+    "(declare-const cs (Set Int))\n"
+    "(declare-const ct (Set Int))\n"
+    "(declare-const hf1 (-> Int Int))\n"
+    "(declare-const hp (-> Int Bool))\n"
+    "(declare-const hf2 (-> Int Int Int))\n"
+    "(declare-const heq (-> Int Int Bool))\n"
+)
+CVC5_BAG_DECLARATIONS = (
+    "(declare-const cb (Bag Int))\n"
+    "(declare-const cc (Bag Int))\n"
+    "(declare-const hf1 (-> Int Int))\n"
+    "(declare-const hp (-> Int Bool))\n"
+    "(declare-const hf2 (-> Int Int Int))\n"
+    "(declare-const heq (-> Int Int Bool))\n"
+)
+
+
+# The source-of-truth names, dialects, and availability cells are the frozen
+# TASK_02 matrix.  Seq remains intentionally small until TASK_04 widens it.
+Z3_EXTENSION_THEORY_SYMBOLS: tuple[TheorySymbol, ...] = (
+    solver_extension_symbol(
+        "seq", "Seq", "ALL", ("(Seq Element)",),
+        "(distinct x y)",
+        "(declare-const x (Seq Int))\n(declare-const y (Seq Int))\n",
+        SHARED, ("theory-behavior:sequence", "theory-behavior:parametric-sort"),
+        kind="sort",
+    ),
+    solver_extension_symbol(
+        "seq-concat", "seq.++", "ALL", ("(seq.++ (Seq A) (Seq A) (Seq A) :left-assoc)",),
+        "(= (seq.len (seq.++ (seq.unit 1) (seq.unit 2))) 2)", "", SHARED,
+        ("theory-behavior:sequence", "theory-behavior:concat"),
+    ),
+    solver_extension_symbol(
+        "seq.len", "seq.len", "ALL", ("(seq.len (Seq A) Int)",),
+        "(= (seq.len (seq.unit 1)) 1)", "", SHARED,
+        ("theory-behavior:sequence", "theory-behavior:length"),
+    ),
+    solver_extension_symbol(
+        "seq.extract", "seq.extract", "ALL", ("(seq.extract (Seq A) Int Int (Seq A))",),
+        "(= (seq.len (seq.extract (seq.unit 1) 0 1)) 1)", "", SHARED,
+        ("theory-behavior:sequence", "theory-behavior:extract"),
+    ),
+    solver_extension_symbol(
+        "seq.contains", "seq.contains", "ALL", ("(seq.contains (Seq A) (Seq A) Bool)",),
+        "(seq.contains (seq.unit 1) (seq.unit 1))", "", SHARED,
+        ("theory-behavior:sequence", "theory-behavior:contains"),
+    ),
+    solver_extension_symbol(
+        "set", "Set", "ALL", ("(Set Element)",), "(distinct x y)",
+        "(declare-const x (Set Int))\n(declare-const y (Set Int))\n", SHARED,
+        ("theory-behavior:set", "theory-behavior:parametric-sort"), kind="sort",
+    ),
+    solver_extension_symbol(
+        "z3-set-empty", "set.empty[Z3]", "ALL", ("(as const (Set A))",),
+        "(not (select ((as const (Set Int)) false) 7))", "", Z3_ALL,
+        ("theory-behavior:set", "theory-behavior:empty", "theory-dialect:z3"),
+    ),
+    solver_extension_symbol(
+        "z3-set-universe", "set.universe[Z3]", "ALL", ("(as const (Set A))",),
+        "(select ((as const (Set Int)) true) 7)", "", Z3_ALL,
+        ("theory-behavior:set", "theory-behavior:universe", "theory-dialect:z3"),
+    ),
+    solver_extension_symbol(
+        "z3-set-select", "select[Set]", "ALL", ("(select (Set A) A Bool)",),
+        "(select (store ((as const (Set Int)) false) 7 true) 7)", "", Z3_ALL,
+        ("theory-behavior:set", "theory-behavior:membership", "theory-dialect:z3"),
+    ),
+    solver_extension_symbol(
+        "z3-set-store", "store[Set]", "ALL", ("(store (Set A) A Bool (Set A))",),
+        "(select (store zs 7 true) 7)", Z3_SET_DECLARATIONS, Z3_ALL,
+        ("theory-behavior:set", "theory-behavior:insert", "theory-dialect:z3"),
+    ),
+    solver_extension_symbol(
+        "z3-set-union", "union", "ALL", ("(union (Set A) (Set A) (Set A))",),
+        "(select (union (store zs 7 true) zt) 7)", Z3_SET_DECLARATIONS, Z3_ALL,
+        ("theory-behavior:set", "theory-behavior:union", "theory-dialect:z3"),
+    ),
+    solver_extension_symbol(
+        "z3-set-intersection", "intersection", "ALL", ("(intersection (Set A) (Set A) (Set A))",),
+        "(select (intersection (store zs 7 true) (store zt 7 true)) 7)",
+        Z3_SET_DECLARATIONS, Z3_ALL,
+        ("theory-behavior:set", "theory-behavior:intersection", "theory-dialect:z3"),
+    ),
+    solver_extension_symbol(
+        "z3-set-minus", "setminus", "ALL", ("(setminus (Set A) (Set A) (Set A))",),
+        "(not (select (setminus (store zs 7 true) (store zt 7 true)) 7))",
+        Z3_SET_DECLARATIONS, Z3_ALL,
+        ("theory-behavior:set", "theory-behavior:difference", "theory-dialect:z3"),
+    ),
+    solver_extension_symbol(
+        "z3-set-complement", "complement", "ALL", ("(complement (Set A) (Set A))",),
+        "(select (complement ((as const (Set Int)) false)) 7)", "", Z3_ALL,
+        ("theory-behavior:set", "theory-behavior:complement", "theory-dialect:z3"),
+    ),
+    solver_extension_symbol(
+        "z3-set-subset", "subset", "ALL", ("(subset (Set A) (Set A) Bool)",),
+        "(subset ((as const (Set Int)) false) zs)", Z3_SET_DECLARATIONS, Z3_ALL,
+        ("theory-behavior:set", "theory-behavior:subset", "theory-dialect:z3"),
+    ),
+    *(
+        solver_extension_symbol(slug_name, name, "HO_ALL", (declaration,), assertion,
+            CVC5_SET_DECLARATIONS, CVC5_134,
+            ("theory-behavior:set", feature, "theory-dialect:cvc5"))
+        for slug_name, name, declaration, assertion, feature in (
+            ("cvc5-set-empty", "set.empty", "(as set.empty (Set A))",
+             "(set.is_empty (as set.empty (Set Int)))", "theory-behavior:empty"),
+            ("cvc5-set-universe", "set.universe", "(as set.universe (Set A))",
+             "(distinct (as set.universe (Set Int)) cs)", "theory-behavior:universe"),
+            ("cvc5-set-singleton", "set.singleton", "(set.singleton A (Set A))",
+             "(set.member 7 (set.singleton 7))", "theory-behavior:singleton"),
+            ("cvc5-set-insert", "set.insert", "(set.insert A (Set A) (Set A))",
+             "(set.member 7 (set.insert 7 cs))", "theory-behavior:insert"),
+            ("cvc5-set-union", "set.union", "(set.union (Set A) (Set A) (Set A))",
+             "(set.member 7 (set.union (set.singleton 7) ct))", "theory-behavior:union"),
+            ("cvc5-set-inter", "set.inter", "(set.inter (Set A) (Set A) (Set A))",
+             "(set.member 7 (set.inter (set.singleton 7) (set.singleton 7)))", "theory-behavior:intersection"),
+            ("cvc5-set-minus", "set.minus", "(set.minus (Set A) (Set A) (Set A))",
+             "(not (set.member 7 (set.minus (set.singleton 7) (set.singleton 7))))", "theory-behavior:difference"),
+            ("cvc5-set-complement", "set.complement", "(set.complement (Set A) (Set A))",
+             "(not (set.member 7 (set.complement (set.singleton 7))))", "theory-behavior:complement"),
+            ("cvc5-set-member", "set.member", "(set.member A (Set A) Bool)",
+             "(set.member 7 (set.singleton 7))", "theory-behavior:membership"),
+            ("cvc5-set-subset", "set.subset", "(set.subset (Set A) (Set A) Bool)",
+             "(set.subset (set.singleton 7) (set.insert 7 cs))", "theory-behavior:subset"),
+            ("cvc5-set-card", "set.card", "(set.card (Set A) Int)",
+             "(= (set.card (set.singleton 7)) 1)", "theory-behavior:cardinality"),
+            ("cvc5-set-choose", "set.choose", "(set.choose (Set A) A)",
+             "(= (set.choose (set.singleton 7)) 7)", "theory-behavior:choice"),
+            ("cvc5-set-is-empty", "set.is_empty", "(set.is_empty (Set A) Bool)",
+             "(set.is_empty (as set.empty (Set Int)))", "theory-behavior:emptiness"),
+            ("cvc5-set-is-singleton", "set.is_singleton", "(set.is_singleton (Set A) Bool)",
+             "(set.is_singleton (set.singleton 7))", "theory-behavior:singleton"),
+            ("cvc5-set-comprehension", "set.comprehension", "(set.comprehension ((x A)) Bool A (Set A))",
+             "(set.member 7 (set.comprehension ((x Int)) (= x 7) x))", "theory-behavior:comprehension"),
+            ("cvc5-set-map", "set.map", "(set.map (-> A B) (Set A) (Set B))",
+             "(set.member 7 (set.map (lambda ((x Int)) x) (set.singleton 7)))", "theory-behavior:map"),
+            ("cvc5-set-filter", "set.filter", "(set.filter (-> A Bool) (Set A) (Set A))",
+             "(set.member 7 (set.filter (lambda ((x Int)) (= x 7)) (set.singleton 7)))", "theory-behavior:filter"),
+            ("cvc5-set-all", "set.all", "(set.all (-> A Bool) (Set A) Bool)",
+             "(set.all (lambda ((x Int)) true) (set.singleton 7))", "theory-behavior:all"),
+            ("cvc5-set-some", "set.some", "(set.some (-> A Bool) (Set A) Bool)",
+             "(set.some (lambda ((x Int)) (= x 7)) (set.singleton 7))", "theory-behavior:some"),
+            ("cvc5-set-fold", "set.fold", "(set.fold (-> A B B) B (Set A) B)",
+             "(= (set.fold (lambda ((x Int) (a Int)) (+ x a)) 0 (set.singleton 7)) 7)", "theory-behavior:fold"),
+        )
+    ),
+    solver_extension_symbol(
+        "z3-bag-map-add", "(_ map +)[Bag encoding]", "ALL",
+        ("((_ map (+ (Int Int) Int)) (Array Int Int) (Array Int Int) (Array Int Int))",),
+        "(= (select ((_ map (+ (Int Int) Int)) ba bb) 7) (+ (select ba 7) (select bb 7)))",
+        "(declare-const ba (Array Int Int))\n(declare-const bb (Array Int Int))\n",
+        Z3_ALL, ("theory-behavior:bag", "theory-behavior:array-encoding", "theory-dialect:z3"),
+    ),
+    solver_extension_symbol(
+        "bag", "Bag", "HO_ALL", ("(Bag Element)",), "(distinct x y)",
+        "(declare-const x (Bag Int))\n(declare-const y (Bag Int))\n", CVC5_134,
+        ("theory-behavior:bag", "theory-behavior:parametric-sort", "theory-dialect:cvc5"), kind="sort",
+    ),
+    *(
+        solver_extension_symbol(slug_name, name, "HO_ALL", (declaration,), assertion,
+            CVC5_BAG_DECLARATIONS, CVC5_134,
+            ("theory-behavior:bag", feature, "theory-dialect:cvc5"))
+        for slug_name, name, declaration, assertion, feature in (
+            ("cvc5-bag-literal", "bag", "(bag A Int (Bag A))", "(= (bag.count 7 (bag 7 2)) 2)", "theory-behavior:literal"),
+            ("cvc5-bag-empty", "bag.empty", "(as bag.empty (Bag A))", "(= (bag.count 7 (as bag.empty (Bag Int))) 0)", "theory-behavior:empty"),
+            ("cvc5-bag-count", "bag.count", "(bag.count A (Bag A) Int)", "(= (bag.count 7 (bag 7 2)) 2)", "theory-behavior:count"),
+            ("cvc5-bag-member", "bag.member", "(bag.member A (Bag A) Bool)", "(bag.member 7 (bag 7 2))", "theory-behavior:membership"),
+            ("cvc5-bag-union-disjoint", "bag.union_disjoint", "(bag.union_disjoint (Bag A) (Bag A) (Bag A))", "(= (bag.count 7 (bag.union_disjoint (bag 7 2) (bag 7 3))) 5)", "theory-behavior:union"),
+            ("cvc5-bag-union-max", "bag.union_max", "(bag.union_max (Bag A) (Bag A) (Bag A))", "(= (bag.count 7 (bag.union_max (bag 7 2) (bag 7 3))) 3)", "theory-behavior:union"),
+            ("cvc5-bag-inter-min", "bag.inter_min", "(bag.inter_min (Bag A) (Bag A) (Bag A))", "(= (bag.count 7 (bag.inter_min (bag 7 2) (bag 7 3))) 2)", "theory-behavior:intersection"),
+            ("cvc5-bag-difference-subtract", "bag.difference_subtract", "(bag.difference_subtract (Bag A) (Bag A) (Bag A))", "(= (bag.count 7 (bag.difference_subtract (bag 7 3) (bag 7 2))) 1)", "theory-behavior:difference"),
+            ("cvc5-bag-difference-remove", "bag.difference_remove", "(bag.difference_remove (Bag A) (Bag A) (Bag A))", "(= (bag.count 7 (bag.difference_remove (bag 7 3) (bag 7 2))) 0)", "theory-behavior:difference"),
+            ("cvc5-bag-card", "bag.card", "(bag.card (Bag A) Int)", "(= (bag.card (bag 7 2)) 2)", "theory-behavior:cardinality"),
+            ("cvc5-bag-choose", "bag.choose", "(bag.choose (Bag A) A)", "(= (bag.choose (bag 7 2)) 7)", "theory-behavior:choice"),
+            ("cvc5-bag-setof", "bag.setof", "(bag.setof (Bag A) (Bag A))", "(= (bag.count 7 (bag.setof (bag 7 2))) 1)", "theory-behavior:setof"),
+            ("cvc5-bag-subbag", "bag.subbag", "(bag.subbag (Bag A) (Bag A) Bool)", "(bag.subbag (bag 7 2) (bag 7 3))", "theory-behavior:subbag"),
+            ("cvc5-bag-map", "bag.map", "(bag.map (-> A B) (Bag A) (Bag B))", "(= (bag.count 7 (bag.map (lambda ((x Int)) x) (bag 7 2))) 2)", "theory-behavior:map"),
+            ("cvc5-bag-filter", "bag.filter", "(bag.filter (-> A Bool) (Bag A) (Bag A))", "(= (bag.count 7 (bag.filter (lambda ((x Int)) (= x 7)) (bag 7 2))) 2)", "theory-behavior:filter"),
+            ("cvc5-bag-all", "bag.all", "(bag.all (-> A Bool) (Bag A) Bool)", "(= (bag.all hp cb) (bag.all hp cc))", "theory-behavior:all"),
+            ("cvc5-bag-some", "bag.some", "(bag.some (-> A Bool) (Bag A) Bool)", "(= (bag.some hp cb) (bag.some hp cc))", "theory-behavior:some"),
+            ("cvc5-bag-fold", "bag.fold", "(bag.fold (-> A B B) B (Bag A) B)", "(= (bag.fold (lambda ((x Int) (a Int)) (+ x a)) 0 (bag 7 2)) 14)", "theory-behavior:fold"),
+            ("cvc5-bag-partition", "bag.partition", "(bag.partition (-> A A Bool) (Bag A) (Bag (Bag A)))", "(bag.member (bag 7 2) (bag.partition (lambda ((x Int) (y Int)) (= x y)) (bag 7 2)))", "theory-behavior:partition"),
+        )
+    ),
+)
+
+# TASK_04 owns the widened sequence inventory.  Retain its existing five
+# sequence seed rows verbatim while this task replaces only the Set/Bag half.
+Z3_EXTENSION_THEORY_SYMBOLS = (
+    *(symbol for symbol in LEGACY_Z3_EXTENSION_THEORY_SYMBOLS
+      if symbol.slug == "seq"
+      or "theory-behavior:sequence" in symbol.behavior_features),
+    *(symbol for symbol in Z3_EXTENSION_THEORY_SYMBOLS
+      if symbol.slug != "seq"
+      and "theory-behavior:sequence" not in symbol.behavior_features),
 )
 
 
@@ -6037,6 +6325,12 @@ def theory_features(symbol: TheorySymbol, kind: str) -> list[str]:
         f"theory-case:{kind}",
         *(f"theory-declaration:{symbol.theory}:{declaration}" for declaration in symbol.declarations),
         *symbol.behavior_features,
+        *(("theory-boundary:bag-count-nonnegative",)
+          if kind == "boundary" and symbol.name == "bag.count" else ()),
+        *(("theory-boundary:p6.4-parse-finiteness",
+           "theory-boundary:p6.4-emission-finiteness-entailment")
+          if kind == "boundary" and symbol.availability is not None
+          and symbol.availability.cvc5_versions else ()),
         *(("theory-behavior:z3-unsupported",) if unsupported else ()),
         *(("theory-behavior:semantic-fp-proof",) if fp_shape else ()),
         *((f"fp-proof-shape:{fp_shape.shape}",) if fp_shape else ()),
@@ -6078,7 +6372,12 @@ def theory_case_file(symbol: TheorySymbol, case_id: str) -> str:
 
 def theory_standard(symbol: TheorySymbol) -> str:
     if symbol.theory == "Z3_Extensions":
-        return "Z3-extension"
+        return (
+            "Solver-extension"
+            if symbol.availability is not None
+            and symbol.availability.cvc5_versions
+            else "Z3-extension"
+        )
     return "SMT-LIB-2.7"
 
 
@@ -6088,7 +6387,8 @@ def theory_source(
     proof_corpus_id: str | None = None,
 ) -> dict[str, object]:
     if symbol.theory == "Z3_Extensions":
-        return source("Z3-extension", f"Z3 sequence/set/bag extension: {symbol.name}")
+        kind = "Solver-extension" if symbol.availability is not None and symbol.availability.cvc5_versions else "Z3-extension"
+        return source(kind, f"Phase-6 solver matrix extension: {symbol.name}")
     return source(
         "SMT-LIB-theory",
         f"SMT-LIB 2.7 {symbol.theory} theory: {symbol.name}",
@@ -6168,7 +6468,116 @@ def scripted_theory_case(theory: str, case: ScriptedCase) -> GeneratedCase:
     return GeneratedCase(entry=entry, script=case.script)
 
 
+def extension_availability_features(symbol: TheorySymbol) -> tuple[str, ...]:
+    if symbol.availability is None:
+        return ()
+    return tuple(
+        f"solver-availability:z3:{version}"
+        for version in symbol.availability.z3_versions
+    ) + tuple(
+        f"solver-availability:cvc5:{version}"
+        for version in symbol.availability.cvc5_versions
+    )
+
+
+def solver_extension_case(
+    symbol: TheorySymbol,
+    kind: str,
+    script: str,
+) -> GeneratedCase:
+    """Schedule extension modes only for solvers accepting this matrix cell."""
+    assert symbol.availability is not None
+    case_id = f"theory:{symbol.theory}:{symbol.slug}:{kind}"
+    z3 = bool(symbol.availability.z3_versions)
+    cvc5 = bool(symbol.availability.cvc5_versions)
+    modes = ["parser-only", "typecheck-only"]
+    expected: dict[str, dict[str, object]] = {
+        "parser-only": expected_result("pass"),
+        "typecheck-only": expected_result(
+            "red",
+            diagnostic="Seq/Set/Bag theory front-end support is incomplete",
+            failure_phase="typecheck",
+        ),
+    }
+    if kind in {"sat", "boundary"}:
+        if z3:
+            modes.extend(("z3-oracle", "z3-tac"))
+            expected["z3-oracle"] = expected_result("pass")
+            expected["z3-tac"] = expected_result(
+                "red",
+                diagnostic="Seq/Set/Bag translation and checked replay are incomplete",
+                failure_phase="translation",
+            )
+        if cvc5:
+            modes.append("cvc5-oracle")
+            expected["cvc5-oracle"] = expected_result(
+                "red" if symbol.slug == "cvc5-set-comprehension" else "pass",
+                diagnostic="cvc5 returns unknown for this quantified set comprehension"
+                if symbol.slug == "cvc5-set-comprehension" else None,
+                failure_phase="solver" if symbol.slug == "cvc5-set-comprehension" else None,
+            )
+    elif kind == "unsat-proof":
+        if z3:
+            modes.extend(("z3-oracle", "proof-parse", "proof-replay", "z3-tac"))
+            expected["z3-oracle"] = expected_result("pass")
+            expected["proof-parse"] = expected_result(
+                "red",
+                diagnostic="Seq/Set/Bag Z3 proof parsing evidence is incomplete",
+                failure_phase="proof-parse",
+            )
+            expected["proof-replay"] = expected_result(
+                "red",
+                diagnostic="Seq/Set/Bag checked Z3 replay is incomplete",
+                failure_phase="proof-replay",
+            )
+            expected["z3-tac"] = expected_result(
+                "red",
+                diagnostic="Seq/Set/Bag translation and checked replay are incomplete",
+                failure_phase="translation",
+            )
+        if cvc5:
+            modes.append("cvc5-oracle")
+            expected["cvc5-oracle"] = expected_result("pass")
+    elif kind == "type-error":
+        if z3:
+            modes.append("z3-tac")
+            expected["z3-tac"] = expected_result(
+                "red",
+                diagnostic="Seq/Set/Bag negative type diagnostics are incomplete",
+                failure_phase="typecheck",
+            )
+    else:
+        raise GeneratorError(f"unknown solver extension case kind: {kind}")
+
+    entry = manifest_entry(
+        case_id=case_id,
+        file=theory_case_file(symbol, case_id),
+        logic=symbol.logic,
+        standard=theory_standard(symbol),
+        row_class="theory",
+        features=(*theory_features(symbol, kind), *extension_availability_features(symbol)),
+        modes=modes,
+        # Retained for the existing Z3 proof-version runner.  The authoritative
+        # matrix annotation below also represents cvc5-only entries honestly.
+        versions=symbol.availability.z3_versions or SUPPORTED_Z3_VERSIONS,
+        expected=expected,
+        implementation_obligation=theory_obligation(
+            symbol, kind, case_id, first_red_failure_phase(expected)
+        ),
+        source=theory_source(symbol),
+        solver_availability={
+            **({"z3": symbol.availability.z3_versions}
+               if symbol.availability.z3_versions else {}),
+            **({"cvc5": symbol.availability.cvc5_versions}
+               if symbol.availability.cvc5_versions else {}),
+        },
+    )
+    return GeneratedCase(entry=entry, script=script)
+
+
 def theory_case(symbol: TheorySymbol, kind: str, script: str) -> GeneratedCase:
+    if symbol.availability is not None:
+        return solver_extension_case(symbol, kind, script)
     case_id = f"theory:{symbol.theory}:{symbol.slug}:{kind}"
     z3_unsupported = (
         "theory-behavior:z3-unsupported" in symbol.behavior_features
@@ -7194,6 +7603,26 @@ def load_manifest(path: Path) -> dict[str, object]:
     return data
 
 
+def obsolete_generated_cases(
+    existing: Mapping[str, object],
+    generated: Sequence[GeneratedCase],
+) -> list[Mapping[str, object]]:
+    generated_ids = {case.case_id for case in generated}
+    generated_classes = {str(case.entry["class"]) for case in generated}
+    obsolete = []
+    for case in existing.get("cases", []):
+        if not isinstance(case, Mapping) or str(case.get("id")) in generated_ids:
+            continue
+        obligation = case.get("implementation_obligation")
+        if (
+            isinstance(obligation, Mapping)
+            and obligation.get("notes") == GENERATED_OBLIGATION_NOTES
+            and str(case.get("class")) in generated_classes
+        ):
+            obsolete.append(case)
+    return obsolete
+
+
 def merge_manifest(existing: Mapping[str, object], generated: Sequence[GeneratedCase]) -> dict[str, object]:
     existing_cases = existing.get("cases", [])
     if not isinstance(existing_cases, list):
@@ -7232,6 +7661,16 @@ def write_json(path: Path, value: Mapping[str, object]) -> None:
     path.write_text(json.dumps(value, indent=2, sort_keys=False) + "\n", encoding="utf-8")
 
 
+def remove_obsolete_case_files(case_root: Path, cases: Sequence[Mapping[str, object]]) -> None:
+    for case in cases:
+        filename = case.get("file")
+        if not isinstance(filename, str) or not filename.startswith("cases/"):
+            continue
+        path = case_root.parent / filename
+        if path.is_file():
+            path.unlink()
+
+
 def write_generated_cases(case_root: Path, cases: Sequence[GeneratedCase]) -> None:
     for case in sorted(cases, key=lambda item: item.file):
         relative = Path(case.file)
@@ -7258,8 +7697,11 @@ def generate(classes: Iterable[str], manifest_path: Path, *, write: bool) -> dic
         cases = sample_cases(requested)
     manifest = manifest_for_cases(cases)
     if write:
-        manifest = merge_manifest(load_manifest(manifest_path), cases)
+        existing = load_manifest(manifest_path)
+        obsolete = obsolete_generated_cases(existing, cases)
+        manifest = merge_manifest(existing, cases)
         validate_manifest(manifest)
+        remove_obsolete_case_files(manifest_path.parent / "cases", obsolete)
         write_generated_cases(manifest_path.parent / "cases", cases)
         write_json(manifest_path, manifest)
     else:
@@ -7331,8 +7773,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         else:
             cases = cases_for_domain(command)
         if getattr(args, "write", False):
-            manifest = merge_manifest(load_manifest(args.manifest), cases)
+            existing = load_manifest(args.manifest)
+            obsolete = obsolete_generated_cases(existing, cases)
+            manifest = merge_manifest(existing, cases)
             validate_manifest(manifest)
+            remove_obsolete_case_files(args.manifest.parent / "cases", obsolete)
             write_generated_cases(args.manifest.parent / "cases", cases)
             write_json(args.manifest, manifest)
             if command == "logics":

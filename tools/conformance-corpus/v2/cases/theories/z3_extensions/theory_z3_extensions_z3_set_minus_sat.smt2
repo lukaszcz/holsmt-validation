@@ -1,0 +1,5 @@
+(set-logic ALL)
+(declare-const zs (Set Int))
+(declare-const zt (Set Int))
+(assert (not (select (setminus (store zs 7 true) (store zt 7 true)) 7)))
+(check-sat)

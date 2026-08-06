@@ -16,7 +16,8 @@ Each case entry has these required fields:
 - `file`: SMT-LIB script path relative to this directory.
 - `logic`: expected `set-logic` name, or the explicit logic context for
   command/proof cases.
-- `standard`: one of `SMT-LIB-2.7`, `SMT-LIB-3`, or `Z3-extension`.
+- `standard`: one of `SMT-LIB-2.7`, `SMT-LIB-3`, `Z3-extension`, or
+  `Solver-extension` for a dialect-specific solver matrix row.
 - `class`: one of `command`, `theory`, `logic`, `proof-rule`,
   `soundness-audit`, or `external-benchmark`.
 - `features`: exact command, operator, theory, logic, proof-rule, or audit
@@ -24,6 +25,9 @@ Each case entry has these required fields:
 - `modes`: required execution modes, such as `parser-only`, `typecheck-only`,
   `z3-oracle`, `cvc5-oracle`, `proof-parse`, `proof-replay`, and `z3-tac`.
 - `versions`: required Z3 versions for the case.
+- `solver_availability`: optional authoritative per-solver matrix cells;
+  cvc5 is pinned at 1.3.4.  This distinguishes cvc5-only, Z3-only, and
+  shared extension rows from the legacy Z3 version-runner field.
 - `expected`: per-mode expected results.  Each result status is exactly
   `pass`, `fail`, or `red`; negative and red rows may also carry diagnostic
   substrings, theorem-shape predicates, and proof-rule histogram constraints.

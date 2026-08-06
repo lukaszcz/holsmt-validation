@@ -1,0 +1,5 @@
+(set-logic ALL)
+(declare-const zs (Set Int))
+(declare-const zt (Set Int))
+(assert (and (select (store zs 7 true) 7) (= 1 true)))
+(check-sat)

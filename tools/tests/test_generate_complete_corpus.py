@@ -788,7 +788,10 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
             all(case["file"].startswith("cases/theories/strings/") for case in string_cases)
         )
         self.assertTrue(
-            all(case["standard"] == "Z3-extension" for case in extension_cases)
+            all(
+                case["standard"] in {"Z3-extension", "Solver-extension"}
+                for case in extension_cases
+            )
         )
         self.assertTrue(
             all(case["file"].startswith("cases/theories/z3_extensions/") for case in extension_cases)
@@ -796,9 +799,18 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
         for case in string_cases + extension_cases:
             self.assertIn("typecheck-only", case["modes"])
             self.assertFalse(set(case["modes"]) <= {"parser-only"})
-            if "theory-case:type-error" not in case["features"]:
+            availability = case.get(
+                "solver_availability",
+                {"z3": generator.SUPPORTED_Z3_VERSIONS},
+            )
+            if "z3" in availability and "theory-case:type-error" not in case["features"]:
                 self.assertIn("z3-oracle", case["modes"])
-            if "theory-case:unsat-proof" in case["features"]:
+            if "cvc5" in availability and "theory-case:type-error" not in case["features"]:
+                self.assertIn("cvc5-oracle", case["modes"])
+            if "z3" not in availability:
+                self.assertNotIn("z3-oracle", case["modes"])
+                self.assertNotIn("z3-tac", case["modes"])
+            if "theory-case:unsat-proof" in case["features"] and "z3" in availability:
                 self.assertIn("proof-parse", case["modes"])
                 self.assertIn("proof-replay", case["modes"])
 
@@ -1021,16 +1033,39 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
             "theory:ArraysEx:array:unsat-proof",
             "theory:ArraysEx:store:unsat-proof",
             "theory:Core:xor:unsat-proof",
-            "theory:Z3_Extensions:set:unsat-proof",
         }
         by_id = {case["id"]: case for case in cases}
         for case_id in checked_unsat_ids:
             self.assertEqual(by_id[case_id]["expected"]["z3-tac"]["status"], "pass")
             self.assertNotIn("theorem_shape", by_id[case_id]["expected"]["z3-tac"])
+
+        set_bag_cases = [
+            case for case in extension_cases
+            if {"theory-behavior:set", "theory-behavior:bag"}
+            & set(case["features"])
+        ]
+        self.assertEqual(len(set_bag_cases), 204)
         self.assertEqual(
-            by_id["theory:Z3_Extensions:set:unsat-proof"]["implementation_obligation"]["failure_phase"],
-            "typecheck",
+            {feature for case in set_bag_cases for feature in case["features"]
+             if feature.startswith("theory-entry:Z3_Extensions:")},
+            {
+                f"theory-entry:Z3_Extensions:{symbol.slug}"
+                for symbol in generator.Z3_EXTENSION_THEORY_SYMBOLS
+                if "theory-behavior:set" in symbol.behavior_features
+                or "theory-behavior:bag" in symbol.behavior_features
+            },
         )
+        for case in set_bag_cases:
+            self.assertNotRegex(
+                next(item.script for item in generator.theory_cases()
+                     if item.case_id == case["id"]),
+                r"\\(assert \\(= ([^()]*) \\1\\)\\)",
+            )
+        bag_count = by_id["theory:Z3_Extensions:cvc5-bag-count:boundary"]
+        self.assertIn("theory-boundary:bag-count-nonnegative", bag_count["features"])
+        cvc5_boundary = by_id["theory:Z3_Extensions:cvc5-set-card:boundary"]
+        self.assertIn("theory-boundary:p6.4-parse-finiteness", cvc5_boundary["features"])
+        self.assertIn("theory-boundary:p6.4-emission-finiteness-entailment", cvc5_boundary["features"])
 
     def test_theories_subcommand_emits_datatypes_and_hocore_cases(self):
         stdout = io.StringIO()

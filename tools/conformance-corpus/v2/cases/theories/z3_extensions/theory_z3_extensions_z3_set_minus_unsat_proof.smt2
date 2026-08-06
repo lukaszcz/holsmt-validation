@@ -1,0 +1,7 @@
+(set-option :produce-proofs true)
+(set-logic ALL)
+(declare-const zs (Set Int))
+(declare-const zt (Set Int))
+(assert (and (not (select (setminus (store zs 7 true) (store zt 7 true)) 7)) (not (not (select (setminus (store zs 7 true) (store zt 7 true)) 7)))))
+(check-sat)
+(get-proof)

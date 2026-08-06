@@ -1,0 +1,5 @@
+(set-logic ALL)
+(declare-const ba (Array Int Int))
+(declare-const bb (Array Int Int))
+(assert (and (= (select ((_ map (+ (Int Int) Int)) ba bb) 7) (+ (select ba 7) (select bb 7))) (= 1 true)))
+(check-sat)

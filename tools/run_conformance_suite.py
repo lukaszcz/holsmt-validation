@@ -1077,6 +1077,8 @@ def expected_solver_result(case: Case) -> str | None:
         tagged.add("sat")
     if "theory-case:unsat-proof" in case.tags:
         tagged.add("unsat")
+    if "theory-case:boundary" in case.tags:
+        tagged.add("sat")
 
     status_match = re.search(
         r"\(\s*set-info\s+:status\s+(sat|unsat)\s*\)",
@@ -1200,7 +1202,8 @@ def run_cvc5_oracle(
     version: str,
 ) -> dict[str, object]:
     fp_options = ["--fp-exp"] if "FP" in case.logic else []
-    command = [cvc5, *fp_options, str(input_path)]
+    sets_options = ["--sets-exp"] if "theory-dialect:cvc5" in case.tags else []
+    command = [cvc5, *fp_options, *sets_options, str(input_path)]
     if not executable_available(cvc5):
         return result(
             case,

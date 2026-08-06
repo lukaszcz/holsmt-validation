@@ -1,3 +1,5 @@
-(set-logic ALL)
-(declare-const bad (Bag))
+(set-logic HO_ALL)
+(declare-const x (Bag Int))
+(declare-const y (Bag Int))
+(assert (and (distinct x y) (= 1 true)))
 (check-sat)

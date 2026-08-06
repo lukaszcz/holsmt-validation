@@ -24,6 +24,7 @@ DEFAULT_COVERAGE_MANIFEST = TOOLS_DIR / "coverage" / "coverage_manifest.json"
 
 SCHEMA = "holsmt-complete-conformance-audit-v1"
 MANIFEST_SCHEMA_VERSION = "2"
+SUPPORTED_Z3_VERSIONS = {"4.11.2", "4.12.4", "4.13.0", "4.14.1", "4.15.3"}
 HO_EXTENSION_LOGICS = (
     "HO_ALL",
     "HO_UF",
@@ -437,6 +438,7 @@ def validate_source(value: object, label: str) -> None:
             "SMT-LIB-theory",
             "SMT-LIB-logic",
             "Z3-extension",
+            "Solver-extension",
             "Z3-proof",
             "external-benchmark",
             "HolSmt-internal",
@@ -465,7 +467,8 @@ def validate_case(case: object, index: int) -> dict[str, object]:
         "implementation_obligation",
         "source",
     }
-    extra = sorted(set(case) - required)
+    optional = {"solver_availability"}
+    extra = sorted(set(case) - required - optional)
     missing = sorted(required - set(case))
     require(not extra, f"{label} has unknown field(s): {', '.join(extra)}")
     require(not missing, f"{label} is missing required field(s): {', '.join(missing)}")
@@ -482,7 +485,7 @@ def validate_case(case: object, index: int) -> dict[str, object]:
         f"{label}.file has invalid path",
     )
     require_string(case["logic"], f"{label}.logic")
-    require(case["standard"] in {"SMT-LIB-2.7", "SMT-LIB-3", "Z3-extension"}, f"{label}.standard is invalid")
+    require(case["standard"] in {"SMT-LIB-2.7", "SMT-LIB-3", "Z3-extension", "Solver-extension"}, f"{label}.standard is invalid")
     require(
         case["class"]
         in {
@@ -500,6 +503,17 @@ def validate_case(case: object, index: int) -> dict[str, object]:
     invalid_modes = sorted(set(modes) - V2_MODES)
     require(not invalid_modes, f"{label}.modes has invalid mode(s): {', '.join(invalid_modes)}")
     require_string_list(case["versions"], f"{label}.versions", min_items=1)
+    availability = case.get("solver_availability")
+    if availability is not None:
+        require(isinstance(availability, dict), f"{label}.solver_availability must be an object")
+        require(bool(availability), f"{label}.solver_availability must not be empty")
+        require(set(availability) <= {"z3", "cvc5"}, f"{label}.solver_availability has an invalid solver")
+        for solver, solver_versions in availability.items():
+            values = require_string_list(solver_versions, f"{label}.solver_availability[{solver}]", min_items=1)
+            if solver == "z3":
+                require(set(values) <= set(SUPPORTED_Z3_VERSIONS), f"{label}.solver_availability[z3] has an invalid version")
+            else:
+                require(values == ["1.3.4"], f"{label}.solver_availability[cvc5] must be pinned at 1.3.4")
 
     expected = case["expected"]
     require(isinstance(expected, dict), f"{label}.expected must be an object")
