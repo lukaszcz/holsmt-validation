@@ -1044,7 +1044,7 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
             if {"theory-behavior:set", "theory-behavior:bag"}
             & set(case["features"])
         ]
-        self.assertEqual(len(set_bag_cases), 204)
+        self.assertEqual(len(set_bag_cases), 206)
         self.assertEqual(
             {feature for case in set_bag_cases for feature in case["features"]
              if feature.startswith("theory-entry:Z3_Extensions:")},
@@ -1053,6 +1053,10 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
                 for symbol in generator.Z3_EXTENSION_THEORY_SYMBOLS
                 if "theory-behavior:set" in symbol.behavior_features
                 or "theory-behavior:bag" in symbol.behavior_features
+            }
+            | {
+                f"theory-entry:Z3_Extensions:{case.slug}"
+                for case in generator.P6_4_EXTENSION_BOUNDARY_CASES
             },
         )
         for case in set_bag_cases:
@@ -1063,9 +1067,30 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
             )
         bag_count = by_id["theory:Z3_Extensions:cvc5-bag-count:boundary"]
         self.assertIn("theory-boundary:bag-count-nonnegative", bag_count["features"])
-        cvc5_boundary = by_id["theory:Z3_Extensions:cvc5-set-card:boundary"]
-        self.assertIn("theory-boundary:p6.4-parse-finiteness", cvc5_boundary["features"])
-        self.assertIn("theory-boundary:p6.4-emission-finiteness-entailment", cvc5_boundary["features"])
+        parse_finiteness = by_id[
+            "theory:Z3_Extensions:p6.4-parse-finiteness"
+        ]
+        emission_finiteness = by_id[
+            "theory:Z3_Extensions:p6.4-emission-finiteness-entailment"
+        ]
+        self.assertIn(
+            "theory-boundary:p6.4-parse-finiteness",
+            parse_finiteness["features"],
+        )
+        self.assertNotIn(
+            "theory-boundary:p6.4-emission-finiteness-entailment",
+            parse_finiteness["features"],
+        )
+        self.assertIn(
+            "theory-boundary:p6.4-emission-finiteness-entailment",
+            emission_finiteness["features"],
+        )
+        self.assertNotIn(
+            "theory-boundary:p6.4-parse-finiteness",
+            emission_finiteness["features"],
+        )
+        for case in (parse_finiteness, emission_finiteness):
+            self.assertEqual(case["solver_availability"], {"cvc5": ["1.3.4"]})
 
     def test_theories_subcommand_emits_datatypes_and_hocore_cases(self):
         stdout = io.StringIO()

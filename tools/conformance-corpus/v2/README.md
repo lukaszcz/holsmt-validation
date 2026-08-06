@@ -28,6 +28,13 @@ Each case entry has these required fields:
 - `solver_availability`: optional authoritative per-solver matrix cells;
   cvc5 is pinned at 1.3.4.  This distinguishes cvc5-only, Z3-only, and
   shared extension rows from the legacy Z3 version-runner field.
+
+Phase 6's Set/Bag expansion has 51 matrix operators (30 Set and 21 Bag),
+with all four variants per operator (204 rows), plus two distinct cvc5-only
+P6.4 boundaries: `p6.4-parse-finiteness` and
+`p6.4-emission-finiteness-entailment`.  These are not generic operator
+boundaries: they separately preserve the finite-side-condition parse transfer
+and the finite-witness native-emission guard.
 - `expected`: per-mode expected results.  Each result status is exactly
   `pass`, `fail`, or `red`; negative and red rows may also carry diagnostic
   substrings, theorem-shape predicates, and proof-rule histogram constraints.

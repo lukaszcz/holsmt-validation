@@ -246,6 +246,7 @@ class ScriptedCase:
     source_kind: str = "SMT-LIB-theory"
     source_reference: str = ""
     obligation_notes: str = GENERATED_OBLIGATION_NOTES
+    solver_availability: SolverAvailability | None = None
 
 
 def slug(value: str) -> str:
@@ -5178,6 +5179,90 @@ Z3_EXTENSION_THEORY_SYMBOLS = (
 )
 
 
+# These are deliberately separate from operator boundary variants.  The
+# former pins the SMT-to-HOL finite-side-condition transfer; the latter pins
+# the finite witness required before HOL-to-cvc5 native emission.  A single
+# generic boundary row cannot evidence both directions of P6.4.
+P6_4_EXTENSION_BOUNDARY_CASES: tuple[ScriptedCase, ...] = (
+    ScriptedCase(
+        slug="p6.4-parse-finiteness",
+        script=(
+            "(set-logic HO_ALL)\n"
+            "(declare-const s (Set Int))\n"
+            "(declare-const b (Bag Int))\n"
+            "(assert (and (>= (set.card s) 0)\n"
+            "             (>= (bag.card b) 0)))\n"
+            "(check-sat)\n"
+        ),
+        modes=("parser-only", "typecheck-only", "cvc5-oracle"),
+        expected={
+            "parser-only": expected_result("pass"),
+            "typecheck-only": expected_result(
+                "red",
+                diagnostic="Seq/Set/Bag theory front-end support is incomplete",
+                failure_phase="typecheck",
+            ),
+            "cvc5-oracle": expected_result("pass"),
+        },
+        features=(
+            "theory:Z3_Extensions",
+            "theory-entry:Z3_Extensions:p6.4-parse-finiteness",
+            "theory-case:boundary",
+            "theory-behavior:set",
+            "theory-behavior:bag",
+            "theory-behavior:cardinality",
+            "theory-dialect:cvc5",
+            "theory-boundary:p6.4-parse-finiteness",
+        ),
+        implementation_feature="p6.4:parse-finiteness-side-condition",
+        implementation_files=Z3_EXTENSION_RECONSTRUCTION_FILES,
+        implementation_phase="typecheck",
+        logic="HO_ALL",
+        standard="Solver-extension",
+        source_kind="Solver-extension",
+        source_reference="Phase-6 P6.4 cvc5 finite Set/Bag parsing boundary",
+        solver_availability=CVC5_134,
+    ),
+    ScriptedCase(
+        slug="p6.4-emission-finiteness-entailment",
+        script=(
+            "(set-logic HO_ALL)\n"
+            "(assert (and (= (set.card (set.singleton 7)) 1)\n"
+            "             (= (bag.card (bag 7 2)) 2)))\n"
+            "(check-sat)\n"
+        ),
+        modes=("parser-only", "typecheck-only", "cvc5-oracle"),
+        expected={
+            "parser-only": expected_result("pass"),
+            "typecheck-only": expected_result(
+                "red",
+                diagnostic="Seq/Set/Bag theory front-end support is incomplete",
+                failure_phase="typecheck",
+            ),
+            "cvc5-oracle": expected_result("pass"),
+        },
+        features=(
+            "theory:Z3_Extensions",
+            "theory-entry:Z3_Extensions:p6.4-emission-finiteness-entailment",
+            "theory-case:boundary",
+            "theory-behavior:set",
+            "theory-behavior:bag",
+            "theory-behavior:cardinality",
+            "theory-dialect:cvc5",
+            "theory-boundary:p6.4-emission-finiteness-entailment",
+        ),
+        implementation_feature="p6.4:emission-finiteness-entailment",
+        implementation_files=Z3_EXTENSION_RECONSTRUCTION_FILES,
+        implementation_phase="typecheck",
+        logic="HO_ALL",
+        standard="Solver-extension",
+        source_kind="Solver-extension",
+        source_reference="Phase-6 P6.4 cvc5 native-emission finite witness",
+        solver_availability=CVC5_134,
+    ),
+)
+
+
 def datatype_symbolic_proof_expected(
     *,
     proof_diagnostic: str,
@@ -6327,10 +6412,6 @@ def theory_features(symbol: TheorySymbol, kind: str) -> list[str]:
         *symbol.behavior_features,
         *(("theory-boundary:bag-count-nonnegative",)
           if kind == "boundary" and symbol.name == "bag.count" else ()),
-        *(("theory-boundary:p6.4-parse-finiteness",
-           "theory-boundary:p6.4-emission-finiteness-entailment")
-          if kind == "boundary" and symbol.availability is not None
-          and symbol.availability.cvc5_versions else ()),
         *(("theory-behavior:z3-unsupported",) if unsupported else ()),
         *(("theory-behavior:semantic-fp-proof",) if fp_shape else ()),
         *((f"fp-proof-shape:{fp_shape.shape}",) if fp_shape else ()),
@@ -6418,6 +6499,7 @@ def scripted_theory_case_file(theory: str, case_id: str) -> str:
         "FloatingPoint": "floatingpoint",
         "HO_Core": "hocore",
         "UnicodeStrings": "strings",
+        "Z3_Extensions": "z3_extensions",
     }[theory]
     return f"cases/theories/{directory}/{slug(case_id)}.smt2"
 
@@ -6463,6 +6545,15 @@ def scripted_theory_case(theory: str, case: ScriptedCase) -> GeneratedCase:
                 if proof_corpus_id is not None
                 else None
             ),
+        ),
+        solver_availability=(
+            {
+                **({"z3": case.solver_availability.z3_versions}
+                   if case.solver_availability.z3_versions else {}),
+                **({"cvc5": case.solver_availability.cvc5_versions}
+                   if case.solver_availability.cvc5_versions else {}),
+            }
+            if case.solver_availability is not None else None
         ),
     )
     return GeneratedCase(entry=entry, script=case.script)
@@ -6946,6 +7037,10 @@ def theory_cases() -> list[GeneratedCase]:
     cases.extend(
         scripted_theory_case("UnicodeStrings", case)
         for case in UNICODE_STRING_THEORY_CASES
+    )
+    cases.extend(
+        scripted_theory_case("Z3_Extensions", case)
+        for case in P6_4_EXTENSION_BOUNDARY_CASES
     )
     return cases
 

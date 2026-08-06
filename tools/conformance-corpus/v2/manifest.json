@@ -75668,8 +75668,6 @@
         "theory-behavior:proof-gap",
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(Bag Element)",
         "theory-dialect:cvc5",
@@ -75946,8 +75944,6 @@
         "theory-behavior:proof-gap",
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(bag.all (-> A Bool) (Bag A) Bool)",
         "theory-dialect:cvc5",
@@ -76224,8 +76220,6 @@
         "theory-behavior:proof-gap",
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(bag.card (Bag A) Int)",
         "theory-dialect:cvc5",
@@ -76502,8 +76496,6 @@
         "theory-behavior:proof-gap",
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(bag.choose (Bag A) A)",
         "theory-dialect:cvc5",
@@ -76781,8 +76773,6 @@
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
         "theory-boundary:bag-count-nonnegative",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(bag.count A (Bag A) Int)",
         "theory-dialect:cvc5",
@@ -77059,8 +77049,6 @@
         "theory-behavior:proof-gap",
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(bag.difference_remove (Bag A) (Bag A) (Bag A))",
         "theory-dialect:cvc5",
@@ -77337,8 +77325,6 @@
         "theory-behavior:proof-gap",
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(bag.difference_subtract (Bag A) (Bag A) (Bag A))",
         "theory-dialect:cvc5",
@@ -77615,8 +77601,6 @@
         "theory-behavior:proof-gap",
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(as bag.empty (Bag A))",
         "theory-dialect:cvc5",
@@ -77893,8 +77877,6 @@
         "theory-behavior:proof-gap",
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(bag.filter (-> A Bool) (Bag A) (Bag A))",
         "theory-dialect:cvc5",
@@ -78171,8 +78153,6 @@
         "theory-behavior:proof-gap",
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(bag.fold (-> A B B) B (Bag A) B)",
         "theory-dialect:cvc5",
@@ -78449,8 +78429,6 @@
         "theory-behavior:proof-gap",
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(bag.inter_min (Bag A) (Bag A) (Bag A))",
         "theory-dialect:cvc5",
@@ -78727,8 +78705,6 @@
         "theory-behavior:proof-gap",
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(bag A Int (Bag A))",
         "theory-dialect:cvc5",
@@ -79005,8 +78981,6 @@
         "theory-behavior:proof-gap",
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(bag.map (-> A B) (Bag A) (Bag B))",
         "theory-dialect:cvc5",
@@ -79283,8 +79257,6 @@
         "theory-behavior:proof-gap",
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(bag.member A (Bag A) Bool)",
         "theory-dialect:cvc5",
@@ -79561,8 +79533,6 @@
         "theory-behavior:proof-gap",
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(bag.partition (-> A A Bool) (Bag A) (Bag (Bag A)))",
         "theory-dialect:cvc5",
@@ -79839,8 +79809,6 @@
         "theory-behavior:setof",
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(bag.setof (Bag A) (Bag A))",
         "theory-dialect:cvc5",
@@ -80117,8 +80085,6 @@
         "theory-behavior:solver-extension",
         "theory-behavior:some",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(bag.some (-> A Bool) (Bag A) Bool)",
         "theory-dialect:cvc5",
@@ -80395,8 +80361,6 @@
         "theory-behavior:solver-extension",
         "theory-behavior:subbag",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(bag.subbag (Bag A) (Bag A) Bool)",
         "theory-dialect:cvc5",
@@ -80673,8 +80637,6 @@
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
         "theory-behavior:union",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(bag.union_disjoint (Bag A) (Bag A) (Bag A))",
         "theory-dialect:cvc5",
@@ -80951,8 +80913,6 @@
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
         "theory-behavior:union",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(bag.union_max (Bag A) (Bag A) (Bag A))",
         "theory-dialect:cvc5",
@@ -81229,8 +81189,6 @@
         "theory-behavior:set",
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(set.all (-> A Bool) (Set A) Bool)",
         "theory-dialect:cvc5",
@@ -81507,8 +81465,6 @@
         "theory-behavior:set",
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(set.card (Set A) Int)",
         "theory-dialect:cvc5",
@@ -81785,8 +81741,6 @@
         "theory-behavior:set",
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(set.choose (Set A) A)",
         "theory-dialect:cvc5",
@@ -82063,8 +82017,6 @@
         "theory-behavior:set",
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(set.complement (Set A) (Set A))",
         "theory-dialect:cvc5",
@@ -82341,8 +82293,6 @@
         "theory-behavior:set",
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(set.comprehension ((x A)) Bool A (Set A))",
         "theory-dialect:cvc5",
@@ -82623,8 +82573,6 @@
         "theory-behavior:set",
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(as set.empty (Set A))",
         "theory-dialect:cvc5",
@@ -82901,8 +82849,6 @@
         "theory-behavior:set",
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(set.filter (-> A Bool) (Set A) (Set A))",
         "theory-dialect:cvc5",
@@ -83179,8 +83125,6 @@
         "theory-behavior:set",
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(set.fold (-> A B B) B (Set A) B)",
         "theory-dialect:cvc5",
@@ -83457,8 +83401,6 @@
         "theory-behavior:set",
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(set.insert A (Set A) (Set A))",
         "theory-dialect:cvc5",
@@ -83735,8 +83677,6 @@
         "theory-behavior:set",
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(set.inter (Set A) (Set A) (Set A))",
         "theory-dialect:cvc5",
@@ -84013,8 +83953,6 @@
         "theory-behavior:set",
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(set.is_empty (Set A) Bool)",
         "theory-dialect:cvc5",
@@ -84291,8 +84229,6 @@
         "theory-behavior:singleton",
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(set.is_singleton (Set A) Bool)",
         "theory-dialect:cvc5",
@@ -84569,8 +84505,6 @@
         "theory-behavior:set",
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(set.map (-> A B) (Set A) (Set B))",
         "theory-dialect:cvc5",
@@ -84847,8 +84781,6 @@
         "theory-behavior:set",
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(set.member A (Set A) Bool)",
         "theory-dialect:cvc5",
@@ -85125,8 +85057,6 @@
         "theory-behavior:set",
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(set.minus (Set A) (Set A) (Set A))",
         "theory-dialect:cvc5",
@@ -85403,8 +85333,6 @@
         "theory-behavior:singleton",
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(set.singleton A (Set A))",
         "theory-dialect:cvc5",
@@ -85681,8 +85609,6 @@
         "theory-behavior:solver-extension",
         "theory-behavior:some",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(set.some (-> A Bool) (Set A) Bool)",
         "theory-dialect:cvc5",
@@ -85959,8 +85885,6 @@
         "theory-behavior:solver-extension",
         "theory-behavior:subset",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(set.subset (Set A) (Set A) Bool)",
         "theory-dialect:cvc5",
@@ -86237,8 +86161,6 @@
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
         "theory-behavior:union",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(set.union (Set A) (Set A) (Set A))",
         "theory-dialect:cvc5",
@@ -86515,8 +86437,6 @@
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
         "theory-behavior:universe",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(as set.universe (Set A))",
         "theory-dialect:cvc5",
@@ -86773,6 +86693,136 @@
       "source": {
         "kind": "Solver-extension",
         "reference": "Phase-6 solver matrix extension: set.universe"
+      },
+      "solver_availability": {
+        "cvc5": [
+          "1.3.4"
+        ]
+      }
+    },
+    {
+      "id": "theory:Z3_Extensions:p6.4-emission-finiteness-entailment",
+      "file": "cases/theories/z3_extensions/theory_z3_extensions_p6_4_emission_finiteness_entailment.smt2",
+      "logic": "HO_ALL",
+      "standard": "Solver-extension",
+      "class": "theory",
+      "features": [
+        "theory-behavior:bag",
+        "theory-behavior:cardinality",
+        "theory-behavior:set",
+        "theory-boundary:p6.4-emission-finiteness-entailment",
+        "theory-case:boundary",
+        "theory-dialect:cvc5",
+        "theory-entry:Z3_Extensions:p6.4-emission-finiteness-entailment",
+        "theory:Z3_Extensions"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "cvc5-oracle"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "Seq/Set/Bag theory front-end support is incomplete",
+          "failure_phase": "typecheck"
+        },
+        "cvc5-oracle": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Logics.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "p6.4:emission-finiteness-entailment",
+        "test_ids": [
+          "theory:Z3_Extensions:p6.4-emission-finiteness-entailment"
+        ],
+        "failure_phase": "typecheck",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "Solver-extension",
+        "reference": "Phase-6 P6.4 cvc5 native-emission finite witness"
+      },
+      "solver_availability": {
+        "cvc5": [
+          "1.3.4"
+        ]
+      }
+    },
+    {
+      "id": "theory:Z3_Extensions:p6.4-parse-finiteness",
+      "file": "cases/theories/z3_extensions/theory_z3_extensions_p6_4_parse_finiteness.smt2",
+      "logic": "HO_ALL",
+      "standard": "Solver-extension",
+      "class": "theory",
+      "features": [
+        "theory-behavior:bag",
+        "theory-behavior:cardinality",
+        "theory-behavior:set",
+        "theory-boundary:p6.4-parse-finiteness",
+        "theory-case:boundary",
+        "theory-dialect:cvc5",
+        "theory-entry:Z3_Extensions:p6.4-parse-finiteness",
+        "theory:Z3_Extensions"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "cvc5-oracle"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "Seq/Set/Bag theory front-end support is incomplete",
+          "failure_phase": "typecheck"
+        },
+        "cvc5-oracle": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/SmtLib.sml",
+          "src/HolSmt/SmtLib_Logics.sml",
+          "src/HolSmt/SmtLib_Theories.sml",
+          "src/HolSmt/Z3_ProofReplay.sml"
+        ],
+        "feature": "p6.4:parse-finiteness-side-condition",
+        "test_ids": [
+          "theory:Z3_Extensions:p6.4-parse-finiteness"
+        ],
+        "failure_phase": "typecheck",
+        "notes": "Generated red seed row; keep red until executable evidence is added."
+      },
+      "source": {
+        "kind": "Solver-extension",
+        "reference": "Phase-6 P6.4 cvc5 finite Set/Bag parsing boundary"
       },
       "solver_availability": {
         "cvc5": [
@@ -88188,8 +88238,6 @@
         "theory-behavior:set",
         "theory-behavior:solver-extension",
         "theory-behavior:translation-gap",
-        "theory-boundary:p6.4-emission-finiteness-entailment",
-        "theory-boundary:p6.4-parse-finiteness",
         "theory-case:boundary",
         "theory-declaration:Z3_Extensions:(Set Element)",
         "theory-entry:Z3_Extensions:set",

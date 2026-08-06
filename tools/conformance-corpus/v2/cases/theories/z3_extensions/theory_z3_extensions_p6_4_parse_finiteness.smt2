@@ -1,0 +1,6 @@
+(set-logic HO_ALL)
+(declare-const s (Set Int))
+(declare-const b (Bag Int))
+(assert (and (>= (set.card s) 0)
+             (>= (bag.card b) 0)))
+(check-sat)
