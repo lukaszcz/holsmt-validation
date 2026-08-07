@@ -1,6 +1,7 @@
 (set-option :produce-proofs true)
 (set-logic ALL)
 (declare-const x (Seq Int))
-(assert (not (= x x)))
+(declare-const y (Seq Int))
+(assert (and (distinct x y) (not (distinct x y))))
 (check-sat)
 (get-proof)

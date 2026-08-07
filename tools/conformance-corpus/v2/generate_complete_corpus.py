@@ -229,6 +229,7 @@ class TheorySymbol:
     boundary_script: str
     behavior_features: tuple[str, ...] = ()
     availability: SolverAvailability | None = None
+    z3_oracle_unknown: bool = False
 
 
 @dataclass(frozen=True)
@@ -4939,6 +4940,7 @@ def solver_extension_symbol(
     *,
     kind: str = "term",
     boundary_assertion: str | None = None,
+    z3_oracle_unknown: bool = False,
 ) -> TheorySymbol:
     """Make one four-variant row from a frozen solver-matrix entry.
 
@@ -4976,6 +4978,7 @@ def solver_extension_symbol(
             *behavior_features,
         ),
         availability,
+        z3_oracle_unknown,
     )
 
 
@@ -5167,15 +5170,561 @@ Z3_EXTENSION_THEORY_SYMBOLS: tuple[TheorySymbol, ...] = (
     ),
 )
 
-# TASK_04 owns the widened sequence inventory.  Retain its existing five
-# sequence seed rows verbatim while this task replaces only the Set/Bag half.
+# The frozen TASK_02 matrix has 27 Seq operators.  Every row below has a
+# concrete law; the operator-specific boundary rows make totalization edges
+# visible without assigning an SMT-LIB value to an out-of-range seq.nth.
+Z3_SINCE_4_12_4 = SolverAvailability(z3_versions=SUPPORTED_Z3_VERSIONS[1:])
+
+SEQ_DECLARATIONS = (
+    "(declare-const s (Seq Int))\n"
+    "(declare-const u (Seq Int))\n"
+)
+
+
+def seq_symbol(
+    slug_name: str,
+    name: str,
+    declaration: str,
+    assertion: str,
+    availability: SolverAvailability,
+    behavior: str,
+    *,
+    boundary_assertion: str | None = None,
+    z3_oracle_unknown: bool = False,
+) -> TheorySymbol:
+    return solver_extension_symbol(
+        slug_name,
+        name,
+        "ALL",
+        (declaration,),
+        assertion,
+        SEQ_DECLARATIONS,
+        availability,
+        ("theory-behavior:sequence", behavior),
+        boundary_assertion=boundary_assertion,
+        z3_oracle_unknown=z3_oracle_unknown,
+    )
+
+
+SEQ_EXTENSION_THEORY_SYMBOLS: tuple[TheorySymbol, ...] = (
+    solver_extension_symbol(
+        "seq",
+        "Seq",
+        "ALL",
+        ("(Seq Element)",),
+        "(distinct x y)",
+        "(declare-const x (Seq Int))\n(declare-const y (Seq Int))\n",
+        SHARED,
+        ("theory-behavior:sequence", "theory-behavior:parametric-sort"),
+        kind="sort",
+    ),
+    seq_symbol(
+        "seq-concat",
+        "seq.++",
+        "(seq.++ (Seq A) (Seq A) (Seq A) :left-assoc)",
+        "(= (seq.len (seq.++ (seq.unit 1) (seq.unit 2))) 2)",
+        SHARED,
+        "theory-behavior:concat",
+        boundary_assertion=(
+            "(= (seq.++ (as seq.empty (Seq Int)) (seq.unit 1)) "
+            "(seq.unit 1))"
+        ),
+    ),
+    seq_symbol(
+        "seq-at",
+        "seq.at",
+        "(seq.at (Seq A) Int (Seq A))",
+        "(= (seq.at (seq.unit 7) 0) (seq.unit 7))",
+        SHARED,
+        "theory-behavior:at",
+        boundary_assertion=(
+            "(and (= (seq.at (seq.unit 7) -1) (as seq.empty (Seq Int))) "
+            "(= (seq.at (seq.unit 7) 1) (as seq.empty (Seq Int))))"
+        ),
+    ),
+    seq_symbol(
+        "seq-contains",
+        "seq.contains",
+        "(seq.contains (Seq A) (Seq A) Bool)",
+        "(seq.contains (seq.++ (seq.unit 1) (seq.unit 2)) (seq.unit 2))",
+        SHARED,
+        "theory-behavior:contains",
+    ),
+    seq_symbol(
+        "seq-empty",
+        "seq.empty",
+        "(as seq.empty (Seq A))",
+        "(= (seq.len (as seq.empty (Seq Int))) 0)",
+        SHARED,
+        "theory-behavior:empty",
+        boundary_assertion=(
+            "(not (seq.contains (as seq.empty (Seq Int)) (seq.unit 7)))"
+        ),
+    ),
+    seq_symbol(
+        "seq-extract",
+        "seq.extract",
+        "(seq.extract (Seq A) Int Int (Seq A))",
+        "(= (seq.extract (seq.unit 7) 0 1) (seq.unit 7))",
+        SHARED,
+        "theory-behavior:extract",
+        boundary_assertion=(
+            "(and (= (seq.extract (seq.unit 7) -1 2) "
+            "(as seq.empty (Seq Int))) "
+            "(= (seq.extract (seq.unit 7) 0 99) (seq.unit 7)))"
+        ),
+    ),
+    seq_symbol(
+        "seq-indexof",
+        "seq.indexof",
+        "(seq.indexof (Seq A) (Seq A) Int Int)",
+        "(= (seq.indexof (seq.++ (seq.unit 1) (seq.unit 2)) (seq.unit 2) 0) 1)",
+        SHARED,
+        "theory-behavior:indexof",
+        boundary_assertion=(
+            "(= (seq.indexof (seq.unit 7) (seq.unit 8) -1) -1)"
+        ),
+    ),
+    seq_symbol(
+        "seq-len",
+        "seq.len",
+        "(seq.len (Seq A) Int)",
+        "(= (seq.len (seq.unit 7)) 1)",
+        SHARED,
+        "theory-behavior:length",
+    ),
+    seq_symbol(
+        "seq-nth",
+        "seq.nth",
+        "(seq.nth (Seq A) Int A)",
+        "(= (seq.nth (seq.unit 7) 0) 7)",
+        SHARED,
+        "theory-behavior:nth",
+        boundary_assertion=(
+            "(and (= (seq.nth (seq.unit 7) -1) "
+            "(seq.nth (seq.unit 7) -2)) "
+            "(= (seq.nth (seq.unit 7) 1) "
+            "(seq.nth (seq.unit 7) 2)))"
+        ),
+    ),
+    seq_symbol(
+        "seq-prefixof",
+        "seq.prefixof",
+        "(seq.prefixof (Seq A) (Seq A) Bool)",
+        "(seq.prefixof (seq.unit 1) (seq.++ (seq.unit 1) (seq.unit 2)))",
+        SHARED,
+        "theory-behavior:prefix",
+    ),
+    seq_symbol(
+        "seq-replace",
+        "seq.replace",
+        "(seq.replace (Seq A) (Seq A) (Seq A) (Seq A))",
+        "(= (seq.replace (seq.unit 1) (seq.unit 1) (seq.unit 2)) (seq.unit 2))",
+        SHARED,
+        "theory-behavior:replace",
+    ),
+    seq_symbol(
+        "seq-suffixof",
+        "seq.suffixof",
+        "(seq.suffixof (Seq A) (Seq A) Bool)",
+        "(seq.suffixof (seq.unit 2) (seq.++ (seq.unit 1) (seq.unit 2)))",
+        SHARED,
+        "theory-behavior:suffix",
+    ),
+    seq_symbol(
+        "seq-unit",
+        "seq.unit",
+        "(seq.unit A (Seq A))",
+        "(= (seq.len (seq.unit 7)) 1)",
+        SHARED,
+        "theory-behavior:unit",
+        boundary_assertion=(
+            "(= (seq.++ (seq.unit 7) (as seq.empty (Seq Int))) "
+            "(seq.unit 7))"
+        ),
+    ),
+    seq_symbol(
+        "seq-last-indexof",
+        "seq.last_indexof",
+        "(seq.last_indexof (Seq A) (Seq A) Int)",
+        "(= (seq.last_indexof (seq.unit 7) (seq.unit 8)) -1)",
+        Z3_ALL,
+        "theory-behavior:last-indexof",
+    ),
+    seq_symbol(
+        "seq-to-re",
+        "seq.to.re",
+        "(seq.to.re (Seq A) (RegEx (Seq A)))",
+        "(seq.in.re (seq.unit 7) (seq.to.re (seq.unit 7)))",
+        Z3_ALL,
+        "theory-behavior:regex",
+    ),
+    seq_symbol(
+        "seq-in-re",
+        "seq.in.re",
+        "(seq.in.re (Seq A) (RegEx (Seq A)) Bool)",
+        "(seq.in.re (seq.unit 7) (seq.to.re (seq.unit 7)))",
+        Z3_ALL,
+        "theory-behavior:regex",
+    ),
+    seq_symbol(
+        "str-replace-all-seq",
+        "str.replace_all[Seq]",
+        "(str.replace_all (Seq A) (Seq A) (Seq A) (Seq A))",
+        "(= (str.replace_all (seq.++ (seq.unit 1) (seq.unit 1)) "
+        "(seq.unit 1) (seq.unit 2)) (seq.++ (seq.unit 2) (seq.unit 2)))",
+        SHARED,
+        "theory-behavior:replace-all",
+    ),
+    seq_symbol(
+        "str-replace-re-seq",
+        "str.replace_re[Seq]",
+        "(str.replace_re (Seq A) (RegEx (Seq A)) (Seq A) (Seq A))",
+        "(= (str.replace_re (seq.unit 1) (seq.to.re (seq.unit 1)) "
+        "(seq.unit 2)) (seq.unit 2))",
+        Z3_ALL,
+        "theory-behavior:regex",
+        # Z3 accepts the operator, but all supported versions return unknown
+        # for this concrete semantic law rather than pretending it is sat.
+        z3_oracle_unknown=True,
+    ),
+    seq_symbol(
+        "str-replace-re-all-seq",
+        "str.replace_re_all[Seq]",
+        "(str.replace_re_all (Seq A) (RegEx (Seq A)) (Seq A) (Seq A))",
+        "(= (str.replace_re_all (seq.++ (seq.unit 1) (seq.unit 1)) "
+        "(seq.to.re (seq.unit 1)) (seq.unit 2)) "
+        "(seq.++ (seq.unit 2) (seq.unit 2)))",
+        Z3_ALL,
+        "theory-behavior:regex",
+        z3_oracle_unknown=True,
+    ),
+    seq_symbol(
+        "seq-map",
+        "seq.map",
+        "(seq.map (-> A B) (Seq A) (Seq B))",
+        "(= (seq.map (lambda ((x Int)) (+ x 1)) (seq.unit 7)) (seq.unit 8))",
+        Z3_ALL,
+        "theory-behavior:higher-order",
+    ),
+    seq_symbol(
+        "seq-mapi",
+        "seq.mapi",
+        "(seq.mapi (-> Int A B) Int (Seq A) (Seq B))",
+        "(= (seq.mapi (lambda ((i Int) (x Int)) (+ i x)) 0 "
+        "(seq.unit 7)) (seq.unit 7))",
+        Z3_ALL,
+        "theory-behavior:higher-order",
+    ),
+    seq_symbol(
+        "seq-foldl",
+        "seq.foldl",
+        "(seq.foldl (-> A B B) B (Seq A) B)",
+        "(= (seq.foldl (lambda ((x Int) (a Int)) (+ x a)) 0 "
+        "(seq.unit 7)) 7)",
+        Z3_ALL,
+        "theory-behavior:higher-order",
+    ),
+    seq_symbol(
+        "seq-foldli",
+        "seq.foldli",
+        "(seq.foldli (-> Int A B B) Int B (Seq A) B)",
+        "(= (seq.foldli (lambda ((i Int) (x Int) (a Int)) (+ i x a)) "
+        "0 0 (seq.unit 7)) 7)",
+        Z3_ALL,
+        "theory-behavior:higher-order",
+    ),
+    seq_symbol(
+        "seq-fold-left",
+        "seq.fold_left",
+        "(seq.fold_left (-> A B B) B (Seq A) B)",
+        "(= (seq.fold_left (lambda ((x Int) (a Int)) (+ x a)) 0 "
+        "(seq.unit 7)) 7)",
+        Z3_SINCE_4_12_4,
+        "theory-behavior:higher-order",
+    ),
+    seq_symbol(
+        "seq-fold-lefti",
+        "seq.fold_lefti",
+        "(seq.fold_lefti (-> Int A B B) Int B (Seq A) B)",
+        "(= (seq.fold_lefti (lambda ((i Int) (x Int) (a Int)) (+ i x a)) "
+        "0 0 (seq.unit 7)) 7)",
+        Z3_SINCE_4_12_4,
+        "theory-behavior:higher-order",
+    ),
+    seq_symbol(
+        "cvc5-seq-update",
+        "seq.update",
+        "(seq.update (Seq A) Int (Seq A) (Seq A))",
+        "(= (seq.update (seq.unit 1) 0 (seq.unit 2)) (seq.unit 2))",
+        CVC5_134,
+        "theory-behavior:update",
+        boundary_assertion=(
+            "(= (seq.update (seq.unit 1) 9 (seq.unit 2)) (seq.unit 1))"
+        ),
+    ),
+    seq_symbol(
+        "cvc5-seq-replace-all",
+        "seq.replace_all",
+        "(seq.replace_all (Seq A) (Seq A) (Seq A) (Seq A))",
+        "(= (seq.replace_all (seq.++ (seq.unit 1) (seq.unit 1)) "
+        "(seq.unit 1) (seq.unit 2)) (seq.++ (seq.unit 2) (seq.unit 2)))",
+        CVC5_134,
+        "theory-behavior:replace-all",
+    ),
+    seq_symbol(
+        "cvc5-seq-rev",
+        "seq.rev",
+        "(seq.rev (Seq A) (Seq A))",
+        "(= (seq.rev (seq.++ (seq.unit 1) (seq.unit 2))) "
+        "(seq.++ (seq.unit 2) (seq.unit 1)))",
+        CVC5_134,
+        "theory-behavior:reverse",
+    ),
+)
+
+
+# TASK_04 replaces the old five sequence seeds with every TASK_02 matrix row.
 Z3_EXTENSION_THEORY_SYMBOLS = (
-    *(symbol for symbol in LEGACY_Z3_EXTENSION_THEORY_SYMBOLS
-      if symbol.slug == "seq"
-      or "theory-behavior:sequence" in symbol.behavior_features),
+    *SEQ_EXTENSION_THEORY_SYMBOLS,
     *(symbol for symbol in Z3_EXTENSION_THEORY_SYMBOLS
-      if symbol.slug != "seq"
-      and "theory-behavior:sequence" not in symbol.behavior_features),
+      if "theory-behavior:sequence" not in symbol.behavior_features),
+)
+
+
+# These deliberately separate rows exercise Seq totalization independently
+# of the one boundary variant generated for each operator.  Out-of-range nth
+# values are deliberately unconstrained, so each assertion records access
+# without assigning it a spurious value.
+P6_SEQ_BOUNDARY_CASES: tuple[ScriptedCase, ...] = (
+    ScriptedCase(
+        slug="seq-nth-underflow-totalization",
+        script=(
+            "(set-logic ALL)\n"
+            "(declare-const s (Seq Int))\n"
+            "(assert (= (seq.nth s -1) (seq.nth s -2)))\n"
+            "(check-sat)\n"
+        ),
+        modes=(
+            "parser-only", "typecheck-only", "z3-oracle", "cvc5-oracle",
+            "z3-tac",
+        ),
+        expected={
+            "parser-only": expected_result("pass"),
+            "typecheck-only": expected_result(
+                "red",
+                diagnostic="Seq/Set/Bag theory front-end support is incomplete",
+                failure_phase="typecheck",
+            ),
+            "z3-oracle": expected_result("pass"),
+            "cvc5-oracle": expected_result("pass"),
+            "z3-tac": expected_result(
+                "red",
+                diagnostic="Seq/Set/Bag translation and checked replay are incomplete",
+                failure_phase="translation",
+            ),
+        },
+        features=(
+            "theory:Z3_Extensions",
+            "theory-entry:Z3_Extensions:seq-nth-underflow-totalization",
+            "theory-case:boundary",
+            "theory-behavior:sequence",
+            "theory-behavior:nth",
+            "theory-boundary:seq-nth-underflow",
+        ),
+        implementation_feature="seq:nth-totalization-underflow",
+        implementation_files=Z3_EXTENSION_RECONSTRUCTION_FILES,
+        implementation_phase="typecheck",
+        logic="ALL",
+        standard="Z3-extension",
+        source_kind="Z3-extension",
+        source_reference="Phase-6 Seq nth underflow totalization boundary",
+        solver_availability=SHARED,
+    ),
+    ScriptedCase(
+        slug="seq-nth-overflow-totalization",
+        script=(
+            "(set-logic ALL)\n"
+            "(declare-const s (Seq Int))\n"
+            "(assert (= (seq.nth s (seq.len s)) "
+            "(seq.nth s (+ (seq.len s) 1))))\n"
+            "(check-sat)\n"
+        ),
+        modes=(
+            "parser-only", "typecheck-only", "z3-oracle", "cvc5-oracle",
+            "z3-tac",
+        ),
+        expected={
+            "parser-only": expected_result("pass"),
+            "typecheck-only": expected_result(
+                "red",
+                diagnostic="Seq/Set/Bag theory front-end support is incomplete",
+                failure_phase="typecheck",
+            ),
+            "z3-oracle": expected_result("pass"),
+            "cvc5-oracle": expected_result("pass"),
+            "z3-tac": expected_result(
+                "red",
+                diagnostic="Seq/Set/Bag translation and checked replay are incomplete",
+                failure_phase="translation",
+            ),
+        },
+        features=(
+            "theory:Z3_Extensions",
+            "theory-entry:Z3_Extensions:seq-nth-overflow-totalization",
+            "theory-case:boundary",
+            "theory-behavior:sequence",
+            "theory-behavior:nth",
+            "theory-boundary:seq-nth-overflow",
+        ),
+        implementation_feature="seq:nth-totalization-overflow",
+        implementation_files=Z3_EXTENSION_RECONSTRUCTION_FILES,
+        implementation_phase="typecheck",
+        logic="ALL",
+        standard="Z3-extension",
+        source_kind="Z3-extension",
+        source_reference="Phase-6 Seq nth overflow totalization boundary",
+        solver_availability=SHARED,
+    ),
+    ScriptedCase(
+        slug="seq-extract-clamping",
+        script=(
+            "(set-logic ALL)\n"
+            "(assert (and (= (seq.extract (seq.unit 7) -1 2) "
+            "(as seq.empty (Seq Int))) "
+            "(= (seq.extract (seq.unit 7) 0 99) (seq.unit 7))))\n"
+            "(check-sat)\n"
+        ),
+        modes=("parser-only", "typecheck-only", "z3-oracle", "cvc5-oracle", "z3-tac"),
+        expected={
+            "parser-only": expected_result("pass"),
+            "typecheck-only": expected_result(
+                "red",
+                diagnostic="Seq/Set/Bag theory front-end support is incomplete",
+                failure_phase="typecheck",
+            ),
+            "z3-oracle": expected_result("pass"),
+            "cvc5-oracle": expected_result("pass"),
+            "z3-tac": expected_result(
+                "red",
+                diagnostic="Seq/Set/Bag translation and checked replay are incomplete",
+                failure_phase="translation",
+            ),
+        },
+        features=(
+            "theory:Z3_Extensions",
+            "theory-entry:Z3_Extensions:seq-extract-clamping",
+            "theory-case:boundary",
+            "theory-behavior:sequence",
+            "theory-behavior:extract",
+            "theory-boundary:seq-extract-clamping",
+        ),
+        implementation_feature="seq:extract-clamping",
+        implementation_files=Z3_EXTENSION_RECONSTRUCTION_FILES,
+        implementation_phase="typecheck",
+        logic="ALL",
+        standard="Solver-extension",
+        source_kind="Solver-extension",
+        source_reference="Phase-6 Seq extract clamping boundary",
+        solver_availability=SHARED,
+    ),
+    ScriptedCase(
+        slug="seq-empty-unit-edges",
+        script=(
+            "(set-logic ALL)\n"
+            "(assert (and (= (seq.len (as seq.empty (Seq Int))) 0) "
+            "(= (seq.len (seq.unit 7)) 1) "
+            "(= (seq.++ (as seq.empty (Seq Int)) (seq.unit 7)) "
+            "(seq.unit 7))))\n"
+            "(check-sat)\n"
+        ),
+        modes=("parser-only", "typecheck-only", "z3-oracle", "cvc5-oracle", "z3-tac"),
+        expected={
+            "parser-only": expected_result("pass"),
+            "typecheck-only": expected_result(
+                "red",
+                diagnostic="Seq/Set/Bag theory front-end support is incomplete",
+                failure_phase="typecheck",
+            ),
+            "z3-oracle": expected_result("pass"),
+            "cvc5-oracle": expected_result("pass"),
+            "z3-tac": expected_result(
+                "red",
+                diagnostic="Seq/Set/Bag translation and checked replay are incomplete",
+                failure_phase="translation",
+            ),
+        },
+        features=(
+            "theory:Z3_Extensions",
+            "theory-entry:Z3_Extensions:seq-empty-unit-edges",
+            "theory-case:boundary",
+            "theory-behavior:sequence",
+            "theory-behavior:empty",
+            "theory-behavior:unit",
+            "theory-boundary:seq-empty-unit",
+        ),
+        implementation_feature="seq:empty-unit-edges",
+        implementation_files=Z3_EXTENSION_RECONSTRUCTION_FILES,
+        implementation_phase="typecheck",
+        logic="ALL",
+        standard="Solver-extension",
+        source_kind="Solver-extension",
+        source_reference="Phase-6 Seq empty and unit boundary",
+        solver_availability=SHARED,
+    ),
+    ScriptedCase(
+        slug="seq-char-string-correspondence",
+        script=(
+            "(set-logic ALL)\n"
+            "(declare-const ch Char)\n"
+            "(assert (= (seq.unit ch) (_ char #x61)))\n"
+            "(check-sat)\n"
+        ),
+        modes=("parser-only", "typecheck-only", "z3-oracle", "z3-tac"),
+        expected={
+            "parser-only": expected_result("pass"),
+            "typecheck-only": expected_result(
+                "red",
+                diagnostic="Seq Char/String correspondence is incomplete",
+                failure_phase="typecheck",
+            ),
+            "z3-oracle": expected_result(
+                "red",
+                diagnostic="Char is Z3 proof-internal syntax",
+                failure_phase="solver",
+            ),
+            "z3-tac": expected_result(
+                "red",
+                diagnostic="Seq Char/String correspondence is incomplete",
+                failure_phase="translation",
+            ),
+        },
+        features=(
+            "theory:Z3_Extensions",
+            "theory-entry:Z3_Extensions:seq-char-string-correspondence",
+            "theory-case:boundary",
+            "theory-behavior:sequence",
+            "theory-behavior:character",
+            "theory-behavior:string",
+            "theory-boundary:seq-char-string-correspondence",
+        ),
+        implementation_feature="seq:char-string-correspondence",
+        implementation_files=(
+            "src/HolSmt/SmtLib_Theories.sml",
+            "src/HolSmt/SmtLib.sml",
+            "src/HolSmt/smtstringScript.sml",
+            "src/HolSmt/smtstringz3Script.sml",
+        ),
+        implementation_phase="typecheck",
+        logic="ALL",
+        standard="Z3-extension",
+        source_kind="Z3-extension",
+        source_reference=(
+            "Phase-6 Seq Char equals Phase-4 smtstr carrier; Char is "
+            "Z3 proof-internal syntax, not an SMT-LIB input sort"
+        ),
+        solver_availability=SolverAvailability(),
+    ),
 )
 
 
@@ -6593,7 +7142,14 @@ def solver_extension_case(
     if kind in {"sat", "boundary"}:
         if z3:
             modes.extend(("z3-oracle", "z3-tac"))
-            expected["z3-oracle"] = expected_result("pass")
+            expected["z3-oracle"] = expected_result(
+                "red" if symbol.z3_oracle_unknown else "pass",
+                diagnostic=(
+                    "Z3 returns unknown for this concrete sequence regex law"
+                    if symbol.z3_oracle_unknown else None
+                ),
+                failure_phase="solver" if symbol.z3_oracle_unknown else None,
+            )
             expected["z3-tac"] = expected_result(
                 "red",
                 diagnostic="Seq/Set/Bag translation and checked replay are incomplete",
@@ -7037,6 +7593,10 @@ def theory_cases() -> list[GeneratedCase]:
     cases.extend(
         scripted_theory_case("UnicodeStrings", case)
         for case in UNICODE_STRING_THEORY_CASES
+    )
+    cases.extend(
+        scripted_theory_case("Z3_Extensions", case)
+        for case in P6_SEQ_BOUNDARY_CASES
     )
     cases.extend(
         scripted_theory_case("Z3_Extensions", case)

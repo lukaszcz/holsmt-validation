@@ -1,0 +1,7 @@
+(set-option :produce-proofs true)
+(set-logic ALL)
+(declare-const s (Seq Int))
+(declare-const u (Seq Int))
+(assert (and (= (seq.mapi (lambda ((i Int) (x Int)) (+ i x)) 0 (seq.unit 7)) (seq.unit 7)) (not (= (seq.mapi (lambda ((i Int) (x Int)) (+ i x)) 0 (seq.unit 7)) (seq.unit 7)))))
+(check-sat)
+(get-proof)

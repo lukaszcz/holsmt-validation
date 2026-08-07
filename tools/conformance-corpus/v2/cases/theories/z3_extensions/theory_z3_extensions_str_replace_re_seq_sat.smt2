@@ -1,0 +1,5 @@
+(set-logic ALL)
+(declare-const s (Seq Int))
+(declare-const u (Seq Int))
+(assert (= (str.replace_re (seq.unit 1) (seq.to.re (seq.unit 1)) (seq.unit 2)) (seq.unit 2)))
+(check-sat)

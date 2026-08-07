@@ -1,0 +1,5 @@
+(set-logic ALL)
+(declare-const s (Seq Int))
+(declare-const u (Seq Int))
+(assert (and (= (seq.mapi (lambda ((i Int) (x Int)) (+ i x)) 0 (seq.unit 7)) (seq.unit 7)) (= 1 true)))
+(check-sat)

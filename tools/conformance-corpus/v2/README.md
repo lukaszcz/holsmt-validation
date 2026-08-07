@@ -29,9 +29,16 @@ Each case entry has these required fields:
   cvc5 is pinned at 1.3.4.  This distinguishes cvc5-only, Z3-only, and
   shared extension rows from the legacy Z3 version-runner field.
 
-Phase 6's Set/Bag expansion has 51 matrix operators (30 Set and 21 Bag),
-with all four variants per operator (204 rows), plus two distinct cvc5-only
-P6.4 boundaries: `p6.4-parse-finiteness` and
+Phase 6's Seq expansion has all 27 TASK_02 matrix operators plus the `Seq`
+sort, with all four variants per entry (112 rows), and five separately named
+boundaries for nth underflow/overflow totalization, extract clamping,
+empty/unit edges, and `(Seq Char)`/String correspondence.  `seq.fold_left`
+and `seq.fold_lefti` carry the Z3 >= 4.12.4 availability gate.  Every Seq,
+Set, and Bag SAT row asserts an operator law rather than a self-equality.
+
+The Set/Bag expansion has 51 matrix operators (30 Set and 21 Bag), with all
+four variants per operator (204 rows), plus two distinct cvc5-only P6.4
+boundaries: `p6.4-parse-finiteness` and
 `p6.4-emission-finiteness-entailment`.  These are not generic operator
 boundaries: they separately preserve the finite-side-condition parse transfer
 and the finite-witness native-emission guard.

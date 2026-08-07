@@ -1,5 +1,5 @@
 (set-logic ALL)
-(declare-const xs (Seq Int))
-(declare-const ys (Seq Int))
-(assert (= (seq.contains xs ys) true))
+(declare-const s (Seq Int))
+(declare-const u (Seq Int))
+(assert (and (seq.contains (seq.++ (seq.unit 1) (seq.unit 2)) (seq.unit 2)) (= 1 true)))
 (check-sat)

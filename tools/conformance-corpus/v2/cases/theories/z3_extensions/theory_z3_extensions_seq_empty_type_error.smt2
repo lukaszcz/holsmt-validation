@@ -1,0 +1,5 @@
+(set-logic ALL)
+(declare-const s (Seq Int))
+(declare-const u (Seq Int))
+(assert (and (= (seq.len (as seq.empty (Seq Int))) 0) (= 1 true)))
+(check-sat)

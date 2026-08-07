@@ -1,0 +1,5 @@
+(set-logic ALL)
+(declare-const s (Seq Int))
+(declare-const u (Seq Int))
+(assert (and (= (seq.fold_left (lambda ((x Int) (a Int)) (+ x a)) 0 (seq.unit 7)) 7) (= 1 true)))
+(check-sat)

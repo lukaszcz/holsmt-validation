@@ -1,0 +1,5 @@
+(set-logic ALL)
+(declare-const s (Seq Int))
+(declare-const u (Seq Int))
+(assert (= (seq.nth (seq.unit 7) 0) 7))
+(check-sat)

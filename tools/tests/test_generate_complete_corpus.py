@@ -1092,6 +1092,82 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
         for case in (parse_finiteness, emission_finiteness):
             self.assertEqual(case["solver_availability"], {"cvc5": ["1.3.4"]})
 
+        seq_cases = [
+            case for case in extension_cases
+            if "theory-behavior:sequence" in case["features"]
+        ]
+        matrix_seq_names = {
+            "seq.++", "seq.at", "seq.contains", "seq.empty", "seq.extract",
+            "seq.fold_left", "seq.fold_lefti", "seq.foldl", "seq.foldli",
+            "seq.in.re", "seq.indexof", "seq.last_indexof", "seq.len",
+            "seq.map", "seq.mapi", "seq.nth", "seq.prefixof", "seq.replace",
+            "seq.replace_all", "seq.rev", "seq.suffixof", "seq.to.re",
+            "seq.unit", "seq.update", "str.replace_all[Seq]",
+            "str.replace_re[Seq]", "str.replace_re_all[Seq]",
+        }
+        sequence_symbols = generator.SEQ_EXTENSION_THEORY_SYMBOLS
+        self.assertEqual(
+            {symbol.name for symbol in sequence_symbols if symbol.name != "Seq"},
+            matrix_seq_names,
+        )
+        self.assertEqual(
+            len(seq_cases),
+            4 * len(sequence_symbols) + len(generator.P6_SEQ_BOUNDARY_CASES),
+        )
+        fold_left = by_id["theory:Z3_Extensions:seq-fold-left:sat"]
+        self.assertEqual(
+            fold_left["solver_availability"]["z3"],
+            list(generator.SUPPORTED_Z3_VERSIONS[1:]),
+        )
+        for case_id in (
+            "theory:Z3_Extensions:seq-nth-underflow-totalization",
+            "theory:Z3_Extensions:seq-nth-overflow-totalization",
+        ):
+            case = by_id[case_id]
+            self.assertEqual(
+                case["solver_availability"],
+                {"z3": list(generator.SUPPORTED_Z3_VERSIONS), "cvc5": ["1.3.4"]},
+            )
+            self.assertEqual(case["expected"]["cvc5-oracle"]["status"], "pass")
+        boundary_ids = {
+            "theory:Z3_Extensions:seq-nth-underflow-totalization",
+            "theory:Z3_Extensions:seq-nth-overflow-totalization",
+            "theory:Z3_Extensions:seq-extract-clamping",
+            "theory:Z3_Extensions:seq-empty-unit-edges",
+            "theory:Z3_Extensions:seq-char-string-correspondence",
+        }
+        self.assertEqual(
+            {case["id"] for case in seq_cases if ":boundary" not in case["id"]}
+            & boundary_ids,
+            boundary_ids,
+        )
+        char_sequence = by_id[
+            "theory:Z3_Extensions:seq-char-string-correspondence"
+        ]
+        self.assertIn(
+            "theory-boundary:seq-char-string-correspondence",
+            char_sequence["features"],
+        )
+        self.assertNotIn("solver_availability", char_sequence)
+        for case_id in (
+            "theory:Z3_Extensions:str-replace-re-seq:sat",
+            "theory:Z3_Extensions:str-replace-re-all-seq:sat",
+        ):
+            expected = by_id[case_id]["expected"]["z3-oracle"]
+            self.assertEqual(expected["status"], "red")
+            self.assertEqual(expected["failure_phase"], "solver")
+        for case in seq_cases + set_bag_cases:
+            script = next(
+                item.script for item in generator.theory_cases()
+                if item.case_id == case["id"]
+            )
+            self.assertNotRegex(
+                script,
+                r"\\(assert \\(= ([A-Za-z0-9!._-]+) \\1\\)\\)",
+            )
+            if "theory-behavior:sequence" in case["features"]:
+                self.assertNotIn("(or (= ", script)
+
     def test_theories_subcommand_emits_datatypes_and_hocore_cases(self):
         stdout = io.StringIO()
         with contextlib.redirect_stdout(stdout):

@@ -1,0 +1,5 @@
+(set-logic ALL)
+(declare-const s (Seq Int))
+(declare-const u (Seq Int))
+(assert (= (seq.update (seq.unit 1) 9 (seq.unit 2)) (seq.unit 1)))
+(check-sat)

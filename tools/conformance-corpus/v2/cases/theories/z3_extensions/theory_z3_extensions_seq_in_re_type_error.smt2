@@ -1,0 +1,5 @@
+(set-logic ALL)
+(declare-const s (Seq Int))
+(declare-const u (Seq Int))
+(assert (and (seq.in.re (seq.unit 7) (seq.to.re (seq.unit 7))) (= 1 true)))
+(check-sat)

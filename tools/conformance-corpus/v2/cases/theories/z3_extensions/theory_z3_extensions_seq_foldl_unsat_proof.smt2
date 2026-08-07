@@ -1,0 +1,7 @@
+(set-option :produce-proofs true)
+(set-logic ALL)
+(declare-const s (Seq Int))
+(declare-const u (Seq Int))
+(assert (and (= (seq.foldl (lambda ((x Int) (a Int)) (+ x a)) 0 (seq.unit 7)) 7) (not (= (seq.foldl (lambda ((x Int) (a Int)) (+ x a)) 0 (seq.unit 7)) 7))))
+(check-sat)
+(get-proof)

@@ -1,3 +1,5 @@
 (set-logic ALL)
-(declare-const bad (Seq))
+(declare-const x (Seq Int))
+(declare-const y (Seq Int))
+(assert (and (distinct x y) (= 1 true)))
 (check-sat)

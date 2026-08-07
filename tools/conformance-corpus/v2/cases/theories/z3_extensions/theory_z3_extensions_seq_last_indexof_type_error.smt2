@@ -1,0 +1,5 @@
+(set-logic ALL)
+(declare-const s (Seq Int))
+(declare-const u (Seq Int))
+(assert (and (= (seq.last_indexof (seq.unit 7) (seq.unit 8)) -1) (= 1 true)))
+(check-sat)

@@ -1,4 +1,5 @@
 (set-logic ALL)
-(declare-const xs (Seq Int))
-(assert (= (seq.extract xs 0 1) (seq.extract xs 0 1)))
+(declare-const s (Seq Int))
+(declare-const u (Seq Int))
+(assert (= (seq.extract (seq.unit 7) 0 1) (seq.unit 7)))
 (check-sat)
