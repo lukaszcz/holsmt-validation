@@ -1,0 +1,13 @@
+((set-logic ALL)
+(proof
+(let (($x61 (= 2 3)))
+ (let ((?x32 (seq.len s)))
+ (let (($x34 (= ?x32 3)))
+ (let ((@x35 (asserted $x34)))
+ (let ((?x29 (seq.++ (seq.unit 1) (seq.unit 2))))
+ (let (($x30 (= s ?x29)))
+ (let ((@x31 (asserted $x30)))
+ (let ((@x60 (monotonicity (symm (mp @x31 (rewrite (= $x30 $x30)) $x30) (= ?x29 s)) (= (seq.len ?x29) ?x32))))
+ (let ((@x62 (trans* ((_ th-lemma seq) (= 2 (seq.len ?x29))) @x60 (mp @x35 (rewrite (= $x34 $x34)) $x34) $x61)))
+ (mp @x62 (rewrite (= $x61 false)) false))))))))))))
+

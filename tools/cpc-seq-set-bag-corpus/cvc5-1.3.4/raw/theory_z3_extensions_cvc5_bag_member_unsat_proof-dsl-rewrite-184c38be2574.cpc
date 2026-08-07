@@ -1,0 +1,25 @@
+(
+(define @t1 () (bag 7 2))
+(define @t2 () (bag.member 7 @t1))
+(define @t3 () (not @t2))
+(define @t4 () (not true))
+(define @t5 () (>= 2 1))
+(define @t6 () (bag.count 7 @t1))
+(define @t7 () (>= @t6 1))
+(assume @p1 (and @t2 @t3))
+(step @p2 (= @t4 false) :rule evaluate :args (@t4))
+(step @p3 (= @t5 true) :rule evaluate :args (@t5))
+(step @p4 (= 1 1) :rule refl :args (1))
+; WARNING: add trust step for TRUST_THEORY_REWRITE
+; trust TRUST_THEORY_REWRITE
+(step @p5 (= @t6 2) :rule trust :premises () :args ((= @t6 2)))
+(step @p6 (= @t7 @t5) :rule cong :premises (@p5 @p4) :args (@t7))
+(step @p7 (= @t7 true) :rule trans :premises (@p6 @p3))
+; trust TRUST_THEORY_REWRITE
+(step @p8 (= @t2 @t7) :rule trust :premises () :args ((= @t2 @t7)))
+(step @p9 (= @t2 true) :rule trans :premises (@p8 @p7))
+(step @p10 (= @t3 @t4) :rule cong :premises (@p9) :args (@t3))
+(step @p11 (= @t3 false) :rule trans :premises (@p10 @p2))
+(step @p12 @t3 :rule and_elim :premises (@p1) :args (1))
+(step @p13 false :rule eq_resolve :premises (@p12 @p11))
+)

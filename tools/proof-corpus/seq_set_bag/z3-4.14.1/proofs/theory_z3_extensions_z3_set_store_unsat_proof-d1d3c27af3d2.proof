@@ -1,0 +1,11 @@
+((set-logic ALL)
+(proof
+(let ((@x31 (rewrite (= (select (store zs 7 true) 7) true))))
+(let ((@x34 (monotonicity @x31 (= (not (select (store zs 7 true) 7)) (not true)))))
+(let ((@x38 (trans @x34 (rewrite (= (not true) false)) (= (not (select (store zs 7 true) 7)) false))))
+(let (($x26 (select (store zs 7 true) 7)))
+(let (($x27 (not $x26)))
+(let (($x28 (and $x26 $x27)))
+(let ((@x29 (asserted $x28)))
+(mp (and-elim @x29 $x27) @x38 false))))))))))
+

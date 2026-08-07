@@ -1,0 +1,13 @@
+unsat
+((set-logic ALL)
+(proof
+(let ((@x35 (monotonicity (rewrite (= (seq.nth (seq.unit 7) 0) 7)) (= (= (seq.nth (seq.unit 7) 0) 7) (= 7 7)))))
+ (let ((@x39 (trans @x35 (rewrite (= (= 7 7) true)) (= (= (seq.nth (seq.unit 7) 0) 7) true))))
+ (let ((@x42 (monotonicity @x39 (= (not (= (seq.nth (seq.unit 7) 0) 7)) (not true)))))
+ (let ((@x46 (trans @x42 (rewrite (= (not true) false)) (= (not (= (seq.nth (seq.unit 7) 0) 7)) false))))
+ (let (($x28 (= (seq.nth (seq.unit 7) 0) 7)))
+ (let (($x29 (not $x28)))
+ (let (($x30 (and $x28 $x29)))
+ (let ((@x31 (asserted $x30)))
+ (mp (and-elim @x31 $x29) @x46 false)))))))))))
+

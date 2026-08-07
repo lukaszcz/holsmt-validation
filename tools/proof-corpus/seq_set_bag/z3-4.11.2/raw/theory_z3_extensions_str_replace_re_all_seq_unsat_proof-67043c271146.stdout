@@ -1,0 +1,11 @@
+unsat
+((set-logic ALL)
+(proof
+(let ((?x29 (seq.unit 2)))
+ (let ((?x30 (str.replace_re_all (seq.++ (seq.unit 1) (seq.unit 1)) (seq.to.re (seq.unit 1)) ?x29)))
+ (let (($x32 (= ?x30 (seq.++ ?x29 ?x29))))
+ (let (($x33 (not $x32)))
+ (let (($x34 (and $x32 $x33)))
+ (let ((@x35 (asserted $x34)))
+ (unit-resolution (and-elim @x35 $x32) (and-elim @x35 $x33) false)))))))))
+

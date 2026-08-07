@@ -1,0 +1,16 @@
+((set-logic ALL)
+(proof
+(let ((@x46 (rewrite (= (seq.len (seq.++ (seq.unit 1) (seq.unit 2))) 2))))
+ (let ((?x28 (seq.unit 2)))
+ (let ((?x26 (seq.unit 1)))
+ (let ((?x29 (seq.++ ?x26 ?x28)))
+ (let (($x30 (= s ?x29)))
+ (let ((@x31 (asserted $x30)))
+ (let ((@x44 (monotonicity (mp @x31 (rewrite (= $x30 $x30)) $x30) (= (seq.len s) (seq.len ?x29)))))
+ (let ((@x51 (monotonicity (trans @x44 @x46 (= (seq.len s) 2)) (= (= (seq.len s) 3) (= 2 3)))))
+ (let ((@x56 (trans @x51 (rewrite (= (= 2 3) false)) (= (= (seq.len s) 3) false))))
+ (let ((?x32 (seq.len s)))
+ (let (($x34 (= ?x32 3)))
+ (let ((@x35 (asserted $x34)))
+ (mp (mp @x35 (rewrite (= $x34 $x34)) $x34) @x56 false)))))))))))))))
+

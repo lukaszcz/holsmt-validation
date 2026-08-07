@@ -1,0 +1,19 @@
+unsat
+((set-logic ALL)
+(proof
+(let ((?x27 (store zt 7 true)))
+(let ((?x25 (store zs 7 true)))
+(let ((?x28 (intersection ?x25 ?x27)))
+(let (($x29 (select ?x28 7)))
+(let (($x30 (not $x29)))
+(let ((@x52 (rewrite (= (select (store ((_ map and ) zs zt) 7 true) 7) true))))
+(let ((?x36 ((_ map and ) zs zt)))
+(let ((?x43 (store ?x36 7 true)))
+(let ((?x38 (store ?x36 7 (and true true))))
+(let ((@x46 (rewrite (= ?x38 ?x43))))
+(let ((@x42 (trans (rewrite (= ((_ map and ) ?x25 ?x27) ?x38)) @x46 (= ((_ map and ) ?x25 ?x27) ?x43))))
+(let ((@x50 (monotonicity (trans (rewrite (= ?x28 ((_ map and ) ?x25 ?x27))) @x42 (= ?x28 ?x43)) (= $x29 (select ?x43 7)))))
+(let ((@x54 (trans @x50 @x52 (= $x29 true))))
+(let ((@x61 (trans (monotonicity @x54 (= $x30 (not true))) (rewrite (= (not true) false)) (= $x30 false))))
+(mp (and-elim (asserted (and $x29 $x30)) $x30) @x61 false)))))))))))))))))
+

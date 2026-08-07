@@ -1,0 +1,12 @@
+((set-logic ALL)
+(proof
+(let ((?x23 ((as const (Array Int Bool)) false)))
+(let (($x31 (= ((_ map and ) ?x23 ((_ map not ) zs)) ?x23)))
+(let (($x34 (not $x31)))
+(let ((@x37 (rewrite (= (not (subset ?x23 zs)) $x34))))
+(let (($x25 (subset ?x23 zs)))
+(let (($x26 (not $x25)))
+(let (($x27 (and $x25 $x26)))
+(let ((@x28 (asserted $x27)))
+(unit-resolution (mp (and-elim @x28 $x25) (rewrite (= $x25 $x31)) $x31) (mp (and-elim @x28 $x26) @x37 $x34) false)))))))))))
+

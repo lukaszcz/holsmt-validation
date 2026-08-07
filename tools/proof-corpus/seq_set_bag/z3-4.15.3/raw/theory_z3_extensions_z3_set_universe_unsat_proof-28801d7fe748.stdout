@@ -1,0 +1,12 @@
+unsat
+((set-logic ALL)
+(proof
+(let ((@x30 (rewrite (= (select ((as const (Array Int Bool)) true) 7) true))))
+(let ((@x33 (monotonicity @x30 (= (not (select ((as const (Array Int Bool)) true) 7)) (not true)))))
+(let ((@x37 (trans @x33 (rewrite (= (not true) false)) (= (not (select ((as const (Array Int Bool)) true) 7)) false))))
+(let (($x25 (select ((as const (Array Int Bool)) true) 7)))
+(let (($x26 (not $x25)))
+(let (($x27 (and $x25 $x26)))
+(let ((@x28 (asserted $x27)))
+(mp (and-elim @x28 $x26) @x37 false))))))))))
+

@@ -1,0 +1,14 @@
+((set-logic ALL)
+(proof
+(let ((?x30 (seq.unit 7)))
+ (let ((?x27 (lambda ((i Int) (x Int) )(! (+ i x) :qid k!5))
+ ))
+ (let ((?x31 (seq.mapi ?x27 0 ?x30)))
+ (let (($x32 (= ?x31 ?x30)))
+ (let (($x33 (not $x32)))
+ (let ((@x49 (rewrite (= (seq.unit (select ?x27 0 7)) ?x30))))
+ (let ((@x41 (trans (rewrite (= ?x31 (seq.unit (select ?x27 0 7)))) @x49 $x32)))
+ (let ((@x52 (trans (monotonicity @x41 (= $x32 (= ?x30 ?x30))) (rewrite (= (= ?x30 ?x30) true)) (= $x32 true))))
+ (let ((@x59 (trans (monotonicity @x52 (= $x33 (not true))) (rewrite (= (not true) false)) (= $x33 false))))
+ (mp (and-elim (asserted (and $x32 $x33)) $x33) @x59 false))))))))))))
+

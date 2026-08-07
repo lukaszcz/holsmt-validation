@@ -1,0 +1,10 @@
+unsat
+((set-logic ALL)
+(proof
+(let ((?x28 (seq.last_indexof (seq.unit 7) (seq.unit 8))))
+ (let (($x30 (= ?x28 (- 1))))
+ (let (($x31 (not $x30)))
+ (let (($x32 (and $x30 $x31)))
+ (let ((@x33 (asserted $x32)))
+ (unit-resolution (and-elim @x33 $x30) (and-elim @x33 $x31) false))))))))
+

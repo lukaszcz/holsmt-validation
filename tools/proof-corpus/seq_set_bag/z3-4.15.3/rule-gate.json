@@ -1,0 +1,46 @@
+{
+  "kind": "proof-rule-discovery-gate",
+  "malformed_fragments": [],
+  "parse_only_rules": [
+    {
+      "artifacts": {
+        "effective_input_sha256": "7aa44ca39367850931dca0a68db7cd168ab041ca368c6989b02edbee3b114259",
+        "input_sha256": "7aa44ca39367850931dca0a68db7cd168ab041ca368c6989b02edbee3b114259",
+        "proof_path": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/proof-corpus/seq_set_bag/z3-4.15.3/proofs/theory_z3_extensions_seq_map_unsat_proof-7aa44ca39367.proof",
+        "proof_sha256": "1e16f4a4bbaa916601dbad4f73b211a481927d404afa7b32bac4bf978452eaa2",
+        "stderr_path": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/proof-corpus/seq_set_bag/z3-4.15.3/raw/theory_z3_extensions_seq_map_unsat_proof-7aa44ca39367.stderr",
+        "stdout_path": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/proof-corpus/seq_set_bag/z3-4.15.3/raw/theory_z3_extensions_seq_map_unsat_proof-7aa44ca39367.stdout"
+      },
+      "contexts": [
+        {
+          "column": 40,
+          "context": "...?x40 (lambda ((x Int) )(rewrite (= (+ x 1) (+ 1 x))))\\n))\\n(let ((@x46 (monotonicity (quant-intro (proof-bind ?x40) (= ?x26 ?x39)) (= ?x29 (seq.map ?x39 ?x28)))))\\n(let ((@x54 (trans (trans @x46 (rewrite (= (seq....",
+          "line": 16
+        }
+      ],
+      "count": 1,
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_seq_map_unsat_proof.smt2",
+      "rule": "proof-bind",
+      "z3_version": "4.15.3"
+    }
+  ],
+  "passed": true,
+  "replay_unknown_rules": [],
+  "requirements": {
+    "forbidden_rule_occurrences": [],
+    "missing_rule_occurrences": [],
+    "missing_theory_subkinds": [],
+    "observed_forbidden_rule_occurrences": [],
+    "oracle_failures": [],
+    "passed": true,
+    "replay_failures": [],
+    "require_no_oracles": false,
+    "require_replay_success": false,
+    "require_unsat_proofs": true,
+    "required_rule_occurrences": [],
+    "required_theory_subkinds": [],
+    "unsat_proof_failures": []
+  },
+  "schema": "holsmt-z3-proof-corpus-v1",
+  "unseen_rules": []
+}

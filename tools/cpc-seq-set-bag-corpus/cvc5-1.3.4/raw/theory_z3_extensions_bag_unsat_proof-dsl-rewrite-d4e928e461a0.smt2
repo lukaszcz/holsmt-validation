@@ -1,0 +1,7 @@
+(set-option :produce-proofs true)
+(set-logic HO_ALL)
+(declare-const x (Bag Int))
+(declare-const y (Bag Int))
+(assert (and (distinct x y) (not (distinct x y))))
+(check-sat)
+(get-proof)

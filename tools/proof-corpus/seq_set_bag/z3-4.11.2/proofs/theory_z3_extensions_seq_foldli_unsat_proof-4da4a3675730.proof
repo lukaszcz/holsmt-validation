@@ -1,0 +1,14 @@
+((set-logic ALL)
+(proof
+(let ((?x28 (lambda ((i Int) (x Int) (a Int) )(! (+ i x a) :qid k!5))
+ ))
+ (let ((?x32 (seq.fold_leftli ?x28 0 0 (seq.unit 7))))
+ (let (($x33 (= ?x32 7)))
+ (let (($x34 (not $x33)))
+ (let ((@x44 (rewrite (= (+ 0 0 7) 7))))
+ (let ((@x46 (trans (rewrite (= (select ?x28 0 0 7) (+ 0 0 7))) @x44 (= (select ?x28 0 0 7) 7))))
+ (let ((@x50 (monotonicity (trans (rewrite (= ?x32 (select ?x28 0 0 7))) @x46 $x33) (= $x33 (= 7 7)))))
+ (let ((@x54 (trans @x50 (rewrite (= (= 7 7) true)) (= $x33 true))))
+ (let ((@x61 (trans (monotonicity @x54 (= $x34 (not true))) (rewrite (= (not true) false)) (= $x34 false))))
+ (mp (and-elim (asserted (and $x33 $x34)) $x34) @x61 false))))))))))))
+

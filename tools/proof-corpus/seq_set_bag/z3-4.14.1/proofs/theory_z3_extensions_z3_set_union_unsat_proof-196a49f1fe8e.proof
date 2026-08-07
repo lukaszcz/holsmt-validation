@@ -1,0 +1,17 @@
+((set-logic ALL)
+(proof
+(let ((?x25 (store zs 7 true)))
+(let ((?x27 ((as union (Array Int Bool)) ?x25 zt)))
+(let (($x28 (select ?x27 7)))
+(let (($x29 (not $x28)))
+(let (($x39 (select zt 7)))
+(let (($x47 (or true $x39)))
+(let (($x38 (select ?x25 7)))
+(let (($x40 (or $x38 $x39)))
+(let ((@x53 (trans (monotonicity (rewrite (= $x38 true)) (= $x40 $x47)) (rewrite (= $x47 true)) (= $x40 true))))
+(let ((@x37 (monotonicity (rewrite (= ?x27 ((_ map or ) ?x25 zt))) (= $x28 (select ((_ map or ) ?x25 zt) 7)))))
+(let ((@x44 (trans @x37 (rewrite (= (select ((_ map or ) ?x25 zt) 7) $x40)) (= $x28 $x40))))
+(let ((@x55 (trans @x44 @x53 (= $x28 true))))
+(let ((@x62 (trans (monotonicity @x55 (= $x29 (not true))) (rewrite (= (not true) false)) (= $x29 false))))
+(mp (and-elim (asserted (and $x28 $x29)) $x29) @x62 false))))))))))))))))
+

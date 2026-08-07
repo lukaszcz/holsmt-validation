@@ -1,0 +1,12 @@
+unsat
+((set-logic ALL)
+(proof
+(let (($x30 (= x y)))
+ (let ((@x33 (rewrite (= (and (distinct x y) true) (not $x30)))))
+ (let ((@x40 (trans (monotonicity @x33 (= (not (and (distinct x y) true)) (not (not $x30)))) (rewrite (= (not (not $x30)) $x30)) (= (not (and (distinct x y) true)) $x30))))
+ (let (($x26 (and (distinct x y) true)))
+ (let (($x27 (not $x26)))
+ (let (($x28 (and $x26 $x27)))
+ (let ((@x29 (asserted $x28)))
+ (unit-resolution (mp (and-elim @x29 $x26) @x33 (not $x30)) (mp (and-elim @x29 $x27) @x40 $x30) false))))))))))
+

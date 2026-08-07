@@ -1,0 +1,19 @@
+unsat
+((set-logic ALL)
+(proof
+(let ((?x27 (seq.unit 2)))
+ (let ((?x30 (seq.indexof (seq.++ (seq.unit 1) ?x27) ?x27 0)))
+ (let (($x31 (= ?x30 1)))
+ (let (($x32 (not $x31)))
+ (let ((?x35 (seq.indexof ?x27 ?x27 0)))
+ (let ((?x37 (+ 1 ?x35)))
+ (let (($x36 (>= ?x35 0)))
+ (let ((?x39 (ite $x36 ?x37 (- 1))))
+ (let ((@x57 (trans (monotonicity (rewrite (= ?x35 0)) (= ?x37 (+ 1 0))) (rewrite (= (+ 1 0) 1)) (= ?x37 1))))
+ (let ((@x50 (trans (monotonicity (rewrite (= ?x35 0)) (= $x36 (>= 0 0))) (rewrite (= (>= 0 0) true)) (= $x36 true))))
+ (let ((@x64 (trans (monotonicity @x50 @x57 (= ?x39 (ite true 1 (- 1)))) (rewrite (= (ite true 1 (- 1)) 1)) (= ?x39 1))))
+ (let ((@x68 (monotonicity (trans (rewrite (= ?x30 ?x39)) @x64 $x31) (= $x31 (= 1 1)))))
+ (let ((@x72 (trans @x68 (rewrite (= (= 1 1) true)) (= $x31 true))))
+ (let ((@x79 (trans (monotonicity @x72 (= $x32 (not true))) (rewrite (= (not true) false)) (= $x32 false))))
+ (mp (and-elim (asserted (and $x31 $x32)) $x32) @x79 false)))))))))))))))))
+

@@ -1,0 +1,3862 @@
+{
+  "cvc5": {
+    "executable": "/home/lukasz/.local/bin/cvc5",
+    "version": "1.3.4"
+  },
+  "entries": [
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_bag_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_bag_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 5
+        },
+        "declarations": {
+          "declare-const": 2
+        },
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6"
+        ],
+        "explicit_conclusions": 9,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 2,
+          "bool-double-not-elim": 1,
+          "cong": 1,
+          "contra": 1,
+          "distinct-elim": 1,
+          "eq_resolve": 2,
+          "trans": 1
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6"
+        ],
+        "step_count": 9,
+        "trust_steps": 0
+      },
+      "proof_bytes": 740,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_bag_unsat_proof-dsl-rewrite-d4e928e461a0",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_all_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_all_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 6
+        },
+        "declarations": {
+          "declare-const": 3
+        },
+        "define_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "explicit_conclusions": 13,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 2,
+          "cong": 2,
+          "contra": 1,
+          "eq-symm": 2,
+          "eq_resolve": 2,
+          "trans": 2,
+          "trust": 2
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "step_count": 13,
+        "trust_steps": 2
+      },
+      "proof_bytes": 1344,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_bag_all_unsat_proof-dsl-rewrite-b691dea50870",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_card_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_card_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 7
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4"
+        ],
+        "explicit_conclusions": 10,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 2,
+          "eq_resolve": 1,
+          "evaluate": 2,
+          "refl": 1,
+          "trans": 2,
+          "trust": 1
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4"
+        ],
+        "step_count": 10,
+        "trust_steps": 1
+      },
+      "proof_bytes": 775,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_bag_card_unsat_proof-dsl-rewrite-c965924164d2",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_choose_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_choose_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 7
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4"
+        ],
+        "explicit_conclusions": 10,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 2,
+          "eq_resolve": 1,
+          "evaluate": 2,
+          "refl": 1,
+          "trans": 2,
+          "trust": 1
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4"
+        ],
+        "step_count": 10,
+        "trust_steps": 1
+      },
+      "proof_bytes": 777,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_bag_choose_unsat_proof-dsl-rewrite-99a76deb9cc0",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_count_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_count_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 7
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4"
+        ],
+        "explicit_conclusions": 10,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 2,
+          "eq_resolve": 1,
+          "evaluate": 2,
+          "refl": 1,
+          "trans": 2,
+          "trust": 1
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4"
+        ],
+        "step_count": 10,
+        "trust_steps": 1
+      },
+      "proof_bytes": 778,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_bag_count_unsat_proof-dsl-rewrite-30b459d8a031",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_difference_remove_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_difference_remove_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 8
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7"
+        ],
+        "explicit_conclusions": 14,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 3,
+          "eq_resolve": 1,
+          "evaluate": 2,
+          "refl": 2,
+          "trans": 3,
+          "trust": 2
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7"
+        ],
+        "step_count": 14,
+        "trust_steps": 2
+      },
+      "proof_bytes": 1219,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_bag_difference_remove_unsat_proof-dsl-rewrite-4207a7b57dac",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_difference_subtract_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_difference_subtract_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 8
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8"
+        ],
+        "explicit_conclusions": 14,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 3,
+          "eq_resolve": 1,
+          "evaluate": 2,
+          "refl": 2,
+          "trans": 3,
+          "trust": 2
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8"
+        ],
+        "step_count": 14,
+        "trust_steps": 2
+      },
+      "proof_bytes": 1184,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_bag_difference_subtract_unsat_proof-dsl-rewrite-e548933d1edb",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_empty_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_empty_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 7
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4"
+        ],
+        "explicit_conclusions": 10,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 2,
+          "eq_resolve": 1,
+          "evaluate": 2,
+          "refl": 1,
+          "trans": 2,
+          "trust": 1
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4"
+        ],
+        "step_count": 10,
+        "trust_steps": 1
+      },
+      "proof_bytes": 793,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_bag_empty_unsat_proof-dsl-rewrite-bf598c09d1fc",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_filter_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_filter_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 19
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t13",
+          "@t14",
+          "@t15",
+          "@t16",
+          "@t17",
+          "@t18",
+          "@t19",
+          "@t2",
+          "@t20",
+          "@t21",
+          "@t22",
+          "@t23",
+          "@t24",
+          "@t25",
+          "@t26",
+          "@t27",
+          "@t28",
+          "@t29",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "explicit_conclusions": 40,
+        "optional_conclusions": 0,
+        "rules": {
+          "aci_norm": 1,
+          "alpha_equiv": 1,
+          "and_elim": 1,
+          "beta-reduce": 1,
+          "cong": 6,
+          "eq_resolve": 1,
+          "evaluate": 5,
+          "ite-then-true": 1,
+          "ite-true-cond": 1,
+          "refl": 5,
+          "symm": 3,
+          "trans": 12,
+          "trust": 2
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t13",
+          "@t14",
+          "@t15",
+          "@t16",
+          "@t17",
+          "@t18",
+          "@t19",
+          "@t2",
+          "@t20",
+          "@t21",
+          "@t22",
+          "@t23",
+          "@t24",
+          "@t25",
+          "@t26",
+          "@t27",
+          "@t28",
+          "@t29",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "step_count": 40,
+        "trust_steps": 2
+      },
+      "proof_bytes": 3452,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_bag_filter_unsat_proof-dsl-rewrite-dcfbf85d4838",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_fold_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_fold_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 12
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t13",
+          "@t14",
+          "@t15",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "explicit_conclusions": 20,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "beta-reduce": 2,
+          "cong": 3,
+          "eq_resolve": 1,
+          "evaluate": 4,
+          "refl": 2,
+          "trans": 6,
+          "trust": 1
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t13",
+          "@t14",
+          "@t15",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "step_count": 20,
+        "trust_steps": 1
+      },
+      "proof_bytes": 1671,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_bag_fold_unsat_proof-dsl-rewrite-9b77b5c5fc84",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_inter_min_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_inter_min_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 8
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8"
+        ],
+        "explicit_conclusions": 14,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 3,
+          "eq_resolve": 1,
+          "evaluate": 2,
+          "refl": 2,
+          "trans": 3,
+          "trust": 2
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8"
+        ],
+        "step_count": 14,
+        "trust_steps": 2
+      },
+      "proof_bytes": 1168,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_bag_inter_min_unsat_proof-dsl-rewrite-b125ffa4059a",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_literal_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_literal_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 7
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4"
+        ],
+        "explicit_conclusions": 10,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 2,
+          "eq_resolve": 1,
+          "evaluate": 2,
+          "refl": 1,
+          "trans": 2,
+          "trust": 1
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4"
+        ],
+        "step_count": 10,
+        "trust_steps": 1
+      },
+      "proof_bytes": 778,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_bag_literal_unsat_proof-dsl-rewrite-30b459d8a031",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_map_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_map_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 10
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t13",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "explicit_conclusions": 17,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "beta-reduce": 1,
+          "cong": 4,
+          "eq_resolve": 1,
+          "evaluate": 2,
+          "refl": 2,
+          "trans": 4,
+          "trust": 2
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t13",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "step_count": 17,
+        "trust_steps": 2
+      },
+      "proof_bytes": 1495,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_bag_map_unsat_proof-dsl-rewrite-a10f1a2c2ba5",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_member_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_member_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 6
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7"
+        ],
+        "explicit_conclusions": 12,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 2,
+          "eq_resolve": 1,
+          "evaluate": 2,
+          "refl": 1,
+          "trans": 3,
+          "trust": 2
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7"
+        ],
+        "step_count": 12,
+        "trust_steps": 2
+      },
+      "proof_bytes": 1028,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_bag_member_unsat_proof-dsl-rewrite-184c38be2574",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_partition_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_partition_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 8
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "explicit_conclusions": 16,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 3,
+          "eq_resolve": 1,
+          "evaluate": 2,
+          "refl": 2,
+          "trans": 4,
+          "trust": 3
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "step_count": 16,
+        "trust_steps": 3
+      },
+      "proof_bytes": 1516,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_bag_partition_unsat_proof-dsl-rewrite-cb0a305c435e",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_setof_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_setof_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 8
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8"
+        ],
+        "explicit_conclusions": 14,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 3,
+          "eq_resolve": 1,
+          "evaluate": 2,
+          "refl": 2,
+          "trans": 3,
+          "trust": 2
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8"
+        ],
+        "step_count": 14,
+        "trust_steps": 2
+      },
+      "proof_bytes": 1160,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_bag_setof_unsat_proof-dsl-rewrite-9112d0f7b86c",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_some_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_some_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 5
+        },
+        "declarations": {
+          "declare-const": 3
+        },
+        "define_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "explicit_conclusions": 12,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 2,
+          "cong": 3,
+          "contra": 1,
+          "eq-symm": 1,
+          "eq_resolve": 2,
+          "trans": 1,
+          "trust": 2
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "step_count": 12,
+        "trust_steps": 2
+      },
+      "proof_bytes": 1398,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_bag_some_unsat_proof-dsl-rewrite-9b7f12b29a8d",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_subbag_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_subbag_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 4
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "explicit_conclusions": 14,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 2,
+          "eq-refl": 1,
+          "eq_resolve": 1,
+          "evaluate": 1,
+          "refl": 1,
+          "trans": 4,
+          "trust": 3
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "step_count": 14,
+        "trust_steps": 3
+      },
+      "proof_bytes": 1399,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_bag_subbag_unsat_proof-dsl-rewrite-37977801f293",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_union_disjoint_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_union_disjoint_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 8
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8"
+        ],
+        "explicit_conclusions": 14,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 3,
+          "eq_resolve": 1,
+          "evaluate": 2,
+          "refl": 2,
+          "trans": 3,
+          "trust": 2
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8"
+        ],
+        "step_count": 14,
+        "trust_steps": 2
+      },
+      "proof_bytes": 1179,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_bag_union_disjoint_unsat_proof-dsl-rewrite-4c1db3d95f88",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_union_max_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_bag_union_max_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 8
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8"
+        ],
+        "explicit_conclusions": 14,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 3,
+          "eq_resolve": 1,
+          "evaluate": 2,
+          "refl": 2,
+          "trans": 3,
+          "trust": 2
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8"
+        ],
+        "step_count": 14,
+        "trust_steps": 2
+      },
+      "proof_bytes": 1168,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_bag_union_max_unsat_proof-dsl-rewrite-c3495098c6ea",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_seq_replace_all_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_seq_replace_all_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 13
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "explicit_conclusions": 19,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 3,
+          "eq-refl": 1,
+          "eq_resolve": 1,
+          "evaluate": 1,
+          "nary_cong": 2,
+          "seq-eval-op": 5,
+          "trans": 5
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "step_count": 19,
+        "trust_steps": 0
+      },
+      "proof_bytes": 1440,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_seq_replace_all_unsat_proof-dsl-rewrite-530a33fd920b",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_seq_rev_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_seq_rev_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 13
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "explicit_conclusions": 19,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 3,
+          "eq-refl": 1,
+          "eq_resolve": 1,
+          "evaluate": 1,
+          "nary_cong": 2,
+          "seq-eval-op": 5,
+          "trans": 5
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "step_count": 19,
+        "trust_steps": 0
+      },
+      "proof_bytes": 1416,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_seq_rev_unsat_proof-dsl-rewrite-3902e48ebfe9",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_seq_update_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_seq_update_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 10
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8"
+        ],
+        "explicit_conclusions": 14,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 3,
+          "eq-refl": 1,
+          "eq_resolve": 1,
+          "evaluate": 1,
+          "refl": 1,
+          "seq-eval-op": 3,
+          "trans": 3
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8"
+        ],
+        "step_count": 14,
+        "trust_steps": 0
+      },
+      "proof_bytes": 1020,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_seq_update_unsat_proof-dsl-rewrite-3c77502c088e",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_all_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_all_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 6
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "explicit_conclusions": 15,
+        "optional_conclusions": 0,
+        "rules": {
+          "alpha_equiv": 1,
+          "and_elim": 1,
+          "cong": 2,
+          "eq_resolve": 1,
+          "evaluate": 1,
+          "refl": 2,
+          "symm": 1,
+          "trans": 4,
+          "trust": 2
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "step_count": 15,
+        "trust_steps": 2
+      },
+      "proof_bytes": 1430,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_set_all_unsat_proof-dsl-rewrite-9eeb82bd9b52",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_card_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_card_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 7
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4"
+        ],
+        "explicit_conclusions": 10,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 2,
+          "eq_resolve": 1,
+          "evaluate": 2,
+          "refl": 1,
+          "sets-card-singleton": 1,
+          "trans": 2
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4"
+        ],
+        "step_count": 10,
+        "trust_steps": 0
+      },
+      "proof_bytes": 702,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_set_card_unsat_proof-dsl-rewrite-3a60b2b71293",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_choose_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_choose_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 7
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4"
+        ],
+        "explicit_conclusions": 10,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 2,
+          "eq_resolve": 1,
+          "evaluate": 2,
+          "refl": 1,
+          "sets-choose-singleton": 1,
+          "trans": 2
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4"
+        ],
+        "step_count": 10,
+        "trust_steps": 0
+      },
+      "proof_bytes": 706,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_set_choose_unsat_proof-dsl-rewrite-32346b1dff2d",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_complement_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_complement_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 11
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t13",
+          "@t14",
+          "@t15",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "explicit_conclusions": 20,
+        "optional_conclusions": 0,
+        "rules": {
+          "absorb": 1,
+          "and_elim": 1,
+          "bool-double-not-elim": 1,
+          "cong": 2,
+          "eq_resolve": 1,
+          "evaluate": 2,
+          "nary_cong": 1,
+          "refl": 2,
+          "sets-member-singleton": 1,
+          "sets-minus-member": 1,
+          "trans": 6,
+          "trust": 1
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t13",
+          "@t14",
+          "@t15",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "step_count": 20,
+        "trust_steps": 1
+      },
+      "proof_bytes": 1833,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_set_complement_unsat_proof-dsl-rewrite-69676e55bbbf",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_comprehension_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_comprehension_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 2
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3"
+        ],
+        "explicit_conclusions": 3,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 2,
+          "contra": 1
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3"
+        ],
+        "step_count": 3,
+        "trust_steps": 0
+      },
+      "proof_bytes": 326,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_set_comprehension_unsat_proof-dsl-rewrite-f6687432ecfd",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_empty_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_empty_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 3
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4"
+        ],
+        "explicit_conclusions": 8,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 1,
+          "eq-refl": 1,
+          "eq_resolve": 1,
+          "evaluate": 1,
+          "sets-is-empty-elim": 1,
+          "trans": 2
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4"
+        ],
+        "step_count": 8,
+        "trust_steps": 0
+      },
+      "proof_bytes": 708,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_set_empty_unsat_proof-dsl-rewrite-44700069b45e",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_filter_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_filter_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 17
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t13",
+          "@t14",
+          "@t15",
+          "@t16",
+          "@t17",
+          "@t18",
+          "@t19",
+          "@t2",
+          "@t20",
+          "@t21",
+          "@t22",
+          "@t23",
+          "@t24",
+          "@t25",
+          "@t26",
+          "@t27",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "explicit_conclusions": 37,
+        "optional_conclusions": 0,
+        "rules": {
+          "aci_norm": 1,
+          "alpha_equiv": 1,
+          "and_elim": 1,
+          "beta-reduce": 1,
+          "cong": 5,
+          "eq_resolve": 1,
+          "evaluate": 4,
+          "ite-then-true": 1,
+          "ite-true-cond": 1,
+          "refl": 4,
+          "sets-member-singleton": 1,
+          "symm": 3,
+          "trans": 12,
+          "trust": 1
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t13",
+          "@t14",
+          "@t15",
+          "@t16",
+          "@t17",
+          "@t18",
+          "@t19",
+          "@t2",
+          "@t20",
+          "@t21",
+          "@t22",
+          "@t23",
+          "@t24",
+          "@t25",
+          "@t26",
+          "@t27",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "step_count": 37,
+        "trust_steps": 1
+      },
+      "proof_bytes": 3221,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_set_filter_unsat_proof-dsl-rewrite-788a73bd146f",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_fold_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_fold_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 8
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "explicit_conclusions": 14,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "beta-reduce": 1,
+          "cong": 2,
+          "eq_resolve": 1,
+          "evaluate": 3,
+          "refl": 1,
+          "trans": 4,
+          "trust": 1
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "step_count": 14,
+        "trust_steps": 1
+      },
+      "proof_bytes": 1229,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_set_fold_unsat_proof-dsl-rewrite-b722e690fcb2",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_insert_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_insert_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 13
+        },
+        "declarations": {
+          "declare-const": 1
+        },
+        "define_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t13",
+          "@t14",
+          "@t15",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "explicit_conclusions": 20,
+        "optional_conclusions": 0,
+        "rules": {
+          "absorb": 1,
+          "and_elim": 1,
+          "cong": 2,
+          "eq_resolve": 1,
+          "evaluate": 2,
+          "nary_cong": 1,
+          "refl": 2,
+          "sets-insert-elim": 1,
+          "sets-member-singleton": 1,
+          "sets-union-comm": 1,
+          "sets-union-member": 1,
+          "trans": 6
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t13",
+          "@t14",
+          "@t15",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "step_count": 20,
+        "trust_steps": 0
+      },
+      "proof_bytes": 1690,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_set_insert_unsat_proof-dsl-rewrite-5aefd85450b9",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_inter_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_inter_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 8
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8"
+        ],
+        "explicit_conclusions": 12,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 2,
+          "eq_resolve": 1,
+          "evaluate": 2,
+          "refl": 1,
+          "sets-eval-op": 1,
+          "sets-member-singleton": 1,
+          "trans": 3
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8"
+        ],
+        "step_count": 12,
+        "trust_steps": 0
+      },
+      "proof_bytes": 937,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_set_inter_unsat_proof-dsl-rewrite-4d77c4c0fc29",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_is_empty_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_is_empty_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 3
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4"
+        ],
+        "explicit_conclusions": 8,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 1,
+          "eq-refl": 1,
+          "eq_resolve": 1,
+          "evaluate": 1,
+          "sets-is-empty-elim": 1,
+          "trans": 2
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4"
+        ],
+        "step_count": 8,
+        "trust_steps": 0
+      },
+      "proof_bytes": 708,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_set_is_empty_unsat_proof-dsl-rewrite-44700069b45e",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_is_singleton_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_is_singleton_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 7
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8"
+        ],
+        "explicit_conclusions": 12,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 2,
+          "eq-symm": 1,
+          "eq_resolve": 1,
+          "evaluate": 1,
+          "sets-choose-singleton": 1,
+          "sets-is-singleton-elim": 1,
+          "trans": 3,
+          "true_intro": 1
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8"
+        ],
+        "step_count": 12,
+        "trust_steps": 0
+      },
+      "proof_bytes": 968,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_set_is_singleton_unsat_proof-dsl-rewrite-fc3e12173f81",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_map_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_map_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 9
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "explicit_conclusions": 15,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "beta-reduce": 1,
+          "cong": 3,
+          "eq_resolve": 1,
+          "evaluate": 2,
+          "refl": 1,
+          "sets-member-singleton": 1,
+          "trans": 4,
+          "trust": 1
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "step_count": 15,
+        "trust_steps": 1
+      },
+      "proof_bytes": 1348,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_set_map_unsat_proof-dsl-rewrite-042b2a64a763",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_member_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_member_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 5
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4"
+        ],
+        "explicit_conclusions": 8,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 1,
+          "eq_resolve": 1,
+          "evaluate": 2,
+          "sets-member-singleton": 1,
+          "trans": 2
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4"
+        ],
+        "step_count": 8,
+        "trust_steps": 0
+      },
+      "proof_bytes": 607,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_set_member_unsat_proof-dsl-rewrite-e248acd9295d",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_minus_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_minus_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 4
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6"
+        ],
+        "explicit_conclusions": 10,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "bool-double-not-elim": 1,
+          "cong": 1,
+          "eq_resolve": 1,
+          "refl": 2,
+          "sets-member-emp": 1,
+          "sets-minus-self": 1,
+          "trans": 2
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6"
+        ],
+        "step_count": 10,
+        "trust_steps": 0
+      },
+      "proof_bytes": 943,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_set_minus_unsat_proof-dsl-rewrite-f02cafa5437b",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_singleton_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_singleton_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 5
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4"
+        ],
+        "explicit_conclusions": 8,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 1,
+          "eq_resolve": 1,
+          "evaluate": 2,
+          "sets-member-singleton": 1,
+          "trans": 2
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4"
+        ],
+        "step_count": 8,
+        "trust_steps": 0
+      },
+      "proof_bytes": 607,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_set_singleton_unsat_proof-dsl-rewrite-e248acd9295d",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_some_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_some_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 13
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t13",
+          "@t14",
+          "@t15",
+          "@t16",
+          "@t17",
+          "@t18",
+          "@t19",
+          "@t2",
+          "@t20",
+          "@t21",
+          "@t22",
+          "@t23",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "explicit_conclusions": 28,
+        "optional_conclusions": 0,
+        "rules": {
+          "aci_norm": 1,
+          "alpha_equiv": 1,
+          "and_elim": 1,
+          "beta-reduce": 1,
+          "cong": 3,
+          "eq_resolve": 1,
+          "evaluate": 4,
+          "ite-then-true": 1,
+          "refl": 2,
+          "symm": 3,
+          "trans": 9,
+          "trust": 1
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t13",
+          "@t14",
+          "@t15",
+          "@t16",
+          "@t17",
+          "@t18",
+          "@t19",
+          "@t2",
+          "@t20",
+          "@t21",
+          "@t22",
+          "@t23",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "step_count": 28,
+        "trust_steps": 1
+      },
+      "proof_bytes": 2412,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_set_some_unsat_proof-dsl-rewrite-3616b4b53ba6",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_subset_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_subset_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 10
+        },
+        "declarations": {
+          "declare-const": 1
+        },
+        "define_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t13",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "explicit_conclusions": 16,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 2,
+          "cong": 3,
+          "contra": 1,
+          "eq-symm": 1,
+          "eq_resolve": 2,
+          "refl": 1,
+          "sets-insert-elim": 1,
+          "sets-subset-elim": 1,
+          "sets-union-comm": 1,
+          "trans": 3
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t13",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "step_count": 16,
+        "trust_steps": 0
+      },
+      "proof_bytes": 1405,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_set_subset_unsat_proof-dsl-rewrite-e4482dc59507",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_union_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_union_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 12
+        },
+        "declarations": {
+          "declare-const": 1
+        },
+        "define_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t13",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "explicit_conclusions": 18,
+        "optional_conclusions": 0,
+        "rules": {
+          "absorb": 1,
+          "and_elim": 1,
+          "cong": 2,
+          "eq_resolve": 1,
+          "evaluate": 2,
+          "nary_cong": 1,
+          "refl": 2,
+          "sets-member-singleton": 1,
+          "sets-union-comm": 1,
+          "sets-union-member": 1,
+          "trans": 5
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t13",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "step_count": 18,
+        "trust_steps": 0
+      },
+      "proof_bytes": 1504,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_set_union_unsat_proof-dsl-rewrite-867595df7b85",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_universe_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_cvc5_set_universe_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 6
+        },
+        "declarations": {
+          "declare-const": 1
+        },
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8"
+        ],
+        "explicit_conclusions": 12,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 2,
+          "bool-double-not-elim": 1,
+          "cong": 2,
+          "contra": 1,
+          "distinct-elim": 1,
+          "eq-symm": 1,
+          "eq_resolve": 2,
+          "trans": 2
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8"
+        ],
+        "step_count": 12,
+        "trust_steps": 0
+      },
+      "proof_bytes": 1043,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_cvc5_set_universe_unsat_proof-dsl-rewrite-2033d47a4011",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_seq_at_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_seq_at_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 10
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8"
+        ],
+        "explicit_conclusions": 15,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 3,
+          "eq-refl": 1,
+          "eq_resolve": 1,
+          "evaluate": 1,
+          "refl": 1,
+          "seq-eval-op": 2,
+          "str-at-elim": 1,
+          "trans": 4
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8"
+        ],
+        "step_count": 15,
+        "trust_steps": 0
+      },
+      "proof_bytes": 1076,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_seq_at_unsat_proof-dsl-rewrite-cbf938b14680",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_seq_concat_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_seq_concat_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 12
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "explicit_conclusions": 17,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 3,
+          "eq_resolve": 1,
+          "evaluate": 2,
+          "nary_cong": 1,
+          "refl": 1,
+          "seq-eval-op": 4,
+          "trans": 4
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "step_count": 17,
+        "trust_steps": 0
+      },
+      "proof_bytes": 1250,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_seq_concat_unsat_proof-dsl-rewrite-df5d71499bae",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_seq_contains_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_seq_contains_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 9
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t10",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "explicit_conclusions": 13,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 2,
+          "eq_resolve": 1,
+          "evaluate": 1,
+          "nary_cong": 1,
+          "seq-eval-op": 4,
+          "trans": 3
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t10",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "step_count": 13,
+        "trust_steps": 0
+      },
+      "proof_bytes": 1022,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_seq_contains_unsat_proof-dsl-rewrite-927b66c88281",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_seq_empty_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_seq_empty_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 7
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4"
+        ],
+        "explicit_conclusions": 10,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 2,
+          "eq_resolve": 1,
+          "evaluate": 2,
+          "refl": 1,
+          "seq-eval-op": 1,
+          "trans": 2
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4"
+        ],
+        "step_count": 10,
+        "trust_steps": 0
+      },
+      "proof_bytes": 702,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_seq_empty_unsat_proof-dsl-rewrite-d6348ce64aac",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_seq_extract_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_seq_extract_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 10
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6"
+        ],
+        "explicit_conclusions": 14,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 3,
+          "eq-refl": 1,
+          "eq_resolve": 1,
+          "evaluate": 1,
+          "refl": 2,
+          "seq-eval-op": 2,
+          "trans": 3
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6"
+        ],
+        "step_count": 14,
+        "trust_steps": 0
+      },
+      "proof_bytes": 957,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_seq_extract_unsat_proof-dsl-rewrite-1e742048df88",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_seq_indexof_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_seq_indexof_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 13
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "explicit_conclusions": 18,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 3,
+          "eq_resolve": 1,
+          "evaluate": 2,
+          "nary_cong": 1,
+          "refl": 2,
+          "seq-eval-op": 4,
+          "trans": 4
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "step_count": 18,
+        "trust_steps": 0
+      },
+      "proof_bytes": 1312,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_seq_indexof_unsat_proof-dsl-rewrite-d3e692c38ab1",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_seq_len_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_seq_len_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 9
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7"
+        ],
+        "explicit_conclusions": 13,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 3,
+          "eq_resolve": 1,
+          "evaluate": 2,
+          "refl": 1,
+          "seq-eval-op": 2,
+          "trans": 3
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7"
+        ],
+        "step_count": 13,
+        "trust_steps": 0
+      },
+      "proof_bytes": 918,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_seq_len_unsat_proof-dsl-rewrite-175d078360cf",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_seq_nth_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_seq_nth_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 10
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7"
+        ],
+        "explicit_conclusions": 14,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 3,
+          "eq_resolve": 1,
+          "evaluate": 2,
+          "refl": 2,
+          "seq-eval-op": 2,
+          "trans": 3
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7"
+        ],
+        "step_count": 14,
+        "trust_steps": 0
+      },
+      "proof_bytes": 966,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_seq_nth_unsat_proof-dsl-rewrite-14d717f4219c",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_seq_prefixof_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_seq_prefixof_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 9
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t10",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "explicit_conclusions": 13,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 2,
+          "eq_resolve": 1,
+          "evaluate": 1,
+          "nary_cong": 1,
+          "seq-eval-op": 4,
+          "trans": 3
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t10",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "step_count": 13,
+        "trust_steps": 0
+      },
+      "proof_bytes": 1022,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_seq_prefixof_unsat_proof-dsl-rewrite-3b3ab663f0ec",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_seq_replace_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_seq_replace_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 9
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8"
+        ],
+        "explicit_conclusions": 13,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 3,
+          "eq-refl": 1,
+          "eq_resolve": 1,
+          "evaluate": 1,
+          "seq-eval-op": 3,
+          "trans": 3
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8"
+        ],
+        "step_count": 13,
+        "trust_steps": 0
+      },
+      "proof_bytes": 981,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_seq_replace_unsat_proof-dsl-rewrite-320953c011ac",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_seq_suffixof_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_seq_suffixof_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 9
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t10",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "explicit_conclusions": 13,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 2,
+          "eq_resolve": 1,
+          "evaluate": 1,
+          "nary_cong": 1,
+          "seq-eval-op": 4,
+          "trans": 3
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t10",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "step_count": 13,
+        "trust_steps": 0
+      },
+      "proof_bytes": 1022,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_seq_suffixof_unsat_proof-dsl-rewrite-7742485d5129",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_seq_unit_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_seq_unit_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 9
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7"
+        ],
+        "explicit_conclusions": 13,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 3,
+          "eq_resolve": 1,
+          "evaluate": 2,
+          "refl": 1,
+          "seq-eval-op": 2,
+          "trans": 3
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7"
+        ],
+        "step_count": 13,
+        "trust_steps": 0
+      },
+      "proof_bytes": 918,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_seq_unit_unsat_proof-dsl-rewrite-175d078360cf",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_seq_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_seq_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 5
+        },
+        "declarations": {
+          "declare-const": 2
+        },
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6"
+        ],
+        "explicit_conclusions": 9,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 2,
+          "bool-double-not-elim": 1,
+          "cong": 1,
+          "contra": 1,
+          "distinct-elim": 1,
+          "eq_resolve": 2,
+          "trans": 1
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6"
+        ],
+        "step_count": 9,
+        "trust_steps": 0
+      },
+      "proof_bytes": 740,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_seq_unsat_proof-dsl-rewrite-55c2f9f3eb4c",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_set_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_set_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 5
+        },
+        "declarations": {
+          "declare-const": 2
+        },
+        "define_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6"
+        ],
+        "explicit_conclusions": 9,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 2,
+          "bool-double-not-elim": 1,
+          "cong": 1,
+          "contra": 1,
+          "distinct-elim": 1,
+          "eq_resolve": 2,
+          "trans": 1
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6"
+        ],
+        "step_count": 9,
+        "trust_steps": 0
+      },
+      "proof_bytes": 740,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_set_unsat_proof-dsl-rewrite-d7ee6f77d9eb",
+      "solver_result": "unsat",
+      "timed_out": false
+    },
+    {
+      "command": [
+        "/home/lukasz/.local/bin/cvc5",
+        "--produce-proofs",
+        "--dump-proofs",
+        "--proof-format-mode=cpc",
+        "--proof-granularity=dsl-rewrite",
+        "--proof-print-conclusion",
+        "--lang",
+        "smt2",
+        "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_str_replace_all_seq_unsat_proof.smt2"
+      ],
+      "d12_proof_size_gate": false,
+      "exit_code": 0,
+      "granularity": "dsl-rewrite",
+      "input": "/home/lukasz/dev/HOL/deps/holsmt-validation/main/tools/conformance-corpus/v2/cases/theories/z3_extensions/theory_z3_extensions_str_replace_all_seq_unsat_proof.smt2",
+      "inventory": {
+        "arg_shapes": {
+          "nonempty": 13
+        },
+        "declarations": {},
+        "define_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "explicit_conclusions": 19,
+        "optional_conclusions": 0,
+        "rules": {
+          "and_elim": 1,
+          "cong": 3,
+          "eq-refl": 1,
+          "eq_resolve": 1,
+          "evaluate": 1,
+          "nary_cong": 2,
+          "seq-eval-op": 5,
+          "trans": 5
+        },
+        "skolem_markers": [
+          "@t1",
+          "@t10",
+          "@t11",
+          "@t12",
+          "@t2",
+          "@t3",
+          "@t4",
+          "@t5",
+          "@t6",
+          "@t7",
+          "@t8",
+          "@t9"
+        ],
+        "step_count": 19,
+        "trust_steps": 0
+      },
+      "proof_bytes": 1440,
+      "proof_copies": 2,
+      "proof_print_conclusion": true,
+      "raw_stem": "theory_z3_extensions_str_replace_all_seq_unsat_proof-dsl-rewrite-cf6139be568f",
+      "solver_result": "unsat",
+      "timed_out": false
+    }
+  ],
+  "granularities": {
+    "dsl-rewrite": {
+      "d12_proof_size_gates": 0,
+      "entries": 58,
+      "proof_bytes": 68291,
+      "proof_steps": 826,
+      "rules": {
+        "absorb": 3,
+        "aci_norm": 3,
+        "alpha_equiv": 4,
+        "and_elim": 66,
+        "beta-reduce": 8,
+        "bool-double-not-elim": 6,
+        "cong": 139,
+        "contra": 8,
+        "distinct-elim": 4,
+        "eq-refl": 10,
+        "eq-symm": 6,
+        "eq_resolve": 64,
+        "evaluate": 93,
+        "ite-then-true": 3,
+        "ite-true-cond": 2,
+        "nary_cong": 14,
+        "refl": 64,
+        "seq-eval-op": 52,
+        "sets-card-singleton": 1,
+        "sets-choose-singleton": 2,
+        "sets-eval-op": 1,
+        "sets-insert-elim": 2,
+        "sets-is-empty-elim": 2,
+        "sets-is-singleton-elim": 1,
+        "sets-member-emp": 1,
+        "sets-member-singleton": 8,
+        "sets-minus-member": 1,
+        "sets-minus-self": 1,
+        "sets-subset-elim": 1,
+        "sets-union-comm": 3,
+        "sets-union-member": 2,
+        "str-at-elim": 1,
+        "symm": 10,
+        "trans": 198,
+        "true_intro": 1,
+        "trust": 41
+      },
+      "trust_steps": 41
+    }
+  },
+  "schema": "holsmt-cvc5-cpc-corpus-v1"
+}

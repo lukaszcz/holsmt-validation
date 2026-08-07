@@ -1,0 +1,8 @@
+((set-logic ALL)
+(proof
+(let (($x29 (= (seq.len (seq.++ (seq.unit 1) (seq.unit 2))) 2)))
+(let (($x30 (not $x29)))
+(let ((@x41 (trans (monotonicity (rewrite $x29) (= $x29 (= 2 2))) (rewrite (= (= 2 2) true)) (= $x29 true))))
+(let ((@x48 (trans (monotonicity @x41 (= $x30 (not true))) (rewrite (= (not true) false)) (= $x30 false))))
+(mp (and-elim (asserted (and $x29 $x30)) $x30) @x48 false)))))))
+

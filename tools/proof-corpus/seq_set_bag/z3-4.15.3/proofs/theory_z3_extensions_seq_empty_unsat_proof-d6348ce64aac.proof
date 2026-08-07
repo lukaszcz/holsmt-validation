@@ -1,0 +1,12 @@
+((set-logic ALL)
+(proof
+(let ((@x33 (monotonicity (rewrite (= (seq.len (as seq.empty (Seq Int))) 0)) (= (= (seq.len (as seq.empty (Seq Int))) 0) (= 0 0)))))
+(let ((@x37 (trans @x33 (rewrite (= (= 0 0) true)) (= (= (seq.len (as seq.empty (Seq Int))) 0) true))))
+(let ((@x40 (monotonicity @x37 (= (not (= (seq.len (as seq.empty (Seq Int))) 0)) (not true)))))
+(let ((@x44 (trans @x40 (rewrite (= (not true) false)) (= (not (= (seq.len (as seq.empty (Seq Int))) 0)) false))))
+(let (($x26 (= (seq.len (as seq.empty (Seq Int))) 0)))
+(let (($x27 (not $x26)))
+(let (($x28 (and $x26 $x27)))
+(let ((@x29 (asserted $x28)))
+(mp (and-elim @x29 $x27) @x44 false)))))))))))
+

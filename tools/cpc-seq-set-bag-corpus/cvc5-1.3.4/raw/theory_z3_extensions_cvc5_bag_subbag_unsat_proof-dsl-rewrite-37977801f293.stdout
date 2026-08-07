@@ -1,0 +1,61 @@
+unsat
+(
+(define @t1 () (bag 7 3))
+(define @t2 () (bag 7 2))
+(define @t3 () (bag.subbag @t2 @t1))
+(define @t4 () (not @t3))
+(define @t5 () (not true))
+(define @t6 () (= (as bag.empty (Bag Int)) (as bag.empty (Bag Int))))
+(define @t7 () (bag 7 -1))
+(define @t8 () (bag.difference_subtract @t2 @t1))
+(define @t9 () (= @t8 (as bag.empty (Bag Int))))
+(assume @p1 (and @t3 @t4))
+(step @p2 (= @t5 false) :rule evaluate :args (@t5))
+(step @p3 (= @t6 true) :rule eq-refl :args ((as bag.empty (Bag Int))))
+(step @p4 @t6 :rule refl :args ((as bag.empty (Bag Int))))
+; WARNING: add trust step for TRUST_THEORY_REWRITE
+; trust TRUST_THEORY_REWRITE
+(step @p5 (= @t7 (as bag.empty (Bag Int))) :rule trust :premises () :args ((= @t7 (as bag.empty (Bag Int)))))
+; trust TRUST_THEORY_REWRITE
+(step @p6 (= @t8 @t7) :rule trust :premises () :args ((= @t8 @t7)))
+(step @p7 @t9 :rule trans :premises (@p6 @p5))
+(step @p8 (= @t9 @t6) :rule cong :premises (@p7 @p4) :args (@t9))
+(step @p9 (= @t9 true) :rule trans :premises (@p8 @p3))
+; trust TRUST_THEORY_REWRITE
+(step @p10 (= @t3 @t9) :rule trust :premises () :args ((= @t3 @t9)))
+(step @p11 (= @t3 true) :rule trans :premises (@p10 @p9))
+(step @p12 (= @t4 @t5) :rule cong :premises (@p11) :args (@t4))
+(step @p13 (= @t4 false) :rule trans :premises (@p12 @p2))
+(step @p14 @t4 :rule and_elim :premises (@p1) :args (1))
+(step @p15 false :rule eq_resolve :premises (@p14 @p13))
+)
+(
+(define @t1 () (bag 7 3))
+(define @t2 () (bag 7 2))
+(define @t3 () (bag.subbag @t2 @t1))
+(define @t4 () (not @t3))
+(define @t5 () (not true))
+(define @t6 () (= (as bag.empty (Bag Int)) (as bag.empty (Bag Int))))
+(define @t7 () (bag 7 -1))
+(define @t8 () (bag.difference_subtract @t2 @t1))
+(define @t9 () (= @t8 (as bag.empty (Bag Int))))
+(assume @p1 (and @t3 @t4))
+(step @p2 (= @t5 false) :rule evaluate :args (@t5))
+(step @p3 (= @t6 true) :rule eq-refl :args ((as bag.empty (Bag Int))))
+(step @p4 @t6 :rule refl :args ((as bag.empty (Bag Int))))
+; WARNING: add trust step for TRUST_THEORY_REWRITE
+; trust TRUST_THEORY_REWRITE
+(step @p5 (= @t7 (as bag.empty (Bag Int))) :rule trust :premises () :args ((= @t7 (as bag.empty (Bag Int)))))
+; trust TRUST_THEORY_REWRITE
+(step @p6 (= @t8 @t7) :rule trust :premises () :args ((= @t8 @t7)))
+(step @p7 @t9 :rule trans :premises (@p6 @p5))
+(step @p8 (= @t9 @t6) :rule cong :premises (@p7 @p4) :args (@t9))
+(step @p9 (= @t9 true) :rule trans :premises (@p8 @p3))
+; trust TRUST_THEORY_REWRITE
+(step @p10 (= @t3 @t9) :rule trust :premises () :args ((= @t3 @t9)))
+(step @p11 (= @t3 true) :rule trans :premises (@p10 @p9))
+(step @p12 (= @t4 @t5) :rule cong :premises (@p11) :args (@t4))
+(step @p13 (= @t4 false) :rule trans :premises (@p12 @p2))
+(step @p14 @t4 :rule and_elim :premises (@p1) :args (1))
+(step @p15 false :rule eq_resolve :premises (@p14 @p13))
+)

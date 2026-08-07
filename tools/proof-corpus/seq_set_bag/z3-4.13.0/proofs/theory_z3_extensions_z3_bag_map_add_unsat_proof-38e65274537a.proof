@@ -1,0 +1,9 @@
+((set-logic ALL)
+(proof
+(let ((?x31 (+ (select ba 7) (select bb 7))))
+ (let (($x32 (= (select ((_ map + ) ba bb) 7) ?x31)))
+ (let (($x33 (not $x32)))
+ (let ((@x44 (trans (monotonicity (rewrite $x32) (= $x32 (= ?x31 ?x31))) (rewrite (= (= ?x31 ?x31) true)) (= $x32 true))))
+ (let ((@x51 (trans (monotonicity @x44 (= $x33 (not true))) (rewrite (= (not true) false)) (= $x33 false))))
+ (mp (and-elim (asserted (and $x32 $x33)) $x33) @x51 false))))))))
+

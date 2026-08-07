@@ -1,0 +1,7 @@
+(set-option :produce-proofs true)
+(set-logic ALL)
+(declare-const s (Seq Int))
+(declare-const u (Seq Int))
+(assert (and (= (seq.nth (seq.unit 7) 0) 7) (not (= (seq.nth (seq.unit 7) 0) 7))))
+(check-sat)
+(get-proof)

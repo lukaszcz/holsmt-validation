@@ -1,0 +1,7 @@
+(set-option :produce-proofs true)
+(set-logic ALL)
+(declare-const s (Seq Int))
+(assert (= s (seq.++ (seq.unit 1) (seq.unit 2))))
+(assert (= (seq.len s) 3))
+(check-sat)
+(get-proof)
