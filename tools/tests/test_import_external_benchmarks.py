@@ -124,6 +124,7 @@ class ExternalBenchmarkImporterTests(unittest.TestCase):
             entry
             for entry in data["entries"]
             if entry.get("logic") in {"QF_S", "QF_SLIA", "QF_SNIA"}
+            and "external-family:seq-set-bag" not in entry.get("features", [])
         ]
 
         self.assertEqual(len(entries), 6)

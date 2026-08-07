@@ -40,7 +40,12 @@ QF_BVFP, SAT and UNSAT, NaN/infinity, and bit-vector conversions. The two
 UNSAT cases request proofs; their five-version payloads are at most 737 bytes,
 well below the 16 MiB D12 pre-gate.
 
-`pinned/manifest.json` is the reduced mandatory checked-in slice.  Refresh it
+`pinned/SEQ_SET_BAG_SELECTION.md` records the Phase-6 selection from Z3's
+`z3test` and cvc5's regression suites. It covers Z3's sequence, array-set,
+and array-map bag dialect and cvc5's native Seq/Set/Bag boundary cases. The
+manifest records each upstream path, commit, SHA-256, and license note.
+
+`pinned/manifest.json` is the reduced mandatory checked-in slice. Refresh it
 with:
 
 ```sh

@@ -4980,6 +4980,187 @@
       }
     },
     {
+      "id": "external-benchmark:cvc5-bag-card-inter-empty-unsat",
+      "file": "cases/external/cvc5_bag_card_inter_empty_unsat.smt2",
+      "logic": "ALL",
+      "standard": "Solver-extension",
+      "class": "external-benchmark",
+      "features": [
+        "bag:cardinality",
+        "bag:empty",
+        "bag:inter-min",
+        "external-dialect:cvc5",
+        "external-family:seq-set-bag",
+        "external-logic-family:CVC5_SEQ_SET_BAG",
+        "external-source:cvc5",
+        "external-status:unsat-proof",
+        "solver-result:unsat"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "cvc5-oracle"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "native Bag cardinality translation is not implemented",
+          "failure_phase": "typecheck"
+        },
+        "cvc5-oracle": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/SmtLib_Theories.sml",
+          "tools/external-benchmarks/pinned/manifest.json"
+        ],
+        "feature": "external-cvc5-bag-cardinality",
+        "test_ids": [
+          "external-benchmark:cvc5-bag-card-inter-empty-unsat"
+        ],
+        "failure_phase": "typecheck",
+        "notes": "Keep red until Phase 6 supplies the cvc5 Bag boundary."
+      },
+      "source": {
+        "kind": "external-benchmark",
+        "reference": "cvc5 1.3.4 bag cardinality/intersection-empty regression",
+        "url": "https://raw.githubusercontent.com/cvc5/cvc5/f3b21c4483d3b88dc63cb7cd3e5eb092eee5e341/test/regress/cli/regress1/bags/proj-issue584.smt2",
+        "notes": "pinned source_path=test/regress/cli/regress1/bags/proj-issue584.smt2; pin=f3b21c4483d3b88dc63cb7cd3e5eb092eee5e341; sha256=b01945854098cfaab38567022b3008110bb3d99aaa9913944e21166442300104"
+      }
+    },
+    {
+      "id": "external-benchmark:cvc5-seq-update-nth-oob-unsat",
+      "file": "cases/external/cvc5_seq_update_nth_oob_unsat.smt2",
+      "logic": "QF_SLIA",
+      "standard": "Solver-extension",
+      "class": "external-benchmark",
+      "features": [
+        "external-dialect:cvc5",
+        "external-family:seq-set-bag",
+        "external-logic-family:CVC5_SEQ_SET_BAG",
+        "external-source:cvc5",
+        "external-status:unsat-proof",
+        "sequence:nth-out-of-range",
+        "sequence:update",
+        "solver-result:unsat"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "cvc5-oracle"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "native Seq update/nth translation is not implemented",
+          "failure_phase": "typecheck"
+        },
+        "cvc5-oracle": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/SmtLib_Theories.sml",
+          "tools/external-benchmarks/pinned/manifest.json"
+        ],
+        "feature": "external-cvc5-seq-update-nth",
+        "test_ids": [
+          "external-benchmark:cvc5-seq-update-nth-oob-unsat"
+        ],
+        "failure_phase": "typecheck",
+        "notes": "Keep red until Phase 6 supplies faithful native Seq operators."
+      },
+      "source": {
+        "kind": "external-benchmark",
+        "reference": "cvc5 1.3.4 sequence update/nth negative-index regression",
+        "url": "https://raw.githubusercontent.com/cvc5/cvc5/f3b21c4483d3b88dc63cb7cd3e5eb092eee5e341/test/regress/cli/regress0/seq/nth-oob.smt2",
+        "notes": "pinned source_path=test/regress/cli/regress0/seq/nth-oob.smt2; pin=f3b21c4483d3b88dc63cb7cd3e5eb092eee5e341; sha256=460a1f4194fe9e10796cc1af25a88e0d19b1cd02e8b6c2e3e461ab867b61aeda"
+      }
+    },
+    {
+      "id": "external-benchmark:cvc5-set-card-union-sat",
+      "file": "cases/external/cvc5_set_card_union_sat.smt2",
+      "logic": "ALL",
+      "standard": "Solver-extension",
+      "class": "external-benchmark",
+      "features": [
+        "external-dialect:cvc5",
+        "external-family:seq-set-bag",
+        "external-logic-family:CVC5_SEQ_SET_BAG",
+        "external-source:cvc5",
+        "external-status:sat",
+        "set:cardinality",
+        "set:finite-union",
+        "solver-result:sat"
+      ],
+      "modes": [
+        "parser-only",
+        "typecheck-only",
+        "cvc5-oracle"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "typecheck-only": {
+          "status": "red",
+          "diagnostic": "native finite Set cardinality translation is not implemented",
+          "failure_phase": "typecheck"
+        },
+        "cvc5-oracle": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": {
+        "files": [
+          "src/HolSmt/SmtLib_Theories.sml",
+          "tools/external-benchmarks/pinned/manifest.json"
+        ],
+        "feature": "external-cvc5-set-cardinality",
+        "test_ids": [
+          "external-benchmark:cvc5-set-card-union-sat"
+        ],
+        "failure_phase": "typecheck",
+        "notes": "Keep red until Phase 6 supplies the finite cvc5 Set bridge."
+      },
+      "source": {
+        "kind": "external-benchmark",
+        "reference": "cvc5 1.3.4 finite-set card/union regression",
+        "url": "https://raw.githubusercontent.com/cvc5/cvc5/f3b21c4483d3b88dc63cb7cd3e5eb092eee5e341/test/regress/cli/regress0/sets/card-2.smt2",
+        "notes": "pinned source_path=test/regress/cli/regress0/sets/card-2.smt2; pin=f3b21c4483d3b88dc63cb7cd3e5eb092eee5e341; sha256=4c10bce127d62c3cb76018bd977368b0c2f11f7dd7d9087a7feb43b2dd546f21"
+      }
+    },
+    {
       "id": "external-benchmark:ho-tptp-function-extensionality",
       "file": "cases/external/ho_tptp_function_extensionality.smt2",
       "logic": "HO_UF",
@@ -5569,6 +5750,92 @@
       }
     },
     {
+      "id": "external-benchmark:z3test-array-bag-map-unsat",
+      "file": "cases/external/z3test_array_bag_map_unsat.smt2",
+      "logic": "ALL",
+      "standard": "Z3-extension",
+      "class": "external-benchmark",
+      "features": [
+        "bag:array-map-encoding",
+        "bag:pointwise-count-addition",
+        "external-dialect:z3-array-bag",
+        "external-family:seq-set-bag",
+        "external-logic-family:Z3_SEQ_SET_BAG",
+        "external-source:z3test",
+        "external-status:unsat-proof",
+        "solver-result:unsat"
+      ],
+      "modes": [
+        "parser-only",
+        "z3-oracle"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "external-benchmark",
+        "reference": "Z3 z3test array-map bag-encoding regression t150",
+        "url": "https://raw.githubusercontent.com/Z3Prover/z3test/3929b6717d78478179234afe79c860fd8712b7be/regressions/smt2/t150.smt2",
+        "notes": "pinned source_path=regressions/smt2/t150.smt2; pin=3929b6717d78478179234afe79c860fd8712b7be; sha256=3ee1f9f266d82fa33f031db9e5d442d79615cc4071cf4a48ba7a2304dfafea92"
+      }
+    },
+    {
+      "id": "external-benchmark:z3test-array-set-bv-unsat",
+      "file": "cases/external/z3test_array_set_bv_unsat.smt2",
+      "logic": "ALL",
+      "standard": "Z3-extension",
+      "class": "external-benchmark",
+      "features": [
+        "external-dialect:z3-array-set",
+        "external-family:seq-set-bag",
+        "external-logic-family:Z3_SEQ_SET_BAG",
+        "external-source:z3test",
+        "external-status:unsat-proof",
+        "set:array-encoding",
+        "set:bitvector-boundary",
+        "solver-result:unsat"
+      ],
+      "modes": [
+        "parser-only",
+        "z3-oracle"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "external-benchmark",
+        "reference": "Z3 z3test array-encoded Set BitVec regression 3695",
+        "url": "https://raw.githubusercontent.com/Z3Prover/z3test/3929b6717d78478179234afe79c860fd8712b7be/regressions/smt2/3695.smt2",
+        "notes": "pinned source_path=regressions/smt2/3695.smt2; pin=3929b6717d78478179234afe79c860fd8712b7be; sha256=72b89118dcab6930211155554becde215ebc7b80677ae4fc3286a8d1e537f10c"
+      }
+    },
+    {
       "id": "external-benchmark:z3test-qf-bvfp-signed-one-sat",
       "file": "cases/external/z3test_qf_bvfp_signed_one_sat.smt2",
       "logic": "QF_BVFP",
@@ -5780,6 +6047,49 @@
         "reference": "Z3 z3test fp-nan.smt2 curated QF_FP SAT case",
         "url": "https://raw.githubusercontent.com/Z3Prover/z3test/3929b6717d78478179234afe79c860fd8712b7be/regressions/smt2/fp-nan.smt2",
         "notes": "pinned source_path=z3test_qf_fp_nan_sat.smt2; pin=3929b6717d78478179234afe79c860fd8712b7be; sha256=c0d033a2d3110a84ae563d22ed03a8396101b5d8e2f9e156022b96915961087b"
+      }
+    },
+    {
+      "id": "external-benchmark:z3test-seq-extract-sat",
+      "file": "cases/external/z3test_seq_extract_sat.smt2",
+      "logic": "ALL",
+      "standard": "Z3-extension",
+      "class": "external-benchmark",
+      "features": [
+        "external-dialect:z3",
+        "external-family:seq-set-bag",
+        "external-logic-family:Z3_SEQ_SET_BAG",
+        "external-source:z3test",
+        "external-status:sat",
+        "sequence:bitvector-element",
+        "sequence:extract",
+        "solver-result:sat"
+      ],
+      "modes": [
+        "parser-only",
+        "z3-oracle"
+      ],
+      "versions": [
+        "4.11.2",
+        "4.12.4",
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
+      ],
+      "expected": {
+        "parser-only": {
+          "status": "pass"
+        },
+        "z3-oracle": {
+          "status": "pass"
+        }
+      },
+      "implementation_obligation": null,
+      "source": {
+        "kind": "external-benchmark",
+        "reference": "Z3 z3test sequence extract regression 2417",
+        "url": "https://raw.githubusercontent.com/Z3Prover/z3test/3929b6717d78478179234afe79c860fd8712b7be/regressions/smt2/2417.smt2",
+        "notes": "pinned source_path=regressions/smt2/2417.smt2; pin=3929b6717d78478179234afe79c860fd8712b7be; sha256=3c9104eddb9c302e188cf9d1e85558d15d7313318abcdb4d66a4420d8035422d"
       }
     },
     {

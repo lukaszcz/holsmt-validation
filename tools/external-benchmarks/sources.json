@@ -75,6 +75,20 @@
       "pin": "32d806d500c8c1be4aacdd1541226a5b9bce7c77",
       "pin_type": "git-commit",
       "url": "https://github.com/Z3Prover/z3"
+    },
+    {
+      "id": "z3test-seq-set-bag",
+      "kind": "z3test-regression-source",
+      "pin": "3929b6717d78478179234afe79c860fd8712b7be",
+      "pin_type": "git-commit",
+      "url": "https://github.com/Z3Prover/z3test"
+    },
+    {
+      "id": "cvc5-seq-set-bag",
+      "kind": "cvc5-regression-source",
+      "pin": "f3b21c4483d3b88dc63cb7cd3e5eb092eee5e341",
+      "pin_type": "git-tag-commit",
+      "url": "https://github.com/cvc5/cvc5"
     }
   ]
 }

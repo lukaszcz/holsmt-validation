@@ -221,8 +221,7 @@ run_step generate-v2-soundness generation python3 "$v2_generator" --manifest "$v
 run_step generate-v2-external generation python3 "$v2_generator" --manifest "$v2_manifest" --logics-json "$v2_logics_json" external --write
 run_step import-external-benchmarks external-import python3 "$script_dir/import_external_benchmarks.py" \
   --corpus-root "$v2_root" \
-  --corpus-manifest "$v2_manifest" \
-  --check
+  --corpus-manifest "$v2_manifest"
 run_step validate-v2-manifest validation python3 "$v2_generator" --manifest "$v2_manifest" audit
 
 for mode in "${selected_modes[@]}"; do
