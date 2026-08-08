@@ -230,6 +230,7 @@ class TheorySymbol:
     behavior_features: tuple[str, ...] = ()
     availability: SolverAvailability | None = None
     z3_oracle_unknown: bool = False
+    z3_proof_replay: bool = False
 
 
 @dataclass(frozen=True)
@@ -4941,6 +4942,7 @@ def solver_extension_symbol(
     kind: str = "term",
     boundary_assertion: str | None = None,
     z3_oracle_unknown: bool = False,
+    z3_proof_replay: bool = False,
 ) -> TheorySymbol:
     """Make one four-variant row from a frozen solver-matrix entry.
 
@@ -4979,6 +4981,7 @@ def solver_extension_symbol(
         ),
         availability,
         z3_oracle_unknown,
+        z3_proof_replay,
     )
 
 
@@ -5136,6 +5139,7 @@ Z3_EXTENSION_THEORY_SYMBOLS: tuple[TheorySymbol, ...] = (
         "(= (select ((_ map (+ (Int Int) Int)) ba bb) 7) (+ (select ba 7) (select bb 7)))",
         "(declare-const ba (Array Int Int))\n(declare-const bb (Array Int Int))\n",
         Z3_ALL, ("theory-behavior:bag", "theory-behavior:array-encoding", "theory-dialect:z3"),
+        z3_proof_replay=True,
     ),
     solver_extension_symbol(
         "bag", "Bag", "HO_ALL", ("(Bag Element)",), "(distinct x y)",
@@ -7168,14 +7172,20 @@ def solver_extension_case(
             modes.extend(("z3-oracle", "proof-parse", "proof-replay", "z3-tac"))
             expected["z3-oracle"] = expected_result("pass")
             expected["proof-parse"] = expected_result(
-                "red",
-                diagnostic="Seq/Set/Bag Z3 proof parsing evidence is incomplete",
-                failure_phase="proof-parse",
+                "pass" if symbol.z3_proof_replay else "red",
+                diagnostic=(
+                    None if symbol.z3_proof_replay
+                    else "Seq/Set/Bag Z3 proof parsing evidence is incomplete"
+                ),
+                failure_phase=None if symbol.z3_proof_replay else "proof-parse",
             )
             expected["proof-replay"] = expected_result(
-                "red",
-                diagnostic="Seq/Set/Bag checked Z3 replay is incomplete",
-                failure_phase="proof-replay",
+                "pass" if symbol.z3_proof_replay else "red",
+                diagnostic=(
+                    None if symbol.z3_proof_replay
+                    else "Seq/Set/Bag checked Z3 replay is incomplete"
+                ),
+                failure_phase=None if symbol.z3_proof_replay else "proof-replay",
             )
             expected["z3-tac"] = expected_result(
                 "red",

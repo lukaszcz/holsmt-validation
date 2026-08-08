@@ -97889,14 +97889,10 @@
           "status": "pass"
         },
         "proof-parse": {
-          "status": "red",
-          "diagnostic": "Seq/Set/Bag Z3 proof parsing evidence is incomplete",
-          "failure_phase": "proof-parse"
+          "status": "pass"
         },
         "proof-replay": {
-          "status": "red",
-          "diagnostic": "Seq/Set/Bag checked Z3 replay is incomplete",
-          "failure_phase": "proof-replay"
+          "status": "pass"
         },
         "z3-tac": {
           "status": "red",
