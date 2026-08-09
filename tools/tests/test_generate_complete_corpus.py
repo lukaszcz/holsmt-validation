@@ -1092,6 +1092,25 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
         for case in (parse_finiteness, emission_finiteness):
             self.assertEqual(case["solver_availability"], {"cvc5": ["1.3.4"]})
 
+        for slug in (
+            "set",
+            "z3-set-empty",
+            "z3-set-universe",
+            "z3-set-select",
+            "z3-set-store",
+            "z3-set-union",
+            "z3-set-intersection",
+            "z3-set-minus",
+            "z3-set-complement",
+            "z3-set-subset",
+        ):
+            expected = by_id[
+                f"theory:Z3_Extensions:{slug}:unsat-proof"
+            ]["expected"]
+            self.assertEqual(expected["proof-parse"]["status"], "pass")
+            self.assertEqual(expected["proof-replay"]["status"], "pass")
+            self.assertEqual(expected["z3-tac"]["status"], "red")
+
         seq_cases = [
             case for case in extension_cases
             if "theory-behavior:sequence" in case["features"]
