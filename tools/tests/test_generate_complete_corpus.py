@@ -1091,6 +1091,23 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
         )
         for case in (parse_finiteness, emission_finiteness):
             self.assertEqual(case["solver_availability"], {"cvc5": ["1.3.4"]})
+        self.assertIsNone(parse_finiteness["implementation_obligation"])
+        self.assertEqual(
+            parse_finiteness["expected"]["typecheck-only"]["status"], "pass"
+        )
+        self.assertEqual(
+            emission_finiteness["expected"]["typecheck-only"]["status"], "pass"
+        )
+        set_cases = [
+            case for case in extension_cases
+            if "theory-behavior:set" in case["features"]
+        ]
+        for case in set_cases:
+            status = case["expected"]["typecheck-only"]["status"]
+            if "theory-case:type-error" in case["features"]:
+                self.assertEqual(status, "fail", case["id"])
+            else:
+                self.assertEqual(status, "pass", case["id"])
 
         for slug in (
             "set",
@@ -1109,7 +1126,7 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
             ]["expected"]
             self.assertEqual(expected["proof-parse"]["status"], "pass")
             self.assertEqual(expected["proof-replay"]["status"], "pass")
-            self.assertEqual(expected["z3-tac"]["status"], "red")
+            self.assertEqual(expected["z3-tac"]["status"], "pass")
 
         seq_cases = [
             case for case in extension_cases
@@ -1173,8 +1190,8 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
             "theory:Z3_Extensions:str-replace-re-all-seq:sat",
         ):
             expected = by_id[case_id]["expected"]["z3-oracle"]
-            self.assertEqual(expected["status"], "red")
-            self.assertEqual(expected["failure_phase"], "solver")
+            self.assertEqual(expected["status"], "unsupported")
+            self.assertEqual(expected["diagnostic"], "Z3 returned unknown")
         for case in seq_cases + set_bag_cases:
             script = next(
                 item.script for item in generator.theory_cases()

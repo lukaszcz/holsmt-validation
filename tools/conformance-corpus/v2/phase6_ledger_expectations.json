@@ -1,0 +1,1833 @@
+{
+  "schema": "holsmt-phase6-ledger-expectations-v1",
+  "documentation": "../../../../.agent-files/reports/phase6_ledger_burndown.md",
+  "entries": {
+    "theory:Z3_Extensions:bag:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:bag:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:bag:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:bag:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-all:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-all:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-all:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-all:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-card:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-card:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-card:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-card:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-choose:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-choose:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-choose:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-choose:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-count:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-count:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-count:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-count:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-difference-remove:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-difference-remove:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-difference-remove:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-difference-remove:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-difference-subtract:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-difference-subtract:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-difference-subtract:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-difference-subtract:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-empty:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-empty:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-empty:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-empty:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-filter:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-filter:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-filter:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-filter:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-fold:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-fold:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-fold:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-fold:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-inter-min:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-inter-min:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-inter-min:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-inter-min:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-literal:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-literal:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-literal:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-literal:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-map:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-map:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-map:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-map:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-member:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-member:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-member:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-member:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-partition:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-partition:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-partition:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-partition:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-setof:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-setof:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-setof:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-setof:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-some:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-some:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-some:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-some:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-subbag:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-subbag:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-subbag:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-subbag:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-union-disjoint:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-union-disjoint:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-union-disjoint:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-union-disjoint:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-union-max:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-union-max:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-union-max:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-bag-union-max:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-seq-replace-all:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-seq-replace-all:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-seq-replace-all:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-seq-replace-all:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-seq-rev:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-seq-rev:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-seq-rev:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-seq-rev:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-seq-update:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-seq-update:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-seq-update:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-seq-update:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-set-comprehension:boundary": {
+      "cvc5-oracle": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:cvc5-set-comprehension:sat": {
+      "cvc5-oracle": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:p6.4-emission-finiteness-entailment": {
+      "typecheck-only": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-at:boundary": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-at:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-at:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-at:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "proof-parse": {
+        "status": "pass"
+      },
+      "proof-replay": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-char-string-correspondence": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-oracle": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-concat:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-concat:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-concat:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-concat:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "proof-parse": {
+        "status": "pass"
+      },
+      "proof-replay": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-contains:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-contains:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-contains:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-contains:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "proof-parse": {
+        "status": "pass"
+      },
+      "proof-replay": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-empty-unit-edges": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-empty:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-empty:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-empty:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-empty:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "proof-parse": {
+        "status": "pass"
+      },
+      "proof-replay": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-extract-clamping": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-extract:boundary": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-extract:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-extract:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-extract:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "proof-parse": {
+        "status": "pass"
+      },
+      "proof-replay": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-fold-left:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "unsupported",
+        "diagnostic": "UNKNOWN result has no HOL theorem"
+      }
+    },
+    "theory:Z3_Extensions:seq-fold-left:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "unsupported",
+        "diagnostic": "UNKNOWN result has no HOL theorem"
+      }
+    },
+    "theory:Z3_Extensions:seq-fold-left:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-fold-left:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "proof-parse": {
+        "status": "unsupported",
+        "diagnostic": "proof modes require unsat input"
+      },
+      "proof-replay": {
+        "status": "unsupported",
+        "diagnostic": "proof modes require unsat input"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-fold-lefti:boundary": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-fold-lefti:sat": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-fold-lefti:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-fold-lefti:unsat-proof": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "proof-parse": {
+        "status": "unsupported",
+        "diagnostic": "proof modes require unsat input"
+      },
+      "proof-replay": {
+        "status": "unsupported",
+        "diagnostic": "proof modes require unsat input"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-foldl:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "unsupported",
+        "diagnostic": "UNKNOWN result has no HOL theorem"
+      }
+    },
+    "theory:Z3_Extensions:seq-foldl:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "unsupported",
+        "diagnostic": "UNKNOWN result has no HOL theorem"
+      }
+    },
+    "theory:Z3_Extensions:seq-foldl:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-foldl:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "proof-parse": {
+        "status": "pass"
+      },
+      "proof-replay": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-foldli:boundary": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-foldli:sat": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-foldli:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-foldli:unsat-proof": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "proof-parse": {
+        "status": "pass"
+      },
+      "proof-replay": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-in-re:boundary": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-in-re:sat": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-in-re:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-in-re:unsat-proof": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "proof-parse": {
+        "status": "pass"
+      },
+      "proof-replay": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-indexof:boundary": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-indexof:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-indexof:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-indexof:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "proof-parse": {
+        "status": "pass"
+      },
+      "proof-replay": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-last-indexof:boundary": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-last-indexof:sat": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-last-indexof:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-last-indexof:unsat-proof": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "proof-parse": {
+        "status": "pass"
+      },
+      "proof-replay": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-len:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-len:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-len:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-len:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "proof-parse": {
+        "status": "pass"
+      },
+      "proof-replay": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-map:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-map:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-map:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-map:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "proof-parse": {
+        "status": "pass"
+      },
+      "proof-replay": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-mapi:boundary": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-mapi:sat": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-mapi:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-mapi:unsat-proof": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "proof-parse": {
+        "status": "pass"
+      },
+      "proof-replay": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-nth-overflow-totalization": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-nth-underflow-totalization": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-nth:boundary": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-nth:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-nth:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-nth:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "proof-parse": {
+        "status": "pass"
+      },
+      "proof-replay": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-prefixof:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-prefixof:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-prefixof:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-prefixof:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "proof-parse": {
+        "status": "pass"
+      },
+      "proof-replay": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-replace:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-replace:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-replace:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-replace:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "proof-parse": {
+        "status": "pass"
+      },
+      "proof-replay": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-suffixof:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-suffixof:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-suffixof:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-suffixof:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "proof-parse": {
+        "status": "pass"
+      },
+      "proof-replay": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-to-re:boundary": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-to-re:sat": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-to-re:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-to-re:unsat-proof": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "proof-parse": {
+        "status": "pass"
+      },
+      "proof-replay": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-unit:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-unit:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq-unit:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq-unit:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "proof-parse": {
+        "status": "pass"
+      },
+      "proof-replay": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:seq:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "unsupported",
+        "diagnostic": "UNKNOWN result has no HOL theorem"
+      }
+    },
+    "theory:Z3_Extensions:seq:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "unsupported",
+        "diagnostic": "UNKNOWN result has no HOL theorem"
+      }
+    },
+    "theory:Z3_Extensions:seq:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:seq:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "proof-parse": {
+        "status": "pass"
+      },
+      "proof-replay": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:set:boundary": {
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:set:sat": {
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:set:type-error": {
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:set:unsat-proof": {
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:str-replace-all-seq:boundary": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:str-replace-all-seq:sat": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:str-replace-all-seq:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:str-replace-all-seq:unsat-proof": {
+      "typecheck-only": {
+        "status": "pass"
+      },
+      "proof-parse": {
+        "status": "pass"
+      },
+      "proof-replay": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:str-replace-re-all-seq:boundary": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-oracle": {
+        "status": "unsupported",
+        "diagnostic": "Z3 returned unknown"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:str-replace-re-all-seq:sat": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-oracle": {
+        "status": "unsupported",
+        "diagnostic": "Z3 returned unknown"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:str-replace-re-all-seq:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:str-replace-re-all-seq:unsat-proof": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "proof-parse": {
+        "status": "pass"
+      },
+      "proof-replay": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:str-replace-re-seq:boundary": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-oracle": {
+        "status": "unsupported",
+        "diagnostic": "Z3 returned unknown"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:str-replace-re-seq:sat": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-oracle": {
+        "status": "unsupported",
+        "diagnostic": "Z3 returned unknown"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:str-replace-re-seq:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:str-replace-re-seq:unsat-proof": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "proof-parse": {
+        "status": "pass"
+      },
+      "proof-replay": {
+        "status": "pass"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:z3-bag-map-add:boundary": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:z3-bag-map-add:sat": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:z3-bag-map-add:type-error": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:z3-bag-map-add:unsat-proof": {
+      "typecheck-only": {
+        "status": "fail"
+      },
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-complement:boundary": {
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-complement:sat": {
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-complement:type-error": {
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-complement:unsat-proof": {
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-empty:boundary": {
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-empty:sat": {
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-empty:type-error": {
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-empty:unsat-proof": {
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-intersection:boundary": {
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-intersection:sat": {
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-intersection:type-error": {
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-intersection:unsat-proof": {
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-minus:boundary": {
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-minus:sat": {
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-minus:type-error": {
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-minus:unsat-proof": {
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-select:boundary": {
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-select:sat": {
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-select:type-error": {
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-select:unsat-proof": {
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-store:boundary": {
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-store:sat": {
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-store:type-error": {
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-store:unsat-proof": {
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-subset:boundary": {
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-subset:sat": {
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-subset:type-error": {
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-subset:unsat-proof": {
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-union:boundary": {
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-union:sat": {
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-union:type-error": {
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-union:unsat-proof": {
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-universe:boundary": {
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-universe:sat": {
+      "z3-tac": {
+        "status": "pass"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-universe:type-error": {
+      "z3-tac": {
+        "status": "fail"
+      }
+    },
+    "theory:Z3_Extensions:z3-set-universe:unsat-proof": {
+      "z3-tac": {
+        "status": "pass"
+      }
+    }
+  },
+  "gate_inventory": [
+    {
+      "case_id": "theory:Z3_Extensions:seq-fold-left:boundary",
+      "mode": "z3-tac",
+      "class": "D2",
+      "documentation": "../../../../.agent-files/reports/phase6_ledger_burndown.md#d2-gates",
+      "diagnostic": "UNKNOWN result has no HOL theorem"
+    },
+    {
+      "case_id": "theory:Z3_Extensions:seq-fold-left:sat",
+      "mode": "z3-tac",
+      "class": "D2",
+      "documentation": "../../../../.agent-files/reports/phase6_ledger_burndown.md#d2-gates",
+      "diagnostic": "UNKNOWN result has no HOL theorem"
+    },
+    {
+      "case_id": "theory:Z3_Extensions:seq-fold-left:unsat-proof",
+      "mode": "proof-parse",
+      "class": "D2",
+      "documentation": "../../../../.agent-files/reports/phase6_ledger_burndown.md#d2-gates",
+      "diagnostic": "proof modes require unsat input"
+    },
+    {
+      "case_id": "theory:Z3_Extensions:seq-fold-left:unsat-proof",
+      "mode": "proof-replay",
+      "class": "D2",
+      "documentation": "../../../../.agent-files/reports/phase6_ledger_burndown.md#d2-gates",
+      "diagnostic": "proof modes require unsat input"
+    },
+    {
+      "case_id": "theory:Z3_Extensions:seq-fold-lefti:unsat-proof",
+      "mode": "proof-parse",
+      "class": "D2",
+      "documentation": "../../../../.agent-files/reports/phase6_ledger_burndown.md#d2-gates",
+      "diagnostic": "proof modes require unsat input"
+    },
+    {
+      "case_id": "theory:Z3_Extensions:seq-fold-lefti:unsat-proof",
+      "mode": "proof-replay",
+      "class": "D2",
+      "documentation": "../../../../.agent-files/reports/phase6_ledger_burndown.md#d2-gates",
+      "diagnostic": "proof modes require unsat input"
+    },
+    {
+      "case_id": "theory:Z3_Extensions:seq-foldl:boundary",
+      "mode": "z3-tac",
+      "class": "D2",
+      "documentation": "../../../../.agent-files/reports/phase6_ledger_burndown.md#d2-gates",
+      "diagnostic": "UNKNOWN result has no HOL theorem"
+    },
+    {
+      "case_id": "theory:Z3_Extensions:seq-foldl:sat",
+      "mode": "z3-tac",
+      "class": "D2",
+      "documentation": "../../../../.agent-files/reports/phase6_ledger_burndown.md#d2-gates",
+      "diagnostic": "UNKNOWN result has no HOL theorem"
+    },
+    {
+      "case_id": "theory:Z3_Extensions:seq:boundary",
+      "mode": "z3-tac",
+      "class": "D2",
+      "documentation": "../../../../.agent-files/reports/phase6_ledger_burndown.md#d2-gates",
+      "diagnostic": "UNKNOWN result has no HOL theorem"
+    },
+    {
+      "case_id": "theory:Z3_Extensions:seq:sat",
+      "mode": "z3-tac",
+      "class": "D2",
+      "documentation": "../../../../.agent-files/reports/phase6_ledger_burndown.md#d2-gates",
+      "diagnostic": "UNKNOWN result has no HOL theorem"
+    },
+    {
+      "case_id": "theory:Z3_Extensions:str-replace-re-all-seq:boundary",
+      "mode": "z3-oracle",
+      "class": "D2",
+      "documentation": "../../../../.agent-files/reports/phase6_ledger_burndown.md#d2-gates",
+      "diagnostic": "Z3 returned unknown"
+    },
+    {
+      "case_id": "theory:Z3_Extensions:str-replace-re-all-seq:sat",
+      "mode": "z3-oracle",
+      "class": "D2",
+      "documentation": "../../../../.agent-files/reports/phase6_ledger_burndown.md#d2-gates",
+      "diagnostic": "Z3 returned unknown"
+    },
+    {
+      "case_id": "theory:Z3_Extensions:str-replace-re-seq:boundary",
+      "mode": "z3-oracle",
+      "class": "D2",
+      "documentation": "../../../../.agent-files/reports/phase6_ledger_burndown.md#d2-gates",
+      "diagnostic": "Z3 returned unknown"
+    },
+    {
+      "case_id": "theory:Z3_Extensions:str-replace-re-seq:sat",
+      "mode": "z3-oracle",
+      "class": "D2",
+      "documentation": "../../../../.agent-files/reports/phase6_ledger_burndown.md#d2-gates",
+      "diagnostic": "Z3 returned unknown"
+    }
+  ],
+  "solver_availability_documentation": "../../../../.agent-files/reports/phase6_ledger_burndown.md#solver-availability-gates"
+}

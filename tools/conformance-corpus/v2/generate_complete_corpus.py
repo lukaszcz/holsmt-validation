@@ -19,7 +19,29 @@ DEFAULT_MANIFEST = CORPUS_DIR / "manifest.json"
 HOLSMT_ROOT = Path(os.environ.get("HOLSMT_ROOT", TOOLS_DIR.parents[2])).resolve()
 DEFAULT_LOGIC_SOURCE = HOLSMT_ROOT / "src" / "HolSmt" / "SmtLib_Logics.sml"
 DEFAULT_LOGICS_JSON = CORPUS_DIR / "logics.json"
+PHASE6_LEDGER_EXPECTATIONS = (
+    CORPUS_DIR / "phase6_ledger_expectations.json"
+)
 MANIFEST_SCHEMA_VERSION = "2"
+
+
+def load_phase6_ledger_expectations() -> dict[str, dict[str, dict[str, str]]]:
+    """Load the fresh Phase-6 observed-mode baseline.
+
+    The ledger contains only statuses observed after the Seq/Set/Bag replay
+    sweep.  It changes formerly red implementation seeds into either checked
+    successes, ordinary negative-input failures, or explicit D2 outcomes.
+    """
+    data = json.loads(PHASE6_LEDGER_EXPECTATIONS.read_text(encoding="utf-8"))
+    if data.get("schema") != "holsmt-phase6-ledger-expectations-v1":
+        raise ValueError("invalid Phase-6 ledger expectation schema")
+    entries = data.get("entries")
+    if not isinstance(entries, dict):
+        raise ValueError("invalid Phase-6 ledger expectation entries")
+    return entries
+
+
+PHASE6_LEDGER_EXPECTATIONS_BY_CASE = load_phase6_ledger_expectations()
 
 SUPPORTED_Z3_VERSIONS = (
     "4.11.2",
@@ -482,6 +504,21 @@ def manifest_entry(
         status = require_choice(str(value.get("status", "")), f"expected[{mode}].status", EXPECTED_STATUSES)
         expected_result_by_mode[mode] = dict(value)
         expected_result_by_mode[mode]["status"] = status
+
+    if "theory:Z3_Extensions" in features_list:
+        settled = PHASE6_LEDGER_EXPECTATIONS_BY_CASE.get(case_id, {})
+        for mode, value in settled.items():
+            if mode not in expected_result_by_mode:
+                raise GeneratorError(
+                    f"Phase-6 ledger has unlisted mode {mode} for {case_id}"
+                )
+            status = value["status"]
+            expected_result_by_mode[mode] = expected_result(
+                status,
+                diagnostic=value.get("diagnostic") if status == "unsupported" else None,
+            )
+        if settled:
+            implementation_obligation = None
 
     original_red_modes = [
         mode
@@ -5760,11 +5797,7 @@ P6_4_EXTENSION_BOUNDARY_CASES: tuple[ScriptedCase, ...] = (
         modes=("parser-only", "typecheck-only", "cvc5-oracle"),
         expected={
             "parser-only": expected_result("pass"),
-            "typecheck-only": expected_result(
-                "red",
-                diagnostic="Seq/Set/Bag theory front-end support is incomplete",
-                failure_phase="typecheck",
-            ),
+            "typecheck-only": expected_result("pass"),
             "cvc5-oracle": expected_result("pass"),
         },
         features=(
@@ -7145,13 +7178,23 @@ def solver_extension_case(
     z3 = bool(symbol.availability.z3_versions)
     cvc5 = bool(symbol.availability.cvc5_versions)
     modes = ["parser-only", "typecheck-only"]
-    expected: dict[str, dict[str, object]] = {
-        "parser-only": expected_result("pass"),
-        "typecheck-only": expected_result(
+    set_front_end = "theory-behavior:set" in symbol.behavior_features
+    typecheck_expected = (
+        expected_result(
+            "fail", diagnostic="invalid SMT-LIB input", failure_phase="typecheck"
+        )
+        if set_front_end and kind == "type-error"
+        else expected_result("pass")
+        if set_front_end
+        else expected_result(
             "red",
             diagnostic="Seq/Set/Bag theory front-end support is incomplete",
             failure_phase="typecheck",
-        ),
+        )
+    )
+    expected: dict[str, dict[str, object]] = {
+        "parser-only": expected_result("pass"),
+        "typecheck-only": typecheck_expected,
     }
     if kind in {"sat", "boundary"}:
         if z3:
@@ -7228,8 +7271,12 @@ def solver_extension_case(
         # matrix annotation below also represents cvc5-only entries honestly.
         versions=symbol.availability.z3_versions or SUPPORTED_Z3_VERSIONS,
         expected=expected,
-        implementation_obligation=theory_obligation(
-            symbol, kind, case_id, first_red_failure_phase(expected)
+        implementation_obligation=(
+            theory_obligation(
+                symbol, kind, case_id, first_red_failure_phase(expected)
+            )
+            if any(item["status"] == "red" for item in expected.values())
+            else None
         ),
         source=theory_source(symbol),
         solver_availability={

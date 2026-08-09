@@ -4280,13 +4280,7 @@
           "match": "all_z3_seq_set_bag_typecheck"
         }
       ],
-      "negative_tests": [
-        {
-          "kind": "source",
-          "path": "src/HolSmt/Unittest.sml",
-          "match": "z3_th_lemma_advanced_unsupported_diagnostic"
-        }
-      ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
@@ -4305,17 +4299,34 @@
         "translated",
         "solved"
       ],
-      "expected_status": "parse_only",
-      "positive_tests": [],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:Z3_Extensions:seq-concat"
+        },
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:Z3_Extensions:cvc5-bag-count"
+        }
+      ],
       "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
-          "kind": "manual",
-          "description": "Z3 Seq/Set/Bag support is parser/typechecker evidence for extension symbols only."
+          "kind": "source",
+          "path": "src/HolSmt/SmtLib.sml",
+          "match": "native_sequence_builtin"
+        },
+        {
+          "kind": "source",
+          "path": "src/HolSmt/SmtLib.sml",
+          "match": "native_bag_builtin"
         }
       ],
-      "notes": "No official SMT-LIB 2.7 or solver/replay completeness claim."
+      "notes": "Native list/pred_set/bag emission reaches the accepting solver dialect; unavailable cells are enumerated by the frozen Phase-6 matrix."
     },
     {
       "section": "theories",
@@ -4324,24 +4335,34 @@
       "phases": [
         "reconstructed"
       ],
-      "expected_status": "unsupported_diagnostic",
-      "positive_tests": [],
-      "negative_tests": [
+      "expected_status": "implemented",
+      "positive_tests": [
         {
           "kind": "source",
           "path": "src/HolSmt/Unittest.sml",
-          "match": "theory=seq"
+          "match": "seq_prove_core_rungs_success"
+        },
+        {
+          "kind": "source",
+          "path": "src/HolSmt/selftest.sml",
+          "match": "Seq/Set/Bag checked-replay smoke tests"
         }
       ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
           "kind": "source",
-          "path": "src/HolSmt/Z3_ProofReplay.sml",
-          "match": "proof-format limitation"
+          "path": "src/HolSmt/SmtSeqProve.sml",
+          "match": "seq_prove"
+        },
+        {
+          "kind": "source",
+          "path": "src/HolSmt/SmtBagProve.sml",
+          "match": "bag_prove"
         }
       ],
-      "notes": "Sequence th-lemma replay fails explicitly."
+      "notes": "SmtSeqProve, SmtArrayProve, and SmtBagProve provide checked replay; explicit D2 dispositions are ledgered separately."
     },
     {
       "section": "logics",
@@ -4510,13 +4531,7 @@
           "match": "all_z3_seq_set_bag_typecheck"
         }
       ],
-      "negative_tests": [
-        {
-          "kind": "source",
-          "path": "src/HolSmt/Unittest.sml",
-          "match": "z3_th_lemma_advanced_unsupported_diagnostic"
-        }
-      ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
@@ -4535,17 +4550,24 @@
         "translated",
         "solved"
       ],
-      "expected_status": "parse_only",
-      "positive_tests": [],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:Z3_Extensions:seq-concat"
+        }
+      ],
       "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
-          "kind": "manual",
-          "description": "ALL is a permissive parser/typechecker dictionary, not a solver or HOL translation completeness claim."
+          "kind": "source",
+          "path": "src/HolSmt/SmtLib.sml",
+          "match": "native_sequence_goal"
         }
       ],
-      "notes": "Conservative parse/typecheck embedding."
+      "notes": "ALL dispatches native Seq/Set/Bag goals to the accepting solver dialect."
     },
     {
       "section": "logics",
@@ -4554,24 +4576,24 @@
       "phases": [
         "reconstructed"
       ],
-      "expected_status": "unsupported_diagnostic",
-      "positive_tests": [],
-      "negative_tests": [
+      "expected_status": "implemented",
+      "positive_tests": [
         {
           "kind": "source",
           "path": "src/HolSmt/Unittest.sml",
-          "match": "z3_th_lemma_advanced_unsupported_diagnostic"
+          "match": "seq_prove_core_rungs_success"
         }
       ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
           "kind": "source",
           "path": "src/HolSmt/Z3_ProofReplay.sml",
-          "match": "proof-format limitation"
+          "match": "z3_th_lemma_native_seq"
         }
       ],
-      "notes": "Non-arithmetic advanced proof replay is explicitly gated."
+      "notes": "ALL dispatches native Seq evidence through the checked sequence prover; non-Seq advanced families retain their own rows."
     },
     {
       "section": "z3_proof_rules",
@@ -4587,14 +4609,6 @@
           "kind": "source",
           "path": "src/HolSmt/Unittest.sml",
           "match": "z3_string_th_lemma_dispatch_success"
-        },
-        {
-          "kind": "proof_rule",
-          "rule": "th-lemma-seq"
-        },
-        {
-          "kind": "proof_rule",
-          "rule": "th-lemma-char"
         }
       ],
       "negative_tests": [],
@@ -4643,12 +4657,9 @@
           "match": "z3_string_th_lemma_dispatch_success"
         },
         {
-          "kind": "proof_rule",
-          "rule": "th-lemma-seq"
-        },
-        {
-          "kind": "proof_rule",
-          "rule": "th-lemma-char"
+          "kind": "source",
+          "path": "src/HolSmt/Unittest.sml",
+          "match": "seq_prove_core_rungs_success"
         }
       ],
       "negative_tests": [],
@@ -4657,7 +4668,7 @@
         {
           "kind": "source",
           "path": "src/HolSmt/Z3_ProofReplay.sml",
-          "match": "z3_th_lemma_seq"
+          "match": "z3_th_lemma_native_seq"
         }
       ],
       "notes": "SmtStringProve reconstructs real th-lemma-seq and th-lemma-char proof occurrences; the string and regexp aliases share the sequence handler."
