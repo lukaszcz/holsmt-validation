@@ -235,6 +235,32 @@ fun parsedicts_of_logic (logic : string) =
             ["proof-parse", "proof-replay", "z3-tac"],
         )
 
+    def test_cvc5_only_extension_unsat_does_not_require_z3_proof_modes(self):
+        case = v2_case(
+            "theory_z3_extensions_cvc5_set_member_unsat",
+            logic="HO_ALL",
+            features=[
+                "theory:Z3_Extensions",
+                "theory-entry:Z3_Extensions:cvc5-set-member",
+                "theory-case:unsat-proof",
+            ],
+            modes=["parser-only", "typecheck-only", "cvc5-oracle"],
+            expected={
+                "parser-only": {"status": "pass"},
+                "typecheck-only": {"status": "pass"},
+                "cvc5-oracle": {"status": "pass"},
+            },
+            row_class="theory",
+        )
+        case["solver_availability"] = {"cvc5": ["1.3.4"]}
+
+        issues = audit.audit_cases([case], [])
+
+        self.assertFalse(
+            [issue for issue in issues if issue.code == "missing_unsat_proof_mode"],
+            [issue.render() for issue in issues],
+        )
+
     def test_string_regex_and_extension_theory_rows_reject_parse_only_coverage(self):
         case = v2_case(
             "theory_unicode_strings_str_len_sat",

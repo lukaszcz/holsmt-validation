@@ -220,7 +220,7 @@ REQUIRED_THEORY_METADATA: dict[str, dict[str, set[str]]] = {
             "set.member",
             "set.insert",
             "set.union",
-            "set.intersect",
+            "set.inter",
             "set.minus",
             "set.subset",
             "bag.union_disjoint",
@@ -657,7 +657,7 @@ def extract_entry_region(body: str, list_name: str) -> str:
     if start < 0:
         return ""
     if list_name == "tyentries":
-        end_marker = "\n\n    val tmentries"
+        end_marker = "val tmentries"
     else:
         end_marker = "\n\n    val tydict"
     end = body.find(end_marker, start)
@@ -668,7 +668,10 @@ def extract_entry_region(body: str, list_name: str) -> str:
 
 def official_entries_from_region(region: str) -> list[tuple[str, tuple[str, ...]]]:
     entries: list[tuple[str, tuple[str, ...]]] = []
-    pattern = re.compile(r'official_entry\s+"(?P<name>[^"]+)"')
+    pattern = re.compile(
+        r'(?:official_entry|shared_term|cvc_term|z3_term)\s+"(?P<name>[^"]+)"'
+        r'|extension_entry\s+"[^"]+"\s+"(?P<extension_name>[^"]+)"'
+    )
 
     def matching_bracket(start: int) -> int:
         depth = 0
@@ -703,7 +706,7 @@ def official_entries_from_region(region: str) -> list[tuple[str, tuple[str, ...]
         )
 
     for match in pattern.finditer(region):
-        name = match.group("name")
+        name = match.group("name") or match.group("extension_name")
         search_from = match.end()
         while True:
             start = region.find("[", search_from)
@@ -809,6 +812,9 @@ def theory_symbol_slug(kind: str, name: str, declarations: tuple[str, ...]) -> s
         "re.+": "re-plus",
         "re.^": "re-power",
         "seq.++": "seq-concat",
+        "seq.len": "seq-len",
+        "seq.extract": "seq-extract",
+        "seq.contains": "seq-contains",
         "bag.union_disjoint": "bag.union-disjoint",
         "bag.union_max": "bag.union-max",
         "bag.inter_min": "bag.inter-min",
@@ -890,57 +896,84 @@ def parse_dictionary_theory_symbols(path: Path) -> list[TheoryMetadataSymbol]:
     text = path.read_text(encoding="utf-8")
     symbols: dict[tuple[str, str], TheoryMetadataSymbol] = {}
 
-    for theory in (
-        "Core",
-        "Ints",
-        "Reals",
-        "UnicodeStrings",
-        "ArraysEx",
-        "Fixed_Size_BitVectors",
-        "FloatingPoint",
-        "Z3_Extensions",
-    ):
-        body = extract_structure_body(text, theory)
+    structures = (
+        ("Core", "Core", None),
+        ("Ints", "Ints", None),
+        ("Reals", "Reals", None),
+        ("UnicodeStrings", "UnicodeStrings", None),
+        ("ArraysEx", "ArraysEx", None),
+        ("Fixed_Size_BitVectors", "Fixed_Size_BitVectors", None),
+        ("FloatingPoint", "FloatingPoint", None),
+        ("Z3_Extensions", "Z3_Extensions", None),
+        # Phase 6 deliberately splits the two solver dialects into separate
+        # source dictionaries.  They are one corpus theory, however, so map
+        # their evidence back to its Z3_Extensions ledger namespace.
+        ("CVC5_Seq", "Z3_Extensions", "cvc5"),
+        ("CVC5_Set", "Z3_Extensions", "cvc5"),
+        ("CVC5_Bag", "Z3_Extensions", "cvc5"),
+        ("Z3_Set", "Z3_Extensions", "z3"),
+    )
+    special_slugs = {
+        ("CVC5_Bag", "bag"): "cvc5-bag-literal",
+        ("CVC5_Seq", "str.replace_all"): "cvc5-seq-replace-all",
+        ("Z3_Set", "union"): "z3-set-union",
+        ("Z3_Set", "intersection"): "z3-set-intersection",
+        ("Z3_Set", "setminus"): "z3-set-minus",
+        ("Z3_Set", "complement"): "z3-set-complement",
+        ("Z3_Set", "subset"): "z3-set-subset",
+    }
+
+    for structure, theory, dialect in structures:
+        body = extract_structure_body(text, structure)
         for kind, list_name in (("sort", "tyentries"), ("term", "tmentries")):
             for name, declarations in official_entries_from_region(extract_entry_region(body, list_name)):
+                slug = theory_symbol_slug(kind, name, declarations)
+                if structure == "Z3_Extensions" and name.startswith("seq."):
+                    slug = slug.replace(".", "-")
+                if dialect is not None and kind == "term":
+                    slug = special_slugs.get(
+                        (structure, name),
+                        f"{dialect}-{slug.replace('.', '-')}",
+                    )
                 symbol = TheoryMetadataSymbol(
                     theory=theory,
-                    slug=theory_symbol_slug(kind, name, declarations),
+                    slug=slug,
                     kind=kind,
                     name=name,
                     declarations=declarations,
                 )
                 symbols[symbol.key] = symbol
-        for name, declarations in HELPER_GENERATED_SORTS.get(theory, ()):
-            if name in body:
-                symbol = TheoryMetadataSymbol(
-                    theory=theory,
-                    slug=theory_symbol_slug("sort", name, declarations),
-                    kind="sort",
-                    name=name,
-                    declarations=declarations,
-                )
-                symbols[symbol.key] = symbol
-        for name, declarations in HELPER_GENERATED_TERMS.get(theory, ()):
-            if name in body:
-                symbol = TheoryMetadataSymbol(
-                    theory=theory,
-                    slug=theory_symbol_slug("term", name, declarations),
-                    kind="term",
-                    name=name,
-                    declarations=declarations,
-                )
-                symbols[symbol.key] = symbol
-        if theory == "FloatingPoint":
-            for name, declarations in floatingpoint_terms_from_body(body):
-                symbol = TheoryMetadataSymbol(
-                    theory="FloatingPoint",
-                    slug=theory_symbol_slug("term", name, declarations),
-                    kind="term",
-                    name=name,
-                    declarations=declarations,
-                )
-                symbols[symbol.key] = symbol
+        if dialect is None:
+            for name, declarations in HELPER_GENERATED_SORTS.get(theory, ()):
+                if name in body:
+                    symbol = TheoryMetadataSymbol(
+                        theory=theory,
+                        slug=theory_symbol_slug("sort", name, declarations),
+                        kind="sort",
+                        name=name,
+                        declarations=declarations,
+                    )
+                    symbols[symbol.key] = symbol
+            for name, declarations in HELPER_GENERATED_TERMS.get(theory, ()):
+                if name in body:
+                    symbol = TheoryMetadataSymbol(
+                        theory=theory,
+                        slug=theory_symbol_slug("term", name, declarations),
+                        kind="term",
+                        name=name,
+                        declarations=declarations,
+                    )
+                    symbols[symbol.key] = symbol
+            if theory == "FloatingPoint":
+                for name, declarations in floatingpoint_terms_from_body(body):
+                    symbol = TheoryMetadataSymbol(
+                        theory="FloatingPoint",
+                        slug=theory_symbol_slug("term", name, declarations),
+                        kind="term",
+                        name=name,
+                        declarations=declarations,
+                    )
+                    symbols[symbol.key] = symbol
 
     reals_ints_body = extract_structure_body(text, "Reals_Ints")
     for name, declarations in official_entries_from_region(reals_ints_body):
@@ -1362,8 +1395,15 @@ def audit_cases(cases: list[dict[str, object]], accepted_logics: list[str]) -> l
         if is_unsat_case(case):
             modes = set(str(mode) for mode in case["modes"])
             expected_modes = set(str(mode) for mode in case["expected"])
-            missing = sorted(UNSAT_REQUIRED_MODES - modes)
-            missing_expected = sorted(UNSAT_REQUIRED_MODES - expected_modes)
+            availability = case.get("solver_availability")
+            z3_unavailable = (
+                is_string_regex_or_extension_theory_case(case)
+                and isinstance(availability, dict)
+                and not availability.get("z3")
+            )
+            required_modes = set() if z3_unavailable else UNSAT_REQUIRED_MODES
+            missing = sorted(required_modes - modes)
+            missing_expected = sorted(required_modes - expected_modes)
             if missing or missing_expected:
                 issues.append(
                     Issue(
