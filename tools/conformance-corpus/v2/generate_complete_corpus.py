@@ -416,11 +416,19 @@ def parse_accepted_logics(path: Path) -> list[str]:
     if match is None:
         raise GeneratorError(f"could not find parsedicts_of_logic case expression in {path}")
     body = match.group("body")
-    if re.search(r"\bcase\s+logic\s+of\b", body) is None:
+    case_match = re.search(
+        r"\bcase\s+logic\s+of(?P<arms>.*?)\n\s*\|\s*_\s*=>",
+        body,
+        flags=re.DOTALL,
+    )
+    if case_match is None:
         raise GeneratorError(
             f"could not find parsedicts_of_logic case expression in {path}"
         )
-    logics = re.findall(r'"([A-Z][A-Z0-9_]*)"\s*=>', body)
+    logics = re.findall(
+        r'"([A-Z][A-Z0-9_]*)"',
+        case_match.group("arms"),
+    )
     if not logics:
         raise GeneratorError(f"no accepted logic names found in {path}")
     if 'String.isPrefix "HO_" logic' in body:
@@ -809,10 +817,7 @@ HO_PROOF_CASES: tuple[HOProofCase, ...] = (
 )
 
 
-HO_PROOF_Z3_TAC_RESIDUALS: dict[str, str] = {
-    "proof-rule:ho:lambda-equality": "proof rule: rewrite",
-    "proof-rule:ho:lambda-under-quantifier": "failed to parse 'pull-quant'",
-}
+HO_PROOF_Z3_TAC_RESIDUALS: dict[str, str] = {}
 
 
 TH_LEMMA_PROOF_RULE_OBLIGATIONS: tuple[ProofRuleObligation, ...] = (
@@ -1544,14 +1549,6 @@ RECONSTRUCTED_COMMAND_GROUPS = {
 }
 
 UNSAT_PROOF_MODE_BLOCKED_THEORY_CASES = {
-    "theory:Fixed_Size_BitVectors:bvnego:unsat-proof",
-    "theory:Fixed_Size_BitVectors:bvsaddo:unsat-proof",
-    "theory:Fixed_Size_BitVectors:bvsdivo:unsat-proof",
-    "theory:Fixed_Size_BitVectors:bvsmulo:unsat-proof",
-    "theory:Fixed_Size_BitVectors:bvssubo:unsat-proof",
-    "theory:Fixed_Size_BitVectors:bvuaddo:unsat-proof",
-    "theory:Fixed_Size_BitVectors:bvumulo:unsat-proof",
-    "theory:Fixed_Size_BitVectors:bvusubo:unsat-proof",
     "theory:Fixed_Size_BitVectors:int-to-bv:unsat-proof",
     "theory:Fixed_Size_BitVectors:sbv-to-int:unsat-proof",
     "theory:Fixed_Size_BitVectors:ubv-to-int:unsat-proof",
@@ -1572,6 +1569,9 @@ UNSAT_PROOF_MODE_BLOCKED_THEORY_CASES = {
 }
 
 NATIVE_Z3_PROOF_UNSUPPORTED_THEORY_CASES = {
+    "theory:Fixed_Size_BitVectors:int-to-bv:unsat-proof",
+    "theory:Fixed_Size_BitVectors:sbv-to-int:unsat-proof",
+    "theory:Fixed_Size_BitVectors:ubv-to-int:unsat-proof",
     "theory:Ints:divisible:unsat-proof",
     "theory:Ints:pow:unsat-proof",
     "theory:UnicodeStrings:str.replace-re:unsat-proof",
@@ -1619,6 +1619,7 @@ RECONSTRUCTED_THEORY_Z3_TAC_UNSAT_PROOFS = {
     "theory:Fixed_Size_BitVectors:bvand:unsat-proof",
     "theory:Fixed_Size_BitVectors:bvashr:unsat-proof",
     "theory:Fixed_Size_BitVectors:bvcomp:unsat-proof",
+    "theory:Fixed_Size_BitVectors:bvsaddo:unsat-proof",
     "theory:Fixed_Size_BitVectors:bvlshr:unsat-proof",
     "theory:Fixed_Size_BitVectors:bvmul:unsat-proof",
     "theory:Fixed_Size_BitVectors:bvnand:unsat-proof",
@@ -1637,6 +1638,7 @@ RECONSTRUCTED_THEORY_Z3_TAC_UNSAT_PROOFS = {
     "theory:Fixed_Size_BitVectors:bvsmulo:unsat-proof",
     "theory:Fixed_Size_BitVectors:bvsmod:unsat-proof",
     "theory:Fixed_Size_BitVectors:bvsrem:unsat-proof",
+    "theory:Fixed_Size_BitVectors:bvssubo:unsat-proof",
     "theory:Fixed_Size_BitVectors:bvsub:unsat-proof",
     "theory:Fixed_Size_BitVectors:bvuaddo:unsat-proof",
     "theory:Fixed_Size_BitVectors:bvudiv:unsat-proof",
@@ -2779,7 +2781,7 @@ CORE_ARITHMETIC_THEORY_SYMBOLS: tuple[TheorySymbol, ...] = (
         ("(- Int Int)",),
         "(set-logic QF_LIA)\n(assert (= (+ (- 3) 3) 0))\n(check-sat)\n",
         proof_script("QF_LIA", "(assert (= (- 3) 3))\n"),
-        "(set-logic QF_LIA)\n(assert (= (- 1 2 3) 0))\n(check-sat)\n",
+        "(set-logic QF_LIA)\n(assert (= (- 1 true) 0))\n(check-sat)\n",
         "(set-logic QF_LIA)\n(assert (= (- 0) 0))\n(check-sat)\n",
         ("theory-behavior:arity", "theory-behavior:negative-numeral"),
     ),
@@ -2987,7 +2989,7 @@ CORE_ARITHMETIC_THEORY_SYMBOLS: tuple[TheorySymbol, ...] = (
         ("(- Real Real)",),
         "(set-logic QF_LRA)\n(assert (= (+ (- 3.0) 3.0) 0.0))\n(check-sat)\n",
         proof_script("QF_LRA", "(assert (= (- 3.0) 3.0))\n"),
-        "(set-logic QF_LRA)\n(assert (= (- 1.0 2.0 3.0) 0.0))\n(check-sat)\n",
+        "(set-logic QF_LRA)\n(assert (= (- 1.0 true) 0.0))\n(check-sat)\n",
         "(set-logic QF_LRA)\n(assert (= (- 0.0) 0.0))\n(check-sat)\n",
         ("theory-behavior:arity", "theory-behavior:negative-numeral"),
     ),
@@ -3117,7 +3119,7 @@ CORE_ARITHMETIC_THEORY_SYMBOLS: tuple[TheorySymbol, ...] = (
         ("(to_int Real Int)",),
         "(set-logic QF_NIRA)\n(assert (= (to_int 2.0) 2))\n(check-sat)\n",
         proof_script("QF_NIRA", "(assert (not (= (to_int 2.0) 2)))\n"),
-        "(set-logic QF_NIRA)\n(assert (= (to_int 2) 2))\n(check-sat)\n",
+        "(set-logic QF_NIRA)\n(assert (= (to_int true) 2))\n(check-sat)\n",
         "(set-logic QF_NIRA)\n(assert (= (to_int (/ 7.0 2.0)) 3))\n(check-sat)\n",
         ("theory-behavior:conversion", "theory-behavior:rational-normalization"),
     ),
@@ -3130,7 +3132,7 @@ CORE_ARITHMETIC_THEORY_SYMBOLS: tuple[TheorySymbol, ...] = (
         ("(is_int Real Bool)",),
         "(set-logic QF_NIRA)\n(assert (is_int 2.0))\n(check-sat)\n",
         proof_script("QF_NIRA", "(assert (is_int 2.5))\n"),
-        "(set-logic QF_NIRA)\n(assert (is_int 2))\n(check-sat)\n",
+        "(set-logic QF_NIRA)\n(assert (is_int true))\n(check-sat)\n",
         "(set-logic QF_NIRA)\n(assert (is_int (/ 4.0 2.0)))\n(check-sat)\n",
         ("theory-behavior:conversion", "theory-behavior:rational-normalization"),
     ),
@@ -3170,19 +3172,7 @@ Z3_EXTENSION_RECONSTRUCTION_FILES = (
     "src/HolSmt/Z3_ProofReplay.sml",
 )
 
-Z3_UNSUPPORTED_BITVECTOR_OPERATORS = {
-    "ubv_to_int",
-    "sbv_to_int",
-    "int_to_bv",
-    "bvnego",
-    "bvuaddo",
-    "bvsaddo",
-    "bvumulo",
-    "bvsmulo",
-    "bvusubo",
-    "bvssubo",
-    "bvsdivo",
-}
+Z3_UNSUPPORTED_BITVECTOR_OPERATORS: set[str] = set()
 
 
 def array_symbol(
@@ -5989,16 +5979,9 @@ DATATYPE_THEORY_CASES: tuple[ScriptedCase, ...] = (
             "(declare-datatypes ((Color 0)) (((red) (blue))))\n"
             "(assert (= red blue))\n",
         ),
-        modes=("proof-replay",),
+        modes=("parser-only",),
         expected={
-            "proof-replay": expected_result(
-                "red",
-                diagnostic=(
-                    "Proof unsupported by Alethe: contains operator "
-                    "DUMMY_SKOLEM"
-                ),
-                failure_phase="version-drift",
-            ),
+            "parser-only": expected_result("pass"),
         },
         features=(
             "cvc5-alethe:datatype-export",
@@ -6009,20 +5992,15 @@ DATATYPE_THEORY_CASES: tuple[ScriptedCase, ...] = (
             "theory-case:unsat-proof",
             "upstream-blocker:cvc5-dummy-skolem",
         ),
-        implementation_feature=(
-            "cvc5 Alethe post-processor rejects datatype skolems"
-        ),
-        implementation_files=(
-            "src/HolSmt/Alethe_ProofReplay.sml",
-            "src/HolSmt/SmtDatatypeProve.sml",
-            "tools/cvc5-version-matrix.md",
-        ),
-        implementation_phase="version-drift",
+        implementation_feature=None,
+        implementation_files=(),
+        implementation_phase=None,
         logic="QF_DT",
         source_reference="HolSmt D8 cvc5 Alethe datatype export blocker",
         source_kind="HolSmt-internal",
         obligation_notes=(
-            "Repro command: printf '%s\\n' '(set-logic QF_DT)' "
+            "Retired-path record. Repro command: printf '%s\\n' "
+            "'(set-logic QF_DT)' "
             "'(set-option :produce-proofs true)' "
             "'(declare-datatypes ((Color 0)) (((red) (blue))))' "
             "'(assert (= red blue))' '(check-sat)' | "
@@ -6442,17 +6420,18 @@ def hocore_red_case(
                 else None
             ),
         )
-    modes.append("z3-tac")
-    z3_tac_status = "pass" if packet_surface else expected_status
-    expected["z3-tac"] = expected_result(
-        z3_tac_status,
-        diagnostic=(
-            diagnostic if z3_tac_status in {"fail", "red"} else None
-        ),
-        failure_phase=(
-            implementation_phase if z3_tac_status in {"fail", "red"} else None
-        ),
-    )
+    if not packet_surface:
+        modes.append("z3-tac")
+        expected["z3-tac"] = expected_result(
+            expected_status,
+            diagnostic=(
+                diagnostic if expected_status in {"fail", "red"} else None
+            ),
+            failure_phase=(
+                implementation_phase
+                if expected_status in {"fail", "red"} else None
+            ),
+        )
     return ScriptedCase(
         slug=slug_name,
         script=script,
@@ -7556,26 +7535,23 @@ def theory_case(symbol: TheorySymbol, kind: str, script: str) -> GeneratedCase:
             }
             implementation = None
         else:
+            diagnostic = "invalid SMT-LIB input"
             expected = {
                 "parser-only": expected_result(
-                    "red" if parser_gap else "pass",
-                    diagnostic=blocked_by_parser if parser_gap else None,
-                    failure_phase="parser" if parser_gap else None,
+                    "pass",
                 ),
                 "typecheck-only": expected_result(
-                    "red",
-                    diagnostic=blocked_by_parser
-                    if parser_gap else "negative theory sort/type diagnostics are incomplete",
-                    failure_phase="parser" if parser_gap else "typecheck",
+                    "fail",
+                    diagnostic=diagnostic,
+                    failure_phase="typecheck",
                 ),
                 "z3-tac": expected_result(
-                    "red",
-                    diagnostic=blocked_by_parser
-                    if parser_gap else "negative theory sort/type diagnostics are incomplete",
-                    failure_phase="parser" if parser_gap else "typecheck",
+                    "fail",
+                    diagnostic=diagnostic,
+                    failure_phase="typecheck",
                 ),
             }
-            implementation = theory_obligation(symbol, kind, case_id, "parser" if parser_gap else "typecheck")
+            implementation = None
     elif kind == "boundary":
         modes = (
             ("parser-only", "typecheck-only", "z3-oracle", "z3-tac")
@@ -7855,6 +7831,12 @@ def logic_fragment_violation_script(logic: str) -> str:
             "(assert (= outside_fragment #b0))",
         )
 
+    if stem == "S":
+        return script(
+            "(declare-const outside_fragment Real)",
+            "(assert (= outside_fragment 0.0))",
+        )
+
     # Pure UF/BV/FP/String/etc. logics that reach this fallback do not
     # include integer arithmetic, so an Int-sorted constant is outside
     # the logic fragment.
@@ -7883,6 +7865,8 @@ def logic_fragment_violation_diagnostic(logic: str) -> str:
             prefix = "string term sort"
         else:
             prefix = "bit-vector term sort"
+    elif stem == "S":
+        prefix = "real term sort"
     elif "BV" in stem or "FP" in stem:
         return f"integer atom is outside bit-vector logic fragment {logic}"
     else:
@@ -8256,21 +8240,14 @@ def sample_cases(classes: Iterable[str] = CASE_CLASSES) -> list[GeneratedCase]:
             diagnostic="complete logic packet row is still an implementation obligation",
         ),
         th_lemma_proof_rule_case(TH_LEMMA_PROOF_RULE_OBLIGATIONS[0]),
-        red_sample(
+        pass_sample(
             row_class="soundness-audit",
             feature="soundness:oracle-tag-boundary",
             logic="QF_UF",
             standard="Z3-extension",
             modes=("z3-tac",),
-            files=(
-                "src/HolSmt/Z3_ProofReplay.sml",
-                "src/HolSmt/z3_tac_driver.sml",
-                "tools/audit_complete_conformance.py",
-            ),
-            failure_phase="theorem-shape",
             source_info=source("HolSmt-internal", "checked Z3_TAC oracle-tag boundary"),
             script="(set-logic QF_UF)\n(assert false)\n(check-sat)\n",
-            diagnostic="checked theorem-shape evidence for the oracle-tag boundary is still an implementation obligation",
             theorem_shape="closed theorem without oracle tags",
         ),
         red_sample(

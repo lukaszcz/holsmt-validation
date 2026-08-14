@@ -543,8 +543,9 @@
             "symbolic-normalization": 1
           },
           "rules": [
-            "and-elim",
-            "asserted",
+      "and-elim",
+      "apply-def",
+      "asserted",
             "def-axiom",
             "monotonicity",
             "mp",

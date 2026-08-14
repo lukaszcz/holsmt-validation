@@ -65,6 +65,7 @@
   ],
   "missing_replay_supported_justifications": {
     "and-elim": "The checked-in version matrix uses the minimal contradictory Boolean input so every supported version has stable raw proof evidence; this rule is covered by synthetic extraction/replay tests and needs a larger formula to force a real occurrence.",
+    "apply-def": "The minimal contradictory Boolean input has no definition application step; bit-vector proof replay and synthetic tests cover apply-def.",
     "commutativity": "The minimal contradictory Boolean input does not force equality normalization; synthetic extraction/replay tests cover this rule.",
     "def-axiom": "Definition bookkeeping is not emitted by the minimal contradictory Boolean input; synthetic extraction/replay tests cover this rule.",
     "elim-unused": "Unused-definition elimination is not emitted by the minimal contradictory Boolean input; synthetic extraction/replay tests cover this rule.",

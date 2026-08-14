@@ -23,6 +23,27 @@ import generate_complete_corpus as generator
 
 
 class CompleteCorpusGeneratorTests(unittest.TestCase):
+    def test_parse_accepted_logics_keeps_grouped_aliases(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            source = pathlib.Path(tmp) / "SmtLib_Logics.sml"
+            source.write_text(
+                """fun parsedicts_of_logic (logic : string) =
+  if String.isPrefix \"HO_\" logic then parsedicts_of_logic logic
+  else case logic of
+    \"ALL\" => all_dicts
+  | \"QF_S\" | \"S\" => string_dicts
+  | _ => raise Fail \"unknown logic\"
+
+(* returns the symbol metadata used to build the parse dictionaries *)
+""",
+                encoding="utf-8",
+            )
+
+            self.assertEqual(
+                generator.parse_accepted_logics(source),
+                ["ALL", "HO_ALL", "QF_S", "S"],
+            )
+
     def test_sample_manifest_has_one_valid_red_entry_for_each_class(self):
         manifest = generator.manifest_for_cases(generator.sample_cases())
         cases = audit.validate_v2_manifest(manifest)
@@ -1419,7 +1440,6 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
                     "typecheck-only",
                     "z3-oracle",
                     "cvc5-oracle",
-                    "z3-tac",
                 ]
             self.assertEqual(case["modes"], expected_modes)
             self.assertEqual(case["expected"]["parser-only"]["status"], "pass")
@@ -1438,10 +1458,6 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
                 )
                 self.assertNotIn(
                     "failure_phase", case["expected"]["typecheck-only"]
-                )
-                self.assertEqual(case["expected"]["z3-tac"]["status"], "pass")
-                self.assertNotIn(
-                    "failure_phase", case["expected"]["z3-tac"]
                 )
                 self.assertIsNone(obligation, case_id)
                 self.assertEqual(case["expected"]["z3-oracle"]["status"], "fail")

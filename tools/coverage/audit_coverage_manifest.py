@@ -24,6 +24,9 @@ DEFAULT_PROOF_REPORT = (
 DEFAULT_COMPLETE_MANIFEST = (
     COVERAGE_DIR.parent / "conformance-corpus" / "v2" / "manifest.json"
 )
+DEFAULT_LOGICS_JSON = (
+    COVERAGE_DIR.parent / "conformance-corpus" / "v2" / "logics.json"
+)
 DEFAULT_LOGIC_SOURCE = ROOT / "src" / "HolSmt" / "SmtLib_Logics.sml"
 DEFAULT_COMPLETE_PROOF_REPORT = (
     COVERAGE_DIR.parent / "proof-corpus" / "complete" / "summary.json"
@@ -446,6 +449,8 @@ def outside_complete_scope_reason(row: dict[str, object]) -> str:
         return "SMT-LIB 3 deferred"
     if "sat and unknown" in lowered:
         return "solver result SAT/UNKNOWN not proof-producing"
+    if lowered == "unknown or future z3 proof rules":
+        return "no current proof-rule constructor exists to reconstruct"
     if any(name in lowered for name in ("get-model", "get-value", "get-assignment", "get-assertions")):
         return "model-producing command not theorem-producing"
     if row_class == "HolSmt":
@@ -460,9 +465,20 @@ def enrich_complete_metadata(
     for section, row in coverage_rows(coverage_data).items():
         section_name = section[0]
         row["current_status"] = current_status(row)
-        row["complete_test_ids"] = complete_case_ids_for_row(
+        complete_test_ids = complete_case_ids_for_row(
             section_name, row, complete_cases, is_complete_evidence_case
         )
+        if not complete_test_ids:
+            manifested_test_ids = row.get("test_ids")
+            if isinstance(manifested_test_ids, list):
+                complete_test_ids = sorted(
+                    {
+                        test_id
+                        for test_id in manifested_test_ids
+                        if isinstance(test_id, str) and test_id
+                    }
+                )
+        row["complete_test_ids"] = complete_test_ids
         row["red_obligation_ids"] = complete_case_ids_for_row(
             section_name, row, complete_cases, is_coverage_red_case
         )
@@ -473,9 +489,13 @@ def enrich_complete_metadata(
             row["resource_gated_ids"] = resource_gated_ids
         else:
             row.pop("resource_gated_ids", None)
-        if str(row.get("class")) not in COMPLETE_REQUIRED_CLASSES:
+        scope_reason = outside_complete_scope_reason(row)
+        if (
+            str(row.get("class")) not in COMPLETE_REQUIRED_CLASSES
+            or scope_reason
+        ):
             row["complete_required_status"] = "not_applicable"
-            row["outside_complete_scope_reason"] = outside_complete_scope_reason(row)
+            row["outside_complete_scope_reason"] = scope_reason
         elif row["red_obligation_ids"] or not row["complete_test_ids"]:
             row["complete_required_status"] = "red"
             row.pop("outside_complete_scope_reason", None)
@@ -488,43 +508,41 @@ def enrich_complete_metadata(
 def parse_accepted_logics(path: Path) -> list[str]:
     text = path.read_text(encoding="utf-8")
     match = re.search(
-        r"fun\s+parsedicts_of_logic\s*\([^)]*\)\s*=\s*case\s+logic\s+of(?P<body>.*?)"
+        r"fun\s+parsedicts_of_logic\s*\([^)]*\)\s*=(?P<body>.*?)"
         r"\n\s*\(\*\s*returns the symbol metadata",
         text,
         flags=re.DOTALL,
     )
     if match is None:
-        raise ManifestError(f"could not find parsedicts_of_logic case expression in {path}")
-    logics = re.findall(r'"([A-Z][A-Z0-9_]*)"\s*=>', match.group("body"))
+        raise ManifestError(f"could not find parsedicts_of_logic definition in {path}")
+    case_match = re.search(
+        r"\bcase\s+logic\s+of(?P<arms>.*?)\n\s*\|\s*_\s*=>",
+        match.group("body"),
+        flags=re.DOTALL,
+    )
+    if case_match is None:
+        raise ManifestError(
+            f"could not find parsedicts_of_logic case expression in {path}"
+        )
+    logics = re.findall(
+        r'"([A-Z][A-Z0-9_]*)"',
+        case_match.group("arms"),
+    )
     require(bool(logics), f"no accepted logic names found in {path}")
     return sorted(set(logics))
 
 
-def proof_report_rules(reports: Iterable[object]) -> set[str]:
-    rules: set[str] = set()
-    for report in reports:
-        if not isinstance(report, dict):
-            continue
-        discovered = report.get("discovered_rules")
-        if isinstance(discovered, list):
-            rules.update(str(rule) for rule in discovered if isinstance(rule, str))
-        histogram = report.get("aggregate_rule_histogram")
-        if isinstance(histogram, dict):
-            rules.update(str(rule) for rule in histogram)
-        rules_by_version = report.get("rules_by_version")
-        if isinstance(rules_by_version, list):
-            for item in rules_by_version:
-                if isinstance(item, dict) and isinstance(item.get("rules"), list):
-                    rules.update(str(rule) for rule in item["rules"] if isinstance(rule, str))
-    return rules
-
-
-def row_proof_rules(row: dict[str, object]) -> set[str]:
-    return {
-        token.removeprefix("proof-rule:")
-        for token in row_feature_tokens("z3_proof_rules", row)
-        if token.startswith("proof-rule:")
-    }
+def accepted_logics_from_json(path: Path) -> list[str]:
+    data = load_json(path)
+    require(isinstance(data, dict), f"logics JSON root must be an object: {path}")
+    logics = data.get("accepted_logics")
+    require(
+        isinstance(logics, list)
+        and bool(logics)
+        and all(isinstance(logic, str) and logic for logic in logics),
+        f"logics JSON accepted_logics must be a nonempty string list: {path}",
+    )
+    return sorted(set(logics))
 
 
 def accepted_logic_has_complete_modes(logic: str, cases: Iterable[dict[str, object]]) -> bool:
@@ -546,10 +564,12 @@ def audit_complete_coverage(
     coverage_data: dict[str, object],
     complete_cases: list[dict[str, object]],
     accepted_logics: list[str],
-    complete_proof_reports: list[object],
+    _complete_proof_reports: list[object],
 ) -> list[Issue]:
+    # Real-versus-synthetic proof-rule occurrence policy belongs to
+    # audit_proof_completeness.py.  This audit requires executable COMPLETE
+    # evidence and red-obligation closure without duplicating that policy.
     issues: list[Issue] = []
-    real_rules = proof_report_rules(complete_proof_reports)
 
     for (section, item, row_class), row in sorted(coverage_rows(coverage_data).items()):
         missing_fields = [
@@ -658,20 +678,6 @@ def audit_complete_coverage(
                     f"current_status={current!r} cannot satisfy complete_required_status='reconstructed'",
                 )
             )
-
-        if section == "z3_proof_rules":
-            required_rules = row_proof_rules(row)
-            if required_rules and required_rules.isdisjoint(real_rules):
-                issues.append(
-                    Issue(
-                        "missing_real_proof_occurrence",
-                        section,
-                        item,
-                        row_class,
-                        "",
-                        "required proof-rule row lacks a real Z3 proof-corpus occurrence",
-                    )
-                )
 
     for logic in accepted_logics:
         if not accepted_logic_has_complete_modes(logic, complete_cases):
@@ -1007,8 +1013,14 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--coverage", type=Path, default=DEFAULT_COVERAGE)
     parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
     parser.add_argument("--conformance-report", action="append", type=Path, default=[])
-    parser.add_argument("--proof-report", action="append", type=Path, default=[DEFAULT_PROOF_REPORT])
+    parser.add_argument(
+        "--proof-report",
+        action="append",
+        type=Path,
+        default=[DEFAULT_PROOF_REPORT, DEFAULT_COMPLETE_PROOF_REPORT],
+    )
     parser.add_argument("--complete-manifest", type=Path, default=DEFAULT_COMPLETE_MANIFEST)
+    parser.add_argument("--logics-json", type=Path, default=DEFAULT_LOGICS_JSON)
     parser.add_argument("--logic-source", type=Path, default=DEFAULT_LOGIC_SOURCE)
     parser.add_argument(
         "--complete-proof-report",
@@ -1047,7 +1059,11 @@ def main(argv: list[str]) -> int:
         )
         if args.complete:
             complete_cases = validate_complete_manifest(load_json(args.complete_manifest))
-            accepted_logics = parse_accepted_logics(args.logic_source)
+            accepted_logics = (
+                accepted_logics_from_json(args.logics_json)
+                if args.logics_json.exists()
+                else parse_accepted_logics(args.logic_source)
+            )
             complete_proof_reports = [
                 load_json(path) for path in args.complete_proof_report if path.exists()
             ]

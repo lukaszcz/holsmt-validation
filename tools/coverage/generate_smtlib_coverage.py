@@ -23,6 +23,9 @@ COMPLETE_MANIFEST_PATH = (
 DEFAULT_PROOF_REPORT = (
     COVERAGE_DIR.parent / "proof-corpus" / "supported_versions" / "summary.json"
 )
+DEFAULT_COMPLETE_PROOF_REPORT = (
+    COVERAGE_DIR.parent / "proof-corpus" / "complete" / "summary.json"
+)
 REPORT_PATH = COVERAGE_DIR / "SMTLIB_COVERAGE.md"
 
 STATUS_COLUMNS = ("parsed", "translated", "solved", "reconstructed", "tested")
@@ -512,7 +515,12 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--complete-manifest", type=Path, default=COMPLETE_MANIFEST_PATH)
     parser.add_argument("--report", type=Path, default=REPORT_PATH)
     parser.add_argument("--conformance-report", action="append", type=Path, default=[])
-    parser.add_argument("--proof-report", action="append", type=Path, default=[DEFAULT_PROOF_REPORT])
+    parser.add_argument(
+        "--proof-report",
+        action="append",
+        type=Path,
+        default=[DEFAULT_PROOF_REPORT, DEFAULT_COMPLETE_PROOF_REPORT],
+    )
     parser.add_argument(
         "--release",
         "--ci",

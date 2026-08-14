@@ -148,6 +148,7 @@ SUCCESS_STATUSES = {"pass", "passed", "success", "succeeded"}
 
 REPLAY_SUPPORTED_RULES = {
     "and-elim",
+    "apply-def",
     "asserted",
     "commutativity",
     "def-axiom",
@@ -219,6 +220,7 @@ KNOWN_RULES = REPLAY_SUPPORTED_RULES | PARSE_ONLY_RULES
 
 RULE_PREMISE_KIND = {
     "and-elim": "one",
+    "apply-def": "one",
     "asserted": "zero",
     "commutativity": "zero",
     "def-axiom": "zero",

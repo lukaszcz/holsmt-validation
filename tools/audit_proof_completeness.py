@@ -549,8 +549,12 @@ def audit(
                     code="missing_real_proof_occurrence",
                     category="real-proof-corpus",
                     subject=rule.name,
-                    message="registered Z3 proof rule has no checked-in real proof-corpus occurrence yet",
-                    severity="red",
+                    message=(
+                        "registered Z3 proof rule has no checked-in occurrence "
+                        "from the supported Z3 version matrix; synthetic replay "
+                        "coverage remains mandatory"
+                    ),
+                    severity="warning",
                     blocking=False,
                     details={
                         "aliases": list(rule.aliases),

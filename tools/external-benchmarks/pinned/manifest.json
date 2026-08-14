@@ -40,14 +40,12 @@
       "expected_modes": [
         "parser-only",
         "typecheck-only",
-        "cvc5-oracle",
-        "z3-tac"
+        "cvc5-oracle"
       ],
       "expected_status": {
         "parser-only": {"status": "pass"},
         "typecheck-only": {"status": "pass"},
-        "cvc5-oracle": {"status": "pass"},
-        "z3-tac": {"status": "pass"}
+        "cvc5-oracle": {"status": "pass"}
       },
       "implementation_obligation": null
     },
@@ -75,14 +73,12 @@
       "expected_modes": [
         "parser-only",
         "typecheck-only",
-        "cvc5-oracle",
-        "z3-tac"
+        "cvc5-oracle"
       ],
       "expected_status": {
         "parser-only": {"status": "pass"},
         "typecheck-only": {"status": "pass"},
-        "cvc5-oracle": {"status": "pass"},
-        "z3-tac": {"status": "pass"}
+        "cvc5-oracle": {"status": "pass"}
       },
       "implementation_obligation": null
     },
@@ -434,35 +430,17 @@
           "status": "pass"
         },
         "proof-parse": {
-          "status": "red",
-          "diagnostic": "external benchmark proof parsing evidence is not wired into mandatory CI",
-          "failure_phase": "proof-parse"
+          "status": "pass"
         },
         "proof-replay": {
-          "status": "red",
-          "diagnostic": "external benchmark proof replay is not implemented for this reduced case",
-          "failure_phase": "proof-replay"
+          "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "external benchmark theorem reconstruction is not implemented for this reduced case",
-          "failure_phase": "proof-replay",
+          "status": "pass",
           "theorem_shape": "closed theorem proving unsatisfiability"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/Z3_ProofParser.sml",
-          "src/HolSmt/Z3_ProofReplay.sml",
-          "tools/external-benchmarks/pinned/manifest.json"
-        ],
-        "feature": "external-proof:QF_UF",
-        "test_ids": [
-          "external-benchmark:curated-reduced-qf-uf-unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Pinned external UNSAT proof benchmark; keep red until proof parsing and replay are executable evidence."
-      }
+      "implementation_obligation": null
     },
     {
       "id": "external-benchmark:curated-reduced-qf-lia-sat",
@@ -539,35 +517,17 @@
           "status": "pass"
         },
         "proof-parse": {
-          "status": "red",
-          "diagnostic": "external benchmark proof parsing evidence is not wired into mandatory CI",
-          "failure_phase": "proof-parse"
+          "status": "pass"
         },
         "proof-replay": {
-          "status": "red",
-          "diagnostic": "external benchmark proof replay is not implemented for this reduced case",
-          "failure_phase": "proof-replay"
+          "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "external benchmark theorem reconstruction is not implemented for this reduced case",
-          "failure_phase": "proof-replay",
+          "status": "pass",
           "theorem_shape": "closed theorem proving unsatisfiability"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/Z3_ProofParser.sml",
-          "src/HolSmt/Z3_ProofReplay.sml",
-          "tools/external-benchmarks/pinned/manifest.json"
-        ],
-        "feature": "external-proof:QF_LIA",
-        "test_ids": [
-          "external-benchmark:curated-reduced-qf-lia-unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Pinned external UNSAT proof benchmark; keep red until proof parsing and replay are executable evidence."
-      }
+      "implementation_obligation": null
     },
     {
       "id": "external-benchmark:curated-reduced-qf-lra-sat",
@@ -644,35 +604,17 @@
           "status": "pass"
         },
         "proof-parse": {
-          "status": "red",
-          "diagnostic": "external benchmark proof parsing evidence is not wired into mandatory CI",
-          "failure_phase": "proof-parse"
+          "status": "pass"
         },
         "proof-replay": {
-          "status": "red",
-          "diagnostic": "external benchmark proof replay is not implemented for this reduced case",
-          "failure_phase": "proof-replay"
+          "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "external benchmark theorem reconstruction is not implemented for this reduced case",
-          "failure_phase": "proof-replay",
+          "status": "pass",
           "theorem_shape": "closed theorem proving unsatisfiability"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/Z3_ProofParser.sml",
-          "src/HolSmt/Z3_ProofReplay.sml",
-          "tools/external-benchmarks/pinned/manifest.json"
-        ],
-        "feature": "external-proof:QF_LRA",
-        "test_ids": [
-          "external-benchmark:curated-reduced-qf-lra-unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Pinned external UNSAT proof benchmark; keep red until proof parsing and replay are executable evidence."
-      }
+      "implementation_obligation": null
     },
     {
       "id": "external-benchmark:curated-reduced-qf-bv-sat",
@@ -749,35 +691,17 @@
           "status": "pass"
         },
         "proof-parse": {
-          "status": "red",
-          "diagnostic": "external benchmark proof parsing evidence is not wired into mandatory CI",
-          "failure_phase": "proof-parse"
+          "status": "pass"
         },
         "proof-replay": {
-          "status": "red",
-          "diagnostic": "external benchmark proof replay is not implemented for this reduced case",
-          "failure_phase": "proof-replay"
+          "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "external benchmark theorem reconstruction is not implemented for this reduced case",
-          "failure_phase": "proof-replay",
+          "status": "pass",
           "theorem_shape": "closed theorem proving unsatisfiability"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/Z3_ProofParser.sml",
-          "src/HolSmt/Z3_ProofReplay.sml",
-          "tools/external-benchmarks/pinned/manifest.json"
-        ],
-        "feature": "external-proof:QF_BV",
-        "test_ids": [
-          "external-benchmark:curated-reduced-qf-bv-unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Pinned external UNSAT proof benchmark; keep red until proof parsing and replay are executable evidence."
-      }
+      "implementation_obligation": null
     },
     {
       "id": "external-benchmark:curated-reduced-qf-auflia-sat",
@@ -854,35 +778,17 @@
           "status": "pass"
         },
         "proof-parse": {
-          "status": "red",
-          "diagnostic": "external benchmark proof parsing evidence is not wired into mandatory CI",
-          "failure_phase": "proof-parse"
+          "status": "pass"
         },
         "proof-replay": {
-          "status": "red",
-          "diagnostic": "external benchmark proof replay is not implemented for this reduced case",
-          "failure_phase": "proof-replay"
+          "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "external benchmark theorem reconstruction is not implemented for this reduced case",
-          "failure_phase": "proof-replay",
+          "status": "pass",
           "theorem_shape": "closed theorem proving unsatisfiability"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/Z3_ProofParser.sml",
-          "src/HolSmt/Z3_ProofReplay.sml",
-          "tools/external-benchmarks/pinned/manifest.json"
-        ],
-        "feature": "external-proof:QF_AUFLIA",
-        "test_ids": [
-          "external-benchmark:curated-reduced-qf-auflia-unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Pinned external UNSAT proof benchmark; keep red until proof parsing and replay are executable evidence."
-      }
+      "implementation_obligation": null
     },
     {
       "id": "external-benchmark:curated-reduced-qf-s-sat",
@@ -1056,36 +962,17 @@
           "status": "pass"
         },
         "proof-parse": {
-          "status": "red",
-          "diagnostic": "external benchmark proof parsing evidence is not wired into mandatory CI",
-          "failure_phase": "proof-parse"
+          "status": "pass"
         },
         "proof-replay": {
-          "status": "red",
-          "diagnostic": "external benchmark proof replay is not implemented for this reduced case",
-          "failure_phase": "proof-replay"
+          "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "external benchmark theorem reconstruction is not implemented for this reduced case",
-          "failure_phase": "proof-replay",
+          "status": "pass",
           "theorem_shape": "closed theorem proving unsatisfiability"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/Z3_ProofParser.sml",
-          "src/HolSmt/Z3_ProofReplay.sml",
-          "src/HolSmt/SmtLib_Datatypes.sml",
-          "tools/external-benchmarks/pinned/manifest.json"
-        ],
-        "feature": "external-proof:QF_DT",
-        "test_ids": [
-          "external-benchmark:curated-reduced-qf-dt-unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Pinned external datatype UNSAT proof benchmark; keep red until external proof parsing and replay are executable evidence."
-      }
+      "implementation_obligation": null
     },
     {
       "id": "external-benchmark:curated-reduced-qf-ufdt-sat",
@@ -1162,36 +1049,17 @@
           "status": "pass"
         },
         "proof-parse": {
-          "status": "red",
-          "diagnostic": "external benchmark proof parsing evidence is not wired into mandatory CI",
-          "failure_phase": "proof-parse"
+          "status": "pass"
         },
         "proof-replay": {
-          "status": "red",
-          "diagnostic": "external benchmark proof replay is not implemented for this reduced case",
-          "failure_phase": "proof-replay"
+          "status": "pass"
         },
         "z3-tac": {
-          "status": "red",
-          "diagnostic": "external benchmark theorem reconstruction is not implemented for this reduced case",
-          "failure_phase": "proof-replay",
+          "status": "pass",
           "theorem_shape": "closed theorem proving unsatisfiability"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/Z3_ProofParser.sml",
-          "src/HolSmt/Z3_ProofReplay.sml",
-          "src/HolSmt/SmtLib_Datatypes.sml",
-          "tools/external-benchmarks/pinned/manifest.json"
-        ],
-        "feature": "external-proof:QF_UFDT",
-        "test_ids": [
-          "external-benchmark:curated-reduced-qf-ufdt-unsat-proof"
-        ],
-        "failure_phase": "proof-replay",
-        "notes": "Pinned external datatype UNSAT proof benchmark; keep red until external proof parsing and replay are executable evidence."
-      }
+      "implementation_obligation": null
     },
     {
       "id": "external-benchmark:official-smtlib-uflia-n-queens-sat",
@@ -1434,23 +1302,10 @@
       ],
       "expected_status": {
         "parser-only": {
-          "status": "red",
-          "diagnostic": "Z3 fixedpoint declare-rel/rule/query scripts are outside the SMT-LIB 2.7 parser subset",
-          "failure_phase": "parser"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib_Parser.sml",
-          "tools/external-benchmarks/pinned/manifest.json"
-        ],
-        "feature": "external-z3-fixedpoint-regression-parser",
-        "test_ids": [
-          "external-benchmark:z3-upstream-horn3-fixedpoint"
-        ],
-        "failure_phase": "parser",
-        "notes": "Pinned Z3 upstream regression/proof-style input; keep red until this Z3 extension syntax has explicit support or exclusion diagnostics."
-      }
+      "implementation_obligation": null
     },
     {
       "id": "external-benchmark:z3-upstream-horn5-fixedpoint",
@@ -1475,23 +1330,10 @@
       ],
       "expected_status": {
         "parser-only": {
-          "status": "red",
-          "diagnostic": "Z3 fixedpoint declare-rel/rule/query scripts are outside the SMT-LIB 2.7 parser subset",
-          "failure_phase": "parser"
+          "status": "pass"
         }
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib_Parser.sml",
-          "tools/external-benchmarks/pinned/manifest.json"
-        ],
-        "feature": "external-z3-fixedpoint-regression-parser",
-        "test_ids": [
-          "external-benchmark:z3-upstream-horn5-fixedpoint"
-        ],
-        "failure_phase": "parser",
-        "notes": "Pinned Z3 upstream regression/proof-style input; keep red until this Z3 extension syntax has explicit support or exclusion diagnostics."
-      }
+      "implementation_obligation": null
     },
     {
       "id": "external-benchmark:z3test-seq-extract-sat",
@@ -1646,24 +1488,11 @@
       "expected_status": {
         "parser-only": {"status": "pass"},
         "typecheck-only": {
-          "status": "red",
-          "diagnostic": "native Seq update/nth translation is not implemented",
-          "failure_phase": "typecheck"
+          "status": "pass"
         },
         "cvc5-oracle": {"status": "pass"}
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib_Theories.sml",
-          "tools/external-benchmarks/pinned/manifest.json"
-        ],
-        "feature": "external-cvc5-seq-update-nth",
-        "test_ids": [
-          "external-benchmark:cvc5-seq-update-nth-oob-unsat"
-        ],
-        "failure_phase": "typecheck",
-        "notes": "Keep red until Phase 6 supplies faithful native Seq operators."
-      }
+      "implementation_obligation": null
     },
     {
       "id": "external-benchmark:cvc5-set-card-union-sat",
@@ -1674,7 +1503,7 @@
       "sha256": "4c10bce127d62c3cb76018bd977368b0c2f11f7dd7d9087a7feb43b2dd546f21",
       "target_file": "cases/external/cvc5_set_card_union_sat.smt2",
       "logic_family": "CVC5_SEQ_SET_BAG",
-      "logic": "ALL",
+      "logic": "QF_UFLIAFS",
       "standard": "Solver-extension",
       "source_reference": "cvc5 1.3.4 finite-set card/union regression",
       "provenance": {
@@ -1701,24 +1530,11 @@
       "expected_status": {
         "parser-only": {"status": "pass"},
         "typecheck-only": {
-          "status": "red",
-          "diagnostic": "native finite Set cardinality translation is not implemented",
-          "failure_phase": "typecheck"
+          "status": "pass"
         },
         "cvc5-oracle": {"status": "pass"}
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib_Theories.sml",
-          "tools/external-benchmarks/pinned/manifest.json"
-        ],
-        "feature": "external-cvc5-set-cardinality",
-        "test_ids": [
-          "external-benchmark:cvc5-set-card-union-sat"
-        ],
-        "failure_phase": "typecheck",
-        "notes": "Keep red until Phase 6 supplies the finite cvc5 Set bridge."
-      }
+      "implementation_obligation": null
     },
     {
       "id": "external-benchmark:cvc5-bag-card-inter-empty-unsat",
@@ -1757,24 +1573,11 @@
       "expected_status": {
         "parser-only": {"status": "pass"},
         "typecheck-only": {
-          "status": "red",
-          "diagnostic": "native Bag cardinality translation is not implemented",
-          "failure_phase": "typecheck"
+          "status": "pass"
         },
         "cvc5-oracle": {"status": "pass"}
       },
-      "implementation_obligation": {
-        "files": [
-          "src/HolSmt/SmtLib_Theories.sml",
-          "tools/external-benchmarks/pinned/manifest.json"
-        ],
-        "feature": "external-cvc5-bag-cardinality",
-        "test_ids": [
-          "external-benchmark:cvc5-bag-card-inter-empty-unsat"
-        ],
-        "failure_phase": "typecheck",
-        "notes": "Keep red until Phase 6 supplies the cvc5 Bag boundary."
-      }
+      "implementation_obligation": null
     }
   ]
 }

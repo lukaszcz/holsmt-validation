@@ -156,6 +156,10 @@ class ProofRuleExtractionTests(unittest.TestCase):
         self.assertEqual(RULE_PREMISE_KIND["proof-bind"], "one")
         self.assertEqual(report["unknown_rules"], [])
 
+    def test_apply_def_is_replay_supported_with_one_premise(self):
+        self.assertIn("apply-def", REPLAY_SUPPORTED_RULES)
+        self.assertEqual(RULE_PREMISE_KIND["apply-def"], "one")
+
     def test_complete_manifest_contains_the_ho_corpus(self):
         paths = inputs_from_complete_manifest(
             DEFAULT_COMPLETE_CORPUS_MANIFEST,

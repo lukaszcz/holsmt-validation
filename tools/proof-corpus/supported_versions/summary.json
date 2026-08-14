@@ -63,6 +63,7 @@
   "proof_rule_support": {
     "replay_supported": [
       "and-elim",
+      "apply-def",
       "asserted",
       "commutativity",
       "def-axiom",

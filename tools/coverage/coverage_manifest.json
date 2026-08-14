@@ -95,31 +95,46 @@
       "positive_tests": [
         {
           "kind": "proof_version",
+          "version": "4.11.2"
+        },
+        {
+          "kind": "proof_version",
           "version": "4.12.4"
         },
         {
           "kind": "proof_version",
           "version": "4.13.0"
+        },
+        {
+          "kind": "proof_version",
+          "version": "4.14.1"
+        },
+        {
+          "kind": "proof_version",
+          "version": "4.15.3"
         }
       ],
       "negative_tests": [],
       "z3_versions": [
+        "4.11.2",
         "4.12.4",
-        "4.13.0"
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
       ],
       "artifacts": [
         {
           "kind": "source",
-          "path": "tools/proof-corpus/supported_versions/manifest.json",
-          "match": "holsmt-z3-proof-corpus-matrix-v1"
+          "path": "tools/proof-corpus/complete/manifest.json",
+          "match": "holsmt-z3-proof-complete-corpus-v1"
         },
         {
           "kind": "source",
-          "path": "tools/proof-corpus/supported_versions/summary.json",
-          "match": "\"version\": \"4.13.0\""
+          "path": "tools/proof-corpus/complete/summary.json",
+          "match": "\"version\": \"4.15.3\""
         }
       ],
-      "notes": "Checked-in proof-corpus matrix validates raw artifacts and normalized summaries for every supported Z3 version."
+      "notes": "The complete proof-corpus matrix validates raw artifacts and normalized summaries for all five supported Z3 anchors."
     },
     {
       "section": "version_targets",
@@ -136,17 +151,32 @@
       "positive_tests": [
         {
           "kind": "proof_version",
+          "version": "4.11.2"
+        },
+        {
+          "kind": "proof_version",
           "version": "4.12.4"
         },
         {
           "kind": "proof_version",
           "version": "4.13.0"
+        },
+        {
+          "kind": "proof_version",
+          "version": "4.14.1"
+        },
+        {
+          "kind": "proof_version",
+          "version": "4.15.3"
         }
       ],
       "negative_tests": [],
       "z3_versions": [
+        "4.11.2",
         "4.12.4",
-        "4.13.0"
+        "4.13.0",
+        "4.14.1",
+        "4.15.3"
       ],
       "artifacts": [
         {
@@ -160,7 +190,7 @@
           "match": "proof=true"
         }
       ],
-      "notes": "Z3 v4 proof options are represented in the recorder and validated by checked-in 4.12.4/4.13.0 corpus artifacts."
+      "notes": "Z3 v4 proof options are represented in the recorder and validated by the complete five-anchor corpus."
     },
     {
       "section": "version_targets",
@@ -942,15 +972,15 @@
       "phases": [
         "translated"
       ],
-      "expected_status": "unsupported_diagnostic",
-      "positive_tests": [],
-      "negative_tests": [
+      "expected_status": "implemented",
+      "positive_tests": [
         {
           "kind": "source",
-          "path": "src/HolSmt/Unittest.sml",
-          "match": "smtlib_command_malformed_diagnostics"
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "define-fun-rec-replay"
         }
       ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
@@ -959,7 +989,7 @@
           "match": "CmdDefineFunRec"
         }
       ],
-      "notes": "Covers AST representation and exact unsupported diagnostics for recursive definitions."
+      "notes": "Recursive definition equations are translated as asserted hypotheses in benchmark mode."
     },
     {
       "section": "commands",
@@ -969,17 +999,24 @@
         "solved",
         "reconstructed"
       ],
-      "expected_status": "not_applicable",
-      "positive_tests": [],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "define-funs-rec-replay"
+        }
+      ],
       "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
-          "kind": "manual",
-          "description": "define-fun-rec, define-funs-rec: solved, reconstructed phase(s) are not part of this command's checked HolSmt behavior; Covers AST representation and exact unsupported diagnostics for recursive definitions."
+          "kind": "source",
+          "path": "src/HolSmt/z3_tac_driver.sml",
+          "match": "transfer_hypotheses"
         }
       ],
-      "notes": "Covers AST representation and exact unsupported diagnostics for recursive definitions."
+      "notes": "Checked reconstruction preserves recursive equations as HOL hypotheses rather than creating global definitions."
     },
     {
       "section": "commands",
@@ -1203,7 +1240,7 @@
         {
           "kind": "source",
           "path": "src/HolSmt/z3_tac_driver.sml",
-          "match": "fun z3_tac_goal queries assertions ="
+          "match": "fun z3_tac_goal queries assertions transfer_hypotheses ="
         }
       ],
       "notes": "Covers assumption preservation and checked Z3_TAC replay with assumptions as HOL hypotheses."
@@ -2562,8 +2599,14 @@
       "phases": [
         "reconstructed"
       ],
-      "expected_status": "parse_only",
-      "positive_tests": [],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "src/HolSmt/Unittest.sml",
+          "match": "proof-bind"
+        }
+      ],
       "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
@@ -2578,7 +2621,7 @@
           "match": "test_parse_only_rule_is_recorded_but_not_replay_unknown"
         }
       ],
-      "notes": "Representative parse-only row: the proof parser normalizes proof-bind as transparent and intentionally has no replay obligation."
+      "notes": "The proof parser normalizes proof-bind transparently, so reconstruction is implemented by replaying the wrapped proof without an independent rule conclusion."
     },
     {
       "section": "theories",
@@ -3469,25 +3512,15 @@
       "phases": [
         "reconstructed"
       ],
-      "expected_status": "unsupported_diagnostic",
-      "positive_tests": [],
-      "negative_tests": [
+      "expected_status": "implemented",
+      "positive_tests": [
         {
           "kind": "source",
-          "path": "tools/conformance-corpus/v1/manifest.json",
-          "match": "could not resolve symbol 'select' for actual sorts [:int, :int]"
-        },
-        {
-          "kind": "source",
-          "path": "tools/conformance-corpus/v1/manifest.json",
-          "match": "qf_alia_select_non_array_type_error"
-        },
-        {
-          "kind": "source",
-          "path": "src/HolSmt/Unittest.sml",
-          "match": "smtlib_preprocessing_and_gap_diagnostics"
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:ArraysEx:extensionality:unsat-proof"
         }
       ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
@@ -3496,7 +3529,7 @@
           "match": "smtlib_roundtrip_known_gap_matrix_success"
         }
       ],
-      "notes": "Checked z3-tac reconstruction currently fails for native HOL function sort encoding."
+      "notes": "Checked array reconstruction covers select/store, read-over-write, and extensionality without oracle tags."
     },
     {
       "section": "theories",
@@ -3619,20 +3652,15 @@
       "phases": [
         "reconstructed"
       ],
-      "expected_status": "unsupported_diagnostic",
-      "positive_tests": [],
-      "negative_tests": [
+      "expected_status": "implemented",
+      "positive_tests": [
         {
           "kind": "source",
-          "path": "tools/conformance-corpus/v1/manifest.json",
-          "match": "could not resolve symbol 'select' for actual sorts [:int, :int]"
-        },
-        {
-          "kind": "source",
-          "path": "tools/conformance-corpus/v1/manifest.json",
-          "match": "qf_alia_select_non_array_type_error"
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "logic:QF_ALIA:unsat-proof"
         }
       ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
@@ -3641,7 +3669,7 @@
           "match": "smtlib_roundtrip_known_gap_matrix_success"
         }
       ],
-      "notes": "Checked replay for native array/function encoding is diagnostic-gated."
+      "notes": "Checked replay is covered by the generated array/integer logic packets."
     },
     {
       "section": "logics",
@@ -3684,20 +3712,15 @@
       "phases": [
         "reconstructed"
       ],
-      "expected_status": "unsupported_diagnostic",
-      "positive_tests": [],
-      "negative_tests": [
+      "expected_status": "implemented",
+      "positive_tests": [
         {
           "kind": "source",
-          "path": "tools/conformance-corpus/v1/manifest.json",
-          "match": "could not resolve symbol 'select' for actual sorts [:int, :int]"
-        },
-        {
-          "kind": "source",
-          "path": "tools/conformance-corpus/v1/manifest.json",
-          "match": "qf_alia_select_non_array_type_error"
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "logic:QF_AUFLIRA:unsat-proof"
         }
       ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
@@ -3706,7 +3729,7 @@
           "match": "smtlib_roundtrip_known_gap_matrix_success"
         }
       ],
-      "notes": "Checked replay for native array/function encoding is diagnostic-gated."
+      "notes": "Checked replay is covered by the generated mixed array/Int/Real logic packets."
     },
     {
       "section": "logics",
@@ -3834,20 +3857,15 @@
       "phases": [
         "reconstructed"
       ],
-      "expected_status": "unsupported_diagnostic",
-      "positive_tests": [],
-      "negative_tests": [
+      "expected_status": "implemented",
+      "positive_tests": [
         {
           "kind": "source",
-          "path": "tools/conformance-corpus/v1/manifest.json",
-          "match": "could not resolve symbol 'select' for actual sorts [:int, :int]"
-        },
-        {
-          "kind": "source",
-          "path": "tools/conformance-corpus/v1/manifest.json",
-          "match": "qf_alia_select_non_array_type_error"
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "logic:QF_AX:unsat-proof"
         }
       ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
@@ -3856,7 +3874,7 @@
           "match": "smtlib_roundtrip_known_gap_matrix_success"
         }
       ],
-      "notes": "Checked z3-tac reconstruction currently fails for HOL function sort encoding."
+      "notes": "QF_AX checked reconstruction is covered by the logic packet and per-operator array proof cases."
     },
     {
       "section": "soundness_audit",
@@ -3899,15 +3917,15 @@
       "phases": [
         "reconstructed"
       ],
-      "expected_status": "unsupported_diagnostic",
-      "positive_tests": [],
-      "negative_tests": [
+      "expected_status": "implemented",
+      "positive_tests": [
         {
           "kind": "source",
-          "path": "tools/conformance-corpus/v1/manifest.json",
-          "match": "Z3_ProofReplay.rewrite: Z3 proof replay failure"
+          "path": "src/HolSmt/Unittest.sml",
+          "match": "z3_core_proof_rule_replay_minimal_raw_success"
         }
       ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
@@ -3916,7 +3934,7 @@
           "match": "qf_bv_div_rem_zero_unsat_proof"
         }
       ],
-      "notes": "Checked z3-tac replay currently fails in the HOL word division rewrite path."
+      "notes": "Checked replay covers the apply-def proof shape used by current Z3 bit-vector overflow proofs; complete-corpus cases provide the per-operator reconstruction evidence."
     },
     {
       "section": "soundness_audit",
@@ -3969,20 +3987,15 @@
         "solved",
         "reconstructed"
       ],
-      "expected_status": "unsupported_diagnostic",
-      "positive_tests": [],
-      "negative_tests": [
+      "expected_status": "implemented",
+      "positive_tests": [
         {
           "kind": "source",
-          "path": "tools/conformance-corpus/v1/manifest.json",
-          "match": "could not resolve symbol 'select' for actual sorts [:int, :int]"
-        },
-        {
-          "kind": "source",
-          "path": "tools/conformance-corpus/v1/manifest.json",
-          "match": "qf_alia_select_non_array_type_error"
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "theory:ArraysEx:read-over-write:unsat-proof"
         }
       ],
+      "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
@@ -3991,7 +4004,7 @@
           "match": "qf_ax_read_over_write_unsat_proof"
         }
       ],
-      "notes": "Checked z3-tac array reconstruction is diagnostic-gated: the HOL function-encoding gap surfaces as an exact select-sort typecheck diagnostic."
+      "notes": "Array surface equivalence and checked reconstruction are covered by the generated select/store and extensionality cases."
     },
     {
       "section": "theories",
@@ -4399,17 +4412,24 @@
         "translated",
         "solved"
       ],
-      "expected_status": "parse_only",
-      "positive_tests": [],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "logic:QF_S:unsat-proof"
+        }
+      ],
       "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
-          "kind": "manual",
-          "description": "String logic row is parser/typechecker coverage; full solver and HOL translation completeness are not claimed."
+          "kind": "source",
+          "path": "src/HolSmt/SmtLib.sml",
+          "match": "Native smtstringTheory"
         }
       ],
-      "notes": "Conservative parse/typecheck embedding."
+      "notes": "String logic translation and solver modes use the faithful SMT string encoding."
     },
     {
       "section": "logics",
@@ -4472,17 +4492,24 @@
         "translated",
         "solved"
       ],
-      "expected_status": "parse_only",
-      "positive_tests": [],
+      "expected_status": "implemented",
+      "positive_tests": [
+        {
+          "kind": "source",
+          "path": "tools/conformance-corpus/v2/manifest.json",
+          "match": "logic:QF_FP:unsat-proof"
+        }
+      ],
       "negative_tests": [],
       "z3_versions": [],
       "artifacts": [
         {
-          "kind": "manual",
-          "description": "Logic rows retain conservative parser-fragment claims; operational solver and replay coverage is recorded separately."
+          "kind": "source",
+          "path": "src/HolSmt/SmtLib.sml",
+          "match": "fp_target_encoding"
         }
       ],
-      "notes": "Conservative parser-fragment claim with full operational mode coverage."
+      "notes": "Floating-point logic translation and solver modes use the binary_ieee quotient and fpa2bv pipeline."
     },
     {
       "section": "logics",
@@ -5732,7 +5759,7 @@
         {
           "kind": "source",
           "path": "src/HolSmt/z3_tac_driver.sml",
-          "match": "UNKNOWN result has no HOL theorem to reconstruct"
+          "match": "diagnostic=raw Z3 result is UNKNOWN"
         },
         {
           "kind": "source",

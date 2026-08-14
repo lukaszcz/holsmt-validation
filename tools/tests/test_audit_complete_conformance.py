@@ -89,6 +89,25 @@ def logic_inventory(required=("QF_UF", "QF_LIA"), excluded=()):
 
 
 class CompleteConformanceAuditTests(unittest.TestCase):
+    def test_logic_parser_keeps_grouped_aliases(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = pathlib.Path(tmp) / "SmtLib_Logics.sml"
+            path.write_text(
+                """fun parsedicts_of_logic (logic : string) =
+  case logic of
+    \"QF_S\" | \"S\" => string_dicts
+  | _ => raise Fail \"unknown\"
+
+(* returns the symbol metadata used to build the parse dictionaries *)
+""",
+                encoding="utf-8",
+            )
+
+            self.assertEqual(
+                audit.parse_accepted_logics(path),
+                ["QF_S", "S"],
+            )
+
     def test_logic_parser_accepts_higher_order_wrapper(self):
         base_logics = tuple(
             logic.removeprefix("HO_")
@@ -123,6 +142,22 @@ fun parsedicts_of_logic (logic : string) =
             accepted,
             set(base_logics) | set(audit.HO_EXTENSION_LOGICS),
         )
+
+    def test_structure_body_stops_before_adjacent_structure(self):
+        source = """  structure First =
+  struct
+    val tmentries = [official_entry \"first\" [] [\"(first Bool)\"] parse]
+  end
+
+  structure Second =
+  struct
+    val tmentries = [official_entry \"second\" [] [\"(second Bool)\"] parse]
+  end
+"""
+        body = audit.extract_structure_body(source, "First")
+
+        self.assertIn('official_entry "first"', body)
+        self.assertNotIn('official_entry "second"', body)
 
     def test_missing_accepted_logic_evidence_is_an_error(self):
         cases = [v2_case("qf_uf_smoke", logic="QF_UF")]
@@ -194,11 +229,7 @@ fun parsedicts_of_logic (logic : string) =
                 "parser-only": {"status": "pass"},
                 "typecheck-only": {"status": "pass"},
                 "z3-oracle": {"status": "pass"},
-                "z3-tac": {
-                    "status": "fail",
-                    "diagnostic": "SAT result has no HOL theorem to reconstruct",
-                    "failure_phase": "theorem-shape",
-                },
+                "z3-tac": {"status": "pass"},
             },
         )
 
@@ -218,9 +249,12 @@ fun parsedicts_of_logic (logic : string) =
     def test_unsat_case_requires_proof_parse_replay_and_z3_tac_modes(self):
         case = v2_case(
             "qf_uf_unsat",
-            features=["QF_UF", "unsat"],
-            modes=["parser-only"],
-            expected={"parser-only": {"status": "pass"}},
+            features=["QF_UF", "logic-case:unsat-proof"],
+            modes=["parser-only", "z3-oracle"],
+            expected={
+                "parser-only": {"status": "pass"},
+                "z3-oracle": {"status": "pass"},
+            },
         )
         issues = audit.audit_cases([case], ["QF_UF"])
 
@@ -233,6 +267,22 @@ fun parsedicts_of_logic (logic : string) =
         self.assertEqual(
             matches[0].details["missing_expected"],
             ["proof-parse", "proof-replay", "z3-tac"],
+        )
+
+    def test_generic_unsat_command_does_not_require_proof_modes(self):
+        case = v2_case(
+            "command_get_unsat_core",
+            features=["command:get-unsat-core", "unsat"],
+            modes=["parser-only"],
+            expected={"parser-only": {"status": "pass"}},
+            row_class="command",
+        )
+
+        issues = audit.audit_cases([case], [])
+
+        self.assertFalse(
+            [issue for issue in issues if issue.code == "missing_unsat_proof_mode"],
+            [issue.render() for issue in issues],
         )
 
     def test_cvc5_only_extension_unsat_does_not_require_z3_proof_modes(self):
@@ -390,6 +440,41 @@ fun parsedicts_of_logic (logic : string) =
             validated["expected"]["z3-tac"]["status"],
             "unsupported",
         )
+
+    def test_fp_resource_gate_is_not_solver_proof_evidence(self):
+        case = v2_case(
+            "theory_fp_resource_gate",
+            logic="QF_FP",
+            features=[
+                "theory:FloatingPoint",
+                "theory-case:unsat-proof",
+                audit.RESOURCE_GATE_FEATURE,
+            ],
+            modes=["parser-only", "z3-tac"],
+            expected={
+                "parser-only": {"status": "pass"},
+                "z3-tac": {
+                    "status": "unsupported",
+                    "diagnostic": audit.RESOURCE_GATE_DIAGNOSTIC,
+                },
+            },
+            row_class="theory",
+        )
+
+        issues = audit.audit_floatingpoint_solver_proof_evidence([case])
+
+        self.assertEqual(issues, [])
+
+    def test_proof_internal_theory_symbol_is_exempt_from_four_case_matrix(self):
+        symbol = audit.TheoryMetadataSymbol(
+            theory="Ints",
+            slug="div0",
+            kind="term",
+            name="div0",
+            declarations=("(div0 Int Int Int :left-assoc)",),
+        )
+
+        self.assertEqual(audit.audit_theory_symbols([], [symbol]), [])
 
     def test_red_rows_are_categorized_for_datatypes_and_hocore(self):
         datatype = v2_case(

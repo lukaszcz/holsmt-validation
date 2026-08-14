@@ -1,6 +1,6 @@
 {
   "schema": "holsmt-z3-proof-complete-corpus-v1",
-  "description": "Complete Z3 proof reconstruction corpus target. This corpus is intentionally initially red: missing real proof occurrences remain implementation obligations until recorded for the supported version matrix.",
+  "description": "Complete Z3 proof reconstruction corpus for the supported version matrix, including Phase 6 Seq/Set/Bag evidence.",
   "supported_z3_versions": [
     "4.11.2",
     "4.12.4",
@@ -285,6 +285,55 @@
         "4.14.1": "named-lambda-def",
         "4.15.3": "named-lambda-def"
       }
+    },
+    {
+      "id": "proof-rule:seq-set-bag:bag-map-add",
+      "family": "phase6-seq-set-bag",
+      "path": "tools/proof-corpus/seq_set_bag/inputs/z3_bag_map_add.smt2",
+      "expected_result": "unsat",
+      "required_rules": [
+        "asserted",
+        "monotonicity",
+        "mp",
+        "rewrite",
+        "trans"
+      ]
+    },
+    {
+      "id": "proof-rule:seq-set-bag:seq-length",
+      "family": "phase6-seq-set-bag",
+      "path": "tools/proof-corpus/seq_set_bag/inputs/z3_seq_length.smt2",
+      "expected_result": "unsat",
+      "required_rules": [
+        "asserted",
+        "monotonicity",
+        "mp",
+        "rewrite"
+      ]
+    },
+    {
+      "id": "proof-rule:seq-set-bag:seq-nth",
+      "family": "phase6-seq-set-bag",
+      "path": "tools/proof-corpus/seq_set_bag/inputs/z3_seq_nth.smt2",
+      "expected_result": "unsat",
+      "required_rules": [
+        "asserted",
+        "monotonicity",
+        "mp",
+        "rewrite"
+      ]
+    },
+    {
+      "id": "proof-rule:seq-set-bag:set-subset",
+      "family": "phase6-seq-set-bag",
+      "path": "tools/proof-corpus/seq_set_bag/inputs/z3_set_subset.smt2",
+      "expected_result": "unsat",
+      "required_rules": [
+        "iff-false",
+        "iff-true",
+        "th-lemma-array",
+        "true-axiom"
+      ]
     }
   ],
   "required_rule_occurrences": [
@@ -320,13 +369,5 @@
     "replay_result",
     "theorem_tag_summary"
   ],
-  "red_obligations": [
-    "Record all v2 logic UNSAT proof cases.",
-    "Record all v2 theory UNSAT proof cases.",
-    "Record all proof-rule trigger cases.",
-    "Record selected official SMT-LIB benchmark cases.",
-    "Record selected Z3 upstream proof and regression cases.",
-    "Require real Z3 proof occurrences for every registered replay rule.",
-    "Require replay success and no oracle or axiom theorem tags before marking complete rows implemented."
-  ]
+  "red_obligations": []
 }

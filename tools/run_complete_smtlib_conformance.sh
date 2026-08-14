@@ -370,6 +370,7 @@ done
 
 run_step audit-complete-conformance audit python3 "$script_dir/audit_complete_conformance.py" \
   --manifest "$v2_manifest" \
+  --logics-json "$v2_logics_json" \
   --format json \
   --json-output "$report_dir/audits/complete-conformance-audit.json"
 

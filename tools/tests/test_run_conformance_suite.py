@@ -143,6 +143,7 @@ class ConformanceSuiteTests(unittest.TestCase):
                 case,
                 input_path,
                 command,
+                "/configured/z3",
                 timeout=5,
             )
 
@@ -152,6 +153,43 @@ class ConformanceSuiteTests(unittest.TestCase):
         self.assertEqual(
             classified["classification"],
             conformance.CLASSIFICATION_MATCHED,
+        )
+
+    def test_z3_tac_driver_inherits_selected_z3_executable(self):
+        case = conformance.Case(
+            name="synthetic-z3-selection",
+            logic="QF_UF",
+            text="(check-sat)\n",
+            origin="synthetic",
+            tags=(),
+            modes=(conformance.MODE_Z3_TAC,),
+            expected={},
+        )
+        completed = mock.Mock(
+            returncode=0,
+            stdout="Z3_TAC_PASS\nresult=sat\n",
+            stderr="",
+        )
+        with tempfile.TemporaryDirectory() as tmp:
+            input_path = pathlib.Path(tmp) / "input.smt2"
+            input_path.write_text(case.text, encoding="utf-8")
+            with mock.patch.object(
+                conformance,
+                "run_shell_command",
+                return_value=completed,
+            ) as run:
+                observed = conformance.run_z3_tac_mode(
+                    case,
+                    input_path,
+                    "synthetic-driver {input}",
+                    "/selected/z3",
+                    timeout=5,
+                )
+
+        self.assertEqual(observed["status"], conformance.PASS)
+        self.assertEqual(
+            run.call_args.kwargs["env"]["HOL4_Z3_EXECUTABLE"],
+            "/selected/z3",
         )
 
     def test_unsupported_expectation_accepts_transitional_diagnostic(self):

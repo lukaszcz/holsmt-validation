@@ -1,3 +1,3 @@
 (set-logic QF_LIA)
-(assert (= (- 1 2 3) 0))
+(assert (= (- 1 true) 0))
 (check-sat)

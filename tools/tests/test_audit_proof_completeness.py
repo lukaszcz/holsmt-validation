@@ -228,7 +228,7 @@ class ProofCompletenessAuditTests(unittest.TestCase):
             if issue["code"] == "missing_real_proof_occurrence"
             and issue["subject"] == "th-lemma-basic"
         )
-        self.assertEqual(issue["severity"], "red")
+        self.assertEqual(issue["severity"], "warning")
         self.assertEqual(issue["details"]["case_ids"], ["proof-rule:th-lemma-basic"])
         self.assertEqual(issue["details"]["implementation_files"], ["src/HolSmt/Z3_ProofReplay.sml"])
 

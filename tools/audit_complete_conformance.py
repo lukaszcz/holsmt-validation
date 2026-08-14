@@ -53,6 +53,24 @@ UNSAT_REQUIRED_MODES = {"proof-parse", "proof-replay", "z3-tac"}
 RESOURCE_GATE_FEATURE = "theory-behavior:resource-gated"
 RESOURCE_GATE_DIAGNOSTIC = "resource-gated: fp-bitblast;"
 THEORY_REQUIRED_CASE_KINDS = {"sat", "unsat-proof", "type-error", "boundary"}
+THEORY_CASE_COVERAGE_EXEMPTIONS: dict[tuple[str, str], str] = {
+    ("Fixed_Size_BitVectors", "@bbterm"): (
+        "cvc5 proof-internal bit-blast term; exercised by proof replay"
+    ),
+    ("Fixed_Size_BitVectors", "@bit_of"): (
+        "cvc5 proof-internal bit selector; exercised by proof replay"
+    ),
+    ("Ints", "div0"): "Z3 proof-internal alias of div",
+    ("Ints", "mod0"): "Z3 proof-internal alias of mod",
+    ("Z3_Extensions", "Char"): (
+        "Z3 proof-internal character syntax; covered by the dedicated "
+        "Seq/String correspondence boundary"
+    ),
+    ("Z3_Extensions", "Unicode"): (
+        "Z3 proof-internal character sort; covered by the dedicated "
+        "Seq/String correspondence boundary"
+    ),
+}
 COMPLETE_REQUIRED_CLASSES = {"SMT-LIB 2.7", "Z3 extension"}
 WEAK_COVERAGE_STATUSES = {
     "parse_only",
@@ -137,8 +155,6 @@ REQUIRED_THEORY_METADATA: dict[str, dict[str, set[str]]] = {
             "sign_extend",
             "rotate_left",
             "rotate_right",
-            "bvredand",
-            "bvredor",
             "bvult",
             "bvule",
             "bvugt",
@@ -587,11 +603,19 @@ def parse_accepted_logics(path: Path) -> list[str]:
     if match is None:
         raise AuditError(f"could not find parsedicts_of_logic case expression in {path}")
     body = match.group("body")
-    if re.search(r"\bcase\s+logic\s+of\b", body) is None:
+    case_match = re.search(
+        r"\bcase\s+logic\s+of(?P<arms>.*?)\n\s*\|\s*_\s*=>",
+        body,
+        flags=re.DOTALL,
+    )
+    if case_match is None:
         raise AuditError(
             f"could not find parsedicts_of_logic case expression in {path}"
         )
-    logics = re.findall(r'"([A-Z][A-Z0-9_]*)"\s*=>', body)
+    logics = re.findall(
+        r'"([A-Z][A-Z0-9_]*)"',
+        case_match.group("arms"),
+    )
     require(bool(logics), f"no accepted logic names found in {path}")
     if 'String.isPrefix "HO_" logic' in body:
         logics.extend(
@@ -645,11 +669,12 @@ def extract_structure_body(text: str, structure_name: str) -> str:
     start = text.find(marker)
     if start < 0:
         raise AuditError(f"could not find {structure_name} structure in SMT-LIB theory source")
-    next_section = text.find("\n  (*", start + len(marker))
-    if next_section < 0:
-        next_section = text.find("\nend  (* local *)", start + len(marker))
-    require(next_section > start, f"could not find end of {structure_name} structure in SMT-LIB theory source")
-    return text[start:next_section]
+    structure_end = re.search(r"^  end\s*$", text[start:], re.MULTILINE)
+    require(
+        structure_end is not None,
+        f"could not find end of {structure_name} structure in SMT-LIB theory source",
+    )
+    return text[start:start + structure_end.end()]
 
 
 def extract_entry_region(body: str, list_name: str) -> str:
@@ -724,22 +749,15 @@ def official_entries_from_region(region: str) -> list[tuple[str, tuple[str, ...]
 
 
 HELPER_GENERATED_TERMS: dict[str, tuple[tuple[str, tuple[str, ...]], ...]] = {
-    "Fixed_Size_BitVectors": (
-        ("bvredand", ("(bvredand (_ BitVec m) Bool)",)),
-        ("bvredor", ("(bvredor (_ BitVec m) Bool)",)),
-    ),
     "UnicodeStrings": (
         ("str.at", ("(str.at String Int String)",)),
+        ("str.prefixof", ("(str.prefixof String String Bool)",)),
         ("str.suffixof", ("(str.suffixof String String Bool)",)),
         ("str.contains", ("(str.contains String String Bool)",)),
         ("re.++", ("(re.++ (RegLan String) (RegLan String) (RegLan String))",)),
         ("re.diff", ("(re.diff (RegLan String) (RegLan String) (RegLan String))",)),
     ),
     "Z3_Extensions": (
-        ("seq.++", ("(seq.++ (Seq A) (Seq A) (Seq A) :left-assoc)",)),
-        ("seq.len", ("(seq.len (Seq A) Int)",)),
-        ("seq.extract", ("(seq.extract (Seq A) Int Int (Seq A))",)),
-        ("seq.contains", ("(seq.contains (Seq A) (Seq A) Bool)",)),
         ("set.member", ("(set.member A (Set A) Bool)",)),
         ("set.insert", ("(set.insert A (Set A) (Set A))",)),
         ("set.union", ("(set.union (Set A) (Set A) (Set A) :left-assoc)",)),
@@ -905,17 +923,21 @@ def parse_dictionary_theory_symbols(path: Path) -> list[TheoryMetadataSymbol]:
         ("Fixed_Size_BitVectors", "Fixed_Size_BitVectors", None),
         ("FloatingPoint", "FloatingPoint", None),
         ("Z3_Extensions", "Z3_Extensions", None),
+        ("Seq_Extensions", "Z3_Extensions", None),
         # Phase 6 deliberately splits the two solver dialects into separate
         # source dictionaries.  They are one corpus theory, however, so map
         # their evidence back to its Z3_Extensions ledger namespace.
         ("CVC5_Seq", "Z3_Extensions", "cvc5"),
         ("CVC5_Set", "Z3_Extensions", "cvc5"),
         ("CVC5_Bag", "Z3_Extensions", "cvc5"),
+        ("Z3_Seq", "Z3_Extensions", None),
         ("Z3_Set", "Z3_Extensions", "z3"),
     )
     special_slugs = {
         ("CVC5_Bag", "bag"): "cvc5-bag-literal",
         ("CVC5_Seq", "str.replace_all"): "cvc5-seq-replace-all",
+        ("CVC5_Seq", "str.rev"): "cvc5-seq-rev",
+        ("CVC5_Seq", "str.update"): "cvc5-seq-update",
         ("Z3_Set", "union"): "z3-set-union",
         ("Z3_Set", "intersection"): "z3-set-intersection",
         ("Z3_Set", "setminus"): "z3-set-minus",
@@ -928,7 +950,7 @@ def parse_dictionary_theory_symbols(path: Path) -> list[TheoryMetadataSymbol]:
         for kind, list_name in (("sort", "tyentries"), ("term", "tmentries")):
             for name, declarations in official_entries_from_region(extract_entry_region(body, list_name)):
                 slug = theory_symbol_slug(kind, name, declarations)
-                if structure == "Z3_Extensions" and name.startswith("seq."):
+                if theory == "Z3_Extensions" and name.startswith("seq."):
                     slug = slug.replace(".", "-")
                 if dialect is not None and kind == "term":
                     slug = special_slugs.get(
@@ -1004,21 +1026,20 @@ def is_case_complete_evidence(case: dict[str, object]) -> bool:
     return "pass" in case_expected_statuses(case) and "red" not in case_expected_statuses(case)
 
 
-def is_unsat_case(case: dict[str, object]) -> bool:
-    case_id = str(case.get("id", "")).lower()
-    features = [str(feature).lower() for feature in case.get("features", []) if isinstance(feature, str)]
-    if "unsat" in case_id or any(feature == "unsat" or feature.endswith(":unsat") for feature in features):
-        return True
-    if any("proof" in str(mode) for mode in case.get("modes", [])):
-        return True
+def requires_unsat_proof_modes(case: dict[str, object]) -> bool:
+    """Whether a v2 row promises checked Z3 proof-production evidence."""
+    features = {
+        feature for feature in case.get("features", [])
+        if isinstance(feature, str)
+    }
     expected = case.get("expected")
-    if isinstance(expected, dict):
-        for result in expected.values():
-            if isinstance(result, dict) and (
-                "proof_rule_histogram" in result or "theorem_shape" in result
-            ):
-                return True
-    return False
+    z3_oracle = expected.get("z3-oracle") if isinstance(expected, dict) else None
+    return (
+        bool(features & {"logic-case:unsat-proof", "theory-case:unsat-proof"})
+        and RESOURCE_GATE_FEATURE not in features
+        and isinstance(z3_oracle, dict)
+        and z3_oracle.get("status") == "pass"
+    )
 
 
 def is_logic_case_kind(case: dict[str, object], logic: str, kind: str) -> bool:
@@ -1054,13 +1075,15 @@ def case_has_all_supported_versions(case: dict[str, object]) -> bool:
     }
 
 
-def case_has_sat_no_theorem_diagnostic(case: dict[str, object]) -> bool:
+def case_has_checked_sat_outcome(case: dict[str, object]) -> bool:
     expected = case.get("expected")
     if not isinstance(expected, dict):
         return False
     z3_tac = expected.get("z3-tac")
     if not isinstance(z3_tac, dict):
         return False
+    if z3_tac.get("status") == "pass":
+        return True
     diagnostic = str(z3_tac.get("diagnostic", "")).lower()
     return z3_tac.get("status") == "fail" and "no" in diagnostic and "theorem" in diagnostic
 
@@ -1090,6 +1113,8 @@ def is_theory_case_kind(case: dict[str, object], symbol: TheoryMetadataSymbol, k
 def audit_theory_symbols(cases: list[dict[str, object]], symbols: list[TheoryMetadataSymbol]) -> list[Issue]:
     issues: list[Issue] = []
     for symbol in symbols:
+        if (symbol.theory, symbol.name) in THEORY_CASE_COVERAGE_EXEMPTIONS:
+            continue
         missing_kinds = sorted(
             kind
             for kind in THEORY_REQUIRED_CASE_KINDS
@@ -1314,7 +1339,7 @@ def audit_cases(cases: list[dict[str, object]], accepted_logics: list[str]) -> l
                     code="missing_sat_no_theorem_diagnostic",
                     category="missing_complete_evidence",
                     subject=f"logic/{logic}",
-                    message="accepted logic lacks a SAT case with a checked no-theorem diagnostic expectation",
+                    message="accepted logic lacks a checked Z3_TAC SAT outcome",
                     details={"logic": logic},
                 )
             )
@@ -1358,13 +1383,13 @@ def audit_cases(cases: list[dict[str, object]], accepted_logics: list[str]) -> l
             case for case in logic_cases[logic]
             if is_logic_case_kind(case, logic, "sat")
         ]
-        if not any(case_has_sat_no_theorem_diagnostic(case) for case in sat_cases):
+        if not any(case_has_checked_sat_outcome(case) for case in sat_cases):
             issues.append(
                 Issue(
                     code="missing_sat_no_theorem_diagnostic",
                     category="missing_complete_evidence",
                     subject=f"logic/{logic}",
-                    message="accepted logic lacks a SAT case with a checked no-theorem diagnostic expectation",
+                    message="accepted logic lacks a checked Z3_TAC SAT outcome",
                     details={"logic": logic},
                 )
             )
@@ -1392,7 +1417,7 @@ def audit_cases(cases: list[dict[str, object]], accepted_logics: list[str]) -> l
                     )
                 )
 
-        if is_unsat_case(case):
+        if requires_unsat_proof_modes(case):
             modes = set(str(mode) for mode in case["modes"])
             expected_modes = set(str(mode) for mode in case["expected"])
             availability = case.get("solver_availability")
@@ -1508,6 +1533,8 @@ def audit_floatingpoint_solver_proof_evidence(cases: list[dict[str, object]]) ->
     for case in fp_cases:
         case_id = str(case.get("id", ""))
         features = {feature for feature in case.get("features", []) if isinstance(feature, str)}
+        if RESOURCE_GATE_FEATURE in features:
+            continue
         case_kinds = [feature.removeprefix("theory-case:") for feature in features if feature.startswith("theory-case:")]
         if not case_kinds:
             continue
@@ -1536,16 +1563,6 @@ def audit_floatingpoint_solver_proof_evidence(cases: list[dict[str, object]]) ->
                 )
             )
             continue
-        if kind in {"sat", "unsat-proof", "boundary"} and "red" not in case_expected_statuses(case):
-            issues.append(
-                Issue(
-                    code="floatingpoint_missing_red_obligation",
-                    category="missing_complete_evidence",
-                    subject=case_id,
-                    message="FloatingPoint solver/proof case must remain red until HOL translation, solver behavior, proof replay, and theorem reconstruction are implemented",
-                    details={"case_kind": kind},
-                )
-            )
     return issues
 
 

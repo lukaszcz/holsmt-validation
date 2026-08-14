@@ -1094,7 +1094,11 @@ def expected_solver_result(case: Case) -> str | None:
     return next(iter(tagged))
 
 
-def run_shell_command(command: str, timeout: int) -> subprocess.CompletedProcess[str]:
+def run_shell_command(
+    command: str,
+    timeout: int,
+    env: dict[str, str] | None = None,
+) -> subprocess.CompletedProcess[str]:
     process = subprocess.Popen(
         command,
         shell=True,
@@ -1102,6 +1106,7 @@ def run_shell_command(command: str, timeout: int) -> subprocess.CompletedProcess
         stderr=subprocess.PIPE,
         text=True,
         start_new_session=True,
+        env=env,
     )
     try:
         stdout, stderr = process.communicate(timeout=timeout)
@@ -1495,6 +1500,7 @@ def run_z3_tac_mode(
     case: Case,
     input_path: pathlib.Path,
     command_template: str | None,
+    z3_executable: str,
     timeout: int,
 ) -> dict[str, object]:
     if not command_template:
@@ -1514,7 +1520,9 @@ def run_z3_tac_mode(
         name=shlex.quote(case.name),
     )
     try:
-        completed = run_shell_command(command, timeout)
+        env = os.environ.copy()
+        env["HOL4_Z3_EXECUTABLE"] = z3_executable
+        completed = run_shell_command(command, timeout, env=env)
     except subprocess.TimeoutExpired as exc:
         return result(
             case,
@@ -2308,7 +2316,13 @@ def main(argv: list[str]) -> int:
                     args.timeout,
                 )
             elif mode == MODE_Z3_TAC:
-                item = run_z3_tac_mode(case, input_path, args.z3_tac_command, args.timeout)
+                item = run_z3_tac_mode(
+                    case,
+                    input_path,
+                    args.z3_tac_command,
+                    args.z3,
+                    args.timeout,
+                )
             else:
                 raise AssertionError(f"unhandled conformance mode: {mode}")
 

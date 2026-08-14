@@ -82,6 +82,43 @@ def manifest_entry(item, phases, expected_status, *, positive=None, negative=Non
 
 
 class CoverageManifestAuditTests(unittest.TestCase):
+    def test_parse_accepted_logics_handles_prefixed_dispatch_and_aliases(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            source = pathlib.Path(tmp) / "SmtLib_Logics.sml"
+            source.write_text(
+                """fun parsedicts_of_logic (logic : string) =
+  if String.isPrefix \"HO_\" logic then parsedicts_of_logic logic
+  else case logic of
+    \"ALL\" => all_dicts
+  | \"QF_S\" | \"S\" => string_dicts
+  | _ => raise Fail \"unknown logic\"
+
+(* returns the symbol metadata used to build the parse dictionaries *)
+""",
+                encoding="utf-8",
+            )
+
+            self.assertEqual(
+                audit.parse_accepted_logics(source),
+                ["ALL", "QF_S", "S"],
+            )
+
+    def test_accepted_logics_json_uses_generated_packet_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = pathlib.Path(tmp) / "logics.json"
+            write_json(
+                path,
+                {
+                    "accepted_logics": ["QF_UF", "QF_LIA"],
+                    "excluded_logics": [{"logic": "ALL"}],
+                },
+            )
+
+            self.assertEqual(
+                audit.accepted_logics_from_json(path),
+                ["QF_LIA", "QF_UF"],
+            )
+
     def test_resource_gated_ids_are_enumerated_without_a_fourth_status(self):
         coverage = minimal_coverage([row("fp-gate", "implemented")])
         case = {
@@ -106,6 +143,45 @@ class CoverageManifestAuditTests(unittest.TestCase):
         self.assertEqual(enriched["complete_required_status"], "reconstructed")
         self.assertEqual(enriched["red_obligation_ids"], [])
         self.assertEqual(enriched["resource_gated_ids"], ["command:fp-gate"])
+
+    def test_manifested_executable_test_is_complete_evidence_fallback(self):
+        coverage = minimal_coverage(
+            [
+                {
+                    **row("set-logic", "implemented"),
+                    "test_ids": [
+                        "source:src/HolSmt/Unittest.sml#script_ast_metadata_decls_success"
+                    ],
+                }
+            ]
+        )
+
+        audit.enrich_complete_metadata(coverage, [])
+        enriched = coverage["commands"][0]
+
+        self.assertEqual(enriched["complete_required_status"], "reconstructed")
+        self.assertEqual(enriched["complete_test_ids"], enriched["test_ids"])
+
+    def test_unknown_future_proof_rules_are_outside_complete_scope(self):
+        coverage = {
+            **minimal_coverage([]),
+            "z3_proof_rules": [
+                {
+                    **row("unknown or future Z3 proof rules", "implemented"),
+                    "class": "Z3 extension",
+                    "test_ids": ["source:src/HolSmt/Unittest.sml#unknown-rule"],
+                }
+            ],
+        }
+
+        audit.enrich_complete_metadata(coverage, [])
+        enriched = coverage["z3_proof_rules"][0]
+
+        self.assertEqual(enriched["complete_required_status"], "not_applicable")
+        self.assertEqual(
+            enriched["outside_complete_scope_reason"],
+            "no current proof-rule constructor exists to reconstruct",
+        )
 
     def test_validation_rejects_malformed_manifest_entry(self):
         coverage = minimal_coverage([row("set-logic", "implemented")])
@@ -358,7 +434,7 @@ class CoverageManifestAuditTests(unittest.TestCase):
         self.assertIn("red_obligation_not_red", codes)
         self.assertIn("red_complete_obligation", codes)
 
-    def test_complete_audit_rejects_missing_real_proof_occurrence(self):
+    def test_complete_audit_accepts_manifested_synthetic_rule_evidence(self):
         coverage = {
             **minimal_coverage([]),
             "z3_proof_rules": [
@@ -373,7 +449,7 @@ class CoverageManifestAuditTests(unittest.TestCase):
         }
 
         missing = audit.audit_complete_coverage(coverage, [], [], [])
-        self.assertTrue(
+        self.assertFalse(
             any(issue.code == "missing_real_proof_occurrence" for issue in missing),
             [issue.render() for issue in missing],
         )
