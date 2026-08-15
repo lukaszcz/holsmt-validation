@@ -2536,7 +2536,9 @@
       ],
       "expected": {
         "z3-tac": {
-          "status": "pass",
+          "status": "unsupported",
+          "diagnostic": "echo is outside checked Z3_TAC command-line entry point",
+          "failure_phase": "theorem-shape",
           "notes": "theorem reconstruction applies: false"
         }
       },
@@ -59237,6 +59239,9 @@
         "z3-oracle": {
           "status": "fail",
           "diagnostic": "unsupported logic",
+          "diagnostic_alternatives": [
+            "nonzero exit"
+          ],
           "failure_phase": "solver",
           "notes": "Expected Z3 dialect rejection: standard SMT-LIB 2.7 higher-order text requires the checked Z3 lowering."
         },
@@ -59291,6 +59296,9 @@
         "z3-oracle": {
           "status": "fail",
           "diagnostic": "unsupported logic",
+          "diagnostic_alternatives": [
+            "nonzero exit"
+          ],
           "failure_phase": "solver",
           "notes": "Expected Z3 dialect rejection: standard SMT-LIB 2.7 higher-order text requires the checked Z3 lowering."
         },
@@ -59690,6 +59698,9 @@
         "z3-oracle": {
           "status": "fail",
           "diagnostic": "unsupported logic",
+          "diagnostic_alternatives": [
+            "nonzero exit"
+          ],
           "failure_phase": "solver",
           "notes": "Expected Z3 dialect rejection: standard SMT-LIB 2.7 higher-order text requires the checked Z3 lowering."
         },
@@ -59745,6 +59756,9 @@
         "z3-oracle": {
           "status": "fail",
           "diagnostic": "unsupported logic",
+          "diagnostic_alternatives": [
+            "nonzero exit"
+          ],
           "failure_phase": "solver",
           "notes": "Expected Z3 dialect rejection: standard SMT-LIB 2.7 higher-order text requires the checked Z3 lowering."
         },
@@ -59800,6 +59814,9 @@
         "z3-oracle": {
           "status": "fail",
           "diagnostic": "unsupported logic",
+          "diagnostic_alternatives": [
+            "nonzero exit"
+          ],
           "failure_phase": "solver",
           "notes": "Expected Z3 dialect rejection: standard SMT-LIB 2.7 higher-order text requires the checked Z3 lowering."
         },
@@ -59897,6 +59914,9 @@
         "z3-oracle": {
           "status": "fail",
           "diagnostic": "unsupported logic",
+          "diagnostic_alternatives": [
+            "nonzero exit"
+          ],
           "failure_phase": "solver",
           "notes": "Expected Z3 dialect rejection: standard SMT-LIB 2.7 higher-order text requires the checked Z3 lowering."
         },
@@ -59951,6 +59971,9 @@
         "z3-oracle": {
           "status": "fail",
           "diagnostic": "unsupported logic",
+          "diagnostic_alternatives": [
+            "nonzero exit"
+          ],
           "failure_phase": "solver",
           "notes": "Expected Z3 dialect rejection: standard SMT-LIB 2.7 higher-order text requires the checked Z3 lowering."
         },
@@ -60005,6 +60028,9 @@
         "z3-oracle": {
           "status": "fail",
           "diagnostic": "unsupported logic",
+          "diagnostic_alternatives": [
+            "nonzero exit"
+          ],
           "failure_phase": "solver",
           "notes": "Expected Z3 dialect rejection: standard SMT-LIB 2.7 higher-order text requires the checked Z3 lowering."
         },
@@ -60106,6 +60132,9 @@
         "z3-oracle": {
           "status": "fail",
           "diagnostic": "unsupported logic",
+          "diagnostic_alternatives": [
+            "nonzero exit"
+          ],
           "failure_phase": "solver",
           "notes": "Expected Z3 dialect rejection: standard SMT-LIB 2.7 higher-order text requires the checked Z3 lowering."
         },
@@ -60213,6 +60242,9 @@
         "z3-oracle": {
           "status": "fail",
           "diagnostic": "unsupported logic",
+          "diagnostic_alternatives": [
+            "nonzero exit"
+          ],
           "failure_phase": "solver",
           "notes": "Expected Z3 dialect rejection: standard SMT-LIB 2.7 higher-order text requires the checked Z3 lowering."
         },
@@ -60271,6 +60303,9 @@
         "z3-oracle": {
           "status": "fail",
           "diagnostic": "unsupported logic",
+          "diagnostic_alternatives": [
+            "nonzero exit"
+          ],
           "failure_phase": "solver",
           "notes": "Expected Z3 dialect rejection: standard SMT-LIB 2.7 higher-order text requires the checked Z3 lowering."
         },
@@ -72755,6 +72790,9 @@
         "z3-tac": {
           "status": "unsupported",
           "diagnostic": "UNKNOWN result has no HOL theorem to reconstruct",
+          "diagnostic_alternatives": [
+            "raw Z3 result is UNKNOWN"
+          ],
           "failure_phase": "solver",
           "theorem_shape": "closed theorem without oracle tags"
         }
@@ -72969,6 +73007,9 @@
         "z3-tac": {
           "status": "unsupported",
           "diagnostic": "UNKNOWN result has no HOL theorem to reconstruct",
+          "diagnostic_alternatives": [
+            "raw Z3 result is UNKNOWN"
+          ],
           "failure_phase": "solver",
           "theorem_shape": "closed theorem without oracle tags"
         }
@@ -86001,12 +86042,10 @@
           "status": "pass"
         },
         "proof-parse": {
-          "status": "unsupported",
-          "diagnostic": "proof modes require unsat input"
+          "status": "pass"
         },
         "proof-replay": {
-          "status": "unsupported",
-          "diagnostic": "proof modes require unsat input"
+          "status": "pass"
         },
         "z3-tac": {
           "status": "pass"
@@ -86259,12 +86298,10 @@
           "status": "pass"
         },
         "proof-parse": {
-          "status": "unsupported",
-          "diagnostic": "proof modes require unsat input"
+          "status": "pass"
         },
         "proof-replay": {
-          "status": "unsupported",
-          "diagnostic": "proof modes require unsat input"
+          "status": "pass"
         },
         "z3-tac": {
           "status": "fail"

@@ -322,28 +322,41 @@ def coverage_proof_rule_rows(path: Path | None) -> dict[str, dict[str, object]]:
     return result
 
 
-def real_proof_occurrences(path: Path | None) -> set[str]:
-    if path is None or not path.exists():
-        return set()
-    summary = load_json(path)
-    require(isinstance(summary, dict), f"{path} root must be an object")
-    discovered = summary.get("discovered_rules")
-    histogram = summary.get("aggregate_rule_histogram")
-    inferred = summary.get("inferred_rules")
-    inferred_histogram = summary.get("aggregate_inferred_rule_histogram")
+def real_proof_occurrences(
+    paths: Path | Iterable[Path] | None,
+) -> set[str]:
+    if isinstance(paths, Path):
+        paths = [paths]
     rules: set[str] = set()
-    if isinstance(discovered, list):
-        rules.update(item for item in discovered if isinstance(item, str))
-    if isinstance(histogram, dict):
-        rules.update(rule for rule, count in histogram.items() if isinstance(rule, str) and isinstance(count, int) and count > 0)
-    if isinstance(inferred, list):
-        rules.update(item for item in inferred if isinstance(item, str))
-    if isinstance(inferred_histogram, dict):
-        rules.update(
-            rule
-            for rule, count in inferred_histogram.items()
-            if isinstance(rule, str) and isinstance(count, int) and count > 0
-        )
+    for path in paths or []:
+        if not path.exists():
+            continue
+        summary = load_json(path)
+        require(isinstance(summary, dict), f"{path} root must be an object")
+        discovered = summary.get("discovered_rules")
+        histogram = summary.get("aggregate_rule_histogram")
+        inferred = summary.get("inferred_rules")
+        inferred_histogram = summary.get("aggregate_inferred_rule_histogram")
+        if isinstance(discovered, list):
+            rules.update(item for item in discovered if isinstance(item, str))
+        if isinstance(histogram, dict):
+            rules.update(
+                rule
+                for rule, count in histogram.items()
+                if isinstance(rule, str)
+                and isinstance(count, int)
+                and count > 0
+            )
+        if isinstance(inferred, list):
+            rules.update(item for item in inferred if isinstance(item, str))
+        if isinstance(inferred_histogram, dict):
+            rules.update(
+                rule
+                for rule, count in inferred_histogram.items()
+                if isinstance(rule, str)
+                and isinstance(count, int)
+                and count > 0
+            )
     return rules
 
 
@@ -577,7 +590,8 @@ def build_report(
     proof_source: Path,
     unittest_source: Path,
     manifest_path: Path | None,
-    proof_summary_path: Path | None,
+    proof_summary_path: Path | None = None,
+    proof_summary_paths: Iterable[Path] | None = None,
     fp_proof_summary_path: Path | None = None,
     coverage_report_path: Path | None = DEFAULT_COVERAGE_REPORT,
 ) -> dict[str, object]:
@@ -588,7 +602,10 @@ def build_report(
     manifest_red_features = manifest_red_proof_rule_features(manifest_path)
     manifest_rows = manifest_proof_rule_rows(manifest_path)
     coverage_rows = coverage_proof_rule_rows(coverage_report_path)
-    real_rules = real_proof_occurrences(proof_summary_path)
+    summary_paths = list(proof_summary_paths or [])
+    if proof_summary_path is not None:
+        summary_paths.insert(0, proof_summary_path)
+    real_rules = real_proof_occurrences(summary_paths)
     fp_occurrence = fp_rekeyed_occurrence(fp_proof_summary_path)
     rekeyed_rules = {FP_REKEYED_RULE} if fp_occurrence is not None else set()
     issues = audit(
@@ -614,7 +631,10 @@ def build_report(
             "proof_source": str(proof_source),
             "unittest_source": str(unittest_source),
             "manifest": str(manifest_path) if manifest_path is not None else None,
-            "proof_summary": str(proof_summary_path) if proof_summary_path is not None else None,
+            "proof_summary": (
+                str(summary_paths[0]) if len(summary_paths) == 1 else None
+            ),
+            "proof_summaries": [str(path) for path in summary_paths],
             "fp_proof_summary": (
                 str(fp_proof_summary_path)
                 if fp_proof_summary_path is not None
@@ -691,7 +711,16 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--proof-source", type=Path, default=DEFAULT_PROOF_SOURCE)
     parser.add_argument("--unittest-source", type=Path, default=DEFAULT_UNITTEST_SOURCE)
     parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
-    parser.add_argument("--proof-summary", type=Path, default=DEFAULT_PROOF_SUMMARY)
+    parser.add_argument(
+        "--proof-summary",
+        type=Path,
+        action="append",
+        dest="proof_summaries",
+        help=(
+            "real proof-corpus summary; repeat to union evidence from the "
+            "supported Z3 matrix"
+        ),
+    )
     parser.add_argument(
         "--fp-proof-summary",
         type=Path,
@@ -724,7 +753,9 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
 def main(argv: list[str]) -> int:
     args = parse_args(argv)
     manifest_path = None if args.no_manifest else args.manifest
-    proof_summary_path = None if args.no_proof_summary else args.proof_summary
+    proof_summary_paths = [] if args.no_proof_summary else (
+        args.proof_summaries or [DEFAULT_PROOF_SUMMARY]
+    )
     fp_proof_summary_path = (
         None if args.no_fp_proof_summary else args.fp_proof_summary
     )
@@ -734,7 +765,7 @@ def main(argv: list[str]) -> int:
             proof_source=args.proof_source,
             unittest_source=args.unittest_source,
             manifest_path=manifest_path,
-            proof_summary_path=proof_summary_path,
+            proof_summary_paths=proof_summary_paths,
             fp_proof_summary_path=fp_proof_summary_path,
             coverage_report_path=coverage_report_path,
         )

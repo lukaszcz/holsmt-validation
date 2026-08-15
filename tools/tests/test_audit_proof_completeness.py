@@ -282,6 +282,39 @@ class ProofCompletenessAuditTests(unittest.TestCase):
         self.assertEqual(missing, [])
         self.assertTrue(report["summary"]["passed"], report["issues"])
 
+    def test_real_occurrences_are_unioned_across_proof_summaries(self):
+        tmp, proof_source, unittest_source, manifest_path, summary_path = (
+            self.build_fixture(manifest={"schema_version": "2", "cases": []})
+        )
+        self.addCleanup(tmp.cleanup)
+        second_summary = pathlib.Path(tmp.name) / "proof-summary-2.json"
+        write_json(
+            second_summary,
+            {
+                "schema": "holsmt-z3-proof-corpus-v1",
+                "discovered_rules": ["th-lemma-fp"],
+                "aggregate_rule_histogram": {"th-lemma-fp": 1},
+            },
+        )
+
+        report = audit.build_report(
+            proof_source=proof_source,
+            unittest_source=unittest_source,
+            manifest_path=manifest_path,
+            proof_summary_paths=[summary_path, second_summary],
+        )
+
+        missing = [
+            issue
+            for issue in report["issues"]
+            if issue["code"] == "missing_th_lemma_red_obligation"
+        ]
+        self.assertEqual(missing, [])
+        self.assertEqual(report["inputs"]["proof_summaries"], [
+            str(summary_path),
+            str(second_summary),
+        ])
+
     def test_fpa2bv_shapes_rekey_th_lemma_fp_occurrence(self):
         tmp, proof_source, unittest_source, manifest_path, summary_path = (
             self.build_fixture(manifest={"schema_version": "2", "cases": []})

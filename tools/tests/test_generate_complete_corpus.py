@@ -1564,6 +1564,14 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
             'elif summary["red_obligation_count"]',
             runner,
         )
+        self.assertNotIn(
+            "external-benchmarks/ho/tptp_function_extensionality.smt2",
+            runner,
+        )
+        self.assertNotIn(
+            "external-benchmarks/ho/tptp_lambda_beta.smt2",
+            runner,
+        )
 
     def test_soundness_subcommand_adds_string_injection_audits(self):
         stdout = io.StringIO()

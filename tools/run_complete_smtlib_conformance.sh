@@ -256,12 +256,6 @@ for mode in "${selected_modes[@]}"; do
     parser-only|typecheck-only|cvc5-oracle)
       benchmark_args+=(--benchmark-dir "$script_dir/external-benchmarks/ho")
       ;;
-    z3-tac)
-      benchmark_args+=(
-        --benchmark-dir "$script_dir/external-benchmarks/ho/tptp_function_extensionality.smt2"
-        --benchmark-dir "$script_dir/external-benchmarks/ho/tptp_lambda_beta.smt2"
-      )
-      ;;
   esac
   run_step "external-$mode" external-conformance python3 "$script_dir/run_conformance_suite.py" \
     --out "$external_out" \
@@ -368,6 +362,14 @@ EOF
   fi
 done
 
+proof_summary_args=()
+for version in "${selected_versions[@]}"; do
+  summary="$report_dir/proofs/z3-$version/summary.json"
+  if [ -f "$summary" ]; then
+    proof_summary_args+=(--proof-summary "$summary")
+  fi
+done
+
 run_step audit-complete-conformance audit python3 "$script_dir/audit_complete_conformance.py" \
   --manifest "$v2_manifest" \
   --logics-json "$v2_logics_json" \
@@ -376,7 +378,7 @@ run_step audit-complete-conformance audit python3 "$script_dir/audit_complete_co
 
 run_step audit-proof-completeness audit python3 "$script_dir/audit_proof_completeness.py" \
   --manifest "$v2_manifest" \
-  --proof-summary "$script_dir/proof-corpus/complete/summary.json" \
+  "${proof_summary_args[@]}" \
   --fp-proof-summary "$script_dir/proof-corpus/floatingpoint/matrix-summary.json" \
   --format json \
   --json-output "$report_dir/audits/proof-completeness-audit.json"

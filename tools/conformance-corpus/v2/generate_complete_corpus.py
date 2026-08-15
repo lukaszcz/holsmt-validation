@@ -1503,7 +1503,9 @@ COMMAND_GROUPS: tuple[CommandGroup, ...] = (
         negative_diagnostic="echo requires a string literal",
         negative_phase="parser",
         reconstruction_applies=False,
-        reconstruction_diagnostic="echo response behavior is not represented in theorem reconstruction",
+        reconstruction_diagnostic=(
+            "echo is outside checked Z3_TAC command-line entry point"
+        ),
         reconstruction_phase="theorem-shape",
         obligation_files=("src/HolSmt/SmtLib_Parser.sml", "tools/conformance-corpus"),
     ),
@@ -1538,7 +1540,6 @@ RECONSTRUCTED_COMMAND_GROUPS = {
     "define-fun",
     "define-fun-rec-define-funs-rec",
     "define-sort",
-    "echo",
     "get-proof",
     "get-unsat-assumptions-get-unsat-core",
     "push-pop",
@@ -6403,6 +6404,7 @@ def hocore_red_case(
         expected["z3-oracle"] = expected_result(
             "fail",
             diagnostic="unsupported logic",
+            diagnostic_alternatives=("nonzero exit",),
             failure_phase="solver",
             notes=(
                 "Expected Z3 dialect rejection: standard SMT-LIB 2.7 "
@@ -7448,6 +7450,9 @@ def theory_case(symbol: TheorySymbol, kind: str, script: str) -> GeneratedCase:
                 if z3_unsupported else blocked_by_parser
                 if parser_gap else "SMT-LIB string/regex or Z3-extension translation is incomplete"
                 if translation_gap else "checked Z3_TAC reconstruction for theory symbol is incomplete",
+                diagnostic_alternatives=("raw Z3 result is UNKNOWN",)
+                if z3_unsupported and symbol.theory == "UnicodeStrings"
+                else None,
                 failure_phase="proof-replay"
                 if case_id in UNICODE_STRING_Z3_TAC_GATES
                 else None

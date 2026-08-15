@@ -1187,6 +1187,15 @@ def run_z3_oracle(case: Case, input_path: pathlib.Path, z3: str, timeout: int, v
     detail = f"Z3 returned {solver_result}"
     if completed.returncode != 0:
         detail += " before a nonzero exit"
+        if solver_result != "unknown":
+            return result(
+                case,
+                MODE_Z3_ORACLE,
+                FAIL,
+                detail,
+                artifact=artifact,
+                version=version,
+            )
     if solver_result == "unknown":
         return result(
             case,

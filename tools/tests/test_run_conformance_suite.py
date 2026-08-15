@@ -79,6 +79,24 @@ raise SystemExit(1)
     return path
 
 
+def make_fake_nonzero_sat_z3(directory):
+    path = pathlib.Path(directory) / "fake-nonzero-sat-z3"
+    script = """#!/usr/bin/env python3
+import sys
+
+if "-version" in sys.argv:
+    print("Z3 version 4.15.3")
+    raise SystemExit(0)
+
+print('(error "unknown constant from rejected dialect")')
+print("sat")
+raise SystemExit(1)
+"""
+    path.write_text(script, encoding="utf-8")
+    path.chmod(path.stat().st_mode | stat.S_IXUSR)
+    return path
+
+
 def make_fake_cvc5(directory):
     path = pathlib.Path(directory) / "fake-cvc5"
     script = """#!/usr/bin/env python3
@@ -1163,6 +1181,31 @@ class ConformanceSuiteTests(unittest.TestCase):
             )
             self.assertEqual(item["status"], conformance.UNSUPPORTED)
             self.assertIn("Z3 returned unknown", item["detail"])
+
+    def test_z3_result_before_nonzero_exit_is_a_failure(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            input_path = root / "rejected.smt2"
+            input_path.write_text(
+                "(set-logic HO_QF_UFLIA)\n(check-sat)\n",
+                encoding="utf-8",
+            )
+            case = conformance.Case(
+                name="rejected",
+                logic="HO_QF_UFLIA",
+                text=input_path.read_text(encoding="utf-8"),
+                origin="test",
+                tags=("test",),
+            )
+            item = conformance.run_z3_oracle(
+                case,
+                input_path,
+                str(make_fake_nonzero_sat_z3(root)),
+                5,
+                "4.15.3",
+            )
+            self.assertEqual(item["status"], conformance.FAIL)
+            self.assertIn("nonzero exit", item["detail"])
 
     def test_z3_tac_command_reports_success_and_expected_diagnostic(self):
         with tempfile.TemporaryDirectory() as tmp:

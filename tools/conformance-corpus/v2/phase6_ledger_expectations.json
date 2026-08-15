@@ -725,12 +725,10 @@
         "status": "pass"
       },
       "proof-parse": {
-        "status": "unsupported",
-        "diagnostic": "proof modes require unsat input"
+        "status": "pass"
       },
       "proof-replay": {
-        "status": "unsupported",
-        "diagnostic": "proof modes require unsat input"
+        "status": "pass"
       },
       "z3-tac": {
         "status": "pass"
@@ -765,12 +763,10 @@
         "status": "fail"
       },
       "proof-parse": {
-        "status": "unsupported",
-        "diagnostic": "proof modes require unsat input"
+        "status": "pass"
       },
       "proof-replay": {
-        "status": "unsupported",
-        "diagnostic": "proof modes require unsat input"
+        "status": "pass"
       },
       "z3-tac": {
         "status": "fail"
@@ -1743,34 +1739,6 @@
       "class": "D2",
       "documentation": "../../../../.agent-files/reports/phase6_ledger_burndown.md#d2-gates",
       "diagnostic": "UNKNOWN result has no HOL theorem"
-    },
-    {
-      "case_id": "theory:Z3_Extensions:seq-fold-left:unsat-proof",
-      "mode": "proof-parse",
-      "class": "D2",
-      "documentation": "../../../../.agent-files/reports/phase6_ledger_burndown.md#d2-gates",
-      "diagnostic": "proof modes require unsat input"
-    },
-    {
-      "case_id": "theory:Z3_Extensions:seq-fold-left:unsat-proof",
-      "mode": "proof-replay",
-      "class": "D2",
-      "documentation": "../../../../.agent-files/reports/phase6_ledger_burndown.md#d2-gates",
-      "diagnostic": "proof modes require unsat input"
-    },
-    {
-      "case_id": "theory:Z3_Extensions:seq-fold-lefti:unsat-proof",
-      "mode": "proof-parse",
-      "class": "D2",
-      "documentation": "../../../../.agent-files/reports/phase6_ledger_burndown.md#d2-gates",
-      "diagnostic": "proof modes require unsat input"
-    },
-    {
-      "case_id": "theory:Z3_Extensions:seq-fold-lefti:unsat-proof",
-      "mode": "proof-replay",
-      "class": "D2",
-      "documentation": "../../../../.agent-files/reports/phase6_ledger_burndown.md#d2-gates",
-      "diagnostic": "proof modes require unsat input"
     },
     {
       "case_id": "theory:Z3_Extensions:seq-foldl:boundary",
