@@ -791,6 +791,9 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
 
         manifest = json.loads(stdout.getvalue())
         cases = audit.validate_v2_manifest(manifest)
+        scripts_by_id = {
+            case.case_id: case.script for case in generator.theory_cases()
+        }
 
         string_cases = [
             case for case in cases
@@ -1227,6 +1230,18 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
                 "theory-behavior:z3-version-unsupported",
                 by_id[case_id]["features"],
             )
+        self.assertIn(
+            "(ubv_to_int #xff)",
+            scripts_by_id[
+                "theory:Fixed_Size_BitVectors:ubv-to-int:boundary"
+            ],
+        )
+        self.assertIn(
+            "(sbv_to_int #xff)",
+            scripts_by_id[
+                "theory:Fixed_Size_BitVectors:sbv-to-int:boundary"
+            ],
+        )
         for case_id in (
             "theory:Z3_Extensions:str-replace-re-seq:sat",
             "theory:Z3_Extensions:str-replace-re-all-seq:sat",

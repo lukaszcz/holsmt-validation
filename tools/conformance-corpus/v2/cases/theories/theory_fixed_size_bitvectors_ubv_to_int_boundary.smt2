@@ -29,4 +29,5 @@
 (assert (= ((_ sign_extend 2) #b10) #b1110))
 (assert (= ((_ rotate_left 1) #b1001) #b0011))
 (assert (= ((_ rotate_right 1) #b1001) #b1100))
+(assert (= (ubv_to_int #xff) 255))
 (check-sat)
