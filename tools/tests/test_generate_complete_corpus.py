@@ -1206,6 +1206,27 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
             char_sequence["features"],
         )
         self.assertNotIn("solver_availability", char_sequence)
+        self.assertEqual(
+            char_sequence["expected"]["z3-oracle"]["status"], "fail"
+        )
+        self.assertEqual(
+            char_sequence["expected"]["z3-oracle"]["diagnostic"],
+            "nonzero exit",
+        )
+        for case_id in (
+            "theory:Ints:pow:sat",
+            "theory:Ints:divisible:unsat-proof",
+            "theory:Fixed_Size_BitVectors:int-to-bv:boundary",
+            "theory:Fixed_Size_BitVectors:ubv-to-int:sat",
+            "theory:Fixed_Size_BitVectors:sbv-to-int:unsat-proof",
+        ):
+            oracle = by_id[case_id]["expected"]["z3-oracle"]
+            self.assertEqual(oracle["status"], "fail", case_id)
+            self.assertEqual(oracle["diagnostic"], "nonzero exit", case_id)
+            self.assertIn(
+                "theory-behavior:z3-version-unsupported",
+                by_id[case_id]["features"],
+            )
         for case_id in (
             "theory:Z3_Extensions:str-replace-re-seq:sat",
             "theory:Z3_Extensions:str-replace-re-all-seq:sat",
@@ -1424,6 +1445,10 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
         }
         for case_id in new_case_ids:
             case = hocore_by_id[case_id]
+            z3_native_ho = case_id in {
+                "theory:HO_Core:lambda-identity",
+                "theory:HO_Core:lambda-under-quantifier",
+            }
             for feature in {
                 "function-sort",
                 "function-valued",
@@ -1441,6 +1466,10 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
                     "z3-oracle",
                     "cvc5-oracle",
                 ]
+                if z3_native_ho:
+                    expected_modes.extend(
+                        ("proof-parse", "proof-replay", "z3-tac")
+                    )
             self.assertEqual(case["modes"], expected_modes)
             self.assertEqual(case["expected"]["parser-only"]["status"], "pass")
             obligation = case["implementation_obligation"]
@@ -1460,11 +1489,28 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
                     "failure_phase", case["expected"]["typecheck-only"]
                 )
                 self.assertIsNone(obligation, case_id)
-                self.assertEqual(case["expected"]["z3-oracle"]["status"], "fail")
-                self.assertIn(
-                    "unsupported logic",
-                    case["expected"]["z3-oracle"]["diagnostic"],
+                self.assertEqual(
+                    case["expected"]["z3-oracle"]["status"],
+                    "pass" if z3_native_ho else "fail",
                 )
+                if z3_native_ho:
+                    for mode in ("proof-parse", "proof-replay"):
+                        self.assertIn(mode, case["modes"], (case_id, mode))
+                        self.assertEqual(
+                            case["expected"][mode]["status"], "pass"
+                        )
+                    self.assertEqual(
+                        case["expected"]["z3-tac"]["status"], "fail"
+                    )
+                    self.assertEqual(
+                        case["expected"]["z3-tac"]["diagnostic"],
+                        "cvc5-only HO_* logic",
+                    )
+                if not z3_native_ho:
+                    self.assertIn(
+                        "unsupported logic",
+                        case["expected"]["z3-oracle"]["diagnostic"],
+                    )
                 cvc5_status = (
                     "fail"
                     if case_id in {

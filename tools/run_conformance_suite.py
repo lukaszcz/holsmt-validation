@@ -1120,6 +1120,17 @@ def run_shell_command(
     return subprocess.CompletedProcess(command, process.returncode, stdout, stderr)
 
 
+def z3_error_precedes_result(stdout: str, solver_result: str) -> bool:
+    saw_error = False
+    for line in stdout.splitlines():
+        stripped = line.strip()
+        if stripped == solver_result:
+            return saw_error
+        if stripped.startswith("(error"):
+            saw_error = True
+    return saw_error
+
+
 def run_z3_oracle(case: Case, input_path: pathlib.Path, z3: str, timeout: int, version: str) -> dict[str, object]:
     command = [z3, "-smt2", str(input_path)]
     if not executable_available(z3):
@@ -1187,7 +1198,9 @@ def run_z3_oracle(case: Case, input_path: pathlib.Path, z3: str, timeout: int, v
     detail = f"Z3 returned {solver_result}"
     if completed.returncode != 0:
         detail += " before a nonzero exit"
-        if solver_result != "unknown":
+        if solver_result != "unknown" and z3_error_precedes_result(
+            completed.stdout, solver_result
+        ):
             return result(
                 case,
                 MODE_Z3_ORACLE,

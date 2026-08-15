@@ -523,7 +523,7 @@ def manifest_entry(
             status = value["status"]
             expected_result_by_mode[mode] = expected_result(
                 status,
-                diagnostic=value.get("diagnostic") if status == "unsupported" else None,
+                diagnostic=value.get("diagnostic"),
             )
         if settled:
             implementation_obligation = None
@@ -2501,6 +2501,16 @@ def command_cases() -> list[GeneratedCase]:
                 failure_phase="solver",
                 notes="exit terminates the script before a check-sat query",
             )
+        if group.slug == "define-fun-rec-define-funs-rec":
+            state_expected["z3-oracle"] = expected_result(
+                "fail",
+                diagnostic="nonzero exit",
+                failure_phase="solver",
+                notes=(
+                    "Z3 4.15.3 rejects recfun commands in QF_UF; HolSmt's "
+                    "checked lowering is exercised by the z3-tac cases."
+                ),
+            )
         cases.append(
             command_case(
                 group,
@@ -2836,7 +2846,7 @@ CORE_ARITHMETIC_THEORY_SYMBOLS: tuple[TheorySymbol, ...] = (
         proof_script("QF_NIA", "(assert (= (** 2 3) 9))\n"),
         "(set-logic QF_NIA)\n(assert (= (** 2 true) 1))\n(check-sat)\n",
         "(set-logic QF_NIA)\n(assert (= (** 2 0) 1))\n(check-sat)\n",
-        ("theory-behavior:arity",),
+        ("theory-behavior:arity", "theory-behavior:z3-version-unsupported"),
     ),
     TheorySymbol(
         "Ints",
@@ -2888,7 +2898,8 @@ CORE_ARITHMETIC_THEORY_SYMBOLS: tuple[TheorySymbol, ...] = (
         proof_script("QF_LIA", "(assert ((_ divisible 3) 7))\n"),
         "(set-logic QF_LIA)\n(assert ((_ divisible 3) true))\n(check-sat)\n",
         "(set-logic QF_LIA)\n(assert ((_ divisible 1) 12345678901234567890))\n(check-sat)\n",
-        ("theory-behavior:indexed", "theory-behavior:division-modulo"),
+        ("theory-behavior:indexed", "theory-behavior:division-modulo",
+         "theory-behavior:z3-version-unsupported"),
     ),
     TheorySymbol(
         "Ints",
@@ -3475,9 +3486,9 @@ BITVECTOR_THEORY_SYMBOLS: tuple[TheorySymbol, ...] = (
     bv_symbol("bvsle", "bvsle", ("(bvsle (_ BitVec m) (_ BitVec m) Bool)",), "(bvsle a b)", "Bool", ("theory-behavior:comparison", "theory-behavior:signed")),
     bv_symbol("bvsgt", "bvsgt", ("(bvsgt (_ BitVec m) (_ BitVec m) Bool)",), "(bvsgt a b)", "Bool", ("theory-behavior:comparison", "theory-behavior:signed")),
     bv_symbol("bvsge", "bvsge", ("(bvsge (_ BitVec m) (_ BitVec m) Bool)",), "(bvsge a b)", "Bool", ("theory-behavior:comparison", "theory-behavior:signed")),
-    bv_symbol("ubv-to-int", "ubv_to_int", ("(ubv_to_int (_ BitVec m) Int)",), "(ubv_to_int a)", "Int", ("theory-behavior:conversion", "theory-behavior:unsigned")),
-    bv_symbol("sbv-to-int", "sbv_to_int", ("(sbv_to_int (_ BitVec m) Int)",), "(sbv_to_int a)", "Int", ("theory-behavior:conversion", "theory-behavior:signed")),
-    bv_symbol("int-to-bv", "int_to_bv", ("((_ int_to_bv m) Int (_ BitVec m))",), "((_ int_to_bv 8) 3)", "BitVec", ("theory-behavior:conversion", "theory-behavior:indexed"), sat_declarations="", boundary_assertion="(= ((_ int_to_bv 1) 3) #b1)"),
+    bv_symbol("ubv-to-int", "ubv_to_int", ("(ubv_to_int (_ BitVec m) Int)",), "(ubv_to_int a)", "Int", ("theory-behavior:conversion", "theory-behavior:unsigned", "theory-behavior:z3-version-unsupported")),
+    bv_symbol("sbv-to-int", "sbv_to_int", ("(sbv_to_int (_ BitVec m) Int)",), "(sbv_to_int a)", "Int", ("theory-behavior:conversion", "theory-behavior:signed", "theory-behavior:z3-version-unsupported")),
+    bv_symbol("int-to-bv", "int_to_bv", ("((_ int_to_bv m) Int (_ BitVec m))",), "((_ int_to_bv 8) 3)", "BitVec", ("theory-behavior:conversion", "theory-behavior:indexed", "theory-behavior:z3-version-unsupported"), sat_declarations="", boundary_assertion="(= ((_ int_to_bv 1) 3) #b1)"),
     bv_symbol("bvnego", "bvnego", ("(bvnego (_ BitVec m) Bool)",), "(bvnego a)", "Bool", ("theory-behavior:overflow", "theory-behavior:signed-min-value")),
     bv_symbol("bvuaddo", "bvuaddo", ("(bvuaddo (_ BitVec m) (_ BitVec m) Bool)",), "(bvuaddo a b)", "Bool", ("theory-behavior:overflow", "theory-behavior:unsigned")),
     bv_symbol("bvsaddo", "bvsaddo", ("(bvsaddo (_ BitVec m) (_ BitVec m) Bool)",), "(bvsaddo a b)", "Bool", ("theory-behavior:overflow", "theory-behavior:signed")),
@@ -6382,6 +6393,7 @@ def hocore_red_case(
     implementation_feature: str | None = None,
     implementation_files: tuple[str, ...] = HOCORE_IMPLEMENTATION_FILES,
     cvc5_diagnostic: str | None = None,
+    z3_oracle_status: str = "fail",
     source_reference: str,
 ) -> ScriptedCase:
     diagnostic = diagnostic or (
@@ -6402,13 +6414,17 @@ def hocore_red_case(
     if packet_surface:
         modes.extend(("z3-oracle", "cvc5-oracle"))
         expected["z3-oracle"] = expected_result(
-            "fail",
-            diagnostic="unsupported logic",
-            diagnostic_alternatives=("nonzero exit",),
-            failure_phase="solver",
+            z3_oracle_status,
+            diagnostic="unsupported logic" if z3_oracle_status == "fail"
+            else None,
+            diagnostic_alternatives=("nonzero exit",)
+            if z3_oracle_status == "fail" else None,
+            failure_phase="solver" if z3_oracle_status == "fail" else None,
             notes=(
                 "Expected Z3 dialect rejection: standard SMT-LIB 2.7 "
                 "higher-order text requires the checked Z3 lowering."
+                if z3_oracle_status == "fail" else
+                "Z3 4.15.3 accepts this native SMT-LIB 2.7 HO shape."
             ),
         )
         expected["cvc5-oracle"] = expected_result(
@@ -6422,6 +6438,15 @@ def hocore_red_case(
                 else None
             ),
         )
+        if z3_oracle_status == "pass":
+            modes.extend(("proof-parse", "proof-replay", "z3-tac"))
+            expected["proof-parse"] = expected_result("pass")
+            expected["proof-replay"] = expected_result("pass")
+            expected["z3-tac"] = expected_result(
+                "fail",
+                diagnostic="cvc5-only HO_* logic",
+                failure_phase="typecheck",
+            )
     if not packet_surface:
         modes.append("z3-tac")
         expected["z3-tac"] = expected_result(
@@ -6639,6 +6664,7 @@ HOCORE_THEORY_CASES: tuple[ScriptedCase, ...] = (
             "higher-order-surface:lambda",
             "lambda",
         ),
+        z3_oracle_status="pass",
         source_reference="SMT-LIB 2.7 HO-Core lambda identity",
     ),
     hocore_red_case(
@@ -6794,6 +6820,7 @@ HOCORE_THEORY_CASES: tuple[ScriptedCase, ...] = (
             "higher-order-surface:lambda",
             "lambda",
         ),
+        z3_oracle_status="pass",
         source_reference="SMT-LIB 2.7 HO-Core lambda under quantifier",
     ),
     hocore_red_case(
@@ -7281,6 +7308,10 @@ def theory_case(symbol: TheorySymbol, kind: str, script: str) -> GeneratedCase:
             "theory:UnicodeStrings:str.replace-re-all:unsat-proof",
         }
     )
+    z3_version_unsupported = (
+        "theory-behavior:z3-version-unsupported"
+        in symbol.behavior_features
+    )
     parser_gap = "theory-behavior:parser-gap" in symbol.behavior_features
     translation_gap = "theory-behavior:translation-gap" in symbol.behavior_features
     semantic_fp_unsat = (
@@ -7313,10 +7344,18 @@ def theory_case(symbol: TheorySymbol, kind: str, script: str) -> GeneratedCase:
                 failure_phase="parser" if parser_gap else "typecheck" if front_end_gap else None,
             ),
             "z3-oracle": expected_result(
+                "fail" if z3_version_unsupported else
                 "red" if z3_unsupported or parser_gap else "pass",
-                diagnostic="Z3 oracle support for this SMT-LIB 2.7 theory symbol is incomplete"
+                diagnostic="nonzero exit" if z3_version_unsupported else
+                "Z3 oracle support for this SMT-LIB 2.7 theory symbol is incomplete"
                 if z3_unsupported else blocked_by_parser if parser_gap else None,
-                failure_phase="solver" if z3_unsupported else "parser" if parser_gap else None,
+                failure_phase="solver" if z3_unsupported or
+                z3_version_unsupported else "parser" if parser_gap else None,
+                notes=(
+                    "The pinned Z3 matrix predates this SMT-LIB 2.7 symbol; "
+                    "HolSmt still checks its front end and Z3 lowering."
+                    if z3_version_unsupported else None
+                ),
             ),
             "z3-tac": expected_result(
                 "red" if z3_unsupported or parser_gap or translation_gap else "pass",
@@ -7390,14 +7429,24 @@ def theory_case(symbol: TheorySymbol, kind: str, script: str) -> GeneratedCase:
             "z3-oracle": expected_result(
                 "unsupported"
                 if z3_unsupported and symbol.theory == "UnicodeStrings"
+                else "fail"
+                if z3_version_unsupported
                 else "red"
                 if z3_unsupported or parser_gap
                 else "pass",
-                diagnostic="Z3 returned unknown"
+                diagnostic="nonzero exit"
+                if z3_version_unsupported
+                else "Z3 returned unknown"
                 if z3_unsupported and symbol.theory == "UnicodeStrings"
                 else "Z3 oracle support for this SMT-LIB 2.7 theory symbol is incomplete"
                 if z3_unsupported else blocked_by_parser if parser_gap else None,
-                failure_phase="solver" if z3_unsupported else "parser" if parser_gap else None,
+                failure_phase="solver" if z3_unsupported or
+                z3_version_unsupported else "parser" if parser_gap else None,
+                notes=(
+                    "The pinned Z3 matrix predates this SMT-LIB 2.7 symbol; "
+                    "HolSmt still checks its front end and Z3 lowering."
+                    if z3_version_unsupported else None
+                ),
             ),
             "proof-parse": expected_result(
                 proof_gap_status,
@@ -7578,10 +7627,18 @@ def theory_case(symbol: TheorySymbol, kind: str, script: str) -> GeneratedCase:
                 failure_phase="parser" if parser_gap else "typecheck" if front_end_gap else None,
             ),
             "z3-oracle": expected_result(
+                "fail" if z3_version_unsupported else
                 "red" if z3_unsupported or parser_gap else "pass",
-                diagnostic="Z3 oracle support for this SMT-LIB 2.7 theory boundary case is incomplete"
+                diagnostic="nonzero exit" if z3_version_unsupported else
+                "Z3 oracle support for this SMT-LIB 2.7 theory boundary case is incomplete"
                 if z3_unsupported else blocked_by_parser if parser_gap else None,
-                failure_phase="solver" if z3_unsupported else "parser" if parser_gap else None,
+                failure_phase="solver" if z3_unsupported or
+                z3_version_unsupported else "parser" if parser_gap else None,
+                notes=(
+                    "The pinned Z3 matrix predates this SMT-LIB 2.7 symbol; "
+                    "HolSmt still checks its front end and Z3 lowering."
+                    if z3_version_unsupported else None
+                ),
             ),
         }
         if parser_gap or translation_gap:

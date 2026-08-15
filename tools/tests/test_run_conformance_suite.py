@@ -97,6 +97,24 @@ raise SystemExit(1)
     return path
 
 
+def make_fake_trailing_error_z3(directory):
+    path = pathlib.Path(directory) / "fake-trailing-error-z3"
+    script = """#!/usr/bin/env python3
+import sys
+
+if "-version" in sys.argv:
+    print("Z3 version 4.15.3")
+    raise SystemExit(0)
+
+print("unsat")
+print('(error "proof construction is not enabled")')
+raise SystemExit(1)
+"""
+    path.write_text(script, encoding="utf-8")
+    path.chmod(path.stat().st_mode | stat.S_IXUSR)
+    return path
+
+
 def make_fake_cvc5(directory):
     path = pathlib.Path(directory) / "fake-cvc5"
     script = """#!/usr/bin/env python3
@@ -1205,6 +1223,31 @@ class ConformanceSuiteTests(unittest.TestCase):
                 "4.15.3",
             )
             self.assertEqual(item["status"], conformance.FAIL)
+            self.assertIn("nonzero exit", item["detail"])
+
+    def test_z3_trailing_error_after_result_is_accepted(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            input_path = root / "trailing-error.smt2"
+            input_path.write_text(
+                "(set-logic QF_UF)\n(check-sat)\n(get-proof)\n",
+                encoding="utf-8",
+            )
+            case = conformance.Case(
+                name="trailing-error",
+                logic="QF_UF",
+                text=input_path.read_text(encoding="utf-8"),
+                origin="test",
+                tags=("test",),
+            )
+            item = conformance.run_z3_oracle(
+                case,
+                input_path,
+                str(make_fake_trailing_error_z3(root)),
+                5,
+                "4.15.3",
+            )
+            self.assertEqual(item["status"], conformance.PASS)
             self.assertIn("nonzero exit", item["detail"])
 
     def test_z3_tac_command_reports_success_and_expected_diagnostic(self):

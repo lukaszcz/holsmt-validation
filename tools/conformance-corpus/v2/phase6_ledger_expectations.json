@@ -520,7 +520,8 @@
         "status": "fail"
       },
       "z3-oracle": {
-        "status": "pass"
+        "status": "fail",
+        "diagnostic": "nonzero exit"
       },
       "z3-tac": {
         "status": "fail"
@@ -699,8 +700,7 @@
         "status": "pass"
       },
       "z3-tac": {
-        "status": "unsupported",
-        "diagnostic": "UNKNOWN result has no HOL theorem"
+        "status": "pass"
       }
     },
     "theory:Z3_Extensions:seq-fold-left:sat": {
@@ -708,8 +708,7 @@
         "status": "pass"
       },
       "z3-tac": {
-        "status": "unsupported",
-        "diagnostic": "UNKNOWN result has no HOL theorem"
+        "status": "pass"
       }
     },
     "theory:Z3_Extensions:seq-fold-left:type-error": {
@@ -777,8 +776,7 @@
         "status": "pass"
       },
       "z3-tac": {
-        "status": "unsupported",
-        "diagnostic": "UNKNOWN result has no HOL theorem"
+        "status": "pass"
       }
     },
     "theory:Z3_Extensions:seq-foldl:sat": {
@@ -786,8 +784,7 @@
         "status": "pass"
       },
       "z3-tac": {
-        "status": "unsupported",
-        "diagnostic": "UNKNOWN result has no HOL theorem"
+        "status": "pass"
       }
     },
     "theory:Z3_Extensions:seq-foldl:type-error": {
@@ -1327,8 +1324,7 @@
         "status": "pass"
       },
       "z3-tac": {
-        "status": "unsupported",
-        "diagnostic": "UNKNOWN result has no HOL theorem"
+        "status": "pass"
       }
     },
     "theory:Z3_Extensions:seq:sat": {
@@ -1336,8 +1332,7 @@
         "status": "pass"
       },
       "z3-tac": {
-        "status": "unsupported",
-        "diagnostic": "UNKNOWN result has no HOL theorem"
+        "status": "pass"
       }
     },
     "theory:Z3_Extensions:seq:type-error": {
@@ -1726,48 +1721,6 @@
     }
   },
   "gate_inventory": [
-    {
-      "case_id": "theory:Z3_Extensions:seq-fold-left:boundary",
-      "mode": "z3-tac",
-      "class": "D2",
-      "documentation": "../../../../.agent-files/reports/phase6_ledger_burndown.md#d2-gates",
-      "diagnostic": "UNKNOWN result has no HOL theorem"
-    },
-    {
-      "case_id": "theory:Z3_Extensions:seq-fold-left:sat",
-      "mode": "z3-tac",
-      "class": "D2",
-      "documentation": "../../../../.agent-files/reports/phase6_ledger_burndown.md#d2-gates",
-      "diagnostic": "UNKNOWN result has no HOL theorem"
-    },
-    {
-      "case_id": "theory:Z3_Extensions:seq-foldl:boundary",
-      "mode": "z3-tac",
-      "class": "D2",
-      "documentation": "../../../../.agent-files/reports/phase6_ledger_burndown.md#d2-gates",
-      "diagnostic": "UNKNOWN result has no HOL theorem"
-    },
-    {
-      "case_id": "theory:Z3_Extensions:seq-foldl:sat",
-      "mode": "z3-tac",
-      "class": "D2",
-      "documentation": "../../../../.agent-files/reports/phase6_ledger_burndown.md#d2-gates",
-      "diagnostic": "UNKNOWN result has no HOL theorem"
-    },
-    {
-      "case_id": "theory:Z3_Extensions:seq:boundary",
-      "mode": "z3-tac",
-      "class": "D2",
-      "documentation": "../../../../.agent-files/reports/phase6_ledger_burndown.md#d2-gates",
-      "diagnostic": "UNKNOWN result has no HOL theorem"
-    },
-    {
-      "case_id": "theory:Z3_Extensions:seq:sat",
-      "mode": "z3-tac",
-      "class": "D2",
-      "documentation": "../../../../.agent-files/reports/phase6_ledger_burndown.md#d2-gates",
-      "diagnostic": "UNKNOWN result has no HOL theorem"
-    },
     {
       "case_id": "theory:Z3_Extensions:str-replace-re-all-seq:boundary",
       "mode": "z3-oracle",

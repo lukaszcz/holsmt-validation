@@ -2187,8 +2187,10 @@
           "notes": "theorem reconstruction applies: true"
         },
         "z3-oracle": {
-          "status": "pass",
-          "notes": "theorem reconstruction applies: true"
+          "status": "fail",
+          "diagnostic": "nonzero exit",
+          "failure_phase": "solver",
+          "notes": "Z3 4.15.3 rejects recfun commands in QF_UF; HolSmt's checked lowering is exercised by the z3-tac cases."
         }
       },
       "implementation_obligation": null,
@@ -45441,6 +45443,7 @@
         "theory-behavior:bitvector",
         "theory-behavior:conversion",
         "theory-behavior:indexed",
+        "theory-behavior:z3-version-unsupported",
         "theory-case:boundary",
         "theory-declaration:Fixed_Size_BitVectors:((_ int_to_bv m) Int (_ BitVec m))",
         "theory-entry:Fixed_Size_BitVectors:int-to-bv",
@@ -45477,7 +45480,10 @@
           "status": "pass"
         },
         "z3-oracle": {
-          "status": "pass"
+          "status": "fail",
+          "diagnostic": "nonzero exit",
+          "failure_phase": "solver",
+          "notes": "The pinned Z3 matrix predates this SMT-LIB 2.7 symbol; HolSmt still checks its front end and Z3 lowering."
         }
       },
       "implementation_obligation": null,
@@ -45496,6 +45502,7 @@
         "theory-behavior:bitvector",
         "theory-behavior:conversion",
         "theory-behavior:indexed",
+        "theory-behavior:z3-version-unsupported",
         "theory-case:sat",
         "theory-declaration:Fixed_Size_BitVectors:((_ int_to_bv m) Int (_ BitVec m))",
         "theory-entry:Fixed_Size_BitVectors:int-to-bv",
@@ -45533,7 +45540,10 @@
           "status": "pass"
         },
         "z3-oracle": {
-          "status": "pass"
+          "status": "fail",
+          "diagnostic": "nonzero exit",
+          "failure_phase": "solver",
+          "notes": "The pinned Z3 matrix predates this SMT-LIB 2.7 symbol; HolSmt still checks its front end and Z3 lowering."
         },
         "z3-tac": {
           "status": "pass"
@@ -45555,6 +45565,7 @@
         "theory-behavior:bitvector",
         "theory-behavior:conversion",
         "theory-behavior:indexed",
+        "theory-behavior:z3-version-unsupported",
         "theory-case:type-error",
         "theory-declaration:Fixed_Size_BitVectors:((_ int_to_bv m) Int (_ BitVec m))",
         "theory-entry:Fixed_Size_BitVectors:int-to-bv",
@@ -45614,6 +45625,7 @@
         "theory-behavior:bitvector",
         "theory-behavior:conversion",
         "theory-behavior:indexed",
+        "theory-behavior:z3-version-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:Fixed_Size_BitVectors:((_ int_to_bv m) Int (_ BitVec m))",
         "theory-entry:Fixed_Size_BitVectors:int-to-bv",
@@ -45653,7 +45665,10 @@
           "status": "pass"
         },
         "z3-oracle": {
-          "status": "pass"
+          "status": "fail",
+          "diagnostic": "nonzero exit",
+          "failure_phase": "solver",
+          "notes": "The pinned Z3 matrix predates this SMT-LIB 2.7 symbol; HolSmt still checks its front end and Z3 lowering."
         },
         "proof-parse": {
           "status": "unsupported",
@@ -46409,6 +46424,7 @@
         "theory-behavior:bitvector",
         "theory-behavior:conversion",
         "theory-behavior:signed",
+        "theory-behavior:z3-version-unsupported",
         "theory-case:boundary",
         "theory-declaration:Fixed_Size_BitVectors:(sbv_to_int (_ BitVec m) Int)",
         "theory-entry:Fixed_Size_BitVectors:sbv-to-int",
@@ -46445,7 +46461,10 @@
           "status": "pass"
         },
         "z3-oracle": {
-          "status": "pass"
+          "status": "fail",
+          "diagnostic": "nonzero exit",
+          "failure_phase": "solver",
+          "notes": "The pinned Z3 matrix predates this SMT-LIB 2.7 symbol; HolSmt still checks its front end and Z3 lowering."
         }
       },
       "implementation_obligation": null,
@@ -46464,6 +46483,7 @@
         "theory-behavior:bitvector",
         "theory-behavior:conversion",
         "theory-behavior:signed",
+        "theory-behavior:z3-version-unsupported",
         "theory-case:sat",
         "theory-declaration:Fixed_Size_BitVectors:(sbv_to_int (_ BitVec m) Int)",
         "theory-entry:Fixed_Size_BitVectors:sbv-to-int",
@@ -46501,7 +46521,10 @@
           "status": "pass"
         },
         "z3-oracle": {
-          "status": "pass"
+          "status": "fail",
+          "diagnostic": "nonzero exit",
+          "failure_phase": "solver",
+          "notes": "The pinned Z3 matrix predates this SMT-LIB 2.7 symbol; HolSmt still checks its front end and Z3 lowering."
         },
         "z3-tac": {
           "status": "pass"
@@ -46523,6 +46546,7 @@
         "theory-behavior:bitvector",
         "theory-behavior:conversion",
         "theory-behavior:signed",
+        "theory-behavior:z3-version-unsupported",
         "theory-case:type-error",
         "theory-declaration:Fixed_Size_BitVectors:(sbv_to_int (_ BitVec m) Int)",
         "theory-entry:Fixed_Size_BitVectors:sbv-to-int",
@@ -46582,6 +46606,7 @@
         "theory-behavior:bitvector",
         "theory-behavior:conversion",
         "theory-behavior:signed",
+        "theory-behavior:z3-version-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:Fixed_Size_BitVectors:(sbv_to_int (_ BitVec m) Int)",
         "theory-entry:Fixed_Size_BitVectors:sbv-to-int",
@@ -46621,7 +46646,10 @@
           "status": "pass"
         },
         "z3-oracle": {
-          "status": "pass"
+          "status": "fail",
+          "diagnostic": "nonzero exit",
+          "failure_phase": "solver",
+          "notes": "The pinned Z3 matrix predates this SMT-LIB 2.7 symbol; HolSmt still checks its front end and Z3 lowering."
         },
         "proof-parse": {
           "status": "unsupported",
@@ -46901,6 +46929,7 @@
         "theory-behavior:bitvector",
         "theory-behavior:conversion",
         "theory-behavior:unsigned",
+        "theory-behavior:z3-version-unsupported",
         "theory-case:boundary",
         "theory-declaration:Fixed_Size_BitVectors:(ubv_to_int (_ BitVec m) Int)",
         "theory-entry:Fixed_Size_BitVectors:ubv-to-int",
@@ -46937,7 +46966,10 @@
           "status": "pass"
         },
         "z3-oracle": {
-          "status": "pass"
+          "status": "fail",
+          "diagnostic": "nonzero exit",
+          "failure_phase": "solver",
+          "notes": "The pinned Z3 matrix predates this SMT-LIB 2.7 symbol; HolSmt still checks its front end and Z3 lowering."
         }
       },
       "implementation_obligation": null,
@@ -46956,6 +46988,7 @@
         "theory-behavior:bitvector",
         "theory-behavior:conversion",
         "theory-behavior:unsigned",
+        "theory-behavior:z3-version-unsupported",
         "theory-case:sat",
         "theory-declaration:Fixed_Size_BitVectors:(ubv_to_int (_ BitVec m) Int)",
         "theory-entry:Fixed_Size_BitVectors:ubv-to-int",
@@ -46993,7 +47026,10 @@
           "status": "pass"
         },
         "z3-oracle": {
-          "status": "pass"
+          "status": "fail",
+          "diagnostic": "nonzero exit",
+          "failure_phase": "solver",
+          "notes": "The pinned Z3 matrix predates this SMT-LIB 2.7 symbol; HolSmt still checks its front end and Z3 lowering."
         },
         "z3-tac": {
           "status": "pass"
@@ -47015,6 +47051,7 @@
         "theory-behavior:bitvector",
         "theory-behavior:conversion",
         "theory-behavior:unsigned",
+        "theory-behavior:z3-version-unsupported",
         "theory-case:type-error",
         "theory-declaration:Fixed_Size_BitVectors:(ubv_to_int (_ BitVec m) Int)",
         "theory-entry:Fixed_Size_BitVectors:ubv-to-int",
@@ -47074,6 +47111,7 @@
         "theory-behavior:bitvector",
         "theory-behavior:conversion",
         "theory-behavior:unsigned",
+        "theory-behavior:z3-version-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:Fixed_Size_BitVectors:(ubv_to_int (_ BitVec m) Int)",
         "theory-entry:Fixed_Size_BitVectors:ubv-to-int",
@@ -47113,7 +47151,10 @@
           "status": "pass"
         },
         "z3-oracle": {
-          "status": "pass"
+          "status": "fail",
+          "diagnostic": "nonzero exit",
+          "failure_phase": "solver",
+          "notes": "The pinned Z3 matrix predates this SMT-LIB 2.7 symbol; HolSmt still checks its front end and Z3 lowering."
         },
         "proof-parse": {
           "status": "unsupported",
@@ -59795,7 +59836,10 @@
         "parser-only",
         "typecheck-only",
         "z3-oracle",
-        "cvc5-oracle"
+        "cvc5-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
       ],
       "versions": [
         "4.11.2",
@@ -59812,16 +59856,22 @@
           "status": "pass"
         },
         "z3-oracle": {
-          "status": "fail",
-          "diagnostic": "unsupported logic",
-          "diagnostic_alternatives": [
-            "nonzero exit"
-          ],
-          "failure_phase": "solver",
-          "notes": "Expected Z3 dialect rejection: standard SMT-LIB 2.7 higher-order text requires the checked Z3 lowering."
+          "status": "pass",
+          "notes": "Z3 4.15.3 accepts this native SMT-LIB 2.7 HO shape."
         },
         "cvc5-oracle": {
           "status": "pass"
+        },
+        "proof-parse": {
+          "status": "pass"
+        },
+        "proof-replay": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "fail",
+          "diagnostic": "cvc5-only HO_* logic",
+          "failure_phase": "typecheck"
         }
       },
       "implementation_obligation": null,
@@ -59895,7 +59945,10 @@
         "parser-only",
         "typecheck-only",
         "z3-oracle",
-        "cvc5-oracle"
+        "cvc5-oracle",
+        "proof-parse",
+        "proof-replay",
+        "z3-tac"
       ],
       "versions": [
         "4.11.2",
@@ -59912,16 +59965,22 @@
           "status": "pass"
         },
         "z3-oracle": {
-          "status": "fail",
-          "diagnostic": "unsupported logic",
-          "diagnostic_alternatives": [
-            "nonzero exit"
-          ],
-          "failure_phase": "solver",
-          "notes": "Expected Z3 dialect rejection: standard SMT-LIB 2.7 higher-order text requires the checked Z3 lowering."
+          "status": "pass",
+          "notes": "Z3 4.15.3 accepts this native SMT-LIB 2.7 HO shape."
         },
         "cvc5-oracle": {
           "status": "pass"
+        },
+        "proof-parse": {
+          "status": "pass"
+        },
+        "proof-replay": {
+          "status": "pass"
+        },
+        "z3-tac": {
+          "status": "fail",
+          "diagnostic": "cvc5-only HO_* logic",
+          "failure_phase": "typecheck"
         }
       },
       "implementation_obligation": null,
@@ -60737,6 +60796,7 @@
       "features": [
         "theory-behavior:division-modulo",
         "theory-behavior:indexed",
+        "theory-behavior:z3-version-unsupported",
         "theory-case:boundary",
         "theory-declaration:Ints:((_ divisible n) Int Bool)",
         "theory-entry:Ints:divisible",
@@ -60764,7 +60824,10 @@
           "status": "pass"
         },
         "z3-oracle": {
-          "status": "pass"
+          "status": "fail",
+          "diagnostic": "nonzero exit",
+          "failure_phase": "solver",
+          "notes": "The pinned Z3 matrix predates this SMT-LIB 2.7 symbol; HolSmt still checks its front end and Z3 lowering."
         }
       },
       "implementation_obligation": null,
@@ -60782,6 +60845,7 @@
       "features": [
         "theory-behavior:division-modulo",
         "theory-behavior:indexed",
+        "theory-behavior:z3-version-unsupported",
         "theory-case:sat",
         "theory-declaration:Ints:((_ divisible n) Int Bool)",
         "theory-entry:Ints:divisible",
@@ -60810,7 +60874,10 @@
           "status": "pass"
         },
         "z3-oracle": {
-          "status": "pass"
+          "status": "fail",
+          "diagnostic": "nonzero exit",
+          "failure_phase": "solver",
+          "notes": "The pinned Z3 matrix predates this SMT-LIB 2.7 symbol; HolSmt still checks its front end and Z3 lowering."
         },
         "z3-tac": {
           "status": "pass"
@@ -60831,6 +60898,7 @@
       "features": [
         "theory-behavior:division-modulo",
         "theory-behavior:indexed",
+        "theory-behavior:z3-version-unsupported",
         "theory-case:type-error",
         "theory-declaration:Ints:((_ divisible n) Int Bool)",
         "theory-entry:Ints:divisible",
@@ -60880,6 +60948,7 @@
       "features": [
         "theory-behavior:division-modulo",
         "theory-behavior:indexed",
+        "theory-behavior:z3-version-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:Ints:((_ divisible n) Int Bool)",
         "theory-entry:Ints:divisible",
@@ -60910,7 +60979,10 @@
           "status": "pass"
         },
         "z3-oracle": {
-          "status": "pass"
+          "status": "fail",
+          "diagnostic": "nonzero exit",
+          "failure_phase": "solver",
+          "notes": "The pinned Z3 matrix predates this SMT-LIB 2.7 symbol; HolSmt still checks its front end and Z3 lowering."
         },
         "proof-parse": {
           "status": "unsupported",
@@ -62758,6 +62830,7 @@
       "class": "theory",
       "features": [
         "theory-behavior:arity",
+        "theory-behavior:z3-version-unsupported",
         "theory-case:boundary",
         "theory-declaration:Ints:(** Int Int Int)",
         "theory-entry:Ints:pow",
@@ -62785,7 +62858,10 @@
           "status": "pass"
         },
         "z3-oracle": {
-          "status": "pass"
+          "status": "fail",
+          "diagnostic": "nonzero exit",
+          "failure_phase": "solver",
+          "notes": "The pinned Z3 matrix predates this SMT-LIB 2.7 symbol; HolSmt still checks its front end and Z3 lowering."
         }
       },
       "implementation_obligation": null,
@@ -62802,6 +62878,7 @@
       "class": "theory",
       "features": [
         "theory-behavior:arity",
+        "theory-behavior:z3-version-unsupported",
         "theory-case:sat",
         "theory-declaration:Ints:(** Int Int Int)",
         "theory-entry:Ints:pow",
@@ -62830,7 +62907,10 @@
           "status": "pass"
         },
         "z3-oracle": {
-          "status": "pass"
+          "status": "fail",
+          "diagnostic": "nonzero exit",
+          "failure_phase": "solver",
+          "notes": "The pinned Z3 matrix predates this SMT-LIB 2.7 symbol; HolSmt still checks its front end and Z3 lowering."
         },
         "z3-tac": {
           "status": "pass"
@@ -62850,6 +62930,7 @@
       "class": "theory",
       "features": [
         "theory-behavior:arity",
+        "theory-behavior:z3-version-unsupported",
         "theory-case:type-error",
         "theory-declaration:Ints:(** Int Int Int)",
         "theory-entry:Ints:pow",
@@ -62898,6 +62979,7 @@
       "class": "theory",
       "features": [
         "theory-behavior:arity",
+        "theory-behavior:z3-version-unsupported",
         "theory-case:unsat-proof",
         "theory-declaration:Ints:(** Int Int Int)",
         "theory-entry:Ints:pow",
@@ -62928,7 +63010,10 @@
           "status": "pass"
         },
         "z3-oracle": {
-          "status": "pass"
+          "status": "fail",
+          "diagnostic": "nonzero exit",
+          "failure_phase": "solver",
+          "notes": "The pinned Z3 matrix predates this SMT-LIB 2.7 symbol; HolSmt still checks its front end and Z3 lowering."
         },
         "proof-parse": {
           "status": "unsupported",
@@ -84484,7 +84569,8 @@
           "status": "fail"
         },
         "z3-oracle": {
-          "status": "pass"
+          "status": "fail",
+          "diagnostic": "nonzero exit"
         },
         "z3-tac": {
           "status": "fail"
@@ -85853,8 +85939,7 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "unsupported",
-          "diagnostic": "UNKNOWN result has no HOL theorem"
+          "status": "pass"
         }
       },
       "implementation_obligation": null,
@@ -85917,8 +86002,7 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "unsupported",
-          "diagnostic": "UNKNOWN result has no HOL theorem"
+          "status": "pass"
         }
       },
       "implementation_obligation": null,
@@ -86369,8 +86453,7 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "unsupported",
-          "diagnostic": "UNKNOWN result has no HOL theorem"
+          "status": "pass"
         }
       },
       "implementation_obligation": null,
@@ -86436,8 +86519,7 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "unsupported",
-          "diagnostic": "UNKNOWN result has no HOL theorem"
+          "status": "pass"
         }
       },
       "implementation_obligation": null,
@@ -90450,8 +90532,7 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "unsupported",
-          "diagnostic": "UNKNOWN result has no HOL theorem"
+          "status": "pass"
         }
       },
       "implementation_obligation": null,
@@ -90525,8 +90606,7 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "unsupported",
-          "diagnostic": "UNKNOWN result has no HOL theorem"
+          "status": "pass"
         }
       },
       "implementation_obligation": null,
