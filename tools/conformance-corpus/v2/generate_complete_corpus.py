@@ -4071,6 +4071,7 @@ def fp_d12_case(
     one: str,
 ) -> ScriptedCase:
     modes = ("parser-only", "z3-tac")
+    resource_gated = "float32" in slug_name
     return ScriptedCase(
         slug=slug_name,
         script=(
@@ -4086,14 +4087,14 @@ def fp_d12_case(
         expected={
             "parser-only": expected_result("pass"),
             "z3-tac": expected_result(
-                "red",
-                diagnostic=RESOURCE_GATE_DIAGNOSTIC,
+                "red" if resource_gated else "pass",
+                diagnostic=(
+                    RESOURCE_GATE_DIAGNOSTIC if resource_gated else None
+                ),
                 diagnostic_alternatives=(
                     "UNKNOWN result has no HOL theorem to reconstruct",
-                ) if "float32" in slug_name else (
-                    "failed to parse 'FloatingPoint'",
-                ),
-                failure_phase="proof-replay",
+                ) if resource_gated else None,
+                failure_phase="proof-replay" if resource_gated else None,
             ),
         },
         features=(
@@ -4104,11 +4105,16 @@ def fp_d12_case(
             "theory-behavior:arithmetic",
             "theory-behavior:rounding-mode",
             "theory-behavior:symbolic",
-            RESOURCE_GATE_FEATURE,
+            *((RESOURCE_GATE_FEATURE,) if resource_gated else ()),
         ),
-        implementation_feature=f"theory-symbol:FloatingPoint:{slug_name}",
-        implementation_files=FLOATINGPOINT_RECONSTRUCTION_FILES,
-        implementation_phase="proof-replay",
+        implementation_feature=(
+            f"theory-symbol:FloatingPoint:{slug_name}"
+            if resource_gated else None
+        ),
+        implementation_files=(
+            FLOATINGPOINT_RECONSTRUCTION_FILES if resource_gated else ()
+        ),
+        implementation_phase="proof-replay" if resource_gated else None,
         logic="QF_FP",
         source_kind="HolSmt-internal",
         source_reference="Phase 5 D12 FloatingPoint resource-budget exemplar",

@@ -2066,6 +2066,11 @@
           "kind": "source",
           "path": "src/HolSmt/Unittest.sml",
           "match": "(\"rewrite\""
+        },
+        {
+          "kind": "source",
+          "path": "src/HolSmt/Unittest.sml",
+          "match": "replay_polynomial_normal_form_success"
         }
       ],
       "negative_tests": [],
@@ -2075,9 +2080,14 @@
           "kind": "source",
           "path": "src/HolSmt/Z3_Proof.sml",
           "match": "mk_rule (\"rewrite\""
+        },
+        {
+          "kind": "source",
+          "path": "src/HolSmt/SmtReplayCanon.sml",
+          "match": "arith_poly_norm_prove"
         }
       ],
-      "notes": "Synthetic raw proof replay covers the supported rewrite constructor."
+      "notes": "Synthetic raw proof replay covers the rewrite constructor; shared polynomial canonicalization handles the linear normalization family independently of recorded arity or sign shape."
     },
     {
       "section": "z3_proof_rules",
@@ -4076,6 +4086,11 @@
         },
         {
           "kind": "source",
+          "path": "src/HolSmt/Unittest.sml",
+          "match": "smtfp_mul_circuit_rung_success"
+        },
+        {
+          "kind": "source",
           "path": "tools/proof-corpus/floatingpoint/matrix-summary.json",
           "match": "bit-decomposition"
         }
@@ -4089,7 +4104,7 @@
           "match": "fp_prove_with_decompositions_and_arith"
         }
       ],
-      "notes": "SmtFpProve checks the observed fpa2bv rewrite and bit-decomposition proof shapes."
+      "notes": "SmtFpProve checks fpa2bv decomposition with a version-anchored naming registry, format-independent resource preflight, and format-parametric add-commutativity and mul-by-one theorems."
     },
     {
       "section": "theories",
@@ -4163,6 +4178,11 @@
           "kind": "source",
           "path": "src/HolSmt/Unittest.sml",
           "match": "z3_string_th_lemma_dispatch_success"
+        },
+        {
+          "kind": "source",
+          "path": "src/HolSmt/Unittest.sml",
+          "match": "string_prove_regex_rung_success"
         }
       ],
       "negative_tests": [],
@@ -4174,7 +4194,7 @@
           "match": "string_prove"
         }
       ],
-      "notes": "Sequence, character, string-alias, and regexp-alias lemmas replay through SmtStringProve."
+      "notes": "Sequence, character, string-alias, and regexp-alias lemmas replay through parametric state specialization and bounded literal concat-split refutation in SmtStringProve."
     },
     {
       "section": "theories",
@@ -4357,6 +4377,11 @@
         },
         {
           "kind": "source",
+          "path": "src/HolSmt/Unittest.sml",
+          "match": "collection_replay_table_completeness_success"
+        },
+        {
+          "kind": "source",
           "path": "src/HolSmt/selftest.sml",
           "match": "Seq/Set/Bag checked-replay smoke tests"
         }
@@ -4375,7 +4400,7 @@
           "match": "bag_prove"
         }
       ],
-      "notes": "SmtSeqProve, SmtArrayProve, and SmtBagProve provide checked replay; explicit D2 dispositions are ledgered separately."
+      "notes": "SmtSeqProve normalizes numeral spellings and searches bounded append witnesses; SmtArrayProve and SmtBagProve harvest facts from translation-complete operator-keyed tables. Explicit D2 dispositions are ledgered separately."
     },
     {
       "section": "logics",

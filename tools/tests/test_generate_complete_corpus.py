@@ -665,7 +665,7 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
             "theory-behavior:qf-fplra": 3,
             "theory-behavior:comparison": 5,
             "theory-behavior:divergence-guard": 2,
-            generator.RESOURCE_GATE_FEATURE: 2,
+            generator.RESOURCE_GATE_FEATURE: 1,
         }
         new_cases = [generated[case_id] for case_id in new_ids]
         proof_cases = [
@@ -764,7 +764,6 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
         }
         expected_ids = {
             "theory:FloatingPoint:d12-fp-add-commutativity-float32",
-            "theory:FloatingPoint:d12-fp-add-commutativity-tiny-3-5",
         }
         self.assertEqual(set(cases), expected_ids)
         for case_id, case in cases.items():
@@ -779,10 +778,17 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
             )
             self.assertEqual(len(z3_expected["diagnostic_alternatives"]), 1)
             self.assertIsNone(case.entry["implementation_obligation"])
-            if case_id.endswith("float32"):
-                self.assertIn("Float32", case.script)
-            else:
-                self.assertIn("(_ FloatingPoint 3 5)", case.script)
+            self.assertIn("Float32", case.script)
+        tiny = next(
+            case for case in generator.theory_cases()
+            if case.entry["id"] == (
+                "theory:FloatingPoint:d12-fp-add-commutativity-tiny-3-5"
+            )
+        )
+        self.assertIn("(_ FloatingPoint 3 5)", tiny.script)
+        self.assertEqual(tiny.entry["expected"]["z3-tac"]["status"], "pass")
+        self.assertNotIn(generator.RESOURCE_GATE_FEATURE,
+                         tiny.entry["features"])
 
     def test_theories_subcommand_separates_strings_and_z3_extensions(self):
         stdout = io.StringIO()

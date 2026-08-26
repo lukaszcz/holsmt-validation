@@ -722,7 +722,6 @@
       "current_status": "implemented",
       "complete_test_ids": [
         "command:echo",
-        "command:echo:reconstruction",
         "command:echo:state"
       ],
       "red_obligation_ids": [],
@@ -1317,11 +1316,12 @@
       "reconstructed": "implemented",
       "tested": "implemented",
       "evidence": "The complete FloatingPoint corpus covers every official FP sort, rounding mode, special value, arithmetic operation, predicate, and conversion through parsing, native smtfloatTheory translation, solver execution, proof parsing, checked replay, and Z3_TAC. The recorded Z3 matrix covers fpa2bv ground evaluation, atom conversion, and bit-decomposition shapes.",
-      "notes": "All generated FloatingPoint rows pass or are one of the two explicit D12 resource gates. The gates are enumerated separately and never counted as red.",
+      "notes": "All generated FloatingPoint rows pass or are the explicit Float32 D12 resource gate. The gate is enumerated separately and never counted as red.",
       "test_ids": [
         "source:tools/conformance-corpus/v2/manifest.json#theory:FloatingPoint",
         "source:tools/conformance-corpus/v2/manifest.json#theory:FloatingPoint:fp.add:unsat-proof",
         "source:src/HolSmt/Unittest.sml#z3_fp_th_lemma_defensive_route_success",
+        "source:src/HolSmt/Unittest.sml#smtfp_mul_circuit_rung_success",
         "source:tools/proof-corpus/floatingpoint/matrix-summary.json#bit-decomposition"
       ],
       "last_verified_by": "coverage_manifest.json",
@@ -1558,8 +1558,7 @@
       "red_obligation_ids": [],
       "complete_required_status": "reconstructed",
       "resource_gated_ids": [
-        "theory:FloatingPoint:d12-fp-add-commutativity-float32",
-        "theory:FloatingPoint:d12-fp-add-commutativity-tiny-3-5"
+        "theory:FloatingPoint:d12-fp-add-commutativity-float32"
       ]
     },
     {
@@ -1575,7 +1574,8 @@
       "test_ids": [
         "source:tools/conformance-corpus/v2/manifest.json#theory:UnicodeStrings",
         "source:src/HolSmt/Unittest.sml#smtlib_advanced_symbol_coverage_success",
-        "source:src/HolSmt/Unittest.sml#z3_string_th_lemma_dispatch_success"
+        "source:src/HolSmt/Unittest.sml#z3_string_th_lemma_dispatch_success",
+        "source:src/HolSmt/Unittest.sml#string_prove_regex_rung_success"
       ],
       "last_verified_by": "coverage_manifest.json",
       "diagnostic_test_ids": [],
@@ -1800,6 +1800,7 @@
         "source:tools/conformance-corpus/v2/manifest.json#theory:Z3_Extensions:seq-concat",
         "source:tools/conformance-corpus/v2/manifest.json#theory:Z3_Extensions:cvc5-bag-count",
         "source:src/HolSmt/Unittest.sml#seq_prove_core_rungs_success",
+        "source:src/HolSmt/Unittest.sml#collection_replay_table_completeness_success",
         "source:src/HolSmt/selftest.sml#Seq/Set/Bag checked-replay smoke tests"
       ],
       "last_verified_by": "coverage_manifest.json",
@@ -3267,13 +3268,15 @@
       "evidence": "Z3_Proof.REWRITE and Z3_ProofReplay.z3_rewrite; arithmetic and words selftests exercise rewrite-heavy proofs; src/HolSmt/Unittest.sml z3_core_proof_rule_replay_minimal_raw_success includes a minimal raw replay proof.",
       "notes": "Replay is shape-specific and contains version workarounds.",
       "test_ids": [
-        "source:src/HolSmt/Unittest.sml#(\"rewrite\""
+        "source:src/HolSmt/Unittest.sml#(\"rewrite\"",
+        "source:src/HolSmt/Unittest.sml#replay_polynomial_normal_form_success"
       ],
       "last_verified_by": "coverage_manifest.json",
       "diagnostic_test_ids": [],
       "current_status": "implemented",
       "complete_test_ids": [
-        "source:src/HolSmt/Unittest.sml#(\"rewrite\""
+        "source:src/HolSmt/Unittest.sml#(\"rewrite\"",
+        "source:src/HolSmt/Unittest.sml#replay_polynomial_normal_form_success"
       ],
       "red_obligation_ids": [],
       "complete_required_status": "reconstructed"
@@ -4292,7 +4295,7 @@
       "reconstructed": "implemented",
       "tested": "implemented",
       "evidence": "smtfloatTheory provides the canonical-NaN carrier and native definitions for IEEE special values and all five rounding modes. Semantic v2 rows cover NaN payload equality, infinities, signed zero, RNA arithmetic and conversions, with checked ground evaluation and fpa2bv replay evidence.",
-      "notes": "The complete semantic rows pass through checked replay; the two symbolic add-commutativity exemplars remain explicit D12 resource gates rather than red obligations.",
+      "notes": "The complete semantic rows pass through checked replay; only the Float32 symbolic add-commutativity exemplar remains an explicit D12 resource gate rather than a red obligation.",
       "test_ids": [
         "source:tools/conformance-corpus/v2/manifest.json#theory:FloatingPoint:nan-payload-equality-unsat-proof",
         "source:tools/conformance-corpus/v2/manifest.json#theory:FloatingPoint:rna-ground-add-unsat-proof",
@@ -4532,8 +4535,7 @@
       "red_obligation_ids": [],
       "complete_required_status": "reconstructed",
       "resource_gated_ids": [
-        "theory:FloatingPoint:d12-fp-add-commutativity-float32",
-        "theory:FloatingPoint:d12-fp-add-commutativity-tiny-3-5"
+        "theory:FloatingPoint:d12-fp-add-commutativity-float32"
       ]
     },
     {

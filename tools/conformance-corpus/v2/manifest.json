@@ -47481,7 +47481,6 @@
         "proof-corpus-evidence:task06_d12_fp_add_commutativity_tiny_3_5",
         "theory-behavior:arithmetic",
         "theory-behavior:floatingpoint",
-        "theory-behavior:resource-gated",
         "theory-behavior:rounding-mode",
         "theory-behavior:symbolic",
         "theory-case:unsat-proof",
@@ -47504,11 +47503,7 @@
           "status": "pass"
         },
         "z3-tac": {
-          "status": "unsupported",
-          "diagnostic": "resource-gated: fp-bitblast;",
-          "diagnostic_alternatives": [
-            "failed to parse 'FloatingPoint'"
-          ]
+          "status": "pass"
         }
       },
       "implementation_obligation": null,
