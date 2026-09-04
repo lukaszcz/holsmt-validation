@@ -1,14 +1,17 @@
 # cvc5 CPC version matrix
 
-The checked cvc5 proof path uses native CPC output with:
+Corpus capture uses native CPC output with:
 
 ```
 --produce-proofs --dump-proofs --proof-format-mode=cpc \
 --proof-granularity=dsl-rewrite --lang smt
 ```
 
-The corpus recorder additionally uses `--proof-print-conclusion`.  That
-inspection option is deliberately not enabled by the live checked driver:
+The corpus recorder additionally uses `--proof-print-conclusion`.  The live
+checked driver instead requests exactly one proof with the query's
+`(get-proof)` command and omits `--dump-proofs`; combining both mechanisms
+prints two wrappers, which the exact CPC stream grammar correctly rejects.
+The inspection option is deliberately not enabled by the live driver:
 existing non-string handlers reconstruct their certificate conclusions in
 HOL-normal forms.
 
@@ -52,36 +55,101 @@ The explicitly labeled `cvc5-oracle` conformance band has 38/38 passing FP
 logic rows (SAT and UNSAT for each of 19 accepted FP-bearing logics).  Those
 rows record solver answers only and do not create HOL theorems.
 
-| Namespace | CPC name | 1.3.4 status |
+## Complete cvc5-1.3.4 String/RegLan/Seq RARE inventory
+
+The observed 1.3.4 String corpus above contains 24 String RARE names.  It is
+corpus evidence, not a complete support inventory.  Independently, the two
+pinned cvc5 source files contain 169 unique active RARE definitions (158 in
+`rewrites` and 11 in `rewrites-regexp-membership`).  All 169 have executable,
+name-specific dispositions: 134 checked proofs and 35 exact unsupported
+diagnostics.  The latter are two `str.indexof_re` rules, eight case-conversion
+rules, and 25 intensional-regex equality rules.  There is no generic fallback.
+Public CPC parse/replay preserves each exact diagnostic even when the rejected
+conclusion contains an operator that the HOL term parser does not support.
+A CPC-only proof tokenizer preserves String and quoted-symbol identity; the Z3
+proof tokenizer is unchanged. Raw String text is printable ASCII (Unicode uses
+`\\u` escapes), while quoted symbols permit valid extended UTF-8 but reject
+controls, backslash, vertical bar, and malformed UTF-8. General SMT-LIB
+lexing is unchanged. String tokens are decoded only for cvc5 `@var` names.
+Ordinary and quoted user spellings share one canonical key, including
+occurrence provenance through definitions, lets, binder shadowing, and CPC
+`@list` aliases; quoted reserved/builtin spellings remain isolated. Native
+aggregate RARE replays exercise definitions, lets, and binders in both spelling
+directions. Baseline, source/query, and proof provenance prevents builtin
+shadowing, duplicates, arity changes, and incompatible signatures. The
+semantic bypass occurs only after a syntax-only
+CST grammar validates every complete conclusion and argument term. It checks
+simple-symbol and literal lexing,
+context-specific simple/indexed/qualified identifiers, index atoms, sorts,
+binders, constructor patterns, lets, matches, annotations, and core arities.
+Premise-list syntax and existing live-scope IDs, known step attributes,
+balanced input, and the final delimiter remain mandatory. Command IDs are
+unique in each live scope; post-pop reuse is accepted only for a
+normalized-identical step signature. Datatype declarations must match the
+complete source constructor family and each selector's ordered constructor
+ownership and type. Positive recursive, parametric, mutual, and translated
+Option cases and negative omitted/extra-constructor and same-typed-selector
+swaps pin this structural identity. Unsupported steps add no dummy proof node:
+the first exact diagnostic is retained while later commands and wrappers
+are consumed through true EOF. A later lexical or structural error takes
+precedence; otherwise the pending diagnostic is issued after parsing.
+
+The 70 upstream `:list` formals have one unambiguous aggregate in the pinned
+source: 48 `str.++`, 10 `re.++`, seven `re.union`, and five `re.inter`.  The
+63 formals in the declarative source table record those operations explicitly
+across 41 recipes: the 28 proved recipes from this review and 13 exact
+unsupported recipes (the other seven source formals belong to the earlier
+specialized tranche).  Native cvc5 aggregate substitutions are the public
+contract: a bare aggregate identity is
+empty, a matching variadic application contributes its lexical operands, and
+another carrier term is a singleton.  All 28 proved list-bearing recipes are
+asserted by exact name and exercise actual CPC text parsing plus replay with
+native multi-operand aggregates (21
+polymorphic recipes use `(Seq Int)` and seven fixed String/RegLan recipes use
+their source carrier).  Their results replace, rather than duplicate, the
+direct HOL-list sweep work.  Separate String and Seq zero/one/multiple cases,
+regex concat/union/intersection cases, and reduced reproductions of frozen
+`draft_length` line 105 and `draft_re_loop` lines 206/209 remain permanent
+public parser/replay tests.  Mismatched aggregates and carriers are rejected.
+
+The independently maintained fixture is
+`tools/cvc5-1.3.4-string-rare-names.txt`. Reproduce it from upstream commit
+`f3b21c4483d3b88dc63cb7cd3e5eb092eee5e341` (the `cvc5-1.3.4` release) with:
+
+```sh
+python3 tools/check_cvc5_rare_inventory.py --hol-root "$HOLSMT_ROOT"
+# Offline, against an existing source export:
+python3 tools/check_cvc5_rare_inventory.py --hol-root "$HOLSMT_ROOT" \
+  --source-dir /path/to/cvc5
+```
+
+Root selection is, in order: explicit `--hol-root`, `HOLSMT_ROOT`, then the
+current working directory and its ancestors.  A candidate must contain the
+required embedded HolSmt fixture markers; the checker never guesses a HOL
+path from the companion checkout's installation path.  Thus no override is
+needed when invoked from the HolSmt worktree, while `--hol-root` works from
+any directory.  If no marked tree is found, the diagnostic asks for one of
+the two overrides.  The checker disables Python bytecode generation so
+inventory runs cannot add cache files to retained evidence.
+The checker verifies both upstream file SHA-256 values, recognizes
+`define-rule`, `define-cond-rule`, and starred forms, checks the 158/11 counts,
+checks uniqueness and the combined sorted-name SHA-256, compares exact
+fixture contents, derives the authoritative list-aggregate map (SHA-256
+`4648895120c301155f8f7bb306c7938d349e159446d4fbf57bea70639c185f81`),
+compares all 63 declarative HOL metadata entries by rule and formal name, and
+checks the 28-proved/13-unsupported aggregate-recipe disposition split.
+
+| Namespace | Scope | 1.3.4 checked status |
 | --- | --- | --- |
 | ProofRule | `str` | registered; no corpus occurrence |
 | ProofRule | `string_eager_reduction` | Boolean target routed to checked string re-prover |
-| ProofRule | `string_length_pos` | obligation: omitted target requires rule-specific reconstruction |
+| ProofRule | `string_length_pos` | reconstruction [1] |
 | ProofRule | `string_reduction` | Boolean target routed to checked string re-prover |
-| RareRewrite | `re-all-elim` | obligation: RegLan language equivalence is not HOL datatype equality |
-| RareRewrite | `re-concat-merge` | obligation: omitted structural target |
-| RareRewrite | `re-diff-elim` | obligation: RegLan language equivalence is not HOL datatype equality |
-| RareRewrite | `re-in-comp` | obligation: omitted membership target |
-| RareRewrite | `re-in-cstring` | obligation: omitted membership target |
-| RareRewrite | `re-inter-cstring` | obligation: proof-local unary `re.inter` term is not parsed yet |
-| RareRewrite | `re-loop-elim` | obligation: proof-local compact `re.loop` term is not parsed yet |
-| RareRewrite | `re-opt-elim` | obligation: RegLan language equivalence is not HOL datatype equality |
-| RareRewrite | `re-plus-elim` | obligation: RegLan language equivalence is not HOL datatype equality |
-| RareRewrite | `re-repeat-elim` | obligation: proof-local compact `re.^` term is not parsed yet |
-| RareRewrite | `str-concat-clash-rev` | obligation: omitted concat target |
-| RareRewrite | `str-concat-unify-rev` | obligation: omitted concat target |
-| RareRewrite | `str-contains-concat-find` | obligation: omitted contains target |
-| RareRewrite | `str-in-re-eval` | Boolean target routed to checked regex re-prover |
-| RareRewrite | `str-in-re-range-elim` | obligation: omitted membership target |
-| RareRewrite | `str-in-re-union-elim` | obligation: omitted membership target |
-| RareRewrite | `str-is-digit-elim` | rule-specific target reconstructed and checked |
-| RareRewrite | `str-len-concat-rec` | obligation: omitted length target |
-| RareRewrite | `str-lt-elim` | rule-specific target reconstructed and checked |
-| RareRewrite | `str-replace-re-all-eval` | Boolean target routed to checked string re-prover |
-| RareRewrite | `str-replace-re-eval` | Boolean target routed to checked string re-prover |
-| RareRewrite | `str-substr-empty-range` | obligation: omitted substring target |
-| RareRewrite | `str-substr-empty-str` | obligation: omitted substring target |
-| RareRewrite | `str-substr-eq-empty` | obligation: omitted substring target |
+| RareRewrite | all 169 names | complete disposition [2] |
+
+[1]: The omitted target requires rule-specific reconstruction.
+[2]: 134 exact kernel proofs and 35 exact unsupported diagnostics cover the
+complete String/RegLan/Seq fixture.
 
 The normalized ground replay pass also records two surrounding CPC-core
 obligations rather than attributing them to a string RARE handler:
@@ -92,10 +160,6 @@ obligations rather than attributing them to a string RARE handler:
 - `evaluate` in `extra_char_constant` leaves a normalized string-character
   hypothesis that the final CPC hypothesis check cannot match to the source
   assertion.
-
-`re-inter-cstring`, `re-loop-elim`, and `re-repeat-elim` currently fail while
-parsing cvc5's proof-local unary/index-flattened regex annotations.  These
-remain named obligations, not unchecked admissions.
 
 The 1.3.4 corpus was captured on 2026-07-14 and replayed again on
 2026-07-15 against the current checker: all 60 retained post-preprocessing

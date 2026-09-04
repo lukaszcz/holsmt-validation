@@ -137,7 +137,7 @@
       "solved": "implemented",
       "reconstructed": "implemented",
       "tested": "implemented",
-      "evidence": "src/HolSmt/CVC.sml invokes --produce-proofs --dump-proofs --proof-format-mode=cpc; selftest has cvc5 proof gates.",
+      "evidence": "src/HolSmt/CVC.sml invokes --produce-proofs --proof-format-mode=cpc and requests exactly one (get-proof) wrapper; selftest has cvc5 proof gates.",
       "notes": "Included for honesty because selftests exercise it, but the SMT-LIB plan is focused on Z3_TAC completeness.",
       "test_ids": [
         "source:src/HolSmt/selftest.sml#cvc5 (proofs)",

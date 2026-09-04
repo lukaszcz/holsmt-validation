@@ -19,14 +19,16 @@
 # Usage:
 #   tools/run_selftest.sh [--shards N] [--jobs J] [--maxheap MB]
 #                         [--timeout SECONDS] [--out DIR]
-#                         [--keep-going] [--no-build]
+#                         [--rss-limit-mb MB] [--keep-going] [--no-build]
 #
 # Defaults (all overridable by the matching env var):
 #   --shards   8          (SHARDS)        suite granularity
 #   --jobs     auto       (JOBS)          concurrent shards; sized to host
 #                                         RAM/cores if unset
-#   --maxheap  8000       (MAXHEAP)       hard per-shard heap cap, MB
+#   --maxheap  5500       (MAXHEAP)       hard per-shard heap cap, MB
 #   --timeout  1800       (SHARD_TIMEOUT) per-shard wall-clock kill, seconds
+#   --rss-limit-mb 9500   (RSS_LIMIT_MB) aggregate validation budget used
+#                                         to cap automatic concurrency
 #   --out      validation tools/selftest-shards
 #                         (OUT_DIR)  per-shard stdout/status directory
 #   --keep-going          (HOL4_SELFTEST_KEEP_GOING=1)  run every test and
@@ -53,8 +55,9 @@ fi
 
 shards=${SHARDS:-8}
 jobs=${JOBS:-auto}
-maxheap=${MAXHEAP:-8000}
+maxheap=${MAXHEAP:-5500}
 timeout_seconds=${SHARD_TIMEOUT:-1800}
+rss_limit_mb=${RSS_LIMIT_MB:-9500}
 out_dir=${OUT_DIR:-"$script_dir/selftest-shards"}
 keep_going=${HOL4_SELFTEST_KEEP_GOING:-0}
 do_build=${RUN_SELFTEST_BUILD:-1}
@@ -65,6 +68,7 @@ while [ $# -gt 0 ]; do
     --jobs)       jobs=$2; shift 2 ;;
     --maxheap)    maxheap=$2; shift 2 ;;
     --timeout)    timeout_seconds=$2; shift 2 ;;
+    --rss-limit-mb) rss_limit_mb=$2; shift 2 ;;
     --out)        out_dir=$2; shift 2 ;;
     --keep-going) keep_going=1; shift ;;
     --no-build)   do_build=0; shift ;;
@@ -166,12 +170,20 @@ if [ "$jobs" = auto ]; then
 fi
 if [ "$jobs" -lt 1 ]; then jobs=1; fi
 [ "$jobs" -gt "$shards" ] && jobs=$shards
+by_watchdog=$(( rss_limit_mb / maxheap ))
+[ "$by_watchdog" -lt 1 ] && by_watchdog=1
+if [ "$jobs" -gt "$by_watchdog" ]; then
+  printf 'Reducing jobs from %s to %s for the %s MB RSS budget.\n' \
+    "$jobs" "$by_watchdog" "$rss_limit_mb"
+  jobs=$by_watchdog
+fi
 
 mkdir -p "$out_dir"
 rm -f "$out_dir"/shard-*.stdout "$out_dir"/shard-*.status
 
-printf 'Selftest: %d shards, %d concurrent, --maxheap %s MB, timeout %ss%s\n' \
-  "$shards" "$jobs" "$maxheap" "$timeout_seconds" \
+printf 'Selftest: %d shards, %d concurrent, --maxheap %s MB, RSS budget '\
+'%s MB, timeout %ss%s\n' \
+  "$shards" "$jobs" "$maxheap" "$rss_limit_mb" "$timeout_seconds" \
   "$( [ "$keep_going" = 1 ] && printf ', keep-going' )"
 
 run_shard() {
