@@ -20,6 +20,7 @@ from typing import Iterable, Mapping
 
 from record_z3_proof_corpus import (
     Atom,
+    DEFAULT_COMPLETE_CORPUS_MANIFEST,
     ListNode,
     build_summary as build_proof_corpus_summary,
     detect_solver_result,
@@ -220,14 +221,61 @@ HOLSMT_ROOT = pathlib.Path(os.environ.get("HOLSMT_ROOT", pathlib.Path.cwd())).re
 DEFAULT_OUTPUT_DIR = (
     pathlib.Path(__file__).resolve().parent / "conformance-out"
 )
-DEFAULT_TYPECHECK_DRIVER = HOLSMT_ROOT / "src" / "HolSmt" / "holsmt-typecheck"
-DEFAULT_TYPECHECK_COMMAND = f"{shlex.quote(str(DEFAULT_TYPECHECK_DRIVER))} {{input}} {{logic}}"
-DEFAULT_TYPECHECK_PLACEHOLDER_COMMAND = (
-    f"{shlex.quote(str(DEFAULT_TYPECHECK_DRIVER))} "
-    "{input} {logic} --placeholder-datatypes"
+DEFAULT_HOL_RUNNER = HOLSMT_ROOT / "bin" / "hol"
+DEFAULT_HOL_HEAP = HOLSMT_ROOT / "src" / "HolSmt" / "smtreplayheap"
+DEFAULT_TYPECHECK_DRIVER = (
+    HOLSMT_ROOT / "src" / "HolSmt" / "typecheck_driver.uo"
 )
-DEFAULT_Z3_TAC_DRIVER = HOLSMT_ROOT / "src" / "HolSmt" / "holsmt-z3-tac"
-DEFAULT_Z3_TAC_COMMAND = f"{shlex.quote(str(DEFAULT_Z3_TAC_DRIVER))} {{input}} {{logic}}"
+DEFAULT_Z3_TAC_DRIVER = (
+    HOLSMT_ROOT / "src" / "HolSmt" / "z3_tac_driver.uo"
+)
+
+
+def hol_driver_command(driver: pathlib.Path, *args: str) -> str:
+    """Pass driver arguments through HOL's documented buildheap interface."""
+    return shlex.join([
+        str(DEFAULT_HOL_RUNNER), "--gcthreads=1", "--maxheap", "2800", "run",
+        f"--holstate={DEFAULT_HOL_HEAP}",
+        "--extra=" + "\n".join(args), str(driver),
+    ])
+
+
+DEFAULT_TYPECHECK_COMMAND = hol_driver_command(
+    DEFAULT_TYPECHECK_DRIVER, "{input}", "{logic}"
+)
+DEFAULT_TYPECHECK_PLACEHOLDER_COMMAND = hol_driver_command(
+    DEFAULT_TYPECHECK_DRIVER, "{input}", "{logic}", "--placeholder-datatypes"
+)
+DEFAULT_Z3_TAC_COMMAND = hol_driver_command(
+    DEFAULT_Z3_TAC_DRIVER, "{input}", "{logic}"
+)
+
+
+def format_driver_command(template: str, case: Case,
+                          input_path: pathlib.Path) -> str:
+    # Quote the completed payload, not its individual newline-delimited fields.
+    # Custom shell templates retain their existing quoted placeholders.
+    defaults = {
+        DEFAULT_TYPECHECK_COMMAND: (DEFAULT_TYPECHECK_DRIVER, ()),
+        DEFAULT_TYPECHECK_PLACEHOLDER_COMMAND:
+            (DEFAULT_TYPECHECK_DRIVER, ("--placeholder-datatypes",)),
+        DEFAULT_Z3_TAC_COMMAND: (DEFAULT_Z3_TAC_DRIVER, ()),
+    }
+    if template in defaults:
+        driver, extra = defaults[template]
+        return hol_driver_command(driver, str(input_path), case.logic, *extra)
+    return template.format(input=shlex.quote(str(input_path)),
+                           logic=shlex.quote(case.logic),
+                           name=shlex.quote(case.name))
+
+
+def hol_driver_available(driver: pathlib.Path) -> bool:
+    # HOL's loader maps a logical module path to .hol/objs itself.
+    obj = driver.parent / ".hol" / "objs" / driver.name
+    return all(path.is_file() for path in (
+        DEFAULT_HOL_RUNNER, DEFAULT_HOL_HEAP, obj,
+        obj.with_suffix(".ui"),
+    ))
 DEFAULT_CORPUS_DIR = pathlib.Path(__file__).resolve().parent / "conformance-corpus" / "v1"
 EXTERNAL_SOURCE_SCHEMA = "holsmt-external-benchmark-sources-v1"
 DEFAULT_EXTERNAL_BENCHMARK_ROOT = pathlib.Path(__file__).resolve().parent / "external-benchmarks"
@@ -1050,6 +1098,30 @@ def executable_available(executable: str) -> bool:
     return shutil.which(executable) is not None
 
 
+def default_z3_executable() -> str:
+    """Prefer the newest installed pinned release for native SMT-LIB input.
+
+    The full corpus includes newer dialect symbols; an arbitrary PATH `z3`
+    may reject them even though checked HOL translation supports older Z3.
+    Explicit solver choices always take precedence over discovery.
+    """
+    explicit = os.environ.get("HOL4_Z3_EXECUTABLE")
+    if explicit:
+        return explicit
+    with DEFAULT_COMPLETE_CORPUS_MANIFEST.open(encoding="utf-8") as stream:
+        versions = json.load(stream)["supported_z3_versions"]
+    for version in sorted(versions,
+                          key=lambda v: tuple(map(int, v.split("."))),
+                          reverse=True):
+        preset = os.environ.get("HOLSMT_Z3_" + version.replace(".", "_"))
+        candidates = [preset, shutil.which("z3-" + version)]
+        for candidate in candidates:
+            if candidate and executable_available(candidate):
+                if z3_version(candidate) == version:
+                    return candidate
+    return "z3"
+
+
 def cvc5_version(cvc5: str) -> str:
     if not executable_available(cvc5):
         return "unavailable"
@@ -1408,11 +1480,7 @@ def run_command_mode(
 ) -> dict[str, object]:
     if not command_template:
         return result(case, mode, UNSUPPORTED, f"no {mode} command configured")
-    command = command_template.format(
-        input=shlex.quote(str(input_path)),
-        logic=shlex.quote(case.logic),
-        name=shlex.quote(case.name),
-    )
+    command = format_driver_command(command_template, case, input_path)
     try:
         completed = run_shell_command(command, timeout)
     except subprocess.TimeoutExpired as exc:
@@ -1448,7 +1516,7 @@ def run_typecheck_mode(
     command_template: str | None,
     timeout: int,
 ) -> dict[str, object]:
-    if command_template == DEFAULT_TYPECHECK_COMMAND and not DEFAULT_TYPECHECK_DRIVER.exists():
+    if command_template == DEFAULT_TYPECHECK_COMMAND and not hol_driver_available(DEFAULT_TYPECHECK_DRIVER):
         return result(
             case,
             MODE_TYPECHECK,
@@ -1465,7 +1533,7 @@ def run_typecheck_placeholder_mode(
     command_template: str | None,
     timeout: int,
 ) -> dict[str, object]:
-    if command_template == DEFAULT_TYPECHECK_PLACEHOLDER_COMMAND and not DEFAULT_TYPECHECK_DRIVER.exists():
+    if command_template == DEFAULT_TYPECHECK_PLACEHOLDER_COMMAND and not hol_driver_available(DEFAULT_TYPECHECK_DRIVER):
         return result(
             case,
             MODE_TYPECHECK_PLACEHOLDER,
@@ -1527,7 +1595,7 @@ def run_z3_tac_mode(
 ) -> dict[str, object]:
     if not command_template:
         return result(case, MODE_Z3_TAC, UNSUPPORTED, "no z3-tac command configured")
-    if command_template == DEFAULT_Z3_TAC_COMMAND and not DEFAULT_Z3_TAC_DRIVER.exists():
+    if command_template == DEFAULT_Z3_TAC_COMMAND and not hol_driver_available(DEFAULT_Z3_TAC_DRIVER):
         return result(
             case,
             MODE_Z3_TAC,
@@ -1536,11 +1604,7 @@ def run_z3_tac_mode(
             artifact={"command": command_template},
         )
 
-    command = command_template.format(
-        input=shlex.quote(str(input_path)),
-        logic=shlex.quote(case.logic),
-        name=shlex.quote(case.name),
-    )
+    command = format_driver_command(command_template, case, input_path)
     try:
         env = os.environ.copy()
         env["HOL4_Z3_EXECUTABLE"] = z3_executable
@@ -2179,7 +2243,7 @@ def markdown_report(report: dict[str, object]) -> str:
 def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run HolSmt SMT-LIB conformance modes and write JSON/Markdown reports.")
     parser.add_argument("--out", type=pathlib.Path, default=DEFAULT_OUTPUT_DIR)
-    parser.add_argument("--z3", default=os.environ.get("HOL4_Z3_EXECUTABLE") or "z3")
+    parser.add_argument("--z3", default=default_z3_executable())
     parser.add_argument(
         "--cvc5",
         default=(
@@ -2230,7 +2294,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         default=default_typecheck_command(),
         help=(
             "shell command template for typecheck-only mode; placeholders: "
-            "{input}, {logic}, {name}; defaults to src/HolSmt/holsmt-typecheck"
+            "{input}, {logic}, {name}; defaults to bin/hol run typecheck_driver"
         ),
     )
     parser.add_argument(
@@ -2239,7 +2303,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         help=(
             "shell command template for typecheck-placeholder mode; "
             "placeholders: {input}, {logic}, {name}; defaults to "
-            "src/HolSmt/holsmt-typecheck --placeholder-datatypes"
+            "bin/hol run typecheck_driver with --placeholder-datatypes"
         ),
     )
     parser.add_argument(
@@ -2247,7 +2311,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         default=default_z3_tac_command(),
         help=(
             "shell command template for z3-tac mode; placeholders: "
-            "{input}, {logic}, {name}; defaults to src/HolSmt/holsmt-z3-tac"
+            "{input}, {logic}, {name}; defaults to bin/hol run z3_tac_driver"
         ),
     )
     parser.add_argument("--json-report", default="conformance.json")

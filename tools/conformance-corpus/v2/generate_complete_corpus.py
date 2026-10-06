@@ -1582,16 +1582,6 @@ NATIVE_Z3_PROOF_UNSUPPORTED_THEORY_CASES = {
 UNICODE_STRING_Z3_TAC_GATES = {
     "theory:UnicodeStrings:char:unsat-proof":
         "Z3 proof replay failed",
-    "theory:UnicodeStrings:re-concat:unsat-proof":
-        "z3-tac command timed out",
-    "theory:UnicodeStrings:re-plus:unsat-proof":
-        "z3-tac command timed out",
-    "theory:UnicodeStrings:re-power:unsat-proof":
-        "z3-tac command timed out",
-    "theory:UnicodeStrings:re.diff:unsat-proof":
-        "z3-tac command timed out",
-    "theory:UnicodeStrings:re.opt:unsat-proof":
-        "z3-tac command timed out",
 }
 
 RECONSTRUCTED_THEORY_Z3_TAC_UNSAT_PROOFS = {
@@ -4070,33 +4060,31 @@ def fp_d12_case(
     declarations: str,
     one: str,
 ) -> ScriptedCase:
-    modes = ("parser-only", "z3-tac")
     resource_gated = "float32" in slug_name
+    modes, expected = fp_scripted_expected(sat=False)
+    if resource_gated:
+        modes = ("parser-only", "z3-tac")
+        expected = {mode: expected[mode] for mode in modes}
+        expected["z3-tac"] = expected_result(
+            "red",
+            diagnostic=RESOURCE_GATE_DIAGNOSTIC,
+            diagnostic_alternatives=(
+                "UNKNOWN result has no HOL theorem to reconstruct",
+            ),
+            failure_phase="proof-replay",
+        )
     return ScriptedCase(
         slug=slug_name,
-        script=(
-            "(set-logic QF_FP)\n"
-            + declarations
+        script=proof_script(
+            "QF_FP",
+            declarations
             + "(assert\n"
             + "  (not\n"
             + f"    (= (fp.add RNE x {one})\n"
             + f"       (fp.add RNE {one} x))))\n"
-            + "(check-sat)\n(exit)\n"
         ),
         modes=modes,
-        expected={
-            "parser-only": expected_result("pass"),
-            "z3-tac": expected_result(
-                "red" if resource_gated else "pass",
-                diagnostic=(
-                    RESOURCE_GATE_DIAGNOSTIC if resource_gated else None
-                ),
-                diagnostic_alternatives=(
-                    "UNKNOWN result has no HOL theorem to reconstruct",
-                ) if resource_gated else None,
-                failure_phase="proof-replay" if resource_gated else None,
-            ),
-        },
+        expected=expected,
         features=(
             "theory:FloatingPoint",
             "theory-behavior:floatingpoint",
@@ -4634,11 +4622,6 @@ STRING_ESCAPE_BRACED_EXPECTED = {
     mode: dict(outcome)
     for mode, outcome in STRING_ESCAPE_PROOF_EXPECTED.items()
 }
-STRING_ESCAPE_BRACED_EXPECTED["z3-tac"] = expected_result(
-    "unsupported",
-    diagnostic="simplification produced more than one subgoal",
-    failure_phase="proof-replay",
-)
 
 
 UNICODE_STRING_THEORY_CASES: tuple[ScriptedCase, ...] = (

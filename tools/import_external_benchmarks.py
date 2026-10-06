@@ -281,6 +281,16 @@ def read_pinned_content(entry: PinnedEntry) -> bytes:
         if source_path not in CURATED_REDUCED_CASES:
             raise ImportErrorWithContext(f"{entry.case_id} has unknown curated source_path: {source_path}")
         return CURATED_REDUCED_CASES[source_path].encode("utf-8")
+    # Prefer the versioned snapshot over downloading identical pinned bytes.
+    # A stale/corrupt snapshot is an error, not an excuse to ignore the pin.
+    snapshot_root = DEFAULT_CORPUS_ROOT.resolve()
+    snapshot = (snapshot_root / entry.target_file).resolve()
+    require(snapshot.is_relative_to(snapshot_root),
+            f"{entry.case_id}.target_file escapes the snapshot root")
+    if snapshot.is_file():
+        payload = snapshot.read_bytes()
+        verify_sha256(entry, payload)
+        return payload
     with urllib.request.urlopen(entry.source_url, timeout=60) as response:
         return response.read()
 

@@ -8,6 +8,7 @@ import tempfile
 import unittest
 import contextlib
 import io
+from unittest import mock
 
 
 TOOLS_DIR = pathlib.Path(__file__).resolve().parents[1]
@@ -118,6 +119,49 @@ def pinned_manifest(content, sha256=None):
 
 
 class ExternalBenchmarkImporterTests(unittest.TestCase):
+    def test_pinned_versioned_snapshot_is_verified_without_network(self):
+        payload = b"(set-logic QF_UF)\n(check-sat)\n"
+        raw = pinned_manifest(payload.decode())["entries"][0]
+        raw.pop("content")
+        entry = importer.PinnedEntry(raw)
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            path = root / entry.target_file
+            path.parent.mkdir(parents=True)
+            path.write_bytes(payload)
+            with mock.patch.object(importer, "DEFAULT_CORPUS_ROOT", root), \
+                 mock.patch.object(importer.urllib.request, "urlopen") as network:
+                self.assertEqual(importer.read_pinned_content(entry), payload)
+                path.write_bytes(b"corrupt")
+                with self.assertRaisesRegex(importer.ImportErrorWithContext,
+                                            "hash mismatch"):
+                    importer.read_pinned_content(entry)
+                network.assert_not_called()
+
+    def test_snapshot_path_cannot_escape_versioned_root(self):
+        raw = pinned_manifest("(check-sat)\n")["entries"][0]
+        raw.pop("content")
+        raw["target_file"] = "../outside.smt2"
+        with self.assertRaisesRegex(importer.ImportErrorWithContext,
+                                    "escapes the snapshot root"):
+            importer.read_pinned_content(importer.PinnedEntry(raw))
+
+    def test_entire_pinned_inventory_is_available_offline(self):
+        entries = importer.validate_pinned_manifest(
+            importer.load_json(importer.DEFAULT_PINNED_MANIFEST),
+            importer.validate_sources_lock(
+                importer.load_json(importer.DEFAULT_SOURCES_LOCK)
+            ),
+        )
+        with mock.patch.object(importer.urllib.request, "urlopen",
+                               side_effect=AssertionError("network used")):
+            for entry in entries:
+                if entry.raw.get("include_in_v2", True):
+                    with self.subTest(case=entry.case_id):
+                        importer.verify_sha256(
+                            entry, importer.read_pinned_content(entry)
+                        )
+
     def test_string_rows_include_cvc5_oracle_mode(self):
         data = importer.load_json(importer.DEFAULT_PINNED_MANIFEST)
         entries = [

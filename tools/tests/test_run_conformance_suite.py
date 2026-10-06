@@ -152,6 +152,73 @@ print("sat")
 
 
 class ConformanceSuiteTests(unittest.TestCase):
+    def test_default_solver_prefers_newest_verified_pinned_release(self):
+        with mock.patch.dict(os.environ, {}, clear=True), \
+             mock.patch.object(conformance.shutil, "which",
+                               side_effect=lambda name: "/tools/" + name), \
+             mock.patch.object(conformance, "executable_available",
+                               return_value=True), \
+             mock.patch.object(conformance, "z3_version",
+                               side_effect=lambda path: path.split("z3-")[-1]):
+            with conformance.DEFAULT_COMPLETE_CORPUS_MANIFEST.open() as stream:
+                versions = json.load(stream)["supported_z3_versions"]
+            newest = max(versions, key=lambda v: tuple(map(int, v.split("."))))
+            self.assertEqual(conformance.default_z3_executable(),
+                             "/tools/z3-" + newest)
+
+    def test_solver_discovery_does_not_trust_mislabeled_executables(self):
+        with mock.patch.dict(os.environ, {}, clear=True), \
+             mock.patch.object(conformance.shutil, "which",
+                               return_value="/tools/mislabeled"), \
+             mock.patch.object(conformance, "executable_available",
+                               return_value=True), \
+             mock.patch.object(conformance, "z3_version", return_value="0.0.0"):
+            self.assertEqual(conformance.default_z3_executable(), "z3")
+
+    def test_explicit_solver_overrides_discovery(self):
+        with mock.patch.dict(os.environ,
+                             {"HOL4_Z3_EXECUTABLE": "/tools/chosen"}), \
+             mock.patch.object(conformance, "z3_version") as version:
+            self.assertEqual(conformance.default_z3_executable(), "/tools/chosen")
+            version.assert_not_called()
+
+    def test_default_commands_use_hol_runner_and_preserve_payload(self):
+        path = pathlib.Path("/tmp/a space/'quote $variable.smt2")
+        case = conformance.Case("quoted", "QF_UF", "", "test", ())
+        for template, driver, extra in (
+            (conformance.DEFAULT_TYPECHECK_COMMAND,
+             conformance.DEFAULT_TYPECHECK_DRIVER, ()),
+            (conformance.DEFAULT_TYPECHECK_PLACEHOLDER_COMMAND,
+             conformance.DEFAULT_TYPECHECK_DRIVER,
+             ("--placeholder-datatypes",)),
+            (conformance.DEFAULT_Z3_TAC_COMMAND,
+             conformance.DEFAULT_Z3_TAC_DRIVER, ()),
+        ):
+            with self.subTest(template=template):
+                argv = shlex.split(conformance.format_driver_command(
+                    template, case, path
+                ))
+                self.assertEqual(argv[0], str(conformance.DEFAULT_HOL_RUNNER))
+                self.assertIn("run", argv)
+                self.assertIn(f"--holstate={conformance.DEFAULT_HOL_HEAP}", argv)
+                self.assertIn("--extra=" + "\n".join(
+                    (str(path), case.logic, *extra)
+                ), argv)
+                self.assertEqual(argv[-1], str(driver))
+
+    def test_default_driver_requires_runner_heap_and_both_object_files(self):
+        driver = conformance.DEFAULT_TYPECHECK_DRIVER
+        obj = driver.parent / ".hol" / "objs" / driver.name
+        with mock.patch.object(pathlib.Path, "is_file", return_value=True):
+            self.assertTrue(conformance.hol_driver_available(driver))
+        for absent in (obj, obj.with_suffix(".ui"),
+                       conformance.DEFAULT_HOL_RUNNER,
+                       conformance.DEFAULT_HOL_HEAP):
+            with self.subTest(absent=absent), mock.patch.object(
+                pathlib.Path, "is_file", lambda path: path != absent
+            ):
+                self.assertFalse(conformance.hol_driver_available(driver))
+
     def test_resource_gated_driver_result_matches_unsupported_expectation(self):
         diagnostic = "resource-gated: fp-bitblast; limit=proof-size"
         case = conformance.Case(
@@ -1500,7 +1567,7 @@ class ConformanceSuiteTests(unittest.TestCase):
             self.assertIn("oracle/axiom tags", item["actual_diagnostic"])
 
     @unittest.skipUnless(
-        conformance.DEFAULT_TYPECHECK_DRIVER.exists(),
+        conformance.hol_driver_available(conformance.DEFAULT_TYPECHECK_DRIVER),
         "HolSmt typecheck driver has not been built",
     )
     def test_default_typecheck_driver_runs_representative_conformance_slice(self):
@@ -1530,7 +1597,7 @@ class ConformanceSuiteTests(unittest.TestCase):
             self.assertIn("expected sort :bool", by_case["non_bool_assert"]["actual_diagnostic"])
 
     @unittest.skipUnless(
-        conformance.DEFAULT_Z3_TAC_DRIVER.exists(),
+        conformance.hol_driver_available(conformance.DEFAULT_Z3_TAC_DRIVER),
         "HolSmt z3-tac driver has not been built",
     )
     def test_default_z3_tac_driver_runs_representative_conformance_slice(self):

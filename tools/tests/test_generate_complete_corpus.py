@@ -787,6 +787,15 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
         )
         self.assertIn("(_ FloatingPoint 3 5)", tiny.script)
         self.assertEqual(tiny.entry["expected"]["z3-tac"]["status"], "pass")
+        required_modes = {
+            "parser-only", "typecheck-only", "z3-oracle",
+            "proof-parse", "proof-replay", "z3-tac",
+        }
+        self.assertTrue(required_modes.issubset(tiny.entry["modes"]))
+        for mode in required_modes:
+            self.assertEqual(tiny.entry["expected"][mode]["status"], "pass")
+        self.assertIn("(set-option :produce-proofs true)", tiny.script)
+        self.assertIn("(get-proof)", tiny.script)
         self.assertNotIn(generator.RESOURCE_GATE_FEATURE,
                          tiny.entry["features"])
 
@@ -944,7 +953,7 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
         )
         self.assertEqual(
             braced_literal["expected"]["z3-tac"]["status"],
-            "unsupported",
+            "pass",
         )
 
         out_of_range = string_by_id[
@@ -1011,6 +1020,8 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
                 )
         z3_tac_gate_ids = {
             "theory:UnicodeStrings:char:unsat-proof",
+        }
+        reconstructed_ids = {
             "theory:UnicodeStrings:re-concat:unsat-proof",
             "theory:UnicodeStrings:re-plus:unsat-proof",
             "theory:UnicodeStrings:re-power:unsat-proof",
@@ -1021,6 +1032,10 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
                 "literal-u-braced-one-to-five-hex-decode"
             ),
         }
+        for case_id in reconstructed_ids:
+            case = string_by_id[case_id]
+            self.assertIsNone(case["implementation_obligation"])
+            self.assertEqual(case["expected"]["z3-tac"]["status"], "pass")
         for case_id in z3_tac_gate_ids:
             case = string_by_id[case_id]
             self.assertIsNone(case["implementation_obligation"])
@@ -1043,7 +1058,7 @@ class CompleteCorpusGeneratorTests(unittest.TestCase):
                 )
                 for case in string_cases
             ),
-            9,
+            3,
         )
 
         for case_id in {

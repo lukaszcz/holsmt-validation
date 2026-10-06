@@ -32,9 +32,19 @@ python3 "$HOLSMT_VALIDATION_DIR/tools/run_conformance_suite.py" \
 If cvc5 is unavailable, rows are reported explicitly as `unsupported` with a
 `tool-unavailable` classification; they are never counted as solver passes.
 
-`HOLSMT_ROOT` must contain `src/HolSmt`; tools that need checked drivers expect
-them at `$HOLSMT_ROOT/src/HolSmt/holsmt-typecheck` and
-`$HOLSMT_ROOT/src/HolSmt/holsmt-z3-tac`.  Checked cvc5 CPC matrix runs use
+`HOLSMT_ROOT` must contain `src/HolSmt`; conformance tools invoke the compiled
+`typecheck_driver` and `z3_tac_driver` objects using `$HOLSMT_ROOT/bin/hol run`
+and the `src/HolSmt/smtreplayheap` heap. Build them with
+`Holmake -C "$HOLSMT_ROOT/src/HolSmt" smtreplayheap typecheck_driver.uo z3_tac_driver.uo`.
+The heap preloads solver-neutral parsing and checked replay libraries;
+solver executable selection and version detection still happen at run time.
+Pinned external benchmarks use checked-in snapshots verified against the
+manifest's SHA-256; network access is only needed for a missing snapshot.
+Native conformance defaults to the newest installed release in the pinned Z3
+matrix, verifying the executable's version rather than trusting its filename.
+`--z3` or `HOL4_Z3_EXECUTABLE` overrides that choice. The separately reported
+proof matrix still exercises all pinned releases.
+Checked cvc5 CPC matrix runs use
 `$HOLSMT_ROOT/src/HolSmt/holsmt-cvc-cpc-tac`; build it with
 `Holmake -C "$HOLSMT_ROOT/src/HolSmt" holsmt-cvc-cpc-tac`.
 

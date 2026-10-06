@@ -7,7 +7,7 @@ repo_root=$(cd "${HOLSMT_ROOT:-$script_dir/../../..}" && pwd)
 
 out_dir="$script_dir/complete-conformance-out"
 timeout_seconds=30
-z3_executable="${HOL4_Z3_EXECUTABLE:-z3}"
+z3_executable=""
 cvc5_executable="${HOL4_CVC5_EXECUTABLE:-${HOL4_CVC_EXECUTABLE:-cvc5}}"
 declare -a selected_modes=()
 declare -a selected_logics=()
@@ -102,6 +102,12 @@ while [ "$#" -gt 0 ]; do
 done
 
 cd "$repo_root" || exit 2
+
+if [ -z "$z3_executable" ]; then
+  z3_executable=$(PYTHONPATH="$script_dir${PYTHONPATH:+:$PYTHONPATH}" \
+    python3 -c 'from run_conformance_suite import default_z3_executable; print(default_z3_executable())') \
+    || die "cannot select a Z3 executable"
+fi
 
 if ! [[ "$timeout_seconds" =~ ^[0-9]+$ ]] || [ "$timeout_seconds" -le 0 ]; then
   die "--timeout must be a positive integer"
@@ -212,7 +218,8 @@ fi
 
 rm -rf "$v2_root"
 
-run_step build-holsmt-drivers build "$holmake" --no-project -C src/HolSmt selftest.exe holsmt-typecheck holsmt-z3-tac
+run_step build-holsmt-drivers build "$holmake" --no-project -C src/HolSmt \
+  smtreplayheap typecheck_driver.uo z3_tac_driver.uo
 run_step generate-v2-commands generation python3 "$v2_generator" --manifest "$v2_manifest" --logics-json "$v2_logics_json" commands --write
 run_step generate-v2-theories generation python3 "$v2_generator" --manifest "$v2_manifest" --logics-json "$v2_logics_json" theories --write
 run_step generate-v2-logics generation python3 "$v2_generator" --manifest "$v2_manifest" --logics-json "$v2_logics_json" logics --write
@@ -571,6 +578,11 @@ for step in steps:
             infrastructure_errors.append({**step, "missing_report": display_path(expected)})
 
 audit_blocking = []
+if isinstance(complete_audit, dict):
+    audit_blocking.extend(
+        issue for issue in complete_audit.get("issues", [])
+        if isinstance(issue, dict) and issue.get("severity") == "error"
+    )
 if isinstance(proof_audit, dict):
     for issue in proof_audit.get("issues", []):
         if (
