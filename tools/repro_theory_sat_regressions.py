@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import pathlib
 import subprocess
 import sys
@@ -12,10 +13,13 @@ from dataclasses import dataclass
 
 
 SCRIPT_DIR = pathlib.Path(__file__).resolve().parent
-REPO_ROOT = SCRIPT_DIR.parents[2]
+HOLSMT_ROOT = pathlib.Path(
+    os.environ.get("HOLSMT_ROOT", pathlib.Path.cwd())
+).resolve()
 DEFAULT_CORPUS_ROOT = SCRIPT_DIR / "conformance-corpus" / "v2"
 DEFAULT_MANIFEST = DEFAULT_CORPUS_ROOT / "manifest.json"
-DEFAULT_DRIVER = REPO_ROOT / "src" / "HolSmt" / "holsmt-z3-tac"
+HOLSMT_DIR = HOLSMT_ROOT / "src" / "HolSmt"
+Z3_TAC_DRIVER = HOLSMT_DIR / "z3_tac_driver.uo"
 
 
 # TASK_01 pins the 29 num-bridge divergence rows.  The v2 manifest also
@@ -86,8 +90,10 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument(
         "--driver",
         type=pathlib.Path,
-        default=DEFAULT_DRIVER,
-        help=f"checked z3-tac driver (default: {DEFAULT_DRIVER})",
+        help=(
+            "executable taking INPUT LOGIC (default: bin/hol run "
+            f"{Z3_TAC_DRIVER} on smtreplayheap)"
+        ),
     )
     parser.add_argument(
         "--corpus-root",
@@ -224,11 +230,19 @@ def short_reason(text: str) -> str:
 
 
 def run_case(
-    driver: pathlib.Path,
+    driver: pathlib.Path | None,
     case: Case,
     timeout: float,
 ) -> tuple[bool, str]:
-    command = [str(driver), str(case.path), case.logic]
+    if driver is None:
+        command = [
+            str(HOLSMT_ROOT / "bin" / "hol"), "--gcthreads=1",
+            "--maxheap", "2800", "run",
+            f"--holstate={HOLSMT_DIR / 'smtreplayheap'}",
+            f"--extra={case.path}\n{case.logic}", str(Z3_TAC_DRIVER),
+        ]
+    else:
+        command = [str(driver), str(case.path), case.logic]
     try:
         completed = subprocess.run(
             command,

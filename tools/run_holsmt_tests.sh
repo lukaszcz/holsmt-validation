@@ -259,7 +259,7 @@ if "$clean_first"; then
 fi
 
 run "Build HolSmt test binaries and conformance drivers" \
-  bin/Holmake -C src/HolSmt smtheap selftest.exe holsmt-typecheck holsmt-z3-tac
+  bin/Holmake -C src/HolSmt
 
 run "Build real SOS/CSDP selftest" \
   bin/Holmake -C src/real selftest_sos.exe
